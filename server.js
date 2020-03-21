@@ -7,10 +7,10 @@ const PORT = process.env.PORT || 3000
 
 //to send production folder of angular project
 
-app.use(express.static(__dirname + '/frontend/dist/frontend/'))
+app.use(express.static(__dirname + '/frontend/'))
 
 app.get('/*', (req, res)=>{
-  res.sendFile(path.join(__dirname))
+  res.sendFile(path.join(__dirname + '/frontend/src/app/app.component.html'))
 })
 
 server.listen(PORT, () => {
