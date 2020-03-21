@@ -1,0 +1,19 @@
+{
+  "name": "soundcloudrapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyyu8588/soundcloudrapper.git"
+  },
+  "author": "pwinss , icema, darknight",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andyyu8588/soundcloudrapper/issues"
+  },
+  "homepage": "https://github.com/andyyu8588/soundcloudrapper#readme"
+}
