@@ -23,5 +23,4 @@ chat.addEventListener('submit', (e)=>{
         socket.emit('chatmessage', chatmsg.value)
         chatmsg.value = ''  
    }
-     
 })
