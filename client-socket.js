@@ -13,11 +13,8 @@ socket.on('chatmessage', (data)=>{
     $('#1').append(`<li>${data}</li>`)
 })
 
-
-//cancele
 chat.addEventListener('submit', (e)=>{
    e.preventDefault()
-   console.log('samarche')
    if(chatmsg.value){
         $('#1').append(`<li>${chatmsg.value}</li>`)
         socket.emit('chatmessage', chatmsg.value)
