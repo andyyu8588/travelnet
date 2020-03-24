@@ -7,7 +7,7 @@ const io = require('socket.io').listen(server)
 const PORT = process.env.PORT || 3000
 var connected = []
 
-// PORT be useless tho
+// env.PORT be useless tho
 server.listen(3000, () => {
     console.log(`Server started on port ${PORT}`)
   })
