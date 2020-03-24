@@ -22,4 +22,8 @@ app.get('/client-socket.js', (req, res)=>{
 
 io.on('connection', socket =>{
     socket.emit('message', 'chatroom online')
+
+    socket.on('send message', ()=>{
+      
+    })
   })
