@@ -36,7 +36,9 @@ io.on('connection', socket =>{
     socket.on('chatmessage', (data)=>{
       console.log(`message received: ${data}`)
       socket.broadcast.emit('chatmessage', (data))
+      // console.log(socket.id)
     })
+  console.log(socket.id)
   })
 
 

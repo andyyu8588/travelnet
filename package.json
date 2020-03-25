@@ -20,6 +20,7 @@
   "dependencies": {
     "@angular/cli": "^9.0.7",
     "express": "^4.17.1",
+    "mongoose": "^5.9.6",
     "socket.io": "^2.3.0",
     "typescript": "^3.8.3"
   },
