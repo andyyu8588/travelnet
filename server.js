@@ -6,7 +6,7 @@ const server = http.createServer(app)
 const io = require('socket.io').listen(server)
 const PORT = process.env.PORT || 3000
 var connected = []
-var Room
+var Rooom
 
 // env.PORT be useless tho
 server.listen(3000, () => {
