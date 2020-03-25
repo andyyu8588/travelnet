@@ -17,8 +17,10 @@ app.get('/', (req, res)=>{
 
 })
 
-app.get('/client-socket.js', (req, res)=>{
-  res.sendFile(__dirname + '/client-socket.js')
+app.get('/*', (req, res)=>{
+  page = req.params
+  console.log(page[0])
+  res.sendFile(__dirname + `/${page[0]}`)
 })
 
 io.on('connection', socket =>{
