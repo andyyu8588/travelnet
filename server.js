@@ -6,7 +6,7 @@ const server = http.createServer(app)
 const io = require('socket.io').listen(server)
 const PORT = process.env.PORT || 3000
 var connected = []
-var rooms = []
+var Room
 
 // env.PORT be useless tho
 server.listen(3000, () => {
@@ -30,15 +30,11 @@ io.on('connection', (socket) => {
 
   socket.on('join_room', (room) => {
     socket.join(room)
-  })
-
-  socket.on('message', ({ room, message }) => {
-    socket.to(room).emit('message', {
-      message,
-      name: socket.id
-    })
-  })
+    console.log('joined ' + room)
+    room = Room
 })  
+})
+io.sockets.in(Room).emit('message', "s")
 
 /* io.on('connection', socket => {
     connected.push(socket)
