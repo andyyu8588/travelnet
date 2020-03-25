@@ -22,7 +22,7 @@ chat.addEventListener('submit', (e)=>{
    e.preventDefault()
    if(chatmsg.value){
         $('#1').append(`<li>${chatmsg.value}</li>`)
-        socket.emit('message', (sender,chatmsg.value))
+        socket.emit('message', chatmsg.value)
         chatmsg.value = ''  
    }
 })
