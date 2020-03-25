@@ -38,7 +38,7 @@ io.on('connection', socket =>{
       socket.broadcast.emit('chatmessage', (data))
       // console.log(socket.id)
     })
-  console.log(socket.id)
+  console.log(connected)
   })
 
 
