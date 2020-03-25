@@ -34,7 +34,6 @@ io.on('connection', (socket) => {
     room = Room
 })  
 })
-io.sockets.in(Room).emit('message', "s")
 
 /* io.on('connection', socket => {
     connected.push(socket)
