@@ -31,9 +31,16 @@ io.on('connection', (socket) => {
   socket.on('join_room', (room) => {
     socket.join(room)
     console.log('joined ' + room)
-    room = Room
+    // room = Room
 })  
+  socket.on('message', (data)=>{
+    io.to('room1').emit('message', data)
+  })
+
+
 })
+
+
 
 /* io.on('connection', socket => {
     connected.push(socket)
