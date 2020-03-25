@@ -1,12 +1,12 @@
 const socket = io(`http://localhost:3000`)
 const chat = document.getElementById('chatbox')
 const chatmsg = document.getElementById('text')
-// const sender = prompt('sender')
-// const receiver = prompt('receiver')
-// const text = document.getElementById("sender")
-// const text2 = document.getElementById("receiver")
-// text2.innerHTML = `${receiver}`
-// text.innerHTML = `${sender}`
+const sender = prompt('sender')
+const receiver = prompt('receiver')
+const text = document.getElementById("sender")
+const text2 = document.getElementById("receiver")
+text2.innerHTML = `${receiver}`
+text.innerHTML = `${sender}`
 
 socket.on('chatmessage', (data)=>{
     console.log(data)
