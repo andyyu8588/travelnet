@@ -1,6 +1,8 @@
 const socket = io(`http://localhost:3000`)
 const chat = document.getElementById('chatbox')
 const chatmsg = document.getElementById('text')
+const sender = document.getElementById('sender')
+const receiver = document.getElementById('receiver')
 
 socket.on('message', (e)=>{
     console.log('the message is: ' + e)
@@ -21,3 +23,4 @@ chat.addEventListener('submit', (e)=>{
         chatmsg.value = ''  
    }
 })
+

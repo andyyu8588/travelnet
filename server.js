@@ -23,6 +23,9 @@ app.get('/*', (req, res)=>{
   res.sendFile(__dirname + `/${page[0]}`)
 })
 
+
+
+
 io.on('connection', socket =>{
     socket.emit('message', 'chatroom online')
     connected.push(socket)
@@ -37,4 +40,5 @@ io.on('connection', socket =>{
       console.log(`message received: ${data}`)
       socket.broadcast.emit('chatmessage', (data))
     })
+    console.log('id:' + socket.id)
   })
