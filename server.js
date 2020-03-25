@@ -6,6 +6,7 @@ const server = http.createServer(app)
 const io = require('socket.io').listen(server)
 const PORT = process.env.PORT || 3000
 var connected = []
+var rooms = []
 
 // env.PORT be useless tho
 server.listen(3000, () => {
@@ -24,7 +25,22 @@ app.get('/*', (req, res)=>{
 })
 
 
-io.on('connection', socket =>{
+io.on('connection', (socket) => {
+  console.log('user connected')
+
+  socket.on('join_room', (room) => {
+    socket.join(room)
+  })
+
+  socket.on('message', ({ room, message }) => {
+    socket.to(room).emit('message', {
+      message,
+      name: socket.id
+    })
+  })
+})  
+
+/* io.on('connection', socket => {
     connected.push(socket)
     console.log(`connected, ${connected.length} online`)
 
@@ -33,14 +49,12 @@ io.on('connection', socket =>{
       console.log(`disconnected, ${connected.length} online`)
     })
 
-    socket.on('chatmessage', (data)=>{
+    socket.on('chatmessage', (data) => {
       console.log(`message received: ${data}`)
       socket.broadcast.emit('chatmessage', (data))
       // console.log(socket.id)
     })
-  console.log(connected)
-  })
+  console.log(socket.id)
+  }) */
 
 
- 
-  
