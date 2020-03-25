@@ -25,7 +25,6 @@ app.get('/*', (req, res)=>{
 
 
 io.on('connection', socket =>{
-    socket.emit('message', 'chatroom online')
     connected.push(socket)
     console.log(`connected, ${connected.length} online`)
 
@@ -36,8 +35,8 @@ io.on('connection', socket =>{
 
     socket.on('chatmessage', (data)=>{
       console.log(`message received: ${data}`)
-      socket.emit('chatmessage', (data))
+      socket.broadcast.emit('chatmessage', (data))
     })
-    console.log('id:' + socket.id)
   })
+
 
