@@ -11,4 +11,6 @@ var email = element('email')
 
 button.addEventListener('submit',(e)=>{
 e.preventDefault()
-socket.emit('createUser',({username:username,password:password,email:email})
+socket.emit('createUser',({username:username,password:password,email:email}))
+})
+
