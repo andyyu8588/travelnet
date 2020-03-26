@@ -20,21 +20,24 @@ socket.on('connect', ()=>{
 //send username to server
 socket.emit('username', username)
 
-//listen for username from server
-socket.on('username', (data)=>{
-    $('#from').append(`<li>${data}</li>`)
-})
+
 
 //listen for msg from server
-socket.on('message', (data)=>{
-    $('#chatroom').append(`<li>${data}</li>`)
+socket.on('message', (msgdata)=>{
+   
+    //listen for username from server
+    socket.on('username', (data)=>{
+        $('#chatroom').append(`<li>${data}: ${msgdata}</li>`)
+    })
+    
+    
 })
 
 //add msg from user to server
 chat.addEventListener('submit', (e)=>{
    e.preventDefault()
    if(chatmsg.value){
-        $('#chatroom').append(`<li>${chatmsg.value}</li>`)
+        $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
         socket.emit('message', (chatmsg.value))
         chatmsg.value = ''  
    }
