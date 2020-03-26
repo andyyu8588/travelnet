@@ -46,16 +46,16 @@ app.get('/*', (req, res)=>{
 io.on('connection', (socket) => {
 
   //listen for username
-  socket.on('username', (data)=>{
-    socket.username = data
-    onlineusers.push(data)
-    console.log(`${data} connected; ${onlineusers.length} online`)
+  socket.on('username', (username)=>{
+    socket.username = username
+    onlineusers.push(username)
+    console.log(`${username} connected; ${onlineusers.length} online`)
   })
 
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room)
-    // var Chatroom = new Chatroom({users:{},messages:{}})
+  //var Chatroom = new Chatroom({users:{},messages:{}})
     console.log(`${socket.username} connected to: ${room}`) //connection occurs before username is set
     
   //listen to & send message of client
