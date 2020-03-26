@@ -4,8 +4,9 @@ mongoose.connect('mongodb://localhost/Voyage', {useNewUrlParser: true, useUnifie
 var profileSchema = new mongoose.Schema({
     name: String,
     Desired_Country: String,
-    Local_Country: String,
-    Age: Number,
+    Living_Country: String,
+    Birth_date: Date,
+    Password
 })
 
 var Profile = mongoose.model('Profile',profileSchema);
