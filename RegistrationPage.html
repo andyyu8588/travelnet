@@ -4,33 +4,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="profile.js"></script>
+    <script src="formValidator.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" alt='/socket.io/socket.io.js' defer></script>
 </head>
 <body>
     <form>
-        
+        <h1 class='jumbotron'>REGISTRATION</h1>
         <div class="form-group">
         <!-- username -->
           <label for="exampleInputEmail1">username</label>
-          <input type="" class="form-control" id="username" aria-describedby="emailHelp" placeholder="joblo123">
+          <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="joblo123" required>
         </div>
         <!-- password -->
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="password">
+          <input type="password" class="form-control" id="password" pattern='{5,10}' required title = '5 to 10 characters' required>
         </div>
         <!-- email -->
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="name@example.com">
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="name@example.com" required>
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
         <!-- checkbox -->
         <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
           <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" aria-required="true">Submit</button>
       </form>
 
 
