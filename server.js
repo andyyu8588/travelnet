@@ -8,6 +8,21 @@ const io = require('socket.io').listen(server)
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose');
 var onlineusers = []
+var tempusers = []
+
+class User{
+  email = String
+  username = String
+  password = String
+  rooms = Array
+
+  constructor(username, password, email , rooms){
+    this.username = username
+    this.password = password
+    this.rooms = rooms
+    this.email = email
+  }
+}
 
 //set URL:
 const dbURL = 'mongodb://localhost/Chatroom'
@@ -62,6 +77,11 @@ io.on('connection', (socket) => {
     // Msg.save()
     socket.to(room).emit('message', data)
   })
+  })
+
+  socket.on('createUser', (data)=>{
+    let newuser = new User(data.username, data.password, data.email, data.rooms)
+    tempusers.push(newuser)
   })
 
   //manage disconnections
