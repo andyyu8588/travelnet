@@ -14,15 +14,12 @@ text2.innerHTML = room
 
 //runs upon connection
 socket.on('connect', ()=>{
-    socket.emit('join_room', {room: room, username: username})
+    socket.emit('join_room', room)
 })
 
-//send username to server
-// socket.emit('username', username)
-
-//listen for msg from server
+//listen for msg & username from server
 socket.on('message', (data)=>{
-    $('#chatroom').append(`<li>${data.username}: ${data}</li>`)
+    $('#chatroom').append(`<li>${data.name}: ${data.msg}</li>`)
     })
 
 //add msg from user to server
@@ -30,7 +27,7 @@ chat.addEventListener('submit', (e)=>{
    e.preventDefault()
    if(chatmsg.value){
         $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
-        socket.emit('message', (chatmsg.value))
+        socket.emit('message', ({msg: chatmsg.value, name:username}))
         chatmsg.value = ''  
    }
 })

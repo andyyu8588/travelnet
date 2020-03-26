@@ -55,12 +55,12 @@ io.on('connection', (socket) => {
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room)
-    console.log('user connected: '+ room)
+    console.log(`connected: `+ room)
 
     //listen to & send message of client
     socket.on('message', (data)=>{
-      var Msg = new Message({name:'bob',message: data})
-      Msg.save()
+      // var Msg = new Message({name:'bob',message: data})
+      // Msg.save()
       socket.to(room).emit('message', data)
   })
   })
