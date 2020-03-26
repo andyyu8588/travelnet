@@ -20,14 +20,12 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true},(err) 
     console.log('lit')
   }
 })
-//create chatroom scheme
 
+//create chatroom scheme
 var Chatroom = mongoose.model('Chatroom',{
   Users : Array,  
   Messages : Array,
 })
-
-
 
 // env.PORT be useless tho
 server.listen(3000, () => {
@@ -37,7 +35,6 @@ server.listen(3000, () => {
 //send homepage
 app.get('/', (req, res)=>{
   res.sendFile((__dirname + '/Homepage.html'))
-
 })
 
 //redirect to any page (scripts)
@@ -49,25 +46,30 @@ app.get('/*', (req, res)=>{
 
 io.on('connection', (socket) => {
 
+  //listen for username
+  socket.on('username', (data)=>{
+    socket.username = data
+    onlineusers.push(data)
+    console.log(`${data} connected; ${onlineusers.length} online`)
+  })
+
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room)
     // var Chatroom = new Chatroom({users:{},messages:{}})
-    console.log('connected: '+ room)
+    console.log(`${socket.username} connected to: ${room}`) //connection occurs before username is set
     
-    //listen for username
-    let username
-    socket.on('username', (data)=>{
-      username = data
-    })
-    
-    //listen to & send message of client
-    socket.on('message', (data)=>{
-      //var Msg =({name:data.name ,message: data.msg})
-      // Msg.save()
-      socket.to(room).emit('message', {msg: data, username: username})
+  //listen to & send message of client
+  socket.on('message', (data)=>{
+    //var Msg =({name:data.name ,message: data.msg})
+    // Msg.save()
+    socket.to(room).emit('message', data)
   })
   })
 
-
+  //manage disconnections
+  socket.on('disconnect', ()=>{
+    onlineusers.splice(onlineusers.indexOf(socket.username),1)
+    console.log(`${socket.username} disconnected, ${onlineusers.length} online`)
+  })
 })
