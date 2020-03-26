@@ -20,16 +20,12 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true},(err) 
   }
 })
 //create chatroom scheme
-// var Chatroom = mongoose.model('Chatroom',{
-//   Users = Array,  
-//   Messages = Array,
-// })
-//create message scheme
 
-var Message = mongoose.model('Message',{
-    name: String,
-    message: String,
+var Chatroom = mongoose.model('Chatroom',{
+  Users = Array,  
+  Messages = Array,
 })
+
 
 
 // env.PORT be useless tho
@@ -55,11 +51,12 @@ io.on('connection', (socket) => {
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room)
-    console.log(`connected: `+ room)
+   // var Chatroom = new Chatroom({users:{},messages:{}})
+    console.log('connected: '+ room)
 
     //listen to & send message of client
     socket.on('message', (data)=>{
-      // var Msg = new Message({name:'bob',message: data})
+      //var Msg =({name:data.name ,message: data.msg})
       // Msg.save()
       socket.to(room).emit('message', data)
   })
