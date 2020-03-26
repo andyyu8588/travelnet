@@ -1,9 +1,11 @@
 const socket = io(`http://localhost:3000`)
 const chat = document.getElementById('chatbox')
 const chatmsg = document.getElementById('text')
+var usercookie = document.cookie
 
-//get username
+//get username & set cookie
 const username = prompt('username')
+usercookie = username
 var text = document.getElementById("username")
 text.innerHTML = username
 
@@ -14,10 +16,7 @@ text2.innerHTML = room
 
 //join room upon connection
 socket.on('connect', ()=>{
-    socket.emit('join_room', room)
-    
-    //send username to server   
-    socket.emit('username', username)
+    socket.emit('join_room', {room:room, user:username})
 })
 
 //listen for msg & username from server
