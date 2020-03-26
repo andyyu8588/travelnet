@@ -1,4 +1,5 @@
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const http = require('http')
 const path = require('path')
 const app = express()
@@ -27,6 +28,8 @@ var Chatroom = mongoose.model('Chatroom',{
   Messages : Array,
 })
 
+app.use(cookieParser())
+
 // env.PORT be useless tho
 server.listen(3000, () => {
   console.log('Server started on port ' + PORT)
@@ -35,6 +38,7 @@ server.listen(3000, () => {
 //send homepage
 app.get('/', (req, res)=>{
   res.sendFile((__dirname + '/Homepage.html'))
+  res.cookie('test', 'of cookie')
 })
 
 //redirect to any page (scripts)

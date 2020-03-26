@@ -5,7 +5,8 @@ var usercookie = document.cookie
 
 //get username & set cookie
 const username = prompt('username')
-usercookie = username
+// usercookie = username
+console.log(typeof(usercookie), usercookie)
 var text = document.getElementById("username")
 text.innerHTML = username
 
