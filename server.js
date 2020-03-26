@@ -8,20 +8,18 @@ const PORT = process.env.PORT || 3000
 
 // env.PORT be useless tho
 server.listen(3000, () => {
-    console.log(`Server started on port ${PORT}`)
+    console.log('Server started on port' + PORT)
   })
 
 //send homepage
 app.get('/', (req, res)=>{
-  res.sendFile((__dirname + '/index.html'))
-
+  res.sendFile((__dirname + '/Homepage.html'))
 })
 
-//mainly to send required scripts to html pages 
+//redirect to any page (scripts)
 app.get('/*', (req, res)=>{
   page = req.params
-  console.log(page[0])
-  res.sendFile(__dirname + `/${page[0]}`)
+  res.sendFile(__dirname + '/' + page[0])
 })
 
 
@@ -30,7 +28,7 @@ io.on('connection', (socket) => {
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room)
-    console.log(`user connected: `+ room)
+    console.log('user connected: '+ room)
 
     //listen to & send message of client
     socket.on('message', (data)=>{
