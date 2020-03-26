@@ -6,6 +6,7 @@ const server = http.createServer(app)
 const io = require('socket.io').listen(server)
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose');
+var onlineusers = []
 
 //set URL:
 const dbURL = 'mongodb://localhost/Chatroom'
@@ -22,15 +23,15 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true},(err) 
 //create chatroom scheme
 
 var Chatroom = mongoose.model('Chatroom',{
-  Users = Array,  
-  Messages = Array,
+  Users : Array,  
+  Messages : Array,
 })
 
 
 
 // env.PORT be useless tho
 server.listen(3000, () => {
-    console.log('Server started on port' + PORT)
+  console.log('Server started on port ' + PORT)
   })
 
 //send homepage
@@ -51,14 +52,20 @@ io.on('connection', (socket) => {
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room)
-   // var Chatroom = new Chatroom({users:{},messages:{}})
+    // var Chatroom = new Chatroom({users:{},messages:{}})
     console.log('connected: '+ room)
-
+    
+    //listen for username
+    let username
+    socket.on('username', (data)=>{
+      username = data
+    })
+    
     //listen to & send message of client
     socket.on('message', (data)=>{
       //var Msg =({name:data.name ,message: data.msg})
       // Msg.save()
-      socket.to(room).emit('message', data)
+      socket.to(room).emit('message', {msg: data, username: username})
   })
   })
 

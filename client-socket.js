@@ -17,9 +17,12 @@ socket.on('connect', ()=>{
     socket.emit('join_room', room)
 })
 
+//send username to server
+socket.emit('username', username)
+
 //listen for msg & usernamecls from server
 socket.on('message', (data)=>{
-    $('#chatroom').append(`<li>${data.name}: ${data.msg}</li>`)
+    $('#chatroom').append(`<li>${data.username}: ${data.msg}</li>`)
     })
 
 //add msg from user to server
@@ -27,7 +30,7 @@ chat.addEventListener('submit', (e)=>{
    e.preventDefault()
    if(chatmsg.value){
         $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
-        socket.emit('message', ({msg: chatmsg.value, name:username}))
+        socket.emit('message', (chatmsg.value))
         chatmsg.value = ''  
    }
 })
