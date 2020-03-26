@@ -5,6 +5,32 @@ const app = express()
 const server = http.createServer(app)
 const io = require('socket.io').listen(server)
 const PORT = process.env.PORT || 3000
+const mongoose = require('mongoose');
+
+//set URL:
+const dbURL = 'mongodb://localhost/Chatroom'
+
+//connect mongoose to Mongodb
+mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true},(err) => {
+  if(err){
+    console.log(err)
+  }
+  else{
+    console.log('lit')
+  }
+})
+//create chatroom scheme
+// var Chatroom = mongoose.model('Chatroom',{
+//   Users = Array,  
+//   Messages = Array,
+// })
+//create message scheme
+
+var Message = mongoose.model('Message',{
+    name: String,
+    message: String,
+})
+
 
 // env.PORT be useless tho
 server.listen(3000, () => {
@@ -14,6 +40,7 @@ server.listen(3000, () => {
 //send homepage
 app.get('/', (req, res)=>{
   res.sendFile((__dirname + '/Homepage.html'))
+
 })
 
 //redirect to any page (scripts)
@@ -32,8 +59,11 @@ io.on('connection', (socket) => {
 
     //listen to & send message of client
     socket.on('message', (data)=>{
+      var Msg = new Message({name:'bob',message: data})
+      Msg.save()
       socket.to(room).emit('message', data)
   })
   })
+
 
 })
