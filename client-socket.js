@@ -1,19 +1,31 @@
 const socket = io(`http://localhost:3000`)
 const chat = document.getElementById('chatbox')
 const chatmsg = document.getElementById('text')
+
+//get username
+const username = prompt('username')
+var text = document.getElementById("username")
+text.innerHTML = username
+
+//get room
 const room = prompt('connect to a room')
-// const receiver = prompt('receiver')
-var text = document.getElementById("sender")
-// const text2 = document.getElementById("receiver")
-// text2.innerHTML = `${receiver}`
-text.innerHTML = room
+const text2 = document.getElementById("room")
+text2.innerHTML = room
 
 //runs upon connection
 socket.on('connect', ()=>{
     socket.emit('join_room', room)
 })
 
-//add msg from server to user
+//send username to server
+socket.emit('username', username)
+
+//listen for username from server
+socket.on('username', (data)=>{
+    $('#from').append(`<li>${data}</li>`)
+})
+
+//listen for msg from server
 socket.on('message', (data)=>{
     $('#chatroom').append(`<li>${data}</li>`)
 })
@@ -27,4 +39,3 @@ chat.addEventListener('submit', (e)=>{
         chatmsg.value = ''  
    }
 })
-
