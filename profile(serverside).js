@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/Voyage', {useNewUrlParser: true, useUnifiedTopology: true});
 
 var profileSchema = new mongoose.Schema({
-    name: String,
-    Desired_Country: String,
-    Living_Country: String,
-    Birth_date: Date,
-    Password
+    username: String,
+    password: String,
+    email:String,
+    desired_Country: String,
+    living_Country: String,
+    birth_date: Date,
+
 })
 
 var Profile = mongoose.model('Profile',profileSchema);
