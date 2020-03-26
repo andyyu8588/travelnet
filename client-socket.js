@@ -21,7 +21,6 @@ socket.on('connect', ()=>{
 socket.emit('username', username)
 
 
-
 //listen for msg from server
 socket.on('message', (msgdata)=>{
    
@@ -29,8 +28,6 @@ socket.on('message', (msgdata)=>{
     socket.on('username', (data)=>{
         $('#chatroom').append(`<li>${data}: ${msgdata}</li>`)
     })
-    
-    
 })
 
 //add msg from user to server
