@@ -38,7 +38,7 @@ server.listen(3000, () => {
 //send homepage
 app.get('/', (req, res)=>{
   res.sendFile((__dirname + '/Homepage.html'))
-  res.cookie('test', 'of cookie')
+  res.cookie('test', 'ofcookie', {"expire": Date.now() + 300 , "domain":'http://localhost:3000/'})
 })
 
 //redirect to any page (scripts)
