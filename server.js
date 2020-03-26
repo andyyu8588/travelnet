@@ -43,7 +43,6 @@ app.get('/*', (req, res)=>{
   res.sendFile(__dirname + '/' + page[0])
 })
 
-
 io.on('connection', (socket) => {
 
   //listen for username
