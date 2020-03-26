@@ -32,5 +32,7 @@ chat.addEventListener('submit', (e)=>{
         $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
         socket.emit('message', ({msg: chatmsg.value, user: username}))
         chatmsg.value = ''  
+        console.log(document.cookie)
    }
 })
+
