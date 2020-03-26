@@ -17,7 +17,7 @@ socket.on('connect', ()=>{
     socket.emit('join_room', room)
 })
 
-//listen for msg & username from server
+//listen for msg & usernamecls from server
 socket.on('message', (data)=>{
     $('#chatroom').append(`<li>${data.name}: ${data.msg}</li>`)
     })
