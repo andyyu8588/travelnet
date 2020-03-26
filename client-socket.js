@@ -14,21 +14,16 @@ text2.innerHTML = room
 
 //runs upon connection
 socket.on('connect', ()=>{
-    socket.emit('join_room', room)
+    socket.emit('join_room', {room: room, username: username})
 })
 
 //send username to server
-socket.emit('username', username)
-
+// socket.emit('username', username)
 
 //listen for msg from server
-socket.on('message', (msgdata)=>{
-   
-    //listen for username from server
-    socket.on('username', (data)=>{
-        $('#chatroom').append(`<li>${data}: ${msgdata}</li>`)
+socket.on('message', (data)=>{
+    $('#chatroom').append(`<li>${data.username}: ${data}</li>`)
     })
-})
 
 //add msg from user to server
 chat.addEventListener('submit', (e)=>{
