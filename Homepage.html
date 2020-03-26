@@ -8,35 +8,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" alt='/socket.io/socket.io.js' defer></script>
     <script src="http://localhost:3000/client-socket.js" defer></script>
     <style>
-        .form {
-           margin-left: 1em;
+        #username, #room, .form{
+            padding: 1%;
         }
     </style>
 </head>
 <body>
-    <p>User</p><p id="username" style="font-weight: bold;"></p>
-    <P>Room</P><p id="room" style="font-weight: bold;"></p>
+    <p class="form">User</p>
+    <p id="username" style="font-weight: bold;"></p>
+    <p class="form">Room</p>
+    <p id="room" style="font-weight: bold;"></p>
     <div class="container">
         <ul id="from"></ul>
     </div>
     <div class="container">
         <ul id='chatroom'></ul>
     </div>
-
         <form id='chatbox' class="form">
-            
             <br>
-            <input type="text" id='text' name="text" value=''>
+            <input id='text' name="text" value='' class="container-fluid">
             <br>
             <button type="submit">send</button>
         </form>
-
     <div>
-        <a href='http://localhost:3000/page2.html'><button>Login</button></a>
+        <a href='http://localhost:3000/page2.html' class="form"><button>Login</button></a>
     </div>
-
 </body>
 </html>
-
-
-
