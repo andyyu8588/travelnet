@@ -60,11 +60,11 @@ io.on('connection', (socket) => {
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room.room)
-    socket.username = room.user
+    //socket.username = room.user
 
     //User.find({username:room.username}).find({rooms})
     
-    }
+    })
     //var Chatroom = new Chatroom({users:{},messages:{}})
     console.log(`${room.user} connected to: ${room.room}`)
     
@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
     // Msg.save()
     socket.to(room).emit('message', data)
   })
-  })
+  
 
   //save new users in database
   socket.on('createUser', (data)=>{
