@@ -24,11 +24,11 @@ Empty = []
         }
         else if(data === 'email is taken'){
             alert('email is taken')
-            email.value = ''
+            window.location.reload()
         }
         else if(data === 'username exists'){
             alert('username is taken')
-            username.value = ''
+            window.location.reload()
         }
         else{
             alert('an error occured')
