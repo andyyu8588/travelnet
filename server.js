@@ -10,19 +10,15 @@ const mongoose = require('mongoose');
 var onlineusers = []
 var tempusers = []
 
-class User{
-  email = String
-  username = String
-  password = String
-  rooms = Array
 
-  constructor(username, password, email , rooms){
-    this.username = username
-    this.password = password
-    this.rooms = rooms
-    this.email = email
-  }
-}
+
+//   constructor(username, password, email , rooms){
+//     this.username = username
+//     this.password = password
+//     this.rooms = rooms
+//     this.email = email
+//   }
+// }
 
 //set URL:
 const dbURL = 'mongodb://localhost/Chatroom'
@@ -41,6 +37,14 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true},(err) 
 var Chatroom = mongoose.model('Chatroom',{
   Users : Array,  
   Messages : Array,
+})
+
+//create User scheme
+var User = mongoose.model('User',{
+    email : String,
+    username : String,
+    password : String,
+    rooms : Array
 })
 
 app.use(cookieParser())
@@ -82,9 +86,11 @@ io.on('connection', (socket) => {
 
   socket.on('createUser', (data)=>{
     console.log('creatuser connected')
-    let newuser = new User(data.username, data.password, data.email, data.rooms)
-    tempusers.push(newuser)
-    console.log(data)
+    var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
+    newuser.save()
+    Chatroom.find(newuser)
+    //tempusers.push(newuser)
+    //console.log(data)
   })
 
   //manage disconnections
