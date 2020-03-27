@@ -9,8 +9,12 @@ var username = element('username')
 var password = element('password')
 var email = element('email')
 
-button.addEventListener('submit',(e)=>{
+button.addEventListener('click',(e)=>{
 e.preventDefault()
-socket.emit('createUser',({username:username,password:password,email:email}))
+console.log('buttonpushed')
+socket.emit('createUser',{username:username.value,password:password.value,email:email.value})
+username.value = ''
+password.value = ''
+email.value = ''
 })
 

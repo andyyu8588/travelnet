@@ -59,6 +59,7 @@ app.get('/', (req, res)=>{
 //redirect to any page (scripts)
 app.get('/*', (req, res)=>{
   page = req.params
+  console.log(req.params)
   res.sendFile(__dirname + '/' + page[0])
 })
 
@@ -80,8 +81,10 @@ io.on('connection', (socket) => {
   })
 
   socket.on('createUser', (data)=>{
+    console.log('creatuser connected')
     let newuser = new User(data.username, data.password, data.email, data.rooms)
     tempusers.push(newuser)
+    console.log(data)
   })
 
   //manage disconnections
