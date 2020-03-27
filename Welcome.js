@@ -3,16 +3,16 @@ document.getElementById('messaging').href = og+'messaging.html'
 document.getElementById('login').href = og+'login.html'
 document.getElementById('RegistrationPage').href = og+'RegistrationPage.html'
 
-if(document.cookie != []){
+if(document.cookie != [] || ''){
     let user
-    let x = JSON.stringify(document.cookie.split(';'))
-    x.split("=")
-    console.log(typeof(x))
-    // array.forEach(element => {
-    //     if(element === 'username'){
-    //         user = x.indexOf(element+1)
-    //     }
-    // });
-
-    $("#other").append(`<p>hello ${user}</p>`)
+    let x = JSON.stringify(document.cookie)
+    x.split(';')
+    if(typeof(x) == "string"){
+        let y = x.split('=')
+        y.forEach(element=>{
+            if(element === '"username' || 'username'){
+            $("#other").append(`<p>hello ${y.indexOf(element+1)}</p>`)
+        }
+    })
+    }
 }
