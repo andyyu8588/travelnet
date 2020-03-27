@@ -1,12 +1,11 @@
 const socket = io(`http://localhost:3000`)
 const chat = document.getElementById('chatbox')
 const chatmsg = document.getElementById('text')
-var usercookie = document.cookie
+const RegistrationPage = 'http://localhost:3000/RegistrationPage.html'
+document.getElementById('tohomepage').href = RegistrationPage
 
 //get username & set cookie
 const username = prompt('username')
-// usercookie = username
-console.log(typeof(usercookie), usercookie)
 var text = document.getElementById("username")
 text.innerHTML = username
 
@@ -32,7 +31,6 @@ chat.addEventListener('submit', (e)=>{
         $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
         socket.emit('message', ({msg: chatmsg.value, user: username}))
         chatmsg.value = ''  
-        console.log(document.cookie)
    }
 })
 

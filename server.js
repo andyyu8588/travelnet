@@ -10,16 +10,6 @@ const mongoose = require('mongoose');
 var onlineusers = []
 var tempusers = []
 
-
-
-//   constructor(username, password, email , rooms){
-//     this.username = username
-//     this.password = password
-//     this.rooms = rooms
-//     this.email = email
-//   }
-// }
-
 //set URL:
 const dbURL = 'mongodb://localhost/Chatroom'
 
@@ -56,14 +46,13 @@ server.listen(3000, () => {
 
 //send homepage
 app.get('/', (req, res)=>{
-  res.sendFile((__dirname + '/Homepage.html'))
-  res.cookie('test', 'ofcookie', {"expire": Date.now() + 300 , "domain":'http://localhost:3000/'})
+  res.sendFile((__dirname + '/messaging.html'))
+  res.cookie('test', 'ofcookie', {expires: new Date(Date.now() + 3) , domain:'http://localhost:3000'})
 })
 
 //redirect to any page (scripts)
 app.get('/*', (req, res)=>{
   page = req.params
-  console.log(req.params)
   res.sendFile(__dirname + '/' + page[0])
 })
 
@@ -84,13 +73,14 @@ io.on('connection', (socket) => {
   })
   })
 
+  //save new users in database
   socket.on('createUser', (data)=>{
     console.log('creatuser connected')
     var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
     newuser.save()
     //tempusers.push(newuser)
     //console.log(data)
-  })
+    })
 
   //manage disconnections
   socket.on('disconnect', ()=>{
