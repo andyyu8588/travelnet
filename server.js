@@ -74,17 +74,37 @@ io.on('connection', (socket) => {
 
   //save new users in database
   socket.on('createUser', (data)=>{
-    console.log('creatuser connected')
+    console.log('create user resquest..')
 
-    //check if user already exists & send answer to client
-    User.find({email:data.email},(err, person)=>{
+    //check if username or email already exists & send answer to client
+    User.find({email:data.email},(err,person)=>{
       if(err){
-        var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
-        newuser.save()
-        socket.emit('create_user_confirmation', 'user created')
+        socket.emit('create_user_confirmation', 'error')
+        console.log(err)
       }
-      if(person){
-        socket.emit('create_user_confirmation', 'this person already exists')
+      if(person.length >= 1){
+        socket.emit('create_user_confirmation', 'email is taken')
+      }
+      else {
+        User.find({username:data.username}, (error, person1)=>{
+          if(error){
+            socket.emit('create_user_confirmation', 'error')
+            console.log(error)
+          }
+          if(person1.length >= 1){
+            socket.emit('create_user_confirmation', 'username exists')
+          }
+          if(person1.length === 0){
+            var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
+            newuser.save()
+            console.log(newuser)
+            socket.emit('create_user_confirmation', 'ok')
+          }
+          else{
+            console.log(person1.length)
+            console.log('wtf happened')
+          }
+        })
       }
     })
   })
@@ -95,3 +115,4 @@ io.on('connection', (socket) => {
     console.log(`${socket.username} disconnected, ${onlineusers.length} online`)
   })
 })
+

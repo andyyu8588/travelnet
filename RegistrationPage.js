@@ -18,15 +18,21 @@ Empty = []
 
     //listen for validation, set cookie and redirect to homepage
     socket.on('create_user_confirmation', (data)=>{
-        if(data === 'user created'){
+        if(data === 'ok'){
             document.cookie = ''    
             window.location.replace(homepage)
-    }
+        }
+        if(data === 'email is taken'){
+            alert('email is taken')
+            email.value = ''
+        }
+        if(data === 'username exists'){
+            alert('username is taken')
+            username.value = ''
+        }
         else{
             alert('an error occured')
-            username.value = ''
-            password.value = ''
-            email.value = ''
+            window.location.reload()
         }
     })
 })
