@@ -1,5 +1,6 @@
 const socket = io(`http://localhost:3000`)
-const homepage = 'http://localhost:3000/Welcome.html'
+const domain = 'http://localhost:3000'
+const homepage = `${domain}/Welcome.html`
 
 var element = (e)=>{
     return document.getElementById(e)
@@ -19,16 +20,16 @@ Empty = []
     //listen for validation, set cookie and redirect to homepage
     socket.on('create_user_confirmation', (data)=>{
         if(data === 'ok'){
-            document.cookie = ''    
+            document.cookie = `username=${username.value}; SameSite=Strict`
             window.location.replace(homepage)
         }
         else if(data === 'email is taken'){
             alert('email is taken')
-            window.location.reload()
+            email.value = ''
         }
         else if(data === 'username exists'){
             alert('username is taken')
-            window.location.reload()
+            username.value = ''
         }
         else{
             alert('an error occured')

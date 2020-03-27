@@ -13,14 +13,13 @@
         <div class="form-group">
        <!-- email -->
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="name@example.com" required>
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <label for="exampleInputEmail1">Email or Username</label>
+            <input type="text" class="form-control" id="email/user" aria-describedby="emailHelp" required>
           </div>
         <!-- password -->
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="password" pattern='{5,10}' required title = '5 to 10 characters' required>
+          <input type="password" class="form-control" id="password" pattern='.{5,}' required title = 'please enter your password' required>
         </div>
         <button type="submit" id ='submit' class="btn btn-primary" aria-required="true">Login</button>
       </form>

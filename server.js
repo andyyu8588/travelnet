@@ -37,7 +37,6 @@ var User = mongoose.model('User',{
 })
 
 app.use(cookieParser())
-//res.cookie('test', 'ofcookie', {expires: new Date(Date.now() + 3) , domain:'http://localhost:3000'})
 
 // env.PORT be useless tho
 server.listen(3000, () => {
@@ -47,12 +46,14 @@ server.listen(3000, () => {
 //send homepage
 app.get('/', (req, res)=>{
   res.sendFile((__dirname + '/Welcome.html'))
+  console.log(req.cookies.username)
 })
 
 //redirect to any page (scripts)
 app.get('/*', (req, res)=>{
   page = req.params
   res.sendFile(__dirname + '/' + page[0])
+  console.log(req.cookies.username)
 })
 
 io.on('connection', (socket) => {
@@ -60,13 +61,13 @@ io.on('connection', (socket) => {
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room.room)
-    //socket.username = room.user
-
-    //User.find({username:room.username}).find({rooms})
-    
-    })
-    //var Chatroom = new Chatroom({users:{},messages:{}})
     console.log(`${room.user} connected to: ${room.room}`)
+    //socket.username = room.user
+    //User.find({username:room.username}).find({rooms})
+    //var Chatroom = new Chatroom({users:{},messages:{}})
+    })
+    
+    
     
   //listen to & send message of client
   socket.on('message', (data)=>{
@@ -112,7 +113,35 @@ io.on('connection', (socket) => {
       }
     })
   })
-    
+  
+  //handle user login
+  socket.on('UserIn', (data)=>{
+    User.find({email:data.username, password:data.password}, (err, res)=>{
+      if(err){
+        socket.emit('UserIn', {ans: 'error', exp: 'email'})
+      }
+      else if(res.length === 1){
+        socket.emit('UserIn', {ans: 'ok', cookie: res.username})
+      }
+      else if(res.length === 0){
+        User.find({username:data.email, password:data.password}, (err, res)=>{
+          if(err){
+            socket.emit('UserIn', {ans:'error', exp: 'username'})
+          }
+          else if(res.length === 1){
+            socket.emit('UserIn', {ans: 'ok'})
+          }
+          else{
+            console.log('monkas')
+          }
+        })
+      }
+      else{
+        console.log('monkas')
+      }
+    })
+  })
+
   //manage disconnections
   socket.on('disconnect', ()=>{
     onlineusers.splice(onlineusers.indexOf(socket.username),1)
