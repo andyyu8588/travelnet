@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 var onlineusers = []
 
 //set URL:
-const dbURL = 'mongodb://localhost/Chatroom'
+var dbURL = 'mongodb://localhost/Travelnet'
 
 //connect mongoose to Mongodb
 mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true},(err) => {
@@ -61,6 +61,10 @@ io.on('connection', (socket) => {
   socket.on('join_room', (room) => {
     socket.join(room.room)
     socket.username = room.user
+
+    //User.find({username:room.username}).find({rooms})
+    
+    }
     //var Chatroom = new Chatroom({users:{},messages:{}})
     console.log(`${room.user} connected to: ${room.room}`)
     
