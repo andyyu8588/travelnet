@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
         socket.emit('create_user_confirmation', 'error')
         console.log(err)
       }
-      else if(person.length >= 1){
+      else if(person.length = 1){
         socket.emit('create_user_confirmation', 'email is taken')
       }
       else {
@@ -91,7 +91,7 @@ io.on('connection', (socket) => {
             socket.emit('create_user_confirmation', 'error')
             console.log(error)
           }
-          else if(person1.length >= 1){
+          else if(person1.length = 1){
             socket.emit('create_user_confirmation', 'username exists')
           }
           else if(person1.length === 0){

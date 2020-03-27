@@ -22,11 +22,11 @@ Empty = []
             document.cookie = ''    
             window.location.replace(homepage)
         }
-        if(data === 'email is taken'){
+        else if(data === 'email is taken'){
             alert('email is taken')
             email.value = ''
         }
-        if(data === 'username exists'){
+        else if(data === 'username exists'){
             alert('username is taken')
             username.value = ''
         }
