@@ -88,7 +88,6 @@ io.on('connection', (socket) => {
     console.log('creatuser connected')
     var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
     newuser.save()
-    Chatroom.find(newuser)
     //tempusers.push(newuser)
     //console.log(data)
   })
