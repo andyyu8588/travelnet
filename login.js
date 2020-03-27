@@ -17,8 +17,8 @@ Empty = []
     socket.emit('createUser',{username:username.value,password:password.value,email:email.value,rooms:Empty})
 
     //listen for validation, set cookie and redirect to homepage
-    socket.on('create_user_confirmation', (data)=>{
-        if(data === 'user created'){
+    socket.on('create_user_confirmation', (bool)=>{
+        if(bool === true){
             document.cookie = ''    
             window.location.replace(homepage)
     }
@@ -30,3 +30,4 @@ Empty = []
         }
     })
 })
+

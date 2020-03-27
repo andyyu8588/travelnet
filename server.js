@@ -8,7 +8,6 @@ const io = require('socket.io').listen(server)
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose');
 var onlineusers = []
-var tempusers = []
 
 //set URL:
 const dbURL = 'mongodb://localhost/Chatroom'
@@ -38,6 +37,7 @@ var User = mongoose.model('User',{
 })
 
 app.use(cookieParser())
+//res.cookie('test', 'ofcookie', {expires: new Date(Date.now() + 3) , domain:'http://localhost:3000'})
 
 // env.PORT be useless tho
 server.listen(3000, () => {
@@ -46,8 +46,7 @@ server.listen(3000, () => {
 
 //send homepage
 app.get('/', (req, res)=>{
-  res.sendFile((__dirname + '/messaging.html'))
-  res.cookie('test', 'ofcookie', {expires: new Date(Date.now() + 3) , domain:'http://localhost:3000'})
+  res.sendFile((__dirname + '/Welcome.html'))
 })
 
 //redirect to any page (scripts)
@@ -76,12 +75,20 @@ io.on('connection', (socket) => {
   //save new users in database
   socket.on('createUser', (data)=>{
     console.log('creatuser connected')
-    var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
-    newuser.save()
-    //tempusers.push(newuser)
-    //console.log(data)
-    })
 
+    //check if user already exists & send answer to client
+    User.find({email:data.email},(err, person)=>{
+      if(err){
+        var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
+        newuser.save()
+        socket.emit('create_user_confirmation', 'user created')
+      }
+      if(person){
+        socket.emit('create_user_confirmation', 'this person already exists')
+      }
+    })
+  })
+    
   //manage disconnections
   socket.on('disconnect', ()=>{
     onlineusers.splice(onlineusers.indexOf(socket.username),1)
