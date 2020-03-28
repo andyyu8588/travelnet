@@ -33,4 +33,3 @@ chat.addEventListener('submit', (e) => {
         chatmsg.value = ''  
    }
 })
-
