@@ -1,16 +1,17 @@
 const socket = io(`http://localhost:3000`)
 const recipient = document.getElementById('recipient')
+const user2 = document.getElementById('user2')
 const chatmsg = document.getElementById('text')
 const RegistrationPage = 'http://localhost:3000/RegistrationPage.html'
 document.getElementById('tohomepage').href = RegistrationPage
 
 if(document.cookie != ''){
-
-    cookie
+    let cookie
     socket.emit('cookie', document.cookie)
     socket.on('cookieres', data=>{
         if(data != {}){
             cookie = data
+            $('#username').append(`${cookie.username}`)
         }
         else{
             alert('there was an error processing your demand')
@@ -19,12 +20,13 @@ if(document.cookie != ''){
     })
 
     // add msg from user to server
-    form.addEventListener('submit', (e) => {
+    recipient.addEventListener('submit', (e) => {
     e.preventDefault()
+    console.log('send button click')
     if (chatmsg.value.length != 0) {
-        socket.emit('CreateChatroom', {user1: cookie.username,user2: recipient.value})
-        socket.emit('message', ({msg: chatmsg.value, user: username}))
-        chatmsg.value = ''  
+        socket.emit('CreateChatroom', {user1: cookie.username,user2: user2.value})
+        socket.emit('message', ({msg: chatmsg.value, sender: cookie.username}))
+        
     }
     })
 
@@ -35,7 +37,8 @@ if(document.cookie != ''){
     // listen for msg & username from server
     socket.on('message', (data) => {
         $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
-        $('#chatroom').append(`<li>${data.user}: ${data.msg}</li>`)
+        chatmsg.value = ''  
+        $('#chatroom').append(`<li>${data.sender}: ${data.msg}</li>`)
     })
     }
 

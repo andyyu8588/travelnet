@@ -112,26 +112,26 @@ io.on('connection', (socket) => {
       }
     })
   })
+
   //create new chatroom
   socket.on('CreateChatroom',(data)=>{
-    Travelnet.Chatrooms.find({Users:[data.user1,data.user2]},(err,res)=>{
+    Chatroom.find({Users:[data.user1,data.user2]},(err,res)=>{
       if(err){
         console.log(err)
       }
-    else if(res.length){
-      console.log('chatroom exists')
-      socket.emit('Chatroom',res)
-    }
-    else{
-      var newChatroom = new Chatroom({Users : [User1,User2], Messages : []})
-      newChatroom.save()
-      console.log(newChatroom)
-      socket.emit('Chatroom',res)
-    }
+      else if(res.length){
+        console.log('chatroom exists')
+        socket.emit('Chatroom',res)
+      }
+      else{
+        var newChatroom = new Chatroom({Users : [data.user1,data.user2], Messages : []})
+        newChatroom.save()
+        console.log(newChatroom)
+        socket.emit('Chatroom',res)
+        console.log('new chatroom created')
+      }
+    })
   })
-})
-
-
 
   //handle user login
   socket.on('UserIn', (data)=>{
