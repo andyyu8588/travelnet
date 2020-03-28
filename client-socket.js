@@ -4,30 +4,30 @@ const chatmsg = document.getElementById('text')
 const RegistrationPage = 'http://localhost:3000/RegistrationPage.html'
 document.getElementById('tohomepage').href = RegistrationPage
 
-//get username & set cookie
+// get username & set cookie
 const username = prompt('username')
 var text = document.getElementById("username")
 text.innerHTML = username
 
-//get room
+// get room
 const room = prompt('connect to a room')
 const text2 = document.getElementById("room")
 text2.innerHTML = room
 
-//join room upon connection
-socket.on('connect', ()=>{
+// join room upon connection
+socket.on('connect', () => {
     socket.emit('join_room', {room:room, user:username})
 })
 
-//listen for msg & username from server
-socket.on('message', (data)=>{
+// listen for msg & username from server
+socket.on('message', (data) => {
     $('#chatroom').append(`<li>${data.user}: ${data.msg}</li>`)
-    })
+})
 
-//add msg from user to server
-chat.addEventListener('submit', (e)=>{
+// add msg from user to server
+chat.addEventListener('submit', (e) => {
    e.preventDefault()
-   if(chatmsg.value){
+   if (chatmsg.value) {
         $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
         socket.emit('message', ({msg: chatmsg.value, user: username}))
         chatmsg.value = ''  
