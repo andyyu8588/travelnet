@@ -129,7 +129,7 @@ io.on('connection', (socket) => {
 
       //listen to & send message of client
       socket.on('message', (data)=>{
-        Chatroom.res.Messages.push({
+        res.Messages.push({
           sender: data.sender,
           time: Date.now(),
           content: data.msg 
