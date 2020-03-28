@@ -114,10 +114,10 @@ io.on('connection', (socket) => {
   })
   //create new chatroom
   socket.on('CreateChatroom',(data)=>{
-    if(Travelnet.Chatrooms.find({Users:[data.user1,data.user2]},(err,res)=>{
+    Travelnet.Chatrooms.find({Users:[data.user1,data.user2]},(err,res)=>{
       if(err){
         console.log(err)
-    }
+      }
     else if(res.length){
       console.log('chatroom exists')
       socket.emit('Chatroom',res)
@@ -128,7 +128,8 @@ io.on('connection', (socket) => {
       console.log(newChatroom)
       socket.emit('Chatroom',res)
     }
-    })
+  })
+})
 
 
 
