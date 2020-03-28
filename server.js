@@ -57,12 +57,12 @@ app.get('/*', (req, res)=>{
 
 io.on('connection', (socket) => {
 
-  //assign room to client
-  socket.on('join_room', (room) => {
-    socket.join(room.room)
-    socket.room = room.room
-    console.log(`${room.user} connected to: ${room.room}`)
-  })
+function joinroom(){
+    //assign room to client
+    socket.join(room)
+    socket.room = room
+    console.log(`${user} connected to: ${room}`)
+}
   
   //receive and send parsed cookie
   socket.on('cookie', data=>{
@@ -120,11 +120,14 @@ io.on('connection', (socket) => {
         socket.emit('CreateChatroom_res',res.Messages)
       }
       else{
-        var newChatroom = new Chatroom({Users : [data.user1,data.user2], Messages : []})
-        newChatroom.save()
-        console.log(newChatroom)
-        socket.emit('CreateChatroom_res',res.Messages)
-        console.log('new chatroom created')
+        if(data.user2){
+          var newChatroom = new Chatroom({Users : [data.user1,data.user2], Messages : []})
+          newChatroom.save()
+          console.log(newChatroom)
+          socket.emit('CreateChatroom_res',res.Messages)
+          console.log('new chatroom created')
+        }
+        else{console.log('user does not exist')}
       }
 
       //listen to & send message of client
@@ -175,4 +178,3 @@ io.on('connection', (socket) => {
     console.log(`${socket.username} disconnected, ${onlineusers.length} online`)
   })
 })
-

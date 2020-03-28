@@ -18,10 +18,13 @@
     <p id="username" style="font-weight: bold;"></p>
     <div id="chatroom"></div>
     
-    <label class="form" for="recipient">To</label>
-    <form id='recipient' name="recipient" class="form">
-        <input id='user2' type="text" style="font-weight: bold;" required></p>
-        <br>
+    <form id='selectrecipient' class="form">
+        <label for="recipient">To</label>
+        <input type="text" id="recipient" name="recipient">
+        <input type="submit" value="select">
+    </form>
+
+    <form id='message' name="message" class="form">
         <input id='text' name="text" value='' class="container-fluid">
         <br>
         <button type="submit">send</button>
