@@ -117,19 +117,25 @@ io.on('connection', (socket) => {
       }
       else if(res.length){
         console.log('chatroom exists')
-        socket.emit('Chatroom',res)
+        socket.emit('CreateChatroom_res',res.Messages)
       }
       else{
         var newChatroom = new Chatroom({Users : [data.user1,data.user2], Messages : []})
         newChatroom.save()
         console.log(newChatroom)
-        socket.emit('Chatroom',res)
+        socket.emit('CreateChatroom_res',res.Messages)
         console.log('new chatroom created')
       }
-      
+
       //listen to & send message of client
       socket.on('message', (data)=>{
-        socket.emit('message', data)
+        Chatroom.res.Messages.push({
+          sender: data.sender,
+          time: Date.now(),
+          content: data.msg 
+        })
+        socket.emit('message', {msg: data.msg, sender: data.sender, time: Date.now()})
+        console.log(res.Messages)
       })
     })
   })
