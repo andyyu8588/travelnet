@@ -69,11 +69,7 @@ io.on('connection', (socket) => {
     socket.emit('cookieres', cookieParser.parse(data))
   })
 
-  //listen to & send message of client
-  socket.on('message', (data)=>{
-    
-    socket.emit('message', data)
-  })
+
   
 
   //save new users in database
@@ -113,7 +109,7 @@ io.on('connection', (socket) => {
     })
   })
 
-  //create new chatroom
+  //handle chatrooms & messages
   socket.on('CreateChatroom',(data)=>{
     Chatroom.find({Users:[data.user1,data.user2]},(err,res)=>{
       if(err){
@@ -130,6 +126,11 @@ io.on('connection', (socket) => {
         socket.emit('Chatroom',res)
         console.log('new chatroom created')
       }
+      
+      //listen to & send message of client
+      socket.on('message', (data)=>{
+        socket.emit('message', data)
+      })
     })
   })
 
