@@ -46,14 +46,12 @@ server.listen(3000, () => {
 //send homepage
 app.get('/', (req, res)=>{
   res.sendFile((__dirname + '/Welcome.html'))
-  console.log(req.cookies.username)
 })
 
 //redirect to any page (scripts)
 app.get('/*', (req, res)=>{
   page = req.params
   res.sendFile(__dirname + '/' + page[0])
-  console.log(req.cookies.username)
 })
 
 io.on('connection', (socket) => {
@@ -61,19 +59,15 @@ io.on('connection', (socket) => {
   //assign room to client
   socket.on('join_room', (room) => {
     socket.join(room.room)
+    socket.room = room.room
     console.log(`${room.user} connected to: ${room.room}`)
-    //socket.username = room.user
-    //User.find({username:room.username}).find({rooms})
-    //var Chatroom = new Chatroom({users:{},messages:{}})
     })
-    
+  
     
     
   //listen to & send message of client
   socket.on('message', (data)=>{
-    //var Msg =({name:data.name ,message: data.msg})
-    // Msg.save()
-    socket.to(room).emit('message', data)
+    socket.to(socket.room).emit('message', data)
   })
   
 
