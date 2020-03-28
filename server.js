@@ -1,5 +1,6 @@
 const express = require('express')
-const cookieParser = require('cookie-parser')
+// const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie')
 const http = require('http')
 const path = require('path')
 const app = express()
@@ -36,7 +37,7 @@ var User = mongoose.model('User',{
     rooms : Array
 })
 
-app.use(cookieParser())
+// app.use(cookieParser())
 
 // env.PORT be useless tho
 server.listen(3000, () => {
@@ -135,6 +136,7 @@ io.on('connection', (socket) => {
       }
     })
   })
+
 
   //manage disconnections
   socket.on('disconnect', ()=>{
