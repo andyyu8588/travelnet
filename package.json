@@ -19,6 +19,7 @@
   "homepage": "https://github.com/andyyu8588/soundcloudrapper#readme",
   "dependencies": {
     "@angular/cli": "^9.0.7",
+    "cookie": "^0.4.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "mongoose": "^5.9.6",
