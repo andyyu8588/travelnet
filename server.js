@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
 
   //save new users in database
   socket.on('createUser', (data)=>{
-    console.log('create user resquest..')
+    console.log('create user request..')
 
     //check if username or email already exists & send answer to client
     User.find({email:data.email},(err,res)=>{
