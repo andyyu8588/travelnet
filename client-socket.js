@@ -1,35 +1,35 @@
 const socket = io(`http://localhost:3000`)
-const chat = document.getElementById('chatbox')
+const recipient = document.getElementById('recipient')
 const chatmsg = document.getElementById('text')
 const RegistrationPage = 'http://localhost:3000/RegistrationPage.html'
 document.getElementById('tohomepage').href = RegistrationPage
 
-// get username & set cookie
-const username = prompt('username')
-var text = document.getElementById("username")
-text.innerHTML = username
+if(document.cookie != ''){
 
-// get room
-const room = prompt('connect to a room')
-const text2 = document.getElementById("room")
-text2.innerHTML = room
+    socket.emit('cookie', document.cookie)
+    socket.on('cookieres', data=>{
 
-// join room upon connection
-socket.on('connect', () => {
-    socket.emit('join_room', {room:room, user:username})
-})
+    })
 
-// listen for msg & username from server
-socket.on('message', (data) => {
-    $('#chatroom').append(`<li>${data.user}: ${data.msg}</li>`)
-})
+    // add msg from user to server
+    form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    if (chatmsg.value.length != 0) {
+        socket.emit('CreateChatroom', {user1: ,user2: recipient.value})
+            socket.emit('message', ({msg: chatmsg.value, user: username}))
+            chatmsg.value = ''  
+    }
+    })
 
-// add msg from user to server
-chat.addEventListener('submit', (e) => {
-   e.preventDefault()
-   if (chatmsg.value) {
+    // listen for msg & username from server
+    socket.on('message', (data) => {
         $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
-        socket.emit('message', ({msg: chatmsg.value, user: username}))
-        chatmsg.value = ''  
-   }
-})
+        $('#chatroom').append(`<li>${data.user}: ${data.msg}</li>`)
+    })
+
+    }
+
+else{
+    alert('you must have an account to chat')
+    // document.location.replace('http://3000/RegistrationPage.html')
+}

@@ -62,10 +62,13 @@ io.on('connection', (socket) => {
     socket.join(room.room)
     socket.room = room.room
     console.log(`${room.user} connected to: ${room.room}`)
-    })
+  })
   
-    
-    
+  //receive and send parsed cookie
+  socket.on('cookie', data=>{
+    socket.emit('cookieres', cookieParser.parse(data))
+  })
+
   //listen to & send message of client
   socket.on('message', (data)=>{
     
@@ -114,7 +117,7 @@ io.on('connection', (socket) => {
     if(Travelnet.Chatrooms.find({Users:[data.user1,data.user2]})){
         console.log('chatroom exists')}
     else{
-      var newChatroom = new Chatroom({Users : [User1,User2], Messages = []})
+      var newChatroom = new Chatroom({Users : [User1,User2], Messages : []})
       newChatroom.save()
       console.log(newChatroom)
       socket.emit('CreateChatroom')

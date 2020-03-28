@@ -14,22 +14,19 @@
     </style>
 </head>
 <body>
-    <p class="form">User</p>
+    <label class="form" for="username">User</label>
     <p id="username" style="font-weight: bold;"></p>
-    <p class="form">Room</p>
-    <p id="room" style="font-weight: bold;"></p>
-    <div class="container">
-        <ul id="from"></ul>
-    </div>
-    <div class="container">
-        <ul id='chatroom'></ul>
-    </div>
-        <form id='chatbox' class="form">
-            <br>
-            <input id='text' name="text" value='' class="container-fluid">
-            <br>
-            <button type="submit">send</button>
-        </form>
+    <div id="chatroom"></div>
+    
+    <label class="form" for="recipient">To</label>
+    <form id='recipient' name="recipient" class="form">
+        <input type="text" style="font-weight: bold;" required></p>
+        <br>
+        <input id='text' name="text" value='' class="container-fluid">
+        <br>
+        <button type="submit">send</button>
+    </form>
+
     <div>
         <a href='' class="form" id="tohomepage"><button>Sign up</button></a>
     </div>
