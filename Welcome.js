@@ -11,6 +11,6 @@ if(document.cookie != ''){
 
 socket.on('cookieres', data=>{
     cookie = data
-    $('#other').append(`<p>hi ${cookie.username}</p>`)
+        $('#other').append(`<p>hi ${cookie.username}</p>`)
 })
 
