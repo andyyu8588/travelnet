@@ -28,6 +28,10 @@ if(document.cookie != ''){
     }
     })
 
+    socket.on('Chatroom', data=>{
+        console.log(data)
+    })
+
     // listen for msg & username from server
     socket.on('message', (data) => {
         $('#chatroom').append(`<li>You: ${chatmsg.value}</li>`)
