@@ -58,5 +58,5 @@ if(document.cookie != ''){
 
 else{
     alert('you must have an account to chat')
-    // document.location.replace('http://3000/RegistrationPage.html')
+    document.location.replace(RegistrationPage)
 }
