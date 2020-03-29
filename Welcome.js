@@ -16,8 +16,9 @@ if(document.cookie != ''){
     })
 }
 
-logout.addEventListener('submit', (e)=>{
+logout.addEventListener('click', (e)=>{
     e.preventDefault()
-    document.cookie= `name=;expires= Thu, 01 Jan 2010 00:00:00 GMT`
+    document.cookie= `username=;expires= Thu, 01 Jan 2010 00:00:00 GMT`
+    console.log(document.cookie)
     document.location.reload()
 } )
