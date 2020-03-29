@@ -1,4 +1,4 @@
-const joinroom  = (user,room) => {
+const joinroom  = (user, room) => {
     // assign room to client
     socket.join(room)
 
