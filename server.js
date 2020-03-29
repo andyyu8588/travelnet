@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose');
 var onlineusers = []
 const functionPage = require('./server2.js');
-let joinroom = server2.joinroom(user,room);
+
 
 //set URL:
 var dbURL = 'mongodb://localhost/Travelnet'
