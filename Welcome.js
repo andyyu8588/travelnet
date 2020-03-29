@@ -14,11 +14,13 @@ if(document.cookie != ''){
         console.log(cookie)
         $('#other').append(`<p>hi ${cookie.username}</p>`)
     })
-}
 
-logout.addEventListener('click', (e)=>{
-    e.preventDefault()
-    document.cookie= `username=;expires= Thu, 01 Jan 2010 00:00:00 GMT`
-    console.log(document.cookie)
-    document.location.reload()
-} )
+    logout.addEventListener('click', (e)=>{
+        e.preventDefault()
+        document.cookie= `username=;expires= Thu, 01 Jan 2010 00:00:00 GMT`
+        console.log(document.cookie)
+        document.location.reload()
+    } )
+} else {
+    logout.style.display = 'none'
+}
