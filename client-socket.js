@@ -1,6 +1,6 @@
 const socket = io(`http://localhost:3000`)
 const recipient = document.getElementById('selectrecipient')
-const user2 = document.getElementById('user2')
+const user2 = document.getElementById('recipient')
 const messagebox = document.getElementById('message')
 const chatmsg = document.getElementById('text')
 const RegistrationPage = 'http://localhost:3000/RegistrationPage.html'
@@ -25,7 +25,7 @@ if(document.cookie != ''){
         socket.emit('CreateChatroom', {user1: cookie.username,user2: user2.value})
     })
 
-    socket.on('CreateChatroom_res', data=>{
+    socket.on('CreateChatroom_res', (data)=>{
         if(data != []){
             data.forEach(element => {
                 $('#chatroom').append(`<li>${element.sender}: ${element.content} (${element.time})</li>`)            
