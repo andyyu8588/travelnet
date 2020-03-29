@@ -63,7 +63,6 @@ function joinroom(){
     //assign room to client
     socket.join(room)
     socket.room = room
-    console.log(`${user} connected to: ${room}`)
 }
   
   //receive and send parsed cookie
@@ -76,7 +75,6 @@ function joinroom(){
 
   //save new users in database
   socket.on('createUser', (data)=>{
-    console.log('create user request..')
 
     //check if username or email already exists & send answer to client
     User.find({email:data.email},(err,res)=>{
@@ -99,11 +97,9 @@ function joinroom(){
           else if(res1.length === 0){
             var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
             newuser.save()
-            console.log(newuser)
             socket.emit('create_user_confirmation', 'ok')
           }
           else{
-            console.log(res1.length)
             console.log('wtf happened')
           }
         })
@@ -119,26 +115,29 @@ function joinroom(){
       }
       else if(res.length === 1){
         console.log('chatroom exists')
-        console.log(res[0].Messages)
         socket.emit('CreateChatroom_res',res[0].Messages)
       }
       else{
-        if(User.find({username:data.user2}).length){
-          var newChatroom = new Chatroom({Users : [data.user1,data.user2], Messages : []})
-          newChatroom.save()
-          console.log(User.findOne({username:data.user2}))
-          console.log(newChatroom)
-          socket.emit('CreateChatroom_res',res[0].Messages)
-          console.log('new chatroom created')
-        }
-        else{
-          console.log('user does not exist')
-        }
+        User.find({username:data.user2}, (err, res)=>{
+          
+          if(err){
+            console.log(err)
+            socket.emit('CreateChatroom_res', 'error')
+          }
+          else if(res.length === 1){
+            console.log(res[0].username)
+            var newChatroom = new Chatroom({Users : [data.user1,data.user2], Messages : []})
+            newChatroom.save()
+            socket.emit('CreateChatroom_res',res[0].Messages)
+          }
+          else{
+            socket.emit('CreateChatroom_res', 'error')
+          }
+      })
       }
 
       //listen to & send message of client
       socket.on('message', (data)=>{
-        console.log(res, res.Messages)
         res[0].Messages.push({
           sender: data.sender,
           time: Date.now() ,
@@ -146,7 +145,6 @@ function joinroom(){
         })
         res[0].save();
         socket.emit('message', {msg: data.msg, sender: data.sender, time: Date.now()})
-        console.log(res[0])
       })
     })
   })
