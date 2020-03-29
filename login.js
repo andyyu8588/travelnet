@@ -12,11 +12,10 @@ Empty = []
 
  form.addEventListener('submit', (e) => {
     e.preventDefault()
-    console.log('buttonpushed')
     socket.emit('UserIn', {password:password.value,email:email.value})
 
     // listen for validation, set cookie and redirect to homepage
-    socket.on('UserIn', (res) => {
+    socket.on('UserIn_res', (res) => {
         if (res.ans === 'ok') {
             document.cookie = `username=${res.cookie}`    
             window.location.replace(homepage)
