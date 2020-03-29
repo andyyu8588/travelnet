@@ -117,7 +117,8 @@ function joinroom(){
       }
       else if(res.length === 1){
         console.log('chatroom exists')
-        socket.emit('CreateChatroom_res',res.Messages)
+        console.log(res[0].Messages)
+        socket.emit('CreateChatroom_res',res[0].Messages)
       }
       else{
         if(User.find({username:data.user2}).length){
@@ -125,7 +126,7 @@ function joinroom(){
           newChatroom.save()
           console.log(User.findOne({username:data.user2}))
           console.log(newChatroom)
-          socket.emit('CreateChatroom_res',res.Messages)
+          socket.emit('CreateChatroom_res',res[0].Messages)
           console.log('new chatroom created')
         }
         else{
@@ -135,14 +136,15 @@ function joinroom(){
 
       //listen to & send message of client
       socket.on('message', (data)=>{
-        res.Messages.push({
+        console.log(res, res.Messages)
+        res[0].Messages.push({
           sender: data.sender,
-          time: Date.now(),
+          time: Date.now() ,
           content: data.msg 
         })
-        res.save();
+        res[0].save();
         socket.emit('message', {msg: data.msg, sender: data.sender, time: Date.now()})
-        console.log(res.Messages)
+        console.log(res[0])
       })
     })
   })

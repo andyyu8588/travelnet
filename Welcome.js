@@ -9,6 +9,7 @@ if(document.cookie != ''){
 
     socket.on('cookieres', data=>{
         let cookie = data
+        console.log(cookie)
         $('#other').append(`<p>hi ${cookie.username}</p>`)
     })
 }

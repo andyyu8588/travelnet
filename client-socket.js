@@ -22,14 +22,18 @@ if(document.cookie != ''){
 
     recipient.addEventListener('submit', (e)=>{
         e.preventDefault()
+        console.log('select button click')
+        // s
         socket.emit('CreateChatroom', {user1: cookie.username,user2: user2.value})
     })
 
     socket.on('CreateChatroom_res', (data)=>{
-        if(data != []){
+        if(data){
             data.forEach(element => {
                 $('#chatroom').append(`<li>${element.sender}: ${element.content} (${element.time})</li>`)            
             });
+        }else{
+            console.log('chat is empty')
         }
     })
 
@@ -37,13 +41,12 @@ if(document.cookie != ''){
     messagebox.addEventListener('submit', (e) => {
         e.preventDefault()
         console.log('send button click')
-        if (chatmsg.value.length != 0) {
-            socket.emit('message', ({msg: chatmsg.value, sender: cookie.username}))
-        }
+        socket.emit('message', ({msg: chatmsg.value, sender: cookie.username}))
         })
 
         // listen for msg & username from server
         socket.on('message', (data) => {
+            console.log(data)
             $('#chatroom').append(`<li>You: ${chatmsg.value} (${Date.now})</li>`)
             chatmsg.value = ''
             if(data.sender != cookie.username){
