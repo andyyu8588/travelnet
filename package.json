@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
-    "mongod": "D:/MongoDB/bin/mongod.exe" 
+    "mongod": "D:/MongoDB/bin/mongod.exe"
   },
   "repository": {
     "type": "git",
