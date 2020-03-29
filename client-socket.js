@@ -47,10 +47,11 @@ if(document.cookie != ''){
         // listen for msg & username from server
         socket.on('message', (data) => {
             console.log(data)
-            $('#chatroom').append(`<li>You: ${chatmsg.value} (${Date.now})</li>`)
             chatmsg.value = ''
-            if(data.sender != cookie.username){
+            if (data.sender != cookie.username) {
                 $('#chatroom').append(`<li>${data.sender}: ${data.msg} (${data.time})</li>`)
+            } else {
+                $('#chatroom').append(`<li>You: ${data.msg} (${data.time})</li>`)
             }  
         })
     }
