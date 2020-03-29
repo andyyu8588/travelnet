@@ -177,7 +177,6 @@ function joinroom(){
     })
   })
 
-
   //manage disconnections
   socket.on('disconnect', ()=>{
     onlineusers.splice(onlineusers.indexOf(socket.username),1)

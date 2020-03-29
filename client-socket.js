@@ -28,7 +28,10 @@ if(document.cookie != ''){
     })
 
     socket.on('CreateChatroom_res', (data)=>{
-        if(data){
+        if(data === 'error'){
+            console.log('there is an error')
+        }
+        else if(data){
             data.forEach(element => {
                 $('#chatroom').append(`<li>${element.sender}: ${element.content} (${element.time})</li>`)            
             });
