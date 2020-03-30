@@ -26,5 +26,4 @@
             console.log(res[0])
             socket.emit('CreateChatroom_res', 'error')
           }
-      })
       }
