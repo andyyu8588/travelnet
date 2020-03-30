@@ -77,7 +77,12 @@ io.on('connection', (socket) => {
       }
       else {
         User.find({username:data.username}, (error, res1)=>{
-          if(error){
+          if(error){    recipient.addEventListener('submit', (e)=>{
+            e.preventDefault()
+            console.log('select button clicked')
+            socket.emit('CreateChatroom', userArray)
+            userArray= []
+        })    
             socket.emit('create_user_confirmation', 'error')
             console.log(error)
           }
@@ -97,55 +102,41 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('searchuser', (data) => {
+  socket.on('searchUser', (data) => {
     User.find({username: data}, (err, res) => {
         if (err) {
             console.log(err)
         } 
-        else if (res.lenght === 0) {
-            socket.emit('searchuser_res', 'does not exists')
+        else if (res.length === 0) {
+            socket.emit('searchUser_res', 'does not exist')
         }
-        else if (res.lenght === 1) {
-            socket.emit("searchuser_res", res[0].username)
+        else if (res.length === 1) {
+
+            socket.emit("searchUser_res", res[0].username)
         }
         else {
-            console.log('wtf searchuser')
+            console.log('wtf searchUser')
         }
     })
   })
 
   //handle chatrooms & messages
-  socket.on('CreateChatroom',(data)=>{
-    
-
-    Chatroom.find({Users:{$all:[data]}},(err,res)=>{
+  socket.on('createChatroom',(data)=>{
+    Chatroom.find({Users:{$all:data}},(err,res)=>{
+      console.log(res)
       if(err){
         console.log(err)
       }
       else if(res.length >= 1){
-        console.log('chatroom exists', res)
-        socket.emit('CreateChatroom_res',res)
+        console.log('chatroom exists', res[0].Messages)
+        socket.emit('createChatroom_res',res[0].Messages)
       }
       else{
-        User.find({username:data.user2}, (err, res)=>{
-          
-          if(err){
-            console.log(err)
-            socket.emit('CreateChatroom_res', 'error')
+          var newChatroom = new Chatroom({Users : data, Messages : [] })
+          newChatroom.save()
+          socket.emit('createChatroom_res',newChatroom.Messages)
+          console.log(newChatroom,'Chatroom created')
           }
-          else if(res.length === 1){
-            console.log(res[0].username)
-            var newChatroom = new Chatroom({Users : [data.user1,data.user2], Messages : []})
-            newChatroom.save()
-            socket.emit('CreateChatroom_res',res[0].Messages)
-          }
-          else{
-            console.log(res[0])
-            socket.emit('CreateChatroom_res', 'error')
-          }
-      })
-      }
-
       //listen to & send message of client
       socket.on('message', (data)=>{
         res[0].Messages.push({

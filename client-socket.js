@@ -28,12 +28,19 @@ if(document.cookie != ''){
 
     add.addEventListener('click', (e) => {
         e.preventDefault()
-        socket.emit('searchuser', recipient.value)
+        socket.emit('searchUser', recipient.value)
         console.log(recipient.value)
+
+        select.addEventListener('click', (e)=>{
+            e.preventDefault()
+            console.log('select button clicked'+userArray)
+            socket.emit('createChatroom', userArray)
+            userArray= []
+        })
     })
 
-    socket.on('searchuser_res', (data)=>{
-        if(data === 'does not exists'){
+    socket.on('searchUser_res', (data)=>{
+        if(data === 'does not exist'){
             console.log(data)
         } else {
             userArray.push(data)
@@ -41,13 +48,10 @@ if(document.cookie != ''){
         recipient.value = '' 
     })
 
-    select.addEventListener('submit', (e) => {
-        e.preventDefault()
-        console.log('select button click')
-        socket.emit('CreateChatroom', userArray)
-    })
 
-    socket.on('CreateChatroom_res', (data) => {
+
+
+    socket.on('createChatroom_res', (data) => {
         if(data === 'error'){
             console.log('there is an error')
         }
