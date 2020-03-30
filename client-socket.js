@@ -1,15 +1,17 @@
 const socket = io(`http://localhost:3000`)
-const recipient = document.getElementById('selectrecipient')
-const user2 = document.getElementById('recipient')
+const select = document.getElementById('select')
 const messagebox = document.getElementById('message')
 const chatmsg = document.getElementById('text')
+const add = document.getElementById('add')
+const userform = document.getElementById('userform')
+const recipient = document.getElementById('recipient')
 const RegistrationPage = 'http://localhost:3000/RegistrationPage.html'
 document.getElementById('tohomepage').href = RegistrationPage
 
 if(document.cookie != ''){
     let cookie
     socket.emit('cookie', document.cookie)
-    socket.on('cookieres', data=>{
+    socket.on('cookieres', (data) => {
         if(data != {}){
             cookie = data
             $('#username').append(`${cookie.username}`)
@@ -20,15 +22,21 @@ if(document.cookie != ''){
         }
     })
 
-    recipient.addEventListener('submit', (e)=>{
+    add.addEventListener('click', (e) => {
         e.preventDefault()
-        var userArray = user2.value.split(' ')
+        socket.emit('searchuser', recipient.value)
+        console.log(recipient.value)
+    })
+
+    select.addEventListener('submit', (e) => {
+        e.preventDefault()
+        var userArray = recipient.value.split(' ')
         userArray.push(cookie.username)
         console.log('select button click')
         socket.emit('CreateChatroom', userArray)
     })
 
-    socket.on('CreateChatroom_res', (data)=>{
+    socket.on('CreateChatroom_res', (data) => {
         if(data === 'error'){
             console.log('there is an error')
         }
