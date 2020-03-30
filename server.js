@@ -57,10 +57,12 @@ app.get('/*', (req, res)=>{
 })
 
 io.on('connection', (socket) => {
-//receive and send parsed cookie
-socket.on('cookie', data=>{
-    socket.emit('cookieres', cookieParser.parse(data))
-  })
+ 
+  //receive and send parsed cookie
+  socket.on('cookie', data=>{
+      socket.emit('cookieres', cookieParser.parse(data))
+    })
+
   //save new users in database
   socket.on('createUser', (data)=>{
 
@@ -92,6 +94,23 @@ socket.on('cookie', data=>{
           }
         })
       }
+    })
+  })
+
+  socket.on('searchuser', (data) => {
+    User.find({username: data}, (err, res) => {
+        if (err) {
+            console.log(err)
+        } 
+        else if (res.lenght === 0) {
+            socket.emit('searchuser_res', 'does not exists')
+        }
+        else if (res.lenght === 1) {
+            socket.emit("searchuser_res", res[0].username)
+        }
+        else {
+            console.log('wtf searchuser')
+        }
     })
   })
 

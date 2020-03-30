@@ -7,24 +7,6 @@ const joinroom  = (user, room) => {
     console.log(`${user} connected to: ${room}`)
 }
 
-function searchUser(){
-    socket.on('searchuser', (data) => {
-        User.find({username: data}, (err, res) => {
-            if (err) {
-                console.log(err)
-            } 
-            else if (res.lenght === 0) {
-                socket.emit('searchuser_res', 'does not exists')
-            }
-            else if (res.lenght === 1) {
-                socket.emit("searchuser_res", res[0].username)
-            }
-            else {
-                console.log('wtf searchuser')
-            }
-        })
-    })
-}
 
-module.exports = joinroom, searchUser;
+module.exports = {joinroom, searchUser};
 
