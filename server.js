@@ -38,7 +38,6 @@ var User = mongoose.model('User',{
     password : String,
     rooms : Array
 })
-
 // app.use(cookieParser())
 
 // env.PORT be useless tho
@@ -58,21 +57,10 @@ app.get('/*', (req, res)=>{
 })
 
 io.on('connection', (socket) => {
-
-function joinroom(){
-    //assign room to client
-    socket.join(room)
-    socket.room = room
-}
-  
-  //receive and send parsed cookie
-  socket.on('cookie', data=>{
+//receive and send parsed cookie
+socket.on('cookie', data=>{
     socket.emit('cookieres', cookieParser.parse(data))
   })
-
-
-  
-
   //save new users in database
   socket.on('createUser', (data)=>{
 
@@ -109,7 +97,7 @@ function joinroom(){
 
   //handle chatrooms & messages
   socket.on('CreateChatroom',(data)=>{
-    Chatroom.find({Users:[data.user1,data.user2]},(err,res)=>{
+    Chatroom.find({Users:{$all:[data.user1,data.user2]}},(err,res)=>{
       if(err){
         console.log(err)
       }
@@ -131,6 +119,7 @@ function joinroom(){
             socket.emit('CreateChatroom_res',res[0].Messages)
           }
           else{
+            console.log(res[0])
             socket.emit('CreateChatroom_res', 'error')
           }
       })
@@ -177,7 +166,6 @@ function joinroom(){
     })
   })
 
-  
   //manage disconnections
   socket.on('disconnect', ()=>{
     onlineusers.splice(onlineusers.indexOf(socket.username),1)
