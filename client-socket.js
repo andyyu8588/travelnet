@@ -8,13 +8,17 @@ const recipient = document.getElementById('recipient')
 const RegistrationPage = 'http://localhost:3000/RegistrationPage.html'
 document.getElementById('tohomepage').href = RegistrationPage
 
+
+
 if(document.cookie != ''){
     let cookie
+    var userArray = []
     socket.emit('cookie', document.cookie)
     socket.on('cookieres', (data) => {
         if(data != {}){
             cookie = data
             $('#username').append(`${cookie.username}`)
+            userArray.push(cookie.username)
         }
         else{
             alert('there was an error processing your demand')
@@ -28,10 +32,17 @@ if(document.cookie != ''){
         console.log(recipient.value)
     })
 
+    socket.on('searchuser_res', (data)=>{
+        if(data === 'does not exists'){
+            console.log(data)
+        } else {
+            userArray.push(data)
+        }
+        recipient.value = '' 
+    })
+
     select.addEventListener('submit', (e) => {
         e.preventDefault()
-        var userArray = recipient.value.split(' ')
-        userArray.push(cookie.username)
         console.log('select button click')
         socket.emit('CreateChatroom', userArray)
     })
