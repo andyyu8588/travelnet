@@ -8,5 +8,5 @@ const joinroom  = (user, room) => {
 }
 
 
-module.exports = {joinroom, searchUser};
+module.exports = {joinroom};
 
