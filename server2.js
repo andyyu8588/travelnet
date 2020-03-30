@@ -7,7 +7,7 @@ const joinroom  = (user, room) => {
     console.log(`${user} connected to: ${room}`)
 }
 
-function searchUser(x){
+function searchUser(){
     socket.on('searchuser', (data) => {
         User.find({username: data}, (err, res) => {
             if (err) {
