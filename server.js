@@ -97,13 +97,15 @@ socket.on('cookie', data=>{
 
   //handle chatrooms & messages
   socket.on('CreateChatroom',(data)=>{
-    Chatroom.find({Users:{$all:[data.user1,data.user2]}},(err,res)=>{
+    
+
+    Chatroom.find({Users:{$all:[data]}},(err,res)=>{
       if(err){
         console.log(err)
       }
-      else if(res.length === 1){
-        console.log('chatroom exists')
-        socket.emit('CreateChatroom_res',res[0].Messages)
+      else if(res.length >= 1){
+        console.log('chatroom exists', res)
+        socket.emit('CreateChatroom_res',res)
       }
       else{
         User.find({username:data.user2}, (err, res)=>{

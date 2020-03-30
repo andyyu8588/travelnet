@@ -22,9 +22,10 @@ if(document.cookie != ''){
 
     recipient.addEventListener('submit', (e)=>{
         e.preventDefault()
+        var userArray = user2.value.split(' ')
+        userArray.push(cookie.username)
         console.log('select button click')
-        // s
-        socket.emit('CreateChatroom', {user1: cookie.username,user2: user2.value})
+        socket.emit('CreateChatroom', userArray)
     })
 
     socket.on('CreateChatroom_res', (data)=>{
