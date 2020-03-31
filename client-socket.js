@@ -10,17 +10,17 @@ document.getElementById('tohomepage').href = RegistrationPage
 
 
 
-if(document.cookie != ''){
+if (document.cookie != '') {
     let cookie
     var userArray = []
     
     socket.emit('cookie', document.cookie)
     socket.on('cookieres', (data) => {
-        if(data != {}){
+        if (data != {}) {
             cookie = data
             $('#username').append(`${cookie.username}`)
         }
-        else{
+        else {
             alert('there was an error processing your demand')
             document.location.reload()
         }
@@ -32,14 +32,14 @@ if(document.cookie != ''){
         
         select.addEventListener('click', (e) => {
             e.preventDefault()
-            if(!userArray.length){
+            if (!userArray.length) {
                 console.log('please enter a recipient')
             } else {
                 userArray.push(cookie.username)
-                let polishedArray = userArray.filter((a,b) => userArray.indexOf(a) ===(b))
+                let polishedArray = userArray.filter((a,b) => userArray.indexOf(a) === (b))
                 polishedArray.sort()
                 socket.emit('createChatroom', polishedArray)
-                userArray, polishedArray= [] 
+                userArray, polishedArray = [] 
             }
         })
     })
@@ -55,18 +55,18 @@ if(document.cookie != ''){
     })
 
     socket.on('createChatroom_res', (data) => {
-        if(data === 'error'){
+        if (data === 'error') {
             console.log('there is an error')
         }
-        else if(data){
-            data.forEach(element => {
-                if(element.sender != cookie.username){
+        else if (data) {
+            data.forEach((element) => {
+                if (element.sender != cookie.username) {
                     $('#chatroom').append(`<li>${element.sender}: ${element.content}</li>`)            
                 }
-                else{
+                else {
                     $('#chatroom').append(`<li>You: ${element.content}</li>`)            
                 }
-            });
+            })
         } else {
             console.log('chat is empty')
         }

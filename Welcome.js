@@ -6,21 +6,22 @@ document.getElementById('RegistrationPage').href = og + 'RegistrationPage.html'
 document.getElementById('disconnect').href = og
 var logout = document.getElementById('disconnect')
 
-if(document.cookie != ''){
+if (document.cookie != '') {
     socket.emit('cookie', document.cookie)
 
-    socket.on('cookieres', data=>{
+    socket.on('cookieres', (data) => {
         let cookie = data
         console.log(cookie)
         $('#other').append(`<p>hi ${cookie.username}</p>`)
     })
 
-    logout.addEventListener('click', (e)=>{
+    logout.addEventListener('click', (e) => {
         e.preventDefault()
         document.cookie= `username=;expires= Thu, 01 Jan 2010 00:00:00 GMT`
         console.log(document.cookie)
         document.location.reload()
-    } )
-} else {
+    })
+} 
+else {
     logout.style.display = 'none'
 }
