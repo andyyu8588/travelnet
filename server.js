@@ -1,5 +1,6 @@
 const express = require('express')
-// const cookieParser = require('cookie-parser')
+// const _ = require('underscore')
+// for comparing array content regardless of order  
 const cookieParser = require('cookie')
 const http = require('http')
 const path = require('path')
@@ -10,7 +11,6 @@ const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose');
 var onlineusers = []
 const functionPage = require('./server2.js');
-
 
 //set URL:
 var dbURL = 'mongodb://localhost/Travelnet'
@@ -27,6 +27,7 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true},(err) 
 
 //create chatroom scheme
 var Chatroom = mongoose.model('Chatroom',{
+  Usernum : Number,
   Users : Array,  
   Messages : Array,
 })
@@ -38,7 +39,6 @@ var User = mongoose.model('User',{
     password : String,
     rooms : Array
 })
-// app.use(cookieParser())
 
 // env.PORT be useless tho
 server.listen(3000, () => {
@@ -57,11 +57,41 @@ app.get('/*', (req, res)=>{
 })
 
 io.on('connection', (socket) => {
+
+  //handle join room & send back message history
+  var joinRoom = (databaseobj, roomnum, message) => {
+    socket.join(`${roomnum}`, ()=>{
+      socket.room = roomnum
+      socket.emit('createChatroom_res',message)
+      console.log(`joined ${socket.room}`)
+      messageHandler(databaseobj)
+    })  
+  }
  
+  //handle live chat on first connect to chatroom
+  var messageHandler = (databaseobj) => { 
+    if(socket.room){
+      console.log('message handler called')
+      socket.on('message', (data) => {
+        databaseobj.Messages.push({
+          sender: data.sender,
+          content: data.msg 
+        })
+        databaseobj.save();
+        socket.emit('message_res', data)
+        socket.in(`${socket.room}`).emit('message_res', data)
+      })
+    } else {
+      console.log('message handler monkas')
+    }
+  }
+
   //receive and send parsed cookie
-  socket.on('cookie', data=>{
-      socket.emit('cookieres', cookieParser.parse(data))
-    })
+  socket.on('cookie', (data) => {
+    let cookie = cookieParser.parse(data)
+    socket.emit('cookieres', cookie)
+    socket.username = cookie.username
+  })
 
   //save new users in database
   socket.on('createUser', (data)=>{
@@ -77,12 +107,7 @@ io.on('connection', (socket) => {
       }
       else {
         User.find({username:data.username}, (error, res1)=>{
-          if(error){    recipient.addEventListener('submit', (e)=>{
-            e.preventDefault()
-            console.log('select button clicked')
-            socket.emit('CreateChatroom', userArray)
-            userArray= []
-        })    
+          if(error){    
             socket.emit('create_user_confirmation', 'error')
             console.log(error)
           }
@@ -105,49 +130,48 @@ io.on('connection', (socket) => {
   socket.on('searchUser', (data) => {
     User.find({username: data}, (err, res) => {
         if (err) {
-            console.log(err)
+          console.log(err)
         } 
         else if (res.length === 0) {
-            socket.emit('searchUser_res', 'does not exist')
+          socket.emit('searchUser_res', 'does not exist')
         }
         else if (res.length === 1) {
-
-            socket.emit("searchUser_res", res[0].username)
+          socket.emit("searchUser_res", res[0].username)
         }
         else {
-            console.log('wtf searchUser')
+          console.log('wtf searchUser')
         }
     })
   })
 
-  //handle chatrooms & messages
+  //handle chatrooms & assign socket.join(room) w/ chatroom id as room
   socket.on('createChatroom',(data)=>{
-    Chatroom.find({Users:{$all:data}},(err,res)=>{
-      console.log(res)
-      if(err){
-        console.log(err)
-      }
-      else if(res.length >= 1){
-        console.log('chatroom exists', res[0].Messages)
-        socket.emit('createChatroom_res',res[0].Messages)
-      }
-      else{
-          var newChatroom = new Chatroom({Users : data, Messages : [] })
-          newChatroom.save()
-          socket.emit('createChatroom_res',newChatroom.Messages)
-          console.log(newChatroom,'Chatroom created')
-          }
-      //listen to & send message of client
-      socket.on('message', (data)=>{
-        res[0].Messages.push({
-          sender: data.sender,
-          time: Date.now() ,
-          content: data.msg 
-        })
-        res[0].save();
-        socket.emit('message', {msg: data.msg, sender: data.sender, time: Date.now()})
+    if(!socket.room){
+      console.log(`chatroom req for ${data}`)
+      Chatroom.find({Users: data, Usernum: data.length},(err,res)=>{
+        if(err){
+          console.log(err)
+        }
+        else if(res.length === 1){
+          console.log('chatroom exists')
+          joinRoom(res[0], res[0].id, res[0].Messages)
+        }
+        else {
+          var newChatroom = new Chatroom({Users : data, Messages : [], Usernum: data.length })
+          newChatroom.save((err, product) => {
+            if (err) {
+              console.log(err)
+            }
+            else {
+              console.log('new chatroom created')
+              joinRoom(product, product.id, product.Messages)
+            }
+          })
+        }
       })
-    })
+    } else {
+      console.log(`client already in chat ${socket.room}`)
+    }
   })
 
   //handle user login
@@ -178,9 +202,9 @@ io.on('connection', (socket) => {
     })
   })
 
-  //manage disconnections
-  socket.on('disconnect', ()=>{
-    onlineusers.splice(onlineusers.indexOf(socket.username),1)
-    console.log(`${socket.username} disconnected, ${onlineusers.length} online`)
-  })
+  // manage disconnections
+  // socket.on('disconnect', ()=>{
+  //   onlineusers.splice(onlineusers.indexOf(socket),1)
+  //   console.log(`${socket.username} disconnected, ${onlineusers.length} online`)
+  // })
 })

@@ -13,12 +13,12 @@ document.getElementById('tohomepage').href = RegistrationPage
 if(document.cookie != ''){
     let cookie
     var userArray = []
+    
     socket.emit('cookie', document.cookie)
     socket.on('cookieres', (data) => {
         if(data != {}){
             cookie = data
             $('#username').append(`${cookie.username}`)
-            userArray.push(cookie.username)
         }
         else{
             alert('there was an error processing your demand')
@@ -29,27 +29,30 @@ if(document.cookie != ''){
     add.addEventListener('click', (e) => {
         e.preventDefault()
         socket.emit('searchUser', recipient.value)
-        console.log(recipient.value)
-
-        select.addEventListener('click', (e)=>{
+        
+        select.addEventListener('click', (e) => {
             e.preventDefault()
-            console.log('select button clicked'+userArray)
-            socket.emit('createChatroom', userArray)
-            userArray= []
+            if(!userArray.length){
+                console.log('please enter a recipient')
+            } else {
+                userArray.push(cookie.username)
+                let polishedArray = userArray.filter((a,b) => userArray.indexOf(a) ===(b))
+                polishedArray.sort()
+                socket.emit('createChatroom', polishedArray)
+                userArray, polishedArray= [] 
+            }
         })
     })
 
-    socket.on('searchUser_res', (data)=>{
+    socket.on('searchUser_res', (data) => {
         if(data === 'does not exist'){
-            console.log(data)
+            recipient.value = ''
         } else {
             userArray.push(data)
+            recipient.readOnly = true
         }
-        recipient.value = '' 
+        console.log(`added recipient: `+ data)
     })
-
-
-
 
     socket.on('createChatroom_res', (data) => {
         if(data === 'error'){
@@ -57,9 +60,14 @@ if(document.cookie != ''){
         }
         else if(data){
             data.forEach(element => {
-                $('#chatroom').append(`<li>${element.sender}: ${element.content} (${element.time})</li>`)            
+                if(element.sender != cookie.username){
+                    $('#chatroom').append(`<li>${element.sender}: ${element.content}</li>`)            
+                }
+                else{
+                    $('#chatroom').append(`<li>You: ${element.content}</li>`)            
+                }
             });
-        }else{
+        } else {
             console.log('chat is empty')
         }
     })
@@ -69,21 +77,20 @@ if(document.cookie != ''){
         e.preventDefault()
         console.log('send button click')
         socket.emit('message', ({msg: chatmsg.value, sender: cookie.username}))
-        })
+        chatmsg.value = '' 
+    })
 
-        // listen for msg & username from server
-        socket.on('message', (data) => {
-            console.log(data)
-            chatmsg.value = ''
-            if (data.sender != cookie.username) {
-                $('#chatroom').append(`<li>${data.sender}: ${data.msg} (${data.time})</li>`)
-            } else {
-                $('#chatroom').append(`<li>You: ${data.msg} (${data.time})</li>`)
-            }  
-        })
-    }
-
-else{
+    // listen for msg & username from server
+    socket.on('message_res', (data) => {
+        console.log(data)
+        if (data.sender != cookie.username) {
+            $('#chatroom').append(`<li>${data.sender}: ${data.msg}</li>`)
+        } else {
+            $('#chatroom').append(`<li>You: ${data.msg}</li>`)
+        } 
+    })
+    
+} else {
     alert('you must have an account to chat')
     document.location.replace(RegistrationPage)
 }
