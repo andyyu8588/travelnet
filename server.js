@@ -27,9 +27,15 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true}, (err)
 
 // create chatroom scheme
 var Chatroom = mongoose.model('Chatroom', {
+  RoomName:String,
   Usernum : Number,
-  Users : Array,  
-  Messages : Array,
+  Users : Array, 
+  Messages : [
+    {content:String,
+    sender:String,
+    delivered: Boolean,
+    read:Boolean
+    }]
 })
 
 // create User scheme
@@ -157,7 +163,7 @@ io.on('connection', (socket) => {
           joinRoom(res[0], res[0].id, res[0].Messages)
         }
         else {
-          var newChatroom = new Chatroom({Users : data, Messages : [], Usernum: data.length })
+          var newChatroom = new Chatroom({Users : data, RoomName : data.toString(), Messages : [], Usernum: data.length })
           newChatroom.save((err, product) => {
             if (err) {
               console.log(err)
