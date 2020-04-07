@@ -8,6 +8,16 @@
     <script src="login.js" defer></script>
 </head>
 <body>
+  <span>
+  <button
+    (click) = 'buttonClicked()'>
+
+    Login
+
+  </button>
+</span>
+  <div 
+  [hidden]="hideContent">
     <form id = 'form'>
         <h1 class='jumbotron'>Login</h1>
        <!-- email -->
@@ -22,7 +32,7 @@
         </div>
         <button type="submit" id ='submit' class="btn btn-primary" aria-required="true">Login</button>
       </form>
-      
+    </div>
 
 
 
