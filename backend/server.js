@@ -64,6 +64,8 @@ app.get('/*', (req, res) => {
 
 io.on('connection', (socket) => {
 
+  socket.emit('test', 'monkas sa marche')
+
   // handle join room & send back message history
   const joinRoom = (databaseobj, roomnum, message) => {
     socket.join(`${roomnum}`, () => {
