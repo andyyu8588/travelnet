@@ -7,4 +7,11 @@ import * as io from './socket.service';
 export class SocketService {
 
   constructor() { }
+
+  socket: any;
+
+  listen(eventName: string){
+    
+  }
+
 }
