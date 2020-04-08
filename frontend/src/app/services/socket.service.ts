@@ -9,6 +9,10 @@ export class SocketService {
 
   socket: any
   readonly uri: string = 'http://localhost:3000'
+
+  private obs = new Observable(() => {
+
+  })
   
   constructor() { 
     this.socket = io(this.uri)
@@ -17,7 +21,11 @@ export class SocketService {
   listen(eventName: string){
     return new Observable((sub) => {
       this.socket.on(eventName, (data) => {
-        sub.next(data)
+        if(eventName.endsWith('_complete')){
+          sub.complete()
+        } else {
+          sub.next(data)
+          }
       })
     })
   }

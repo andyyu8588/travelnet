@@ -187,25 +187,16 @@ io.on('connection', (socket) => {
 
   // handle user login
   socket.on('UserIn', (data) => {
-    User.find( {$and:[{email:data.email}, {password: data.password}]}, (err, res) => {
+    User.find( {$and:[{$or:[{email:data.email}, {username:data.email}]}, {password: data.password}]}, (err, res) => {
       if (err) {
-        socket.emit('UserIn_res', {ans: 'error', exp: 'email'})
+        console.log(err)
+        socket.emit('UserIn_res', {ans: 'error', exp: err})
       }
       else if (res.length === 1) {
         socket.emit('UserIn_res', {ans: 'ok', cookie: res[0].username})
       }
-      else if (res.length === 0) {
-        User.find({$and:[{username:data.email},{password:data.password}]}, (err, res) => {
-          if (err) {
-            socket.emit('UserIn_res', {ans:'error', exp: 'username'})
-          }
-          else if (res.length === 1) {
-            socket.emit('UserIn_res', {ans: 'ok', cookie: res[0].username})
-          }
-          else {
-            socket.emit('UserIn_res', {ans: 'error', exp:'not found'})
-          }
-        })
+      else if (res.length === 0){
+        socket.emit('UserIn_res', {ans: 'error', exp: 'not found'})
       }
       else {
         console.log('monkas')
