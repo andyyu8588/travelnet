@@ -65,6 +65,9 @@ app.get('/*', (req, res) => {
 io.on('connection', (socket) => {
 
   socket.emit('test', 'monkas sa marche')
+  socket.on('login', (data) => {
+    console.log(`loginreceived ${data.username}, ${data.password}`)
+  })
 
   // handle join room & send back message history
   const joinRoom = (databaseobj, roomnum, message) => {
@@ -184,7 +187,7 @@ io.on('connection', (socket) => {
 
   // handle user login
   socket.on('UserIn', (data) => {
-    User.find({email:data.email}, (err, res) => {
+    User.find( {$and:[{email:data.email}, {password: data.password}]}, (err, res) => {
       if (err) {
         socket.emit('UserIn_res', {ans: 'error', exp: 'email'})
       }
@@ -192,7 +195,7 @@ io.on('connection', (socket) => {
         socket.emit('UserIn_res', {ans: 'ok', cookie: res[0].username})
       }
       else if (res.length === 0) {
-        User.find({username:data.email, password:data.password}, (err, res) => {
+        User.find({$and:[{username:data.email},{password:data.password}]}, (err, res) => {
           if (err) {
             socket.emit('UserIn_res', {ans:'error', exp: 'username'})
           }
@@ -200,7 +203,7 @@ io.on('connection', (socket) => {
             socket.emit('UserIn_res', {ans: 'ok', cookie: res[0].username})
           }
           else {
-            console.log('monkas')
+            socket.emit('UserIn_res', {ans: 'error', exp:'not found'})
           }
         })
       }

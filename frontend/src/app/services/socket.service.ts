@@ -15,9 +15,9 @@ export class SocketService {
   }
 
   listen(eventName: string){
-    return new Observable((subscriber) => {
+    return new Observable((sub) => {
       this.socket.on(eventName, (data) => {
-        subscriber.next(data)
+        sub.next(data)
       })
     })
   }
