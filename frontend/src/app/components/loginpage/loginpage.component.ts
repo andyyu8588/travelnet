@@ -9,6 +9,7 @@ export class LoginComponent{
     hideContent = true;
 
     constructor(private SocketService: SocketService) {
+
         this.SocketService.listen('UserIn_res').subscribe((data: any) => {
             console.log(`ok UserIn_res ${data.ans}`)
             if(data.ans === 'error'){
@@ -33,6 +34,5 @@ export class LoginComponent{
         event.preventDefault()
         this.SocketService.emit('UserIn', {email:username , password:password})
     }
-
     
 }
