@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {RegistrationComponent} from './registrationpage/registrationpage.component';
-import {LoginComponent} from './loginpage/loginpage.component';
+import {RegistrationComponent} from './components/registrationpage/registrationpage.component';
+import {LoginComponent} from './components/loginpage/loginpage.component';
 @NgModule({
   declarations: [
     AppComponent,
