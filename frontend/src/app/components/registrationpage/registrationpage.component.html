@@ -17,7 +17,7 @@
   <div 
   [hidden]="hideContent">
 
-    <form id = 'form'>
+    <form id = 'form' (submit)="registerClicked(password.value, username.value, email.value, $event)">
         <h1 class='jumbotron'>Registration</h1>
         <div class="form-group">
         <!-- username -->
@@ -40,7 +40,7 @@
           <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
           <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
-        <button type="submit" id ='submit' class="btn btn-primary" aria-required="true" (click)="registerClicked(password.value, username.value, email.value, $event)">Register</button>
+        <button type="submit" id ='submit' class="btn btn-primary" aria-required="true">Register</button>
       </form>
     
 

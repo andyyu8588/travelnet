@@ -10,11 +10,11 @@ export class RegistrationComponent{
     
     constructor(private SocketService: SocketService) {
         this.SocketService.listen('createUser_res').subscribe((data: any) => {
-            if (data === 'error') {
-                console.log(data.exp)
+            if (data.err) {
+                console.log(data.err)
             } 
-            else if (data === 'ok') {
-                console.log("User created")
+            else if (data.res) {
+                console.log(`User created, username: ${data.res.username}`)
             } else {
                 console.log("c fini")
                 console.log(data)
