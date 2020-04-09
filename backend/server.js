@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
   const joinRoom = (databaseobj, roomnum, message) => {
     socket.join(`${roomnum}`, () => {
       socket.room = roomnum
-      socket.emit('createChatroom_res',message)
+      socket.emit('createChatroom_res', {res: message})
       console.log(`joined ${socket.room}`)
       messageHandler(databaseobj)
     })  
@@ -90,7 +90,7 @@ io.on('connection', (socket) => {
         })
         databaseobj.save()
         socket.emit('message_res', data)
-        socket.in(`${socket.room}`).emit('message_res', data)
+        socket.in(`${socket.room}`).emit('message_res', {res: data})
       })
     } else {
       console.log('message handler monkas')
@@ -100,7 +100,7 @@ io.on('connection', (socket) => {
   // receive and send parsed cookie
   socket.on('cookie', (data) => {
     let cookie = cookieParser.parse(data)
-    socket.emit('cookieres', cookie)
+    socket.emit('cookieres', {res: cookie})
     socket.username = cookie.username
   })
 
@@ -110,25 +110,24 @@ io.on('connection', (socket) => {
     // check if username or email already exists & send answer to client
     User.find({email:data.email}, (err,res) => {
       if (err) {
-        socket.emit('createUser_res', 'error')
         console.log(err)
       }
       else if (res.length === 1) {
-        socket.emit('createUser_res', 'email is taken')
+        socket.emit('createUser_res', {err: 'email is taken'})
       }
       else {
         User.find({username:data.username}, (error, res1) => {
           if (error) {    
-            socket.emit('createUser_res', 'error')
+            socket.emit('createUser_res', {err: 'error'})
             console.log(error)
           }
           else if (res1.length === 1) {
-            socket.emit('createUser_res', 'username exists')
+            socket.emit('createUser_res', {err: 'username exists'})
           }
           else if (res1.length === 0) {
             var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
             newuser.save()
-            socket.emit('createUser_res', 'ok')
+            socket.emit('createUser_res', {res: newuser})
           }
           else {
             console.log('wtf happened')
@@ -144,10 +143,10 @@ io.on('connection', (socket) => {
           console.log(err)
         } 
         else if (res.length === 0) {
-          socket.emit('searchUser_res', 'does not exist')
+          socket.emit('searchUser_res', {err: 'does not exist'})
         }
         else if (res.length === 1) {
-          socket.emit("searchUser_res", res[0].username)
+          socket.emit("searchUser_res", {res: res[0].username})
         }
         else {
           console.log('wtf searchUser')
@@ -190,13 +189,13 @@ io.on('connection', (socket) => {
     User.find( {$and:[{$or:[{email:data.email}, {username:data.email}]}, {password: data.password}]}, (err, res) => {
       if (err) {
         console.log(err)
-        socket.emit('UserIn_res', {ans: 'error', exp: err})
+        socket.emit('UserIn_res', {err: err})
       }
       else if (res.length === 1) {
-        socket.emit('UserIn_res', {ans: 'ok', cookie: res[0].username})
+        socket.emit('UserIn_res', {res: res[0].username})
       }
       else if (res.length === 0){
-        socket.emit('UserIn_res', {ans: 'error', exp: 'not found'})
+        socket.emit('UserIn_res', {err: 'not found'})
       }
       else {
         console.log('monkas')
