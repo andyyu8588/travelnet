@@ -6,7 +6,6 @@ import { Observable, Subscriber } from 'rxjs';
   providedIn: 'root'
 })
 export class SocketService {
-
   socket: any
   readonly uri: string = 'http://localhost:3000'
 
@@ -21,11 +20,7 @@ export class SocketService {
   listen(eventName: string){
     return new Observable((sub) => {
       this.socket.on(eventName, (data) => {
-        if(eventName.endsWith('_complete')){
-          sub.complete()
-        } else {
-          sub.next(data)
-          }
+        sub.next(data)
       })
     })
   }

@@ -7,19 +7,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class LoginComponent{
     hideContent = true;
-
-    constructor(private SocketService: SocketService) {
-
-        this.SocketService.listen('UserIn_res').subscribe((data: any) => {
-            console.log(`ok UserIn_res ${data.ans}`)
-            if(data.ans === 'error'){
-                console.log(data.exp)
-            } 
-            else if(data.ans === 'ok'){
-                console.log(data.cookie)
-            }
-        })
-    }
+    private SocketService: SocketService
 
     buttonClicked() {
         if (this.hideContent == true){
@@ -33,6 +21,13 @@ export class LoginComponent{
     loginClicked(password, username, event: Event){
         event.preventDefault()
         this.SocketService.emit('UserIn', {email:username , password:password})
+        this.SocketService.listen('UserIn_res').subscribe((data: any) => {
+            if(data.ans === 'error'){
+                console.log(data.exp)
+            } 
+            else if(data.ans === 'ok'){
+                console.log(data.cookie)
+            }
+        }).unsubscribe
     }
-    
 }
