@@ -28,9 +28,9 @@
         <!-- password -->
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input #password type="password" class="form-control" id="password" pattern='.{5,}' required title = 'please enter your password' required>
+          <input #password type="password" class="form-control" id="password" pattern='.{5,}' required title="please enter your password" required>
         </div>
-        <button type="submit" id ='submit' class="btn btn-primary" aria-required="true" (click)='loginClicked(password.value, username.value, $event)'>Login</button>
+        <button type="submit" id ='submit' class="btn btn-primary" aria-required="true" (click)="loginClicked(password.value, username.value, $event)">Login</button>
       </form>
     </div>
 

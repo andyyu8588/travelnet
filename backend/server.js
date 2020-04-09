@@ -110,25 +110,25 @@ io.on('connection', (socket) => {
     // check if username or email already exists & send answer to client
     User.find({email:data.email}, (err,res) => {
       if (err) {
-        socket.emit('create_user_confirmation', 'error')
+        socket.emit('createUser_res', 'error')
         console.log(err)
       }
       else if (res.length === 1) {
-        socket.emit('create_user_confirmation', 'email is taken')
+        socket.emit('createUser_res', 'email is taken')
       }
       else {
         User.find({username:data.username}, (error, res1) => {
           if (error) {    
-            socket.emit('create_user_confirmation', 'error')
+            socket.emit('createUser_res', 'error')
             console.log(error)
           }
           else if (res1.length === 1) {
-            socket.emit('create_user_confirmation', 'username exists')
+            socket.emit('createUser_res', 'username exists')
           }
           else if (res1.length === 0) {
             var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
             newuser.save()
-            socket.emit('create_user_confirmation', 'ok')
+            socket.emit('createUser_res', 'ok')
           }
           else {
             console.log('wtf happened')
