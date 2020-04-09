@@ -11,11 +11,11 @@ export class LoginComponent{
 
     constructor(private SocketService: SocketService){
         this.SocketService.listen('UserIn_res').subscribe((data: any) => {
-            if (data.ans === 'error') {
-                console.log(data.exp)
+            if (data.err) {
+                console.log(data.err)
             } 
-            else if (data.ans === 'ok') {
-                console.log(data.cookie)
+            else if (data.res) {
+                console.log(data.res)
             }
         })
     }
