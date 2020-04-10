@@ -6,20 +6,19 @@ import { Component } from '@angular/core';
     templateUrl:'./registrationpage.component.html'
 })
 export class RegistrationComponent{
-    hideContent = true;
     
-    constructor(private SocketService: SocketService) {
+    visibility: boolean = true
 
+    constructor(private SocketService: SocketService) {
+        if(!(sessionStorage.getItem('username'))){
+            this.visibility = false 
+        } else {
+            this.visibility = true
+        }
     }
 
     buttonClicked() {
-        console.log('bhay cooki: ' + localStorage.getItem('username'))
-        if (this.hideContent == true){
-            this.hideContent = false;
-        }
-        else{
-            this.hideContent = true;
-        }
+        this.visibility = !this.visibility
     }
 
     registerClicked(password, username, email, event: Event){

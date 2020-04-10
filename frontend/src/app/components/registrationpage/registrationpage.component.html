@@ -7,15 +7,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" alt='/socket.io/socket.io.js' defer></script>
     <script src="RegistrationPage.js" defer></script>
 </head>
-<body>
-  <button
-    (click) = 'buttonClicked()'>
-
+<body >
+  <button (click)='buttonClicked()'>
     Registration
-
   </button>
-  <div 
-  [hidden]="hideContent">
+  <div *ngIf='visibility'>
 
     <form id = 'form' (submit)="registerClicked(password.value, username.value, email.value, $event)">
         <h1 class='jumbotron'>Registration</h1>
