@@ -10,6 +10,7 @@ export class LogoutComponent implements OnInit {
   user : boolean
   
   constructor() { 
+    sessionStorage.clear
     if(!(sessionStorage.getItem('username'))){
       this.user = false   
     } else {

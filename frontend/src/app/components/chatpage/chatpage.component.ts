@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
     templateUrl:'./chatpage.component.html'
 })
 export class ChatpageComponent{
-
+    constructor(){
+        sessionStorage.clear()
+        localStorage.clear()
+    }
 }
