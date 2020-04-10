@@ -9,15 +9,15 @@
 </head>
 <body>
   <span>
-  <button
+  <button 
     (click) = 'buttonClicked()'>
 
     Login
 
   </button>
 </span>
-  <div 
-  [hidden]="hideContent">
+  <div *ngIf="!hideContent"
+ >
     <form id = 'form' (submit)="loginClicked(password.value, username.value, $event)">
         <h1 class='jumbotron'>Login</h1>
        <!-- email -->
