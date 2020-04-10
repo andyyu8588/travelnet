@@ -24,19 +24,22 @@ export class RegistrationComponent{
 
     registerClicked(password, username, email, event: Event){
         event.preventDefault()
-        this.SocketService.once('createUser_res').subscribe((data: any) => {
-            if (data.err) {
-                console.log(data.err)
-            } 
-            else if (data.res) {
-                sessionStorage.setItem('username', data.res)
-                console.log(`user created: ${sessionStorage.getItem('username')}`)
-            } else {
-                console.log("c fini")
-                console.log(data)
-            }
-        })
-        this.SocketService.emit('createUser', {email:email, username:username, password:password})
-        
+        if(!(sessionStorage.getItem('username'))){
+            this.SocketService.once('createUser_res').subscribe((data: any) => {
+                if (data.err) {
+                    console.log(data.err)
+                } 
+                else if (data.res) {
+                    sessionStorage.setItem('username', data.res)
+                    console.log(`user created: ${sessionStorage.getItem('username')}`)
+                } else {
+                    console.log("c fini")
+                    console.log(data)
+                }
+            })
+            this.SocketService.emit('createUser', {email:email, username:username, password:password})
+        } else {
+            console.log('nothing')
+        }   
     }
 }

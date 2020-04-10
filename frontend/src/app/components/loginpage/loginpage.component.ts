@@ -23,16 +23,19 @@ export class LoginComponent{
 
     loginClicked(password, username, event: Event){
         event.preventDefault()
-        this.SocketService.once('UserIn_res').subscribe((data: any) => {
-            if (data.err) {
-                console.log(data.err)
-            } 
-            else if (data.res) {
-                sessionStorage.setItem('username', data.res)
-                console.log(sessionStorage.getItem('username'))
-            }
-        })
-        this.SocketService.emit('UserIn', {email:username , password:password})
-        
+        if(!(sessionStorage.getItem('username'))){
+            this.SocketService.once('UserIn_res').subscribe((data: any) => {
+                if (data.err) {
+                    console.log(data.err)
+                } 
+                else if (data.res) {
+                    sessionStorage.setItem('username', data.res)
+                    console.log(sessionStorage.getItem('username'))
+                }
+            })
+            this.SocketService.emit('UserIn', {email:username , password:password})
+        } else {
+            console.log('nothing')
+        }
     }
 }
