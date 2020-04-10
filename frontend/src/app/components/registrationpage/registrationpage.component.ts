@@ -23,7 +23,7 @@ export class RegistrationComponent{
     }
 
     registerClicked(password, username, email, event: Event){
-        event.preventDefault()
+        // event.preventDefault()
         if(!(sessionStorage.getItem('username'))){
             this.SocketService.once('createUser_res').subscribe((data: any) => {
                 if (data.err) {

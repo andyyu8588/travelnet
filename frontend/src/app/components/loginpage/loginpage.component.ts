@@ -22,7 +22,7 @@ export class LoginComponent{
     }
 
     loginClicked(password, username, event: Event){
-        event.preventDefault()
+        // event.preventDefault()
         if(!(sessionStorage.getItem('username'))){
             this.SocketService.once('UserIn_res').subscribe((data: any) => {
                 if (data.err) {
