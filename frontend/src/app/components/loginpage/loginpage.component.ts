@@ -14,7 +14,7 @@ export class LoginComponent{
 
     buttonClicked() {
        this.hideContent = !this.hideContent
-        }
+    }
     
 
     loginClicked(password, username, event: Event){
