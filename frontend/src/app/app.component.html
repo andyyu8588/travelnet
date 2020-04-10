@@ -5,11 +5,11 @@
   <title>Kreygasm</title>
 </head>
 <body>
-  <h1 class="jumbotron">Homepage</h1>
+  <h1 class="jumbotron" id="title">Homepage {{ user }}</h1>
   <div id="tab">
-    <app-registrationpage class="btn"><button>this is the registration page</button></app-registrationpage>
+    <app-registrationpage class="btn" *ngIf='loginstate'><button>this is the registration page</button></app-registrationpage>
     <br>
-    <app-loginpage class="btn">this is the login page</app-loginpage>    
+    <app-loginpage class="btn" *ngIf='loginstate'>this is the login page</app-loginpage>    
   </div>
   <div id="container"></div>
 </body>

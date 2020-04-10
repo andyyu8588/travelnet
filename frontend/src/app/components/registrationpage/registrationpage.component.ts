@@ -9,20 +9,11 @@ export class RegistrationComponent{
     hideContent = true;
     
     constructor(private SocketService: SocketService) {
-        this.SocketService.listen('createUser_res').subscribe((data: any) => {
-            if (data.err) {
-                console.log(data.err)
-            } 
-            else if (data.res) {
-                console.log(`User created, username: ${data.res.username}`)
-            } else {
-                console.log("c fini")
-                console.log(data)
-            }
-        })
+
     }
 
     buttonClicked() {
+        console.log('bhay cooki: ' + localStorage.getItem('username'))
         if (this.hideContent == true){
             this.hideContent = false;
         }
@@ -33,6 +24,18 @@ export class RegistrationComponent{
 
     registerClicked(password, username, email, event: Event){
         event.preventDefault()
+        this.SocketService.once('createUser_res').subscribe((data: any) => {
+            if (data.err) {
+                console.log(data.err)
+            } 
+            else if (data.res) {
+                sessionStorage.setItem('username', data.res)
+                console.log(`user created: ${sessionStorage.getItem('username')}`)
+            } else {
+                console.log("c fini")
+                console.log(data)
+            }
+        })
         this.SocketService.emit('createUser', {email:email, username:username, password:password})
         
     }

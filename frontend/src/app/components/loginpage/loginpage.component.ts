@@ -10,14 +10,6 @@ export class LoginComponent{
     
 
     constructor(private SocketService: SocketService){
-        this.SocketService.listen('UserIn_res').subscribe((data: any) => {
-            if (data.err) {
-                console.log(data.err)
-            } 
-            else if (data.res) {
-                console.log(data.res)
-            }
-        })
     }
 
     buttonClicked() {
@@ -31,6 +23,15 @@ export class LoginComponent{
 
     loginClicked(password, username, event: Event){
         event.preventDefault()
+        this.SocketService.once('UserIn_res').subscribe((data: any) => {
+            if (data.err) {
+                console.log(data.err)
+            } 
+            else if (data.res) {
+                sessionStorage.setItem('username', data.res)
+                console.log(sessionStorage.getItem('username'))
+            }
+        })
         this.SocketService.emit('UserIn', {email:username , password:password})
         
     }

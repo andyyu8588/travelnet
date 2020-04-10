@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
+  loginstate : boolean
+  user = sessionStorage.getItem('username')
+
+  constructor(){
+    if(sessionStorage.getItem('username')){
+      this.loginstate = false
+    } else {
+      this.loginstate = true
+    }
+  }
 }
