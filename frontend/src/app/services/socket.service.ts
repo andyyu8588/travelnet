@@ -28,4 +28,12 @@ export class SocketService {
   emit(eventName: string, data: any){
     this.socket.emit(eventName, data)
   }
+
+  once(eventName: string){
+    return new Observable((sub) => {
+      this.socket.once(eventName, (data) => {
+        sub.next(data)
+      })
+    })
+  }
 }
