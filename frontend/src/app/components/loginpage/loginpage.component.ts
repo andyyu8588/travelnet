@@ -13,13 +13,9 @@ export class LoginComponent{
     }
 
     buttonClicked() {
-        if (this.hideContent == true){
-            this.hideContent = false;
+       this.hideContent = !this.hideContent
         }
-        else{
-            this.hideContent = true;
-        }
-    }
+    
 
     loginClicked(password, username, event: Event){
         // event.preventDefault()
