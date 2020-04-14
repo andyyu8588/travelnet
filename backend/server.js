@@ -173,7 +173,7 @@ io.on('connection', (socket) => {
       } else if (res.length === 1) { // found something
         // return the results
         res.forEach((chatroom) => {
-          socket.emit('searchResult', res)
+          socket.emit('searchChatroom_res', {res: chatroom})
         })
       } else { // nothing in database matching the search
         console.log('no results in database')

@@ -1,8 +1,8 @@
-<div id='hello' *ngFor='let friend of friends' class="row">
-    <div >
-        {{ friend.name }}
-        {{ friend.thumbnail }}
-        {{ friend.status }}
-    </div>
-</div>
 
+<form id='hello'>
+<input #user (keyup.enter)='findFriend_sub(user.value)' id='hello'>
+</form>
+
+<div *ngFor='let friend of friends'>
+    <p style="color: aliceblue;">{{ friend }}</p>
+</div>

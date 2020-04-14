@@ -1,3 +1,4 @@
+import { SocketService } from './../../services/socket.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,20 +7,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./friendlist.component.scss']
 })
 export class FriendlistComponent implements OnInit {
-  friends = [{
-    name : 'f',
-    status: true,
-    thumbnail: 'rhgsr'
-  }, {
-    name : 'f',
-    status: false,
-    thumbnail: 'rhgsr'
-  }]
-  constructor() { }
+  
+  results = []
+  friends = []
+  
+  constructor(private SocketService: SocketService) {
+  }
 
   ngOnInit(): void {
   }
 
-
-
+  findFriend_sub (event){
+    this.friends = []
+    this.SocketService.emit('searchChatroom', event)
+    this.SocketService.once("searchChatroom_res").subscribe((data:any) => {
+      console.log('bhay'+ data.res.Users)
+      this.friends.push(data.res.Users)
+    })
+  }
 }
