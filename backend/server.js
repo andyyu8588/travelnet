@@ -155,6 +155,32 @@ io.on('connection', (socket) => {
     })
   })
 
+  // search chatrooms
+  socket.on('searchChatroom', (searchInput) => {
+    // split the input into words
+    let usersSearched = searchInput.split(" ")
+
+    // check if array is empty
+    if (usersSearched.length === 0) {
+      console.log('no search input')
+    }
+
+    // search the database for the users, or the name of the chatroom
+    Chatroom.find({$or: [{RoomName: usersSearched[0]}, {Users: usersSearched}]}, (err, res) => {
+      // error in search
+      if (err) {
+        console.log(err)
+      } else if (res.length === 1) { // found something
+        // return the results
+        res.forEach((chatroom) => {
+          socket.emit('searchResult', res)
+        })
+      } else { // nothing in database matching the search
+        console.log('no results in database')
+      }
+    })
+  })
+
   // handle chatrooms & assign socket.join(room) w/ chatroom id as room
   socket.on('createChatroom', (data) => {
     if (!socket.room) {
