@@ -27,7 +27,7 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true}, (err)
 
 // create chatroom scheme
 var Chatroom = mongoose.model('Chatroom', {
-  RoomName:String,
+  RoomName : String,
   Usernum : Number,
   Users : Array, 
   Messages : [
@@ -40,10 +40,11 @@ var Chatroom = mongoose.model('Chatroom', {
 
 // create User scheme
 var User = mongoose.model('User', {
-    email : String,
-    username : String,
-    password : String,
-    rooms : Array
+  email : String,
+  username : String,
+  password : String,
+  encounters : Array,
+  rooms : Array
 })
 
 // env.PORT be useless tho

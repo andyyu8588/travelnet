@@ -6,14 +6,14 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
     templateUrl:'./loginpage.component.html'
 })
 export class LoginComponent{
-    hideContent = true;
+    visibility = true;
     
 
     constructor(private SocketService: SocketService){
     }
 
     buttonClicked() {
-       this.hideContent = !this.hideContent
+       this.visibility = !this.visibility
     }
     
 
