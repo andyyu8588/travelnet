@@ -164,7 +164,7 @@ io.on('connection', (socket) => {
       console.log('no search input')
     } else {
       // search the database for the users, or the name of the chatroom
-      Chatroom.find( {$or: [{Users : {$in: searchInput}}, {RoomName: {$in:[searchInput.toString()]}}]}, (err, res) => {
+      Chatroom.find( {$or: [{Users : {$all: searchInput}}, {RoomName: {$in:[searchInput.toString()]}}]}, (err, res) => {
         // error in search
         console.log(res)
         if (err) {
