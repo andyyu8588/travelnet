@@ -3,6 +3,7 @@
 <input #user (keyup.enter)='findFriend_sub(user.value)' id='hello'>
 </form>
 
-<div *ngFor='let friend of friends'>
-    <p style="color: aliceblue;">{{ friend }}</p>
+<div *ngFor='let chatroom of friends, let i = index'>
+    <a style="color: aliceblue;" (click)='openFriend(i)'>{{ chatroom.Users }} {{i}}</a>
+    <div *ngIf='openFriend(i)'> {{ chatroom.Messages }} </div>
 </div>

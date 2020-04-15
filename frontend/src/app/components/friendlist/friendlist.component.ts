@@ -1,5 +1,7 @@
+import { friend } from './friend.model';
 import { SocketService } from './../../services/socket.service';
 import { Component, OnInit } from '@angular/core';
+import { strict } from 'assert';
 
 @Component({
   selector: 'app-friendlist',
@@ -10,7 +12,7 @@ export class FriendlistComponent implements OnInit {
   
   results = []
   friends = []
-  listened: number = 0
+  friendvisibility: boolean
   
   constructor(private SocketService: SocketService) {
   }
@@ -25,9 +27,18 @@ export class FriendlistComponent implements OnInit {
     let polishedArray: string[] = userArr.filter((a,b) => userArr.indexOf(a) === (b))
     this.SocketService.emit('searchChatroom', polishedArray)
     this.SocketService.listen("searchChatroom_res").subscribe((data:any) => {
-      this.friends.push(data.res.Users)
-      this.listened++
-      console.log(`listened ${this.listened}`)
+      (data.res).forEach(element => {
+        this.friends.push(element) 
+      });
     })
   }
+
+  private bool: boolean = false
+  
+  openFriend(e){
+   
+    return this.bool
+    
+  }
+
 }
