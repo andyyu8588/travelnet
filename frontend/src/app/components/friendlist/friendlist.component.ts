@@ -33,12 +33,13 @@ export class FriendlistComponent implements OnInit {
     })
   }
 
-  private bool: boolean = false
-  
-  openFriend(e){
-   
-    return this.bool
-    
-  }
+  public num: number = -1
 
+  openFriend(e: number){
+    if(this.num === e){
+      this.num = -1
+    } else {
+      this.num = e
+    }
+  }
 }
