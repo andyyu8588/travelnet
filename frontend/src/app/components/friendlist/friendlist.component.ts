@@ -22,13 +22,13 @@ export class FriendlistComponent implements OnInit {
   }
 
   findFriend_sub (event){
-    this.friends = []
     let userArr: string[] = event.split(' ')
     let polishedArray: string[] = userArr.filter((a,b) => userArr.indexOf(a) === (b))
     this.SocketService.emit('searchChatroom', polishedArray)
     this.SocketService.listen("searchChatroom_res").subscribe((data:any) => {
+      this.friends = [];
       (data.res).forEach(element => {
-        this.friends.push(element) 
+        this.friends.push(element)
       });
     })
   }

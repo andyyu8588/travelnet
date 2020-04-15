@@ -5,5 +5,10 @@
 
 <div *ngFor='let chatroom of friends, let i = index'>
     <a style="color: rgb(0, 0, 0);" (click)='openFriend(i)'>{{ chatroom.Users }} {{i}}</a>
-    <div *ngIf='num === i'> {{ chatroom.Messages }} </div>
+    <div *ngIf='num === i'>
+        <!-- <div *ngFor='let message of chatroom.Messages[i]'>
+            {{ message }}
+        </div> -->
+        <div>lit</div>
+    </div>
 </div>
