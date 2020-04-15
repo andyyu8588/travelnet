@@ -1,18 +1,21 @@
 import { SocketService } from './../../services/socket.service';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {RegistrationComponent} from '../registrationpage/registrationpage.component';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 
 @Component({
     selector: 'app-loginpage',
     templateUrl:'./loginpage.component.html'
 })
 export class LoginComponent{
-    visibility = true;
+    @Input('loginPage') visibility:boolean = true;
+    
     
 
     constructor(private SocketService: SocketService){
     }
 
     buttonClicked() {
+        if(RegistrationComponent.registrationPage)
        this.visibility = !this.visibility
     }
     

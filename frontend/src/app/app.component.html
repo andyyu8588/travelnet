@@ -5,15 +5,20 @@
   <title></title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" alt='/socket.io/socket.io.js' defer></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2&display=swap');
+</style>
 </head>
+
 <body>
+  <div id="titletab">
   <h1 id="title">Homepage {{ user }}</h1>
 
   <div id="user" class="row">
     <div class="btn" *ngIf='loginstate'><app-registrationpage></app-registrationpage></div>
     <div class="btn" *ngIf='loginstate'><app-loginpage></app-loginpage></div>    
   </div>
-
+</div>
 
     <app-logout></app-logout>
   

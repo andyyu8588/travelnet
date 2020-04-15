@@ -1,13 +1,12 @@
 import { SocketService } from './../../services/socket.service';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-registrationpage',
     templateUrl:'./registrationpage.component.html'
 })
 export class RegistrationComponent{
-    
-    visibility: boolean = true
+    @Input('registrationPage') visibility: boolean = true
 
     constructor(private SocketService: SocketService) {
         if(!(sessionStorage.getItem('username'))){
