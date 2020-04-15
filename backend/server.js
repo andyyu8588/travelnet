@@ -164,16 +164,18 @@ io.on('connection', (socket) => {
       console.log('no search input')
     } else {
       // search the database for the users, or the name of the chatroom
-      Chatroom.find( {$or: [{Users : {$in: searchInput}}, {RoomName: {$in:[searchInput.toString()]}}]}, (err, res) => {
+      Chatroom.find( {$or: [{Users : {$all: searchInput}}, {RoomName: {$in:[searchInput.toString()]}}]}, (err, res) => {
         // error in search
-        console.log(res)
         if (err) {
           console.log(err)
         } else if (res.length) { // found something
           // return the results
-          res.forEach((chatroom) => {
-            socket.emit('searchChatroom_res', {res: chatroom})
+          let resArr = []
+          res.forEach((e)=>{
+            resArr.push(e)
           })
+          socket.emit('searchChatroom_res', {res: resArr})
+          
         } else { // nothing in database matching the search
           console.log('no results in database')
         }
