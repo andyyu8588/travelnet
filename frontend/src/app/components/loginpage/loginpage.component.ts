@@ -15,7 +15,7 @@ export class LoginComponent{
     }
 
     buttonClicked() {
-        if(RegistrationComponent.registrationPage)
+        if(RegistrationComponent)
        this.visibility = !this.visibility
     }
     
