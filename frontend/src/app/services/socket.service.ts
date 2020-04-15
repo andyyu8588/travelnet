@@ -36,4 +36,8 @@ export class SocketService {
       })
     })
   }
+
+  remove(eventName: string){
+    this.socket.removeListener(eventName)
+  }
 }
