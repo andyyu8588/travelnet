@@ -10,7 +10,7 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 export class FriendlistComponent implements OnInit {
   
 
-  friends = ['ok']
+  friends = []
   
   
   constructor(private SocketService: SocketService) {
