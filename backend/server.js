@@ -1,16 +1,15 @@
 const express = require('express')
-// const _ = require('underscore')
-// for comparing array content regardless of order  
 const cookieParser = require('cookie')
 const http = require('http')
-const path = require('path')
+const PORT = process.env.PORT || 3000
+const mongoose = require('mongoose')
+
 const app = express()
 const server = http.createServer(app)
 const io = require('socket.io').listen(server)
-const PORT = process.env.PORT || 3000
-const mongoose = require('mongoose');
-var onlineusers = []
-const functionPage = require('./server2.js');
+
+// to implement with socket.on('disconnect')
+// var onlineusers = []
 
 // set URL:
 var dbURL = 'mongodb://localhost/Travelnet'
@@ -25,26 +24,26 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true}, (err)
   }
 })
 
-// create chatroom scheme
+// create Chatroom scheme
 var Chatroom = mongoose.model('Chatroom', {
-  RoomName : String,
-  Usernum : Number,
+  roomName : String,
+  userNum : Number,
   Users : Array, 
-  Messages : [
-    {content:String,
-    sender:String,
+  messages: [
+    {content: String,
+    sender: String,
     delivered: Boolean,
-    read:Boolean
+    read: Boolean
     }]
 })
 
 // create User scheme
 var User = mongoose.model('User', {
-  email : String,
-  username : String,
-  password : String,
-  encounters : Array,
-  rooms : Array
+  email: String,
+  username: String,
+  password: String,
+  encounters: Array,
+  rooms: Array
 })
 
 // env.PORT be useless tho
@@ -65,10 +64,10 @@ app.get('/*', (req, res) => {
 
 io.on('connection', (socket) => {
 
+  // monkas sa marche
   socket.emit('test', 'monkas sa marche')
-  socket.on('login', (data) => {
-    console.log(`loginreceived ${data.username}, ${data.password}`)
-  })
+
+  // socket helper functions
 
   // handle join room & send back message history
   const joinRoom = (databaseobj, roomnum, message) => {
@@ -85,7 +84,7 @@ io.on('connection', (socket) => {
     if (socket.room) {
       console.log('message handler called')
       socket.on('message', (data) => {
-        databaseobj.Messages.push({
+        databaseobj.messages.push({
           sender: data.sender,
           content: data.msg 
         })
@@ -97,6 +96,13 @@ io.on('connection', (socket) => {
       console.log('message handler monkas')
     }
   }
+
+  // socket responses
+
+  // confirm login has worked
+  socket.on('login', (data) => {
+    console.log(`loginreceived ${data.username}, ${data.password}`)
+  })
 
   // receive and send parsed cookie
   socket.on('cookie', (data) => {
@@ -164,7 +170,7 @@ io.on('connection', (socket) => {
       console.log('no search input')
     } else {
       // search the database for the users, or the name of the chatroom
-      Chatroom.find( {$or: [{Users : {$all: searchInput}}, {RoomName: {$in:[searchInput.toString()]}}]}, (err, res) => {
+      Chatroom.find( {$or: [{Users : {$all: searchInput}}, {roomName: {$in:[searchInput.toString()]}}]}, (err, res) => {
         // error in search
         if (err) {
           console.log(err)
@@ -174,8 +180,7 @@ io.on('connection', (socket) => {
           res.forEach((e)=>{
             resArr.push(e)
           })
-          socket.emit('searchChatroom_res', {res: resArr})
-          
+          socket.emit('searchChatroom_res', {res: resArr})          
         } else { // nothing in database matching the search
           console.log('no results in database')
         }
@@ -187,23 +192,23 @@ io.on('connection', (socket) => {
   socket.on('createChatroom', (data) => {
     if (!socket.room) {
       console.log(`chatroom req for ${data}`)
-      Chatroom.find({Users: data, Usernum: data.length}, (err,res) => {
+      Chatroom.find({Users: data, userNum: data.length}, (err,res) => {
         if (err) {
           console.log(err)
         }
         else if (res.length === 1) {
           console.log('chatroom exists')
-          joinRoom(res[0], res[0].id, res[0].Messages)
+          joinRoom(res[0], res[0].id, res[0].messages)
         }
         else {
-          var newChatroom = new Chatroom({Users : data, RoomName : data.toString(), Messages : [], Usernum: data.length })
+          var newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
           newChatroom.save((err, product) => {
             if (err) {
               console.log(err)
             }
             else {
               console.log('new chatroom created')
-              joinRoom(product, product.id, product.Messages)
+              joinRoom(product, product.id, product.messages)
             }
           })
         }
@@ -232,7 +237,7 @@ io.on('connection', (socket) => {
     })
   })
 
-  // manage disconnections
+  // manage disconnections (to implement)
   // socket.on('disconnect', ()=>{
   //   onlineusers.splice(onlineusers.indexOf(socket),1)
   //   console.log(`${socket.username} disconnected, ${onlineusers.length} online`)
