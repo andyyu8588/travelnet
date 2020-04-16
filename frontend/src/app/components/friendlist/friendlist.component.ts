@@ -1,6 +1,7 @@
 import { friend } from './friend.model';
 import { SocketService } from '../../services/socket/socket.service';
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { FriendlistService } from 'src/app/services/socket/friendlist/friendlist.service';
 
 @Component({
   selector: 'app-friendlist',
@@ -12,8 +13,7 @@ export class FriendlistComponent implements OnInit {
 
   friends = []
   
-  
-  constructor(private SocketService: SocketService) {
+  constructor(private socketService: SocketService, public friendlist: FriendlistService) {
   }
 
   ngOnInit(): void {
@@ -23,8 +23,8 @@ export class FriendlistComponent implements OnInit {
   findFriend_sub (event){
     let userArr: string[] = event.split(' ')
     let polishedArray: string[] = userArr.filter((a,b) => userArr.indexOf(a) === (b))
-    this.SocketService.emit('searchChatroom', polishedArray)
-    this.SocketService.listen("searchChatroom_res").subscribe((data:any) => {
+    this.socketService.emit('searchChatroom', polishedArray)
+    this.socketService.listen("searchChatroom_res").subscribe((data:any) => {
       this.friends = [];
       (data.res).forEach(element => {
         this.friends.push(element)
