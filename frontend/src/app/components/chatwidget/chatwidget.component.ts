@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-chatwidget',
   templateUrl: './chatwidget.component.html',
   styleUrls: ['./chatwidget.component.scss']
 })
-export class ChatwidgetComponent implements OnInit {
+export class ChatwidgetComponent implements OnInit{
 
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit(): void {
   }
