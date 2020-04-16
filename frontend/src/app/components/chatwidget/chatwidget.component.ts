@@ -1,4 +1,4 @@
-import { friend } from './../friend.model';
+import { friend } from '../friendlist/friend.model';
 import { Component, OnInit, Input, Output, DoCheck } from '@angular/core';
 
 @Component({
