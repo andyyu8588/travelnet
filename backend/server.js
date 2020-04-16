@@ -9,7 +9,6 @@ const server = http.createServer(app)
 const io = require('socket.io').listen(server)
 
 // to implement with socket.on('disconnect')
-// var onlineusers = []
 
 // set URL:
 var dbURL = 'mongodb://localhost/Travelnet'
@@ -43,7 +42,12 @@ var User = mongoose.model('User', {
   username: String,
   password: String,
   encounters: Array,
-  rooms: Array
+  rooms: Array,
+  isActive: Boolean, //active vs online
+  log: {
+    in: [],
+    out: []
+  },  
 })
 
 // env.PORT be useless tho
