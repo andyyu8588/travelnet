@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  currentFeature = 'Registration'
+  onNavigate(feature: string){
+    this.currentFeature = feature;
+  }
   title = 'frontend';
   loginstate : boolean
   user = sessionStorage.getItem('username')

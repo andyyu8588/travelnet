@@ -5,20 +5,12 @@ import { Component, Input } from '@angular/core';
     selector: 'app-registrationpage',
     templateUrl:'./registrationpage.component.html'
 })
+
 export class RegistrationComponent{
-    @Input('registrationPage') visibility: boolean = true
-
     constructor(private SocketService: SocketService) {
-        if(!(sessionStorage.getItem('username'))){
-            this.visibility = false 
-        } else {
-            this.visibility = true
-        }
     }
 
-    buttonClicked() {
-        this.visibility = !this.visibility
-    }
+  
 
     registerClicked(password, username, email, event: Event){
         // event.preventDefault()
