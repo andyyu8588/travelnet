@@ -1,4 +1,4 @@
-import { SocketService } from './../../services/socket.service';
+import { SocketService } from '../../services/socket/socket.service';
 import {RegistrationComponent} from '../registrationpage/registrationpage.component';
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 

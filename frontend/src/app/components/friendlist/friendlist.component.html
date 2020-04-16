@@ -2,13 +2,9 @@
 <form id='hello'>
 <input #user (keyup.enter)='findFriend_sub(user.value)' id='hello'>
 </form>
-
-<div *ngFor='let chatroom of friends, let i = index'>
-    <a style="color: rgb(0, 0, 0);" (click)='openFriend(i)'>{{ chatroom.Users }} {{i}}</a>
-    <div *ngIf='num === i'>
-        <!-- <div *ngFor='let message of chatroom.Messages[i]'>
-            {{ message }}
-        </div> -->
-        <div>lit</div>
+<div>
+    <div *ngFor='let chatroom of friends, let i = index'>
+        <a style="color: rgb(0, 0, 0);" (click)='openFriend(i)'>{{ chatroom.Users }}</a>
+        <div *ngIf='num === i'>lit</div>
     </div>
 </div>

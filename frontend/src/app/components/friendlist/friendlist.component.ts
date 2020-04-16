@@ -1,7 +1,6 @@
 import { friend } from './friend.model';
-import { SocketService } from './../../services/socket.service';
-import { Component, OnInit } from '@angular/core';
-import { strict } from 'assert';
+import { SocketService } from '../../services/socket/socket.service';
+import { Component, OnInit, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-friendlist',
@@ -10,9 +9,9 @@ import { strict } from 'assert';
 })
 export class FriendlistComponent implements OnInit {
   
-  results = []
-  friends = []
-  friendvisibility: boolean
+
+  friends = ['ok']
+  
   
   constructor(private SocketService: SocketService) {
   }
