@@ -17,8 +17,8 @@
 
 <body>
   <header-navbar (featureSelected)="onNavigate($event)"></header-navbar>
-<div *ngIf='currentFeature === "Registration"'><app-registrationpage></app-registrationpage></div>
-<div *ngIf='currentFeature === "Login"'><app-loginpage></app-loginpage></div>
+<div ><app-registrationpage *ngIf='currentFeature === "Registration"'></app-registrationpage></div>
+<div ><app-loginpage *ngIf='currentFeature === "Login"'></app-loginpage></div>
 
 
   <app-logout></app-logout>
