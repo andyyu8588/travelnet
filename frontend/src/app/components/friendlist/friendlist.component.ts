@@ -33,7 +33,6 @@ export class FriendlistComponent implements OnInit {
   }
 
   public num: number = -1
-
   openFriend(e: number){
     if(this.num === e){
       this.num = -1
