@@ -1,5 +1,7 @@
-<input type="text">
-<app-friend
-    *ngFor="let friend of friends"
-    [friend] = "friend">
-</app-friend>
+<div class = 'static-right' id="friendlist">
+    <app-friend
+        *ngFor="let friend of friends"
+        [friend] = "friend">
+    </app-friend>
+    <input #input type="text" (keyup)="onKey(input.value)">
+</div>

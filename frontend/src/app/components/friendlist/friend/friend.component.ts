@@ -7,6 +7,7 @@ import { friend } from './friend.model';
   styleUrls: ['./friend.component.scss']
 })
 export class FriendComponent implements OnInit {
+
   @Input() friend:friend
 
   constructor() { }

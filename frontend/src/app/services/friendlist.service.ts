@@ -7,15 +7,17 @@ import { friend } from '../components/friendlist/friend/friend.model';
 })
 export class FriendlistService {
 
-  private list: Array<friend>
+  public list: Array<friend> = []
 
   constructor(private socketService: SocketService) { }
 
   initList(polishedArray){
+    this.list=[]
     this.socketService.once("searchChatroom_res").subscribe((data:any) => {
       (data.res).forEach(element => {
         this.list.push({
-          username: element.Username,
+          username: element.Users,
+
         })
       });
     })

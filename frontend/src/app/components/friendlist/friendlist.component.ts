@@ -9,35 +9,17 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
   styleUrls: ['./friendlist.component.scss']
 })
 export class FriendlistComponent implements OnInit {
+  friends= []
+  onKey(any){
+    this.friendlist.initList(any)
+    this.friends = this.friendlist.list
+  }
   
-
-  friends = []
-  
-  constructor(private socketService: SocketService, public friendlist: FriendlistService) {
+  constructor(private socketService: SocketService, private friendlist: FriendlistService) {
   }
 
   ngOnInit(): void {
     
   }
 
-  findFriend_sub (event){
-    let userArr: string[] = event.split(' ')
-    let polishedArray: string[] = userArr.filter((a,b) => userArr.indexOf(a) === (b))
-    this.socketService.emit('searchChatroom', polishedArray)
-    this.socketService.listen("searchChatroom_res").subscribe((data:any) => {
-      this.friends = [];
-      (data.res).forEach(element => {
-        this.friends.push(element)
-      });
-    })
-  }
-
-  public num: number = -1
-  openFriend(e: number){
-    if(this.num === e){
-      this.num = -1
-    } else {
-      this.num = e
-    }
-  }
 }
