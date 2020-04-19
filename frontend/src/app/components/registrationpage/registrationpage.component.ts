@@ -15,7 +15,7 @@ session:boolean = this.sessionService.session()
 
   
 
-    registerClicked(password, username, email, event: Event){
+    registerClicked(password, username, email){
         // event.preventDefault()
         if(!(sessionStorage.getItem('username'))){
             this.SocketService.once('createUser_res').subscribe((data: any) => {
@@ -31,6 +31,7 @@ session:boolean = this.sessionService.session()
                     console.log(data)
                 }
             })
+            console.log('register sent')
             this.SocketService.emit('createUser', {email:email, username:username, password:password})
         } else {
             console.log('nothing')

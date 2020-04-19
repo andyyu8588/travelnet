@@ -117,35 +117,44 @@ io.on('connection', (socket) => {
 
   // save new users in database
   socket.on('createUser', (data) => {
-
-    // check if username or email already exists & send answer to client
-    User.find({email:data.email}, (err,res) => {
-      if (err) {
-        console.log(err)
+    let x = 0
+    for(let key in data){
+      if(data[key] === ''){
+        x++
+        console.log(`error ${key} is empty`)
       }
-      else if (res.length === 1) {
-        socket.emit('createUser_res', {err: 'email is taken'})
-      }
-      else {
-        User.find({username:data.username}, (error, res1) => {
-          if (error) {    
-            socket.emit('createUser_res', {err: 'error'})
-            console.log(error)
-          }
-          else if (res1.length === 1) {
-            socket.emit('createUser_res', {err: 'username exists'})
-          }
-          else if (res1.length === 0) {
-            var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
-            newuser.save()
-            socket.emit('createUser_res', {res: newuser})
-          }
-          else {
-            console.log('wtf happened')
-          }
-        })
-      }
-    })
+    } 
+    if(x === 0){
+      // check if username or email already exists & send answer to client
+      User.find({email:data.email}, (err,res) => {
+        console.log('searched')
+        if (err) {
+          console.log(err)
+        }
+        else if (res.length === 1) {
+          socket.emit('createUser_res', {err: 'email is taken'})
+        }
+        else {
+          User.find({username:data.username}, (error, res1) => {
+            if (error) {    
+              socket.emit('createUser_res', {err: 'error'})
+              console.log(error)
+            }
+            else if (res1.length === 1) {
+              socket.emit('createUser_res', {err: 'username exists'})
+            }
+            else if (res1.length === 0) {
+              var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
+              newuser.save()
+              socket.emit('createUser_res', {res: newuser})
+            }
+            else {
+              console.log('wtf happened')
+            }
+          })
+        }
+      })
+    }
   })
 
   socket.on('searchUser', (data) => {

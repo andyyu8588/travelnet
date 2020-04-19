@@ -1,4 +1,4 @@
-<div class = 'right' id="friendlist" >
+<div class='right' id="friendlist" *ngIf='session' >
     <app-friend
         *ngFor="let friend of friends"
         [friend] = "friend">
