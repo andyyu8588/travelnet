@@ -1,5 +1,6 @@
 import { SocketService } from '../../services/socket.service';
 import { Component, Input } from '@angular/core';
+import{SessionService} from '../../services/session.service'
 
 @Component({
     selector: 'app-registrationpage',
@@ -7,7 +8,9 @@ import { Component, Input } from '@angular/core';
 })
 
 export class RegistrationComponent{
-    constructor(private SocketService: SocketService) {
+session:boolean = this.sessionService.session()
+
+    constructor(private SocketService: SocketService, private sessionService:SessionService) {
     }
 
   
@@ -22,6 +25,7 @@ export class RegistrationComponent{
                 else if (data.res) {
                     sessionStorage.setItem('username', data.res)
                     console.log(`user created: ${sessionStorage.getItem('username')}`)
+                    location.reload();
                 } else {
                     console.log("c fini")
                     console.log(data)

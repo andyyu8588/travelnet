@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import{SessionService} from '../../services/session.service'
 
 @Component({
   selector: 'app-logout',
@@ -6,25 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-  
-  session(): any   {
-    if(sessionStorage.getItem('username')){
-      return true
-    } else {
-      return false
-    }
-  }
+session:boolean = this.sessionService.session()
+ 
+  constructor(private sessionService:SessionService) {}
 
-  hideContent : boolean
-  user : boolean
-  
-  constructor() { 
-    if(!(sessionStorage.getItem('username'))){
-      this.user = false   
-    } else {
-      this.user = true
-    }
-  } 
 
   ngOnInit(): void {
     
