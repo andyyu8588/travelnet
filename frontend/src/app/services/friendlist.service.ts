@@ -16,11 +16,11 @@ export class FriendlistService {
 
   //gets list of chatrooms with corresponding properties than user's query
   getList(array: string[]){
-    this.chatroomlist=[]
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     this.socketService.once("searchChatroom_res").subscribe((data:any) => {
+      this.chatroomlist = [];
       (data.res).forEach(element => {
-        this.chatroomlist.push({
+          this.chatroomlist.push({
           roomName: element.roomName,
         })
       });
@@ -31,6 +31,7 @@ export class FriendlistService {
 
   openRoom(users: string){
     let array: string[] = users.split(' ')
+    array.push(sessionStorage.getItem('username'))
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     this.socketService.once('createChatroom_res').subscribe((data:any) => {
 

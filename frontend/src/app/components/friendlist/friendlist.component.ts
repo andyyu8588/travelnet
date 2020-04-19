@@ -24,8 +24,13 @@ export class FriendlistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.friendlist.getList([sessionStorage.getItem('username')])
-    this.friends = this.friendlist.chatroomlist
+    if(this.session === true){
+      let user = sessionStorage.getItem('username')
+      this.friendlist.getList([user])
+      this.friends = this.friendlist.chatroomlist
+    } else {
+      console.log(`not logged in`)
+    }
   }
 
 }

@@ -1,16 +1,18 @@
-<div class="container col-3">
+<div class="container col-3" *ngIf='session'>
     <p>join room and message</p>
+    <form (submit)='createRoom(room.value)'>
     <label for="room">receiver(s)</label>
-    <input #room id='room' type="text" (submit)='createRoom(room.value)' [readonly]='readonly'>
+    <input #room id='room' type="text"  [readOnly]='readonly'>
+    </form> 
     <br>
 
     <div #textarea >
         
     </div>
-    
+
     <br>
     <label for="msg">message</label>
     <form (submit)='sendMessage(msg.value)'>
-    <input #msg type="text">
+    <input #msg type="text" [readOnly]='typeonly'> 
     </form> 
 </div>

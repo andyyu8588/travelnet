@@ -7,7 +7,7 @@ export class SessionService {
 
   constructor() { }
 
-  session(): any   {
+  session(): any {
     if(sessionStorage.getItem('username')){
       return true
     } else {

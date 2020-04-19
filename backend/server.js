@@ -183,7 +183,7 @@ io.on('connection', (socket) => {
       console.log('no search input')
     } else {
       // search for chatroom which includes {sender & all of searched users} || {matching roomMane}
-      Chatroom.find( {$or: [{$and:[{Users: {$in: data.sender}}, {Users : {$in: data.res}}]}, {roomName: {$in:[data.req.toString()]}}]}, (err, res) => {
+      Chatroom.find( {$or: [{$and:[{Users: {$in: data.sender}}, {Users : {$in: data.req}}]}, {roomName: {$in:[data.req.toString()]}}]}, (err, res) => {
         // error in search
         if (err) {
           console.log(err)
@@ -251,8 +251,7 @@ io.on('connection', (socket) => {
   })
 
   // manage disconnections (to implement)
-  // socket.on('disconnect', ()=>{
-  //   onlineusers.splice(onlineusers.indexOf(socket),1)
-  //   console.log(`${socket.username} disconnected, ${onlineusers.length} online`)
-  // })
+  socket.on('disconnect', ()=>{
+    console.log(`${socket.username} disconnected`)
+  })
 })
