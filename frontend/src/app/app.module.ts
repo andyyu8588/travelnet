@@ -10,6 +10,7 @@ import { ChatwidgetComponent } from './components/chatwidget/chatwidget.componen
 import { FriendlistComponent } from './components/friendlist/friendlist.component';
 import {HeaderComponent} from './components/header/header.component';
 import { FriendComponent } from './components/friendlist/friend/friend.component';
+import { MapComponent } from './components/map/map.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,7 @@ import { FriendComponent } from './components/friendlist/friend/friend.component
     FriendlistComponent,
     HeaderComponent,
     FriendComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
