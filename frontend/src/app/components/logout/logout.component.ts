@@ -6,17 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-  session = () => {
-    let x = sessionStorage.getItem('username')
-    if(x){
+  
+  session(): any   {
+    if(sessionStorage.getItem('username')){
       return true
+    } else {
+      return false
     }
   }
+
   hideContent : boolean
   user : boolean
   
   constructor() { 
-    sessionStorage.clear
     if(!(sessionStorage.getItem('username'))){
       this.user = false   
     } else {
