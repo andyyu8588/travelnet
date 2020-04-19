@@ -9,6 +9,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { ChatwidgetComponent } from './components/chatwidget/chatwidget.component';
 import { FriendlistComponent } from './components/friendlist/friendlist.component';
 import {HeaderComponent} from './components/header/header.component';
+import { FriendComponent } from './components/friendlist/friend/friend.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +19,7 @@ import {HeaderComponent} from './components/header/header.component';
     ChatwidgetComponent,
     FriendlistComponent,
     HeaderComponent,
+    FriendComponent,
   ],
   imports: [
     BrowserModule,

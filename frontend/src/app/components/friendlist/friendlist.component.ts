@@ -1,4 +1,4 @@
-import { friend } from './friend.model';
+import { friend } from './friend/friend.model';
 import { SocketService } from 'src/app/services/socket.service';
 import { Component, OnInit} from '@angular/core';
 import { FriendlistService } from 'src/app/services/friendlist.service';
