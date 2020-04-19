@@ -57,13 +57,13 @@ server.listen(3000, () => {
 
 // send homepage
 app.get('/', (req, res) => {
-  res.sendFile((__dirname + '/Welcome.html'))
+  res.sendFile((__dirname + '/keep the trash/Welcome.html'))
 })
 
 // redirect to any page (scripts)
 app.get('/*', (req, res) => {
   page = req.params
-  res.sendFile(__dirname + '/' + page[0])
+  res.sendFile(__dirname + '/keep the trash/' + page[0])
 })
 
 io.on('connection', (socket) => {
