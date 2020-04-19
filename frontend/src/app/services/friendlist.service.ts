@@ -1,31 +1,41 @@
+import { RoomWidget } from './../components/friendlist/friend/Room_Widget.model';
 import { SocketService } from './socket.service';
 import { Injectable } from '@angular/core';
-import { friend } from '../components/friendlist/friend/friend.model';
-import { ArrayType } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FriendlistService {
 
-  public list: Array<friend> = []
+  //holds list of chatrooms
+  public chatroomlist: Array<RoomWidget> = []
 
-  constructor(private socketService: SocketService) { }
+  constructor(private socketService: SocketService) {
 
-    getList(array: string[]){
-    this.list=[]
+  }
+
+  //gets list of chatrooms with corresponding properties than user's query
+  getList(array: string[]){
+    this.chatroomlist=[]
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
-    console.log(polishedarr)
     this.socketService.once("searchChatroom_res").subscribe((data:any) => {
       (data.res).forEach(element => {
-        this.list.push({
-          username: element.Users,
-
+        this.chatroomlist.push({
+          roomName: element.roomName,
         })
       });
     })
-    //sends array of users in alphabeltical order
+    //sends array of users in alphabeltical order 
     this.socketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr})
+  }
+
+  openRoom(users: string){
+    let array: string[] = users.split(' ')
+    let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
+    this.socketService.once('createChatroom_res').subscribe((data:any) => {
+
+    })
+    this.socketService.emit('createChatroom', polishedarr)
   }
 }
 

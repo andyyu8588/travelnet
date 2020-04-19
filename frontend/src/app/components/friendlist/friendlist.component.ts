@@ -1,5 +1,5 @@
 import { SessionService } from './../../services/session.service';
-import { friend } from './friend/friend.model';
+import { RoomWidget } from './friend/Room_Widget.model';
 import { Component, OnInit} from '@angular/core';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 
@@ -10,12 +10,12 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
 })
 export class FriendlistComponent implements OnInit {
   session: boolean = this.SessionService.session()
-  friends: friend[] = []
+  friends: RoomWidget[] = []
 
   onKey(data: string){
     let arr: string[] = data.split(' ')
     this.friendlist.getList(arr)
-    this.friends = this.friendlist.list
+    this.friends = this.friendlist.chatroomlist
   }
   
   constructor(
@@ -24,7 +24,8 @@ export class FriendlistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.friendlist.getList([sessionStorage.getItem('username')])
+    this.friends = this.friendlist.chatroomlist
   }
 
 }

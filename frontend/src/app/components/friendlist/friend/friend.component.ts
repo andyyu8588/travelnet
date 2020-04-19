@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Type, Input } from '@angular/core';
-import { friend } from './friend.model';
+import { RoomWidget } from './Room_Widget.model';
 
 @Component({
   selector: 'app-friend',
@@ -8,7 +8,7 @@ import { friend } from './friend.model';
 })
 export class FriendComponent implements OnInit {
 
-  @Input() friend:friend
+  @Input() friend:RoomWidget
 
   constructor() { }
 
