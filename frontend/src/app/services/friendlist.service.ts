@@ -1,6 +1,7 @@
 import { SocketService } from './socket.service';
 import { Injectable } from '@angular/core';
 import { friend } from '../components/friendlist/friend/friend.model';
+import { ArrayType } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +24,10 @@ export class FriendlistService {
     })
     this.socketService.emit('searchChatroom', polishedArray)
   }
+}
+
+
+let polishedArray = (a:string,b:string,userArray:Array<string>):Array<string>=>
+{
+  return userArray.filter((a,b) => userArray.indexOf(a) === (b))
 }
