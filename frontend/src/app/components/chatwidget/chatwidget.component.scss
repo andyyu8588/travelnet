@@ -1,6 +1,11 @@
 .container{
     position: fixed;
-    bottom: 1%  ;
+    bottom: 1% ;
     margin: 1%;
-    background-color: white;
+    padding-bottom: 1%;
+    background-color: rgba(255,255,255, 0.5);
+}
+
+label {
+    margin-right: 1%;
 }

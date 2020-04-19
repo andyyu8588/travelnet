@@ -1,11 +1,16 @@
 <div class="container col-3">
     <p>join room and message</p>
+    <label for="room">receiver(s)</label>
+    <input #room id='room' type="text" (submit)='createRoom(room.value)' [readonly]='readonly'>
     <br>
-    <label for="room">room name</label>
-    <input #room id='room' type="text" (submit)='createRoom(room.value)'>
-    <br>
-    <div id='textarea'></div>
+
+    <div #textarea >
+        
+    </div>
+    
     <br>
     <label for="msg">message</label>
+    <form (submit)='sendMessage(msg.value)'>
     <input #msg type="text">
+    </form> 
 </div>
