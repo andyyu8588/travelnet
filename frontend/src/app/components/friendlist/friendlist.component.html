@@ -1,7 +1,7 @@
-<div class = 'static-right' id="friendlist">
+<div class = 'right' id="friendlist" >
     <app-friend
         *ngFor="let friend of friends"
         [friend] = "friend">
     </app-friend>
-    <input #input type="text" (keyup)="onKey(input.value)">
+    <input #input type="text" (keyup)="onKey(input.value)" placeholder="Find a Chatroom">
 </div>
