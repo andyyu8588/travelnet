@@ -175,15 +175,15 @@ io.on('connection', (socket) => {
   })
 
   // search chatrooms
-  socket.on('searchChatroom', (searchInput) => {
+  socket.on('searchChatroom', (data) => {
     //expect array of users in alphabetical order
 
     // check if array is empty
-    if (searchInput.length === 0) {
+    if (data.req.length === 0) {
       console.log('no search input')
     } else {
-      // search the database for the users, or the name of the chatroom
-      Chatroom.find( {$or: [{Users : {$all: searchInput}}, {roomName: {$in:[searchInput.toString()]}}]}, (err, res) => {
+      // search for chatroom which includes {sender & all of searched users} || {matching roomMane}
+      Chatroom.find( {$or: [{$and:[{Users: {$in: data.sender}}, {Users : {$in: data.res}}]}, {roomName: {$in:[data.req.toString()]}}]}, (err, res) => {
         // error in search
         if (err) {
           console.log(err)

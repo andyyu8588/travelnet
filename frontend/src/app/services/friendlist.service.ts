@@ -12,8 +12,10 @@ export class FriendlistService {
 
   constructor(private socketService: SocketService) { }
 
-  initList(polishedArray){
+    getList(array: string[]){
     this.list=[]
+    let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
+    console.log(polishedarr)
     this.socketService.once("searchChatroom_res").subscribe((data:any) => {
       (data.res).forEach(element => {
         this.list.push({
@@ -22,12 +24,8 @@ export class FriendlistService {
         })
       });
     })
-    this.socketService.emit('searchChatroom', polishedArray)
+    //sends array of users in alphabeltical order
+    this.socketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr})
   }
 }
 
-
-let polishedArray = (a:string,b:string,userArray:Array<string>):Array<string>=>
-{
-  return userArray.filter((a,b) => userArray.indexOf(a) === (b))
-}
