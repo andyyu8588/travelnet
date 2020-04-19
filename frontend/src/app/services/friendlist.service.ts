@@ -1,5 +1,4 @@
-import { friend } from './../../../components/friendlist/friend.model';
-import { SocketService } from './../socket.service';
+import { SocketService } from './socket.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
