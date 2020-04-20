@@ -14,7 +14,7 @@ export class AppComponent {
   
   }
 
-  onNavigate(feature: string) {
+  onNavigate(feature: any) {
     this.currentFeature = feature;
   }
 }
