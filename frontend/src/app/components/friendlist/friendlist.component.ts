@@ -13,11 +13,6 @@ export class FriendlistComponent implements OnInit {
   friends: RoomWidget[] = []
   private friends_sub: any
 
-  onKey(data: string){
-    let arr: string[] = data.split(' ')
-    this.friendlistService.getList(arr)
-  }
-  
   constructor(
     private friendlistService: FriendlistService,
     private SessionService: SessionService) {
@@ -35,4 +30,14 @@ export class FriendlistComponent implements OnInit {
     
   }
 
+  //update friendlist on each key press
+  onKey(data: string) {
+    let arr: string[] = data.split(' ')
+    this.friendlistService.getList(arr)
+  }
+  
+  //open or close chat widget
+  toggleChatWidget(room: {[key: string]: any}) {
+    
+  }
 }

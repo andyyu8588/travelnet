@@ -21,6 +21,7 @@ export class ChatwidgetComponent implements OnInit{
     private socketService: SocketService,
     public sessionService: SessionService ){ 
   
+    //listen for messages & add display them
     this.socketService.listen('message_res').subscribe((data: any) => {
       const ul: HTMLParagraphElement = this.renderer.createElement('ul');
       ul.innerHTML = `${data.sender === this.username ? "you" : data.sender}: ${data.content}`
@@ -32,11 +33,12 @@ export class ChatwidgetComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  createRoom(data: string){
+  //open or create Chatroom
+  createRoom(data: string) {
     console.log('createroom called')
     this.frienlistService.openRoom(data)
     this.socketService.once('createChatroom_res').subscribe((data: any) => {
-      if(data.res){
+      if(data.res) {
         this.readonly = true
         this.typeonly = false
         data.res.forEach((element) => {
@@ -50,7 +52,8 @@ export class ChatwidgetComponent implements OnInit{
     })
   }
 
-  sendMessage(data: string){
+  //send message with socket
+  sendMessage(data: string) {
     this.socketService.emit('message', {sender: this.username, content: data})
   }
 }

@@ -253,6 +253,6 @@ io.on('connection', (socket) => {
 
   // manage disconnections (to implement)
   socket.on('disconnect', ()=>{
-    console.log(`${socket.username} disconnected`)
+    console.log(`disconnected`)
   })
 })

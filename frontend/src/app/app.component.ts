@@ -7,18 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   currentFeature = 'Registration'
-  onNavigate(feature: string){
-    this.currentFeature = feature;
-  }
   title = 'frontend';
-  loginstate : boolean
   user = sessionStorage.getItem('username')
 
   constructor(){
-    if(sessionStorage.getItem('username')){
-      this.loginstate = false
-    } else {
-      this.loginstate = true
-    }
+  
+  }
+
+  onNavigate(feature: string) {
+    this.currentFeature = feature;
   }
 }

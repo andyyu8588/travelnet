@@ -8,14 +8,15 @@ import{SessionService} from '../../services/session.service'
 })
 
 export class RegistrationComponent{
-session:boolean = this.sessionService.session()
+    session: boolean = this.sessionService.session()
 
     constructor(private SocketService: SocketService, private sessionService:SessionService) {
+        
     }
 
   
-
-    registerClicked(password, username, email){
+    //send register request with socket
+    registerClicked(password: string, username: string, email: string){
         // event.preventDefault()
         if(!(sessionStorage.getItem('username'))){
             this.SocketService.once('createUser_res').subscribe((data: any) => {

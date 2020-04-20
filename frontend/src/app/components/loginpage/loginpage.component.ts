@@ -7,13 +7,13 @@ import{SessionService} from '../../services/session.service'
 })
 
 export class LoginComponent{
-session:boolean = this.sessionService.session()
-
-
+    session:boolean = this.sessionService.session()
 
     constructor(private SocketService: SocketService, private sessionService:SessionService){
+
     }
 
+    //handle user login with socket
     loginClicked(password, username, event: Event){
         if(!(sessionStorage.getItem('username'))){
             this.SocketService.once('UserIn_res').subscribe((data: any) => {

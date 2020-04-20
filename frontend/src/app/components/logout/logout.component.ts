@@ -7,16 +7,18 @@ import{SessionService} from '../../services/session.service'
   styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-session:boolean = this.sessionService.session()
+  session:boolean = this.sessionService.session()
  
-  constructor(private sessionService:SessionService) {}
+  constructor(private sessionService:SessionService) {
 
+  }
 
   ngOnInit(): void {
     
   }
 
-  logout(){
+  //logout user
+  logout() {
     sessionStorage.clear()
     console.log('session cleared')
     window.location.reload()

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Type, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { RoomWidget } from './Room_Widget.model';
 
 @Component({
@@ -8,11 +8,19 @@ import { RoomWidget } from './Room_Widget.model';
 })
 export class FriendComponent implements OnInit {
 
-  @Input() friend:RoomWidget
+  @Input() friend: RoomWidget
 
-  constructor() { }
+  constructor() {
+
+  }
 
   ngOnInit(): void {
+
+  }
+
+  //open or close chat widget (maybe here or in friendlist)
+  toggleChatWidget(room: {[key: string]: any}) {
+    console.log(room)
   }
 
 }
