@@ -12,6 +12,7 @@ export class ChatwidgetComponent implements OnInit{
   readonly: boolean = false
   typeonly: boolean = true
   session: boolean = this.sessionService.session()
+  username: string = sessionStorage.getItem('username')
   @ViewChild('textarea') div: ElementRef
 
   constructor(
@@ -22,7 +23,7 @@ export class ChatwidgetComponent implements OnInit{
   
     this.socketService.listen('message_res').subscribe((data: any) => {
       const ul: HTMLParagraphElement = this.renderer.createElement('ul');
-      ul.innerHTML = data.res.content
+      ul.innerHTML = `${data.sender === this.username ? "you" : data.sender}: ${data.content}`
       this.renderer.appendChild(this.div.nativeElement, ul)
     })
   
@@ -38,9 +39,9 @@ export class ChatwidgetComponent implements OnInit{
       if(data.res){
         this.readonly = true
         this.typeonly = false
-        data.forEach((element) => {
+        data.res.forEach((element) => {
           const ul: HTMLParagraphElement = this.renderer.createElement('ul');
-          ul.innerHTML = element.content
+          ul.innerHTML = `${element.sender === this.username ? "you" : element.sender}: ${element.content}`
           this.renderer.appendChild(this.div.nativeElement, ul)
         })
       } else {
@@ -50,6 +51,6 @@ export class ChatwidgetComponent implements OnInit{
   }
 
   sendMessage(data: string){
-    this.socketService.emit('message', {sender: sessionStorage.getItem('username'), content: data})
+    this.socketService.emit('message', {sender: this.username, content: data})
   }
 }

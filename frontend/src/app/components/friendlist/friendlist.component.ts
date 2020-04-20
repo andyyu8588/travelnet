@@ -1,6 +1,6 @@
 import { SessionService } from './../../services/session.service';
 import { RoomWidget } from './friend/Room_Widget.model';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 
 @Component({
@@ -11,26 +11,28 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
 export class FriendlistComponent implements OnInit {
   session: boolean = this.SessionService.session()
   friends: RoomWidget[] = []
+  private friends_sub: any
 
   onKey(data: string){
     let arr: string[] = data.split(' ')
-    this.friendlist.getList(arr)
-    this.friends = this.friendlist.chatroomlist
+    this.friendlistService.getList(arr)
   }
   
   constructor(
-    private friendlist: FriendlistService,
+    private friendlistService: FriendlistService,
     private SessionService: SessionService) {
-  }
-
-  ngOnInit(): void {
+    
+    //subscrive to friendlist observable 
     if(this.session === true){
-      let user = sessionStorage.getItem('username')
-      this.friendlist.getList([user])
-      this.friends = this.friendlist.chatroomlist
+      this.friends_sub = this.friendlistService.chatroomlist.subscribe(x => this.friends = x)
+      this.friendlistService.getList([sessionStorage.getItem('username')])
     } else {
       console.log(`not logged in`)
     }
+  }
+
+  ngOnInit(): void {
+    
   }
 
 }

@@ -90,11 +90,11 @@ io.on('connection', (socket) => {
       socket.on('message', (data) => {
         databaseobj.messages.push({
           sender: data.sender,
-          content: data.msg 
+          content: data.content 
         })
         databaseobj.save()
         socket.emit('message_res', data)
-        socket.in(`${socket.room}`).emit('message_res', {res: data})
+        socket.in(`${socket.room}`).emit('message_res', data)
       })
     } else {
       console.log('message handler monkas')
@@ -196,6 +196,7 @@ io.on('connection', (socket) => {
           socket.emit('searchChatroom_res', {res: resArr})          
         } else { // nothing in database matching the search
           console.log('no results in database')
+          socket.emit('searchChatroom_res', 'nothing found')
         }
       })
     }
