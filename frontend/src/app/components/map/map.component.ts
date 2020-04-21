@@ -24,7 +24,7 @@ export class MapComponent implements OnInit {
 
     this.map = new Mapboxgl.Map({
       container: 'mapbox', // container id
-      style: 'mapbox://styles/travelnet/ck999d60d0ntr1jpmyv5losin',
+      style: 'mapbox://styles/travelnet/ck99afyp80hhu1iqrodjf1brl',
       center: [-74.5, 40], // starting position
       zoom: 9 // starting zoom
     });

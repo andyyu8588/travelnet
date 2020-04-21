@@ -3,7 +3,8 @@ import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import{SessionService} from '../../services/session.service'
 @Component({
     selector: 'app-loginpage',
-    templateUrl:'./loginpage.component.html'
+    templateUrl:'./loginpage.component.html',
+    styleUrls: ['./loginpage.component.scss']
 })
 
 export class LoginComponent{
