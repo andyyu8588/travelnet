@@ -8,12 +8,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class FriendlistService {
 
-  //holds list of chatrooms
+  //lists of variables (eg: chatrooms, open chatWidgets)
   private roomarr: RoomWidget[] = []
+  private widgetarr: Array<string> = []
 
   //creating observable
-  _chatroomlist: BehaviorSubject<RoomWidget[]> = new BehaviorSubject(this.roomarr)
-  public chatroomlist: Observable<RoomWidget[]> = this._chatroomlist.asObservable()
+  _chatroomList: BehaviorSubject<RoomWidget[]> = new BehaviorSubject(this.roomarr)
+  public chatroomList: Observable<RoomWidget[]> = this._chatroomList.asObservable()
+
+  _openWidgets: BehaviorSubject<string[]> = new BehaviorSubject(this.widgetarr)
+  public openWidgets: Observable<string[]> = this._openWidgets.asObservable()
 
   constructor(private socketService: SocketService) {
 
@@ -24,14 +28,14 @@ export class FriendlistService {
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     this.socketService.once("searchChatroom_res").subscribe((data:any) => {
       this.roomarr = []
-      this._chatroomlist.next(this.roomarr)
+      this._chatroomList.next(this.roomarr)
       if(data.res){
         (data.res).forEach(element => {
           this.roomarr.push({
             roomName: element.roomName,
           })
         });
-        this._chatroomlist.next(this.roomarr)
+        this._chatroomList.next(this.roomarr)
       } else {
       }
     })
@@ -44,9 +48,21 @@ export class FriendlistService {
     array.push(sessionStorage.getItem('username'))
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     this.socketService.once('createChatroom_res').subscribe((data:any) => {
-
     })
     this.socketService.emit('createChatroom', polishedarr)
+  }
+
+  toggleChatWidget(roomName: string): any{
+    if(this.widgetarr.includes(roomName)){
+      console.log('here')
+      let i = this.widgetarr.indexOf(roomName)
+      this.widgetarr.splice(i, 1)
+    } else {
+      console.log('not here')
+      this.widgetarr.push(roomName)
+    }
+    console.log(this.widgetarr)
+    this._openWidgets.next(this.widgetarr)
   }
 }
 

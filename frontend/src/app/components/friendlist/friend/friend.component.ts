@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RoomWidget } from './Room_Widget.model';
+import { FriendlistService } from 'src/app/services/friendlist.service';
 
 @Component({
   selector: 'app-friend',
@@ -10,7 +11,7 @@ export class FriendComponent implements OnInit {
 
   @Input() friend: RoomWidget
 
-  constructor() {
+  constructor(private friendlistService: FriendlistService) {
 
   }
 
@@ -19,8 +20,9 @@ export class FriendComponent implements OnInit {
   }
 
   //open or close chat widget (maybe here or in friendlist)
-  toggleChatWidget(room: {[key: string]: any}) {
-    console.log(room)
+  toggleChatWidget(friend: any) {
+    let room: string = friend.roomName 
+    this.friendlistService.toggleChatWidget(room)
   }
 
 }

@@ -19,7 +19,7 @@ export class FriendlistComponent implements OnInit {
     
     //subscrive to friendlist observable 
     if(this.session === true){
-      this.friends_sub = this.friendlistService.chatroomlist.subscribe(x => this.friends = x)
+      this.friends_sub = this.friendlistService.chatroomList.subscribe(x => this.friends = x)
       this.friendlistService.getList([sessionStorage.getItem('username')])
     } else {
       console.log(`not logged in`)
