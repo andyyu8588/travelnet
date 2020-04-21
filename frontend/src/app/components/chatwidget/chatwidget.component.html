@@ -1,4 +1,4 @@
-<div class="container col-3" *ngIf='session'>
+<div class="widget rounded" *ngIf='session'>
     <p [innerText]='roomName' aria-readonly="true"></p>
     <br>
 
@@ -7,8 +7,7 @@
     </div>
 
     <br>
-    <label for="msg">message</label>
-    <form (submit)='sendMessage(msg.value)'>
+    <form class="input" (submit)='sendMessage(msg.value)'>
     <input #msg type="text"> 
     </form> 
 </div>
