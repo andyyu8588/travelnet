@@ -182,7 +182,7 @@ io.on('connection', (socket) => {
       console.log('no search input')
     } else {
       // search for chatroom which includes {sender & all of searched users} || {matching roomMane}
-      Chatroom.find( {$or: [{$and:[{Users: {$in: data.sender}}, {Users : {$regex: `.*${data.req}.*`}}]}, {roomName: {$regex: `.*${data.req.toString()}.*`}}]}, (err, res) => {
+      Chatroom.find( {$or: [{$and:[{Users: {$in: data.sender}}, {Users : {$regex: `.*${data.req}.*`, $options: 'i'}}]}, {roomName: {$regex: `.*${data.req.toString()}.*`, $options: 'i'}}]}, (err, res) => {
         // error in search
         if (err) {
           console.log(err)
