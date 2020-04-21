@@ -12,10 +12,10 @@ export class FriendlistComponent implements OnInit {
   session: boolean = this.SessionService.session()
   friends: RoomWidget[] = []
   private friends_sub: any
-
   constructor(
     private friendlistService: FriendlistService,
-    private SessionService: SessionService) {
+    private SessionService: SessionService,
+    ) {
     
     //subscrive to friendlist observable 
     if(this.session === true){
@@ -34,5 +34,9 @@ export class FriendlistComponent implements OnInit {
   onKey(data: string) {
     let arr: string[] = data.split(' ')
     this.friendlistService.getList(arr)
+  }
+
+  onSubmit(data: string) {
+    this.friendlistService.openRoom(data)
   }
 }

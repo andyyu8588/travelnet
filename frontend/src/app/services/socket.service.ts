@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as io from "socket.io-client/dist/socket.io";
-import { Observable, Subscriber } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
   socket: any
+  socket2: any
   readonly uri: string = 'http://localhost:3000'
 
-  private obs = new Observable(() => {
-
-  })
-  
   constructor() { 
     this.socket = io(this.uri)
   }
@@ -37,7 +34,26 @@ export class SocketService {
     })
   }
 
-  remove(eventName: string){
+  remove(eventName: string) {
     this.socket.removeListener(eventName)
+  }
+
+  //disconnects and reconnects to backend
+  close() {
+    this.socket.close()
+  } 
+
+  //permanent disconnection from backend
+  disconnect(num) {
+    if(num === 1){
+      this.socket.disconnect()
+    } else {
+      this.socket2.disconnect()
+    }
+  }
+
+  //manually reconnect to backend
+  open() {
+    this.socket.open()
   }
 }

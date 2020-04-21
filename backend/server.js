@@ -69,7 +69,7 @@ app.get('/*', (req, res) => {
 io.on('connection', (socket) => {
 
   // monkas sa marche
-  socket.emit('test', 'monkas sa marche')
+  console.log(`connected`)
 
   // socket helper functions
 
