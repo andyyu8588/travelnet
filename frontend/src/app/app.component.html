@@ -25,9 +25,12 @@
 
     
     <app-friendlist></app-friendlist>
-
-    <app-chatwidget></app-chatwidget>
-
+    
+    <app-chatwidget 
+    *ngFor='let widget of openChatWidgets'
+    [roomName]="widget">
+    
+    </app-chatwidget>
     
   </body>
 </html>

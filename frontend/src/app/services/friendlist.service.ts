@@ -45,9 +45,11 @@ export class FriendlistService {
 
   openRoom(users: string){
     let array: string[] = users.split(' ')
-    array.push(sessionStorage.getItem('username'))
+    // array.push(sessionStorage.getItem('username'))
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     this.socketService.once('createChatroom_res').subscribe((data:any) => {
+      let polished = (this.roomarr.filter((a,b) => this.roomarr.indexOf(a) === (b))).sort()
+      this.roomarr = polished
     })
     this.socketService.emit('createChatroom', polishedarr)
   }
@@ -61,8 +63,8 @@ export class FriendlistService {
       console.log('not here')
       this.widgetarr.push(roomName)
     }
-    console.log(this.widgetarr)
     this._openWidgets.next(this.widgetarr)
   }
+
 }
 

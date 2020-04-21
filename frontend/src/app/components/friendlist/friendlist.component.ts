@@ -35,9 +35,4 @@ export class FriendlistComponent implements OnInit {
     let arr: string[] = data.split(' ')
     this.friendlistService.getList(arr)
   }
-  
-  //open or close chat widget
-  toggleChatWidget(room: {[key: string]: any}) {
-    
-  }
 }

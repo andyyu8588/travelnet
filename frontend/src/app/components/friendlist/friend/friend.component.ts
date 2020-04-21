@@ -19,7 +19,7 @@ export class FriendComponent implements OnInit {
 
   }
 
-  //open or close chat widget (maybe here or in friendlist)
+  //open or close chat widget 
   toggleChatWidget(friend: any) {
     let room: string = friend.roomName 
     this.friendlistService.toggleChatWidget(room)

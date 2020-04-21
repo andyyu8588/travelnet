@@ -1,9 +1,5 @@
 <div class="container col-3" *ngIf='session'>
-    <p>join room and message</p>
-    <form (submit)='createRoom(room.value)'>
-    <label for="room">receiver(s)</label>
-    <input #room id='room' type="text"  [readOnly]='readonly'>
-    </form> 
+    <p [innerText]='roomName' aria-readonly="true"></p>
     <br>
 
     <div #textarea >
@@ -13,6 +9,6 @@
     <br>
     <label for="msg">message</label>
     <form (submit)='sendMessage(msg.value)'>
-    <input #msg type="text" [readOnly]='typeonly'> 
+    <input #msg type="text"> 
     </form> 
 </div>
