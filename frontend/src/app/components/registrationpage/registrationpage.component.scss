@@ -1,6 +1,6 @@
-#slot{
-    width: 360px;
-    height: 360px;
-    position: fixed;
-    right: 350px;
+#modal{
+    position: absolute;
+    overflow: hidden;
+    z-index: 1;
+
 }

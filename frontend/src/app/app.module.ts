@@ -11,6 +11,7 @@ import { FriendlistComponent } from './components/friendlist/friendlist.componen
 import {HeaderComponent} from './components/header/header.component';
 import { FriendComponent } from './components/friendlist/friend/friend.component';
 import { MapComponent } from './components/map/map.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,8 @@ import { MapComponent } from './components/map/map.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

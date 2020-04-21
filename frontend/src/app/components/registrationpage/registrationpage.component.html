@@ -1,4 +1,5 @@
-<div *ngIf='!session' id="slot">
+<ng-template #content let-c="close" let-d="dismiss">
+<div *ngIf='!session' class="modal-body">
 <form id='form' (submit)="registerClicked(password.value, username.value, email.value)">
         <h1 class='jumbotron'>Registration</h1>
         <div class="form-group">
@@ -25,3 +26,4 @@
         <button type="submit" id ='submit' class="btn btn-primary" aria-required="true">Register</button>
     </form>
 </div>
+</ng-template>
