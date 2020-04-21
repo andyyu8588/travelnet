@@ -1,19 +1,27 @@
 import { SocketService } from '../../services/socket.service';
 import { Component, Input } from '@angular/core';
 import{SessionService} from '../../services/session.service'
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-registrationpage',
     templateUrl:'./registrationpage.component.html',
-    styleUrls: ['./registrationpage.component.scss']
+    styleUrls: ['./registrationpage.component.scss'],
+    providers:[NgbModalConfig,NgbModal]
 })
 
 export class RegistrationComponent{
-    session: boolean = this.sessionService.session()
 
-    constructor(private SocketService: SocketService, private sessionService:SessionService) {
-        
+
+    session: boolean = this.sessionService.session()
+    constructor(private SocketService: SocketService, private sessionService:SessionService, config:NgbModalConfig, private modalService:NgbModal) {
+        config.backdrop = 'static';
+        config.keyboard = false;
+      }
+    open(content){
+        this.modalService.open(content)
     }
+
 
   
     //send register request with socket
