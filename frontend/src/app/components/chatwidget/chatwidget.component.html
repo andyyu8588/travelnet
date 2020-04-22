@@ -8,6 +8,6 @@
 
     <br>
     <form class="input" (submit)='sendMessage(msg.value)'>
-    <input #msg type="text"> 
+    <input name="ngModel" [(ngModel)]='typeArea' #msg='ngModel' type="text"> 
     </form> 
 </div>

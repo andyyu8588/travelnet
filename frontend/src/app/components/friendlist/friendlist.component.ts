@@ -37,6 +37,6 @@ export class FriendlistComponent implements OnInit {
   }
 
   onSubmit(data: string) {
-    this.friendlistService.openRoom(data)
+    // this.friendlistService.openRoom(data)
   }
 }

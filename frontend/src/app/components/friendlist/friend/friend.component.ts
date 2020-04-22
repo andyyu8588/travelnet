@@ -20,9 +20,8 @@ export class FriendComponent implements OnInit {
   }
 
   //open or close chat widget 
-  toggleChatWidget(friend: any) {
-    let room: string = friend.roomName 
-    this.friendlistService.toggleChatWidget(room)
+  toggleChatWidget(friend: RoomWidget) {
+    this.friendlistService.toggleChatWidget(friend)
   }
 
 }

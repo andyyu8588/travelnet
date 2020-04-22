@@ -1,12 +1,11 @@
 export class RoomWidget {
    [prop: string]: any;
    public roomName: string
-   public thumbnail?: HTMLImageElement
-   public status?: boolean
+   public roomId: string
+
    
-   constructor(roomName: string, thumbnail: HTMLImageElement, status: boolean) {
-    this.status = status
-    this.thumbnail = thumbnail
-    this.username = roomName
+   constructor(roomName: string, roomId: string) {
+      this.roomId= roomId
+      this.roomName = roomName
    }
 }

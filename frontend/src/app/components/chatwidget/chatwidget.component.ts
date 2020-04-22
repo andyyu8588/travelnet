@@ -10,9 +10,13 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
 })
 export class ChatwidgetComponent implements OnInit, OnDestroy{
   @Input() roomName: string
+  @Input() roomId: string
+  @ViewChild('textarea') div: ElementRef
+  typeArea: string = ''
+  private socketRoom: string
   session: boolean = this.sessionService.session()
   username: string = sessionStorage.getItem('username')
-  @ViewChild('textarea') div: ElementRef
+ 
 
   constructor(
     private frienlistService: FriendlistService,
@@ -20,12 +24,9 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
     private socketService: SocketService,
     public sessionService: SessionService,
     ){ 
-      console.log(`constructor called`)
   }
 
   ngOnInit(){
-    console.log(`ng init called`)
-    this.socketService.open()
     //open or create Chatroom
     this.frienlistService.openRoom(this.roomName)
     this.socketService.once('createChatroom_res').subscribe((data: any) => {
@@ -39,24 +40,32 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
         console.log('error _res')
       }
     })
+    
+    let socketRoom_sub = this.frienlistService.socketRoom.subscribe(x => this.socketRoom = x)
 
     //listen for messages & add display them
     this.socketService.listen('message_res').subscribe((data: any) => {
       const ul: HTMLParagraphElement = this.renderer.createElement('ul');
       ul.innerHTML = `${data.sender === this.username ? "you" : data.sender}: ${data.content}`
       this.renderer.appendChild(this.div.nativeElement, ul)
+      this.typeArea = ``
     })
 
   }
   
   //send message with socket
   sendMessage(data: string) {
+    if(this.socketRoom != this.roomId){
+      console.log('in same room')
+      this.frienlistService.openRoom(this.roomId)
+    } else {
+      console.log(`not in same room`)
+    }
     this.socketService.emit('message', {sender: this.username, content: data})
   }
 
   ngOnDestroy(){
     this.socketService.remove('message_res')
     this.socketService.remove('createChatroom_res')
-    this.socketService.disconnect(1)
   }
 }

@@ -32,8 +32,9 @@
       width: auto;
       ">
       <app-chatwidget 
-      *ngFor='let widget of openChatWidgets'
-      [roomName]="widget">
+      *ngFor='let widget of openChatWidgets.roomNames, let i = index '
+      [roomName]="widget"
+      [roomId]='openChatWidgets.roomIds[i]'>
       </app-chatwidget>
     </div>
   </body>

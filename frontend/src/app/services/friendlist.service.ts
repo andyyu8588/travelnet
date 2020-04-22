@@ -10,14 +10,19 @@ export class FriendlistService {
 
   //lists of variables (eg: chatrooms, open chatWidgets)
   private roomarr: RoomWidget[] = []
-  private widgetarr: Array<string> = []
+  private widgetarr: any = []
+  private idarr: any = []
+   
 
   //creating observable
-  _chatroomList: BehaviorSubject<RoomWidget[]> = new BehaviorSubject(this.roomarr)
+  private _chatroomList: BehaviorSubject<RoomWidget[]> = new BehaviorSubject(this.roomarr)
   public chatroomList: Observable<RoomWidget[]> = this._chatroomList.asObservable()
 
-  _openWidgets: BehaviorSubject<string[]> = new BehaviorSubject(this.widgetarr)
-  public openWidgets: Observable<string[]> = this._openWidgets.asObservable()
+  private _openWidgets: BehaviorSubject<object> = new BehaviorSubject([])
+  public openWidgets: Observable<object> = this._openWidgets.asObservable()
+
+  private _socketRoom: BehaviorSubject<string> = new BehaviorSubject('')
+  public socketRoom: Observable<string> = this._socketRoom.asObservable()
 
   constructor(private socketService: SocketService) {
 
@@ -33,6 +38,7 @@ export class FriendlistService {
         (data.res).forEach(element => {
           this.roomarr.push({
             roomName: element.roomName,
+            roomId: element._id
           })
         });
         this._chatroomList.next(this.roomarr)
@@ -43,27 +49,32 @@ export class FriendlistService {
     this.socketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr})
   }
 
-  openRoom(users: string){
+  openRoom(users: string): any{
     let array: string[] = users.split(' ')
     // array.push(sessionStorage.getItem('username'))
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     this.socketService.once('createChatroom_res').subscribe((data:any) => {
       let polished = (this.roomarr.filter((a,b) => this.roomarr.indexOf(a) === (b))).sort()
       this.roomarr = polished
+      this._socketRoom.next(data.id._id)
     })
     this.socketService.emit('createChatroom', polishedarr)
   }
 
-  toggleChatWidget(roomName: string): any{
-    if(this.widgetarr.includes(roomName)){
-      console.log('here')
-      let i = this.widgetarr.indexOf(roomName)
+  toggleChatWidget(friend: RoomWidget) {
+    console.log(friend)
+    if(this.widgetarr.includes(friend.roomName)){
+      let i = this.widgetarr.indexOf(friend.roomName)
       this.widgetarr.splice(i, 1)
+      this.idarr.splice(i, 1)
     } else {
-      console.log('not here')
-      this.widgetarr.push(roomName)
+      this.widgetarr.push(friend.roomName)
+      this.idarr.push(friend.roomId)
     }
-    this._openWidgets.next(this.widgetarr)
+    this._openWidgets.next({
+      roomNames: this.widgetarr,
+      roomIds: this.idarr
+    })
   }
 
 }

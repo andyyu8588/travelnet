@@ -68,16 +68,13 @@ app.get('/*', (req, res) => {
 
 io.on('connection', (socket) => {
 
-  // monkas sa marche
-  console.log(`connected`)
-
   // socket helper functions
 
   // handle join room & send back message history
   const joinRoom = (databaseobj, roomnum, message) => {
     socket.join(`${roomnum}`, () => {
       socket.room = roomnum
-      socket.emit('createChatroom_res', {res: message})
+      socket.emit('createChatroom_res', {res: message, id: databaseobj})
       console.log(`joined ${socket.room}`)
       messageHandler(databaseobj)
     })  
@@ -176,7 +173,6 @@ io.on('connection', (socket) => {
 
   // search chatrooms and expect array of users in alphabetical order
   socket.on('searchChatroom', (data) => {
-
     // check if array is empty
     if (data.req.length === 0) {
       console.log('no search input')
@@ -199,6 +195,10 @@ io.on('connection', (socket) => {
         }
       })
     }
+  })
+
+  socket.on('message', () => {
+
   })
 
   // handle chatrooms & assign socket.join(room) w/ chatroom id as room

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SocketService {
   socket: any
-  socket2: any
+  room: any
   readonly uri: string = 'http://localhost:3000'
 
   constructor() { 
@@ -44,12 +44,8 @@ export class SocketService {
   } 
 
   //permanent disconnection from backend
-  disconnect(num) {
-    if(num === 1){
-      this.socket.disconnect()
-    } else {
-      this.socket2.disconnect()
-    }
+  disconnect() {
+    this.socket.disconnect()
   }
 
   //manually reconnect to backend
