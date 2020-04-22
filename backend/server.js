@@ -177,8 +177,9 @@ io.on('connection', (socket) => {
     if (data.req.length === 0) {
       console.log('no search input')
     } else {
-      // search for chatroom which includes {sender & all of searched users} || {matching roomMane}
-      Chatroom.find( {$or: [{$and:[{Users: {$in: data.sender}}, {Users : {$regex: `.*${data.req}.*`, $options: 'i'}}]}, {roomName: {$regex: `.*${data.req.toString()}.*`, $options: 'i'}}]}, (err, res) => {
+      // note -> only private chats 
+      // search for chatroom which includes {sender} & {all of searched users || matching roomMane}
+      Chatroom.find( {$or: [{$and: [{Users: {$in: data.sender}}, {Users : {$regex: `.*${data.req}.*`, $options: 'i'}}]}, {$and: [{Users: {$in: data.sender}}, {roomName: {$regex: `.*${data.req.toString()}.*`, $options: 'i'}}]}]}, (err, res) => {
         // error in search
         if (err) {
           console.log(err)
@@ -197,8 +198,21 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('message', () => {
-
+  socket.on('initChatroom', (id) => {
+    console.log(`chatroom init for ${id}`)
+    Chatroom.findById(id).exec((err,res) => {
+      if (err) {
+        console.log(err)
+        socket.emit('initChatroom_res', {err: err})
+      }
+      else if (res.length === 1) {
+        console.log('chatroom exists')
+        socket.emit('initChatroom_res', {res: res})
+      }
+      else {
+        console.log('parti loin')        
+      }
+    })
   })
 
   // handle chatrooms & assign socket.join(room) w/ chatroom id as room

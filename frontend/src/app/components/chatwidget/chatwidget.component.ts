@@ -28,10 +28,11 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
 
   ngOnInit(){
     //open or create Chatroom
-    this.frienlistService.openRoom(this.roomName)
-    this.socketService.once('createChatroom_res').subscribe((data: any) => {
+    // this.frienlistService.openRoom(this.roomName)
+    this.socketService.emit('initChatroom', this.roomId)
+    this.socketService.once('initChatroom_res').subscribe((data: any) => {
       if(data.res) {
-        data.res.forEach((element) => {
+        data.res.messages.forEach((element) => {
           const ul: HTMLParagraphElement = this.renderer.createElement('ul');
           ul.innerHTML = `${element.sender === this.username ? "you" : element.sender}: ${element.content}`
           this.renderer.appendChild(this.div.nativeElement, ul)

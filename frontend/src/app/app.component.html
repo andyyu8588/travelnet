@@ -30,7 +30,8 @@
       position: fixed;
       bottom: 1%;
       width: auto;
-      ">
+      "
+      *ngIf='session'>
       <app-chatwidget 
       *ngFor='let widget of openChatWidgets.roomNames, let i = index '
       [roomName]="widget"
