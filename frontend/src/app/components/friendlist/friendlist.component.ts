@@ -1,6 +1,6 @@
 import { SessionService } from './../../services/session.service';
 import { RoomWidget } from './friend/Room_Widget.model';
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 
 @Component({
@@ -36,7 +36,8 @@ export class FriendlistComponent implements OnInit {
     this.friendlistService.getList(arr)
   }
 
+  //creates new room on submit
   onSubmit(data: string) {
-    this.friendlistService.openRoom(data)
+    this.friendlistService.CreateChatroom(data)
   }
 }

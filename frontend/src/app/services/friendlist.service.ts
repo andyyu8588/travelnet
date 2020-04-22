@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { RoomWidget } from './../components/friendlist/friend/Room_Widget.model';
 import { SocketService } from './socket.service';
 import { Injectable } from '@angular/core';
@@ -21,10 +22,7 @@ export class FriendlistService {
   private _openWidgets: BehaviorSubject<object> = new BehaviorSubject([])
   public openWidgets: Observable<object> = this._openWidgets.asObservable()
 
-  private _socketRoom: BehaviorSubject<string> = new BehaviorSubject('')
-  public socketRoom: Observable<string> = this._socketRoom.asObservable()
-
-  constructor(private socketService: SocketService) {
+  constructor(private SocketService: SocketService) {
 
   }
 
@@ -32,7 +30,7 @@ export class FriendlistService {
   getList(array: string[]): any{
     array.push(sessionStorage.getItem('username'))
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
-    this.socketService.once("searchChatroom_res").subscribe((data:any) => {
+    this.SocketService.once("searchChatroom_res").subscribe((data:any) => {
       this.roomarr = []
       this._chatroomList.next(this.roomarr)
       if(data.res){
@@ -47,21 +45,29 @@ export class FriendlistService {
       }
     })
     //sends array of users in alphabeltical order 
-    this.socketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr})
+    this.SocketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr})
   }
 
-  openRoom(users: string): any{
+  // looks for users existence and creates chatroom
+  CreateChatroom(users: string): any{
     let array: string[] = users.split(' ')
-    array.push(sessionStorage.getItem('username'))
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
-    this.socketService.once('createChatroom_res').subscribe((data:any) => {
-      this._socketRoom.next(data.id._id)
+    this.SocketService.emit('searchUser', polishedarr)
+    this.SocketService.once('searchUser_res').subscribe((data: any) => {
+      console.log(data)
+      if(data.err){
+
+      } else if (data.res) {
+        polishedarr.push(sessionStorage.getItem('username')) 
+        this.SocketService.emit('createChatroom', polishedarr.sort())
+      } else {
+        console.log('somethin went wrong')
+      }
+      polishedarr = []
     })
-    this.socketService.emit('createChatroom', polishedarr)
   }
 
   toggleChatWidget(friend: RoomWidget) {
-    console.log(friend)
     if(this.widgetarr.includes(friend.roomName)){
       let i = this.widgetarr.indexOf(friend.roomName)
       this.widgetarr.splice(i, 1)

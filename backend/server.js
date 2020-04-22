@@ -98,6 +98,24 @@ io.on('connection', (socket) => {
     }
   }
 
+  // check existence of one user and implement promises lmoa wtf 
+  var searchUser = (user) => {
+    return new Promise((resolve, reject) => {
+      User.findOne({username: user}).exec((err, res) => {
+        if(err){
+          reject(err)
+        }
+        else if(res) {
+          user = res.username
+          resolve({res: res.username})
+        }
+        else {
+          resolve('error')
+        }
+      })
+    })
+  }
+
   // socket responses
 
   // confirm login has worked
@@ -154,21 +172,16 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('searchUser', (data) => {
-    User.find({username: data}, (err, res) => {
-        if (err) {
-          console.log(err)
-        } 
-        else if (res.length === 0) {
-          socket.emit('searchUser_res', {err: 'does not exist'})
-        }
-        else if (res.length === 1) {
-          socket.emit("searchUser_res", {res: res[0].username})
-        }
-        else {
-          console.log('wtf searchUser')
-        }
+  // seaches for each in list of users 
+  socket.on('searchUser', (arr) => {
+    console.log('searchuser called')
+    let reform = arr.map(searchUser)
+    let wat = Promise.all(reform)
+    wat.then(result => {
+      console.log(result)
+      result.includes('error') ? socket.emit('searchUser_res', {err: result}) : socket.emit('searchUser_res', {res: result})
     })
+    .catch(err => {console.log(err)})
   })
 
   // search chatrooms and expect array of users in alphabetical order
@@ -178,7 +191,7 @@ io.on('connection', (socket) => {
       console.log('no search input')
     } else {
       // note -> only private chats 
-      // search for chatroom which includes {sender} & {all of searched users || matching roomMane}
+      // search for chatroom which includes {sender} & {all of searched users || matching roomName}
       Chatroom.find( {$or: [{$and: [{Users: {$in: data.sender}}, {Users : {$regex: `.*${data.req}.*`, $options: 'i'}}]}, {$and: [{Users: {$in: data.sender}}, {roomName: {$regex: `.*${data.req.toString()}.*`, $options: 'i'}}]}]}, (err, res) => {
         // error in search
         if (err) {
@@ -191,13 +204,13 @@ io.on('connection', (socket) => {
           })
           socket.emit('searchChatroom_res', {res: resArr})          
         } else { // nothing in database matching the search
-          console.log('no results in database')
           socket.emit('searchChatroom_res', 'nothing found')
         }
       })
     }
   })
 
+  // send content of chatroom to chatWidgets
   socket.on('initChatroom', (id) => {
     console.log(`chatroom init for ${id}`)
     Chatroom.findById(id).exec((err,res) => {
@@ -205,7 +218,7 @@ io.on('connection', (socket) => {
         console.log(err)
         socket.emit('initChatroom_res', {err: err})
       }
-      else if (res.length === 1) {
+      else if (res) {
         console.log('chatroom exists')
         socket.emit('initChatroom_res', {res: res})
       }
@@ -217,32 +230,10 @@ io.on('connection', (socket) => {
 
   // handle chatrooms & assign socket.join(room) w/ chatroom id as room
   socket.on('createChatroom', (data) => {
-    if (!socket.room) {
-      console.log(`chatroom req for ${data}`)
-      Chatroom.find({Users: data, userNum: data.length}, (err,res) => {
-        if (err) {
-          console.log(err)
-        }
-        else if (res.length === 1) {
-          console.log('chatroom exists')
-          joinRoom(res[0], res[0].id, res[0].messages)
-        }
-        else {
-          var newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
-          newChatroom.save((err, product) => {
-            if (err) {
-              console.log(err)
-            }
-            else {
-              console.log('new chatroom created')
-              joinRoom(product, product.id, product.messages)
-            }
-          })
-        }
-      })
-    } else {
-      console.log(`client already in chat ${socket.room}`)
-    }
+    console.log('createChatroom called')
+    console.log(`chatroom created: ${data}`)
+    var newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
+    newChatroom.save()
   })
 
   // handle user login
@@ -269,3 +260,31 @@ io.on('connection', (socket) => {
     console.log(`disconnected`)
   })
 })
+
+  // handle chatrooms & assign socket.join(room) w/ chatroom id as room
+  // socket.on('createChatroom', (data) => {
+  //   // if (!socket.room) {
+  //     console.log(`chatroom req by ${data}`)
+  //     Chatroom.find({Users: data, userNum: data.length}, (err,res) => {
+  //       if (err) {
+  //         console.log(err)
+  //       }
+  //       else if (res.length === 1) {
+  //         console.log('chatroom exists')
+  //         // joinRoom(res[0], res[0].id, res[0].messages)
+  //       }
+  //       else {
+  //         var newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
+  //         newChatroom.save((err, product) => {
+  //           if (err) {
+  //             console.log(err)
+  //           }
+  //           else {
+  //             console.log('new chatroom created')
+  //             // joinRoom(product, product.id, product.messages)
+  //           }
+  //         })
+  //       }
+  //     })
+  //   // } 
+  // })
