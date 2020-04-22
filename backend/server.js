@@ -228,7 +228,7 @@ io.on('connection', (socket) => {
     })
   })
 
-  // creates new chatroom with a users in array (allows duplicates but not non-existent users)
+  // creates new chatroom with all users in array (allows duplicates but not non-existent users)
   socket.on('createChatroom', (data) => {
     console.log('createChatroom called')
     console.log(`chatroom created: ${data}`)
