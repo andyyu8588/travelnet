@@ -53,13 +53,13 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
   
   //send message with socket
   sendMessage(data: string) {
-  //   if(this.socketRoom != this.roomId){
-  //     console.log('in same room')
-  //     this.frienlistService.CreateChatroom(this.roomId)
-  //   } else {
-  //     console.log(`not in same room`)
-  //   }
-  //   this.socketService.emit('message', {sender: this.username, content: data})
+    if(this.socketRoom != this.roomId){
+      console.log('in same room')
+      this.socketService.emit('message', {sender: this.username, content: data})
+    } else {
+      console.log(`not in same room`)
+    }
+    
   }
 
   ngOnDestroy(){

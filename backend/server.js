@@ -71,14 +71,26 @@ io.on('connection', (socket) => {
   // socket helper functions
 
   // handle join room & send back message history
-  const joinRoom = (databaseobj, roomnum, message) => {
-    socket.join(`${roomnum}`, () => {
-      socket.room = roomnum
-      socket.emit('createChatroom_res', {res: message, id: databaseobj})
-      console.log(`joined ${socket.room}`)
-      messageHandler(databaseobj)
-    })  
+  // const joinRoom = (databaseobj, roomnum, message) => {
+  //   socket.join(`${roomnum}`, () => {
+  //     socket.room = roomnum
+  //     socket.emit('createChatroom_res', {res: message, id: databaseobj})
+  //     console.log(`joined ${socket.room}`)
+  //     messageHandler(databaseobj)
+  //   })  
+  // }
+
+  // new join room w/ responsive join
+  function joinRoom(roomId) {
+    if(socket.roomId === roomId){
+      // emit message & save in database
+    } else {
+      socket.join(roomId, () => {
+        // emit message & save in database
+      })
+    }
   }
+
  
   // handle live chat on first connect to chatroom
   const messageHandler = (databaseobj) => { 

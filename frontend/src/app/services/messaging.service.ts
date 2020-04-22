@@ -12,6 +12,4 @@ export class MessagingService {
   
   constructor(private SocketService: SocketService) { }
 
-  
-
 }
