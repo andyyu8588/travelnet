@@ -1,8 +1,7 @@
 
-<div *ngIf='!session' class="">
-    <form id = 'form' (submit)="loginClicked(password.value, username.value, $event)">
-        <h1 class='jumbotron'>Login</h1>
-       <!-- email -->
+
+  <form class="modal-body" id = 'form' (submit)="loginClicked(password.value, username.value, $event)">
+      <h1 class='jumbotron modal-title'>Login</h1>
         <div class="form-group">
             <label for="exampleInputEmail1">Email or Username</label>
             <input #username type="text" class="form-control" id="email/user" aria-describedby="emailHelp" required>
@@ -14,5 +13,5 @@
         </div>
         <button type="submit" id ='submit' class="btn btn-primary" aria-required="true" >Login</button>
       </form>
-</div>
+
 

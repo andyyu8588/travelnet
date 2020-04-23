@@ -8,19 +8,30 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
     selector: 'app-registration',
     templateUrl:'./registration.component.html',
     styleUrls: ['./registrationpage.component.scss'],
-    providers:[NgbModalConfig,NgbModal]
 })
 export class registrationComponent{
     modal = null
-    constructor(private modalService:NgbModal) {
-        this.modal = this.openModal()
+    constructor(private modalService:NgbModal, private SessionService:SessionService) {
+
+    this.openModal()
+
+    this.modal.result.then(()=>{
+        
+        this.SessionService.changeFeature()
+       }, ()=>{
+        
+        this.SessionService.changeFeature()
+        //gets triggers when modal is dismissed.
+       });
     }
-    closeModal() {
-        this.modal.close(console.log('kms'));
-      }
     openModal(){
-        this.modal = this.modalService.open(RegistrationComponent)
-    }
+        this.modal = this.modalService.open(RegistrationComponent,{})
+        }
+    
+
+
+    
+
 
 
 
@@ -34,8 +45,6 @@ export class registrationComponent{
 
 export class RegistrationComponent{
 
-        
-//session: boolean = this.sessionService.session()
     constructor(private SocketService: SocketService, private sessionService:SessionService) {
     }
     //send register request with socket

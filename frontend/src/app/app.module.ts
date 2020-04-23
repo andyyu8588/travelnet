@@ -13,6 +13,7 @@ import { FriendComponent } from './components/friendlist/friend/friend.component
 import { MapComponent } from './components/map/map.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import{registrationComponent} from './components/registrationpage/registrationpage.component';
+import{loginComponent} from './components/loginpage/loginpage.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +25,8 @@ import{registrationComponent} from './components/registrationpage/registrationpa
     HeaderComponent,
     FriendComponent,
     MapComponent,
-    registrationComponent
+    registrationComponent,
+    loginComponent,
   ],
   imports: [
     BrowserModule,

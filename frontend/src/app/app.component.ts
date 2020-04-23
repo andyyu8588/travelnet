@@ -12,7 +12,7 @@ export class AppComponent {
 
 
 
-  currentFeature 
+  currentFeature:string
   title = 'frontend';
   session: boolean = this.SessionService.session()
   user = sessionStorage.getItem('username')
@@ -25,6 +25,7 @@ export class AppComponent {
     if(this.user){
       this.openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)
     }
+      let x = this.SessionService.currentFeature.subscribe(x => this.currentFeature = x)
   }
 
   onNavigate(feature: any) {
