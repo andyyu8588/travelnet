@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { RoomWidget } from './../components/friendlist/friend/Room_Widget.model';
 import { SocketService } from './socket.service';
 import { Injectable } from '@angular/core';
@@ -68,8 +67,8 @@ export class FriendlistService {
   }
 
   toggleChatWidget(friend: RoomWidget) {
-    if(this.widgetarr.includes(friend.roomName)){
-      let i = this.widgetarr.indexOf(friend.roomName)
+    if(this.idarr.includes(friend.roomId)){
+      let i = this.idarr.indexOf(friend.roomId)
       this.widgetarr.splice(i, 1)
       this.idarr.splice(i, 1)
     } else {
