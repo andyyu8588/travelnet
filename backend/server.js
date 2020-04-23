@@ -14,7 +14,7 @@ const io = require('socket.io').listen(server)
 var dbURL = 'mongodb://localhost/Travelnet'
 
 // connect mongoose to Mongodb
-mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, (err) => {
   if (err) {
     console.log(err)
   }
@@ -80,16 +80,59 @@ io.on('connection', (socket) => {
   //   })  
   // }
 
-  // new join room w/ responsive join
   function joinRoom(roomId) {
-    if(socket.roomId === roomId){
-      // emit message & save in database
-    } else {
-      socket.join(roomId, () => {
-        // emit message & save in database
+    return new Promise((resolve, reject) => {
+      Chatroom.findById(roomId).exec((err, res) => {
+        if (err) {
+          reject(err)
+        } else if (res) {
+          socket.currentRoomId = res._id
+          socket.join(res._id, () => {
+            resolve(res)
+          })
+        } else {
+          reject('not found')
+          console.log('room was not found')
+        }
       })
-    }
+    })
   }
+
+
+
+  // message handler: join room & emit messages
+  socket.on('message', (data) => {
+    if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // need to Chatroom.find()
+      joinRoom(data.roomId).then((roomObj) => {
+          console.log('joined')
+          socket.emit('message_res', {res: data})
+          socket.in(socket.currentRoomId).emit('message_res', {res: data})
+          roomObj.messages.push({
+            sender: data.sender,
+            content: data.content
+          })
+          roomObj.save()
+        }).catch((err) => {
+          console.log(err)
+        })
+    } else if (socket.currentRoomId == data.roomId) {
+        console.log('already in room')
+        Chatroom.findByIdAndUpdate({_id: socket.currentRoomId},
+          {$push: {messages: {
+            sender: data.sender,
+            content: data.content
+          }}}, (err) => {
+            if (err) {
+              console.log(err)
+            } else {
+              socket.emit('message_res', {res: data})
+              socket.in(socket.currentRoomId).emit('message_res', {res: data})
+            }
+          })
+    } else {
+      console.log('actualy la fin')
+    }
+  })
 
  
   // handle live chat on first connect to chatroom
@@ -231,8 +274,9 @@ io.on('connection', (socket) => {
         socket.emit('initChatroom_res', {err: err})
       }
       else if (res) {
-        console.log('chatroom exists')
-        socket.emit('initChatroom_res', {res: res})
+        // console.log('chatroom exists')
+        let length = res.messages.length 
+        socket.emit('initChatroom_res', {res: res.messages.slice((length < 100 ? 0 : length - 100), length)})
       }
       else {
         console.log('parti loin')        

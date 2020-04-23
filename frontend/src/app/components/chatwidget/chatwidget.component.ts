@@ -13,7 +13,7 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
   @Input() roomId: string
   @ViewChild('textarea') div: ElementRef
   typeArea: string = ''
-  private socketRoom: string
+  // private socketRoom: string
   session: boolean = this.sessionService.session()
   username: string = sessionStorage.getItem('username')
  
@@ -31,7 +31,7 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
     this.socketService.emit('initChatroom', this.roomId)
     this.socketService.once('initChatroom_res').subscribe((data: any) => {
       if(data.res) {
-        data.res.messages.forEach((element) => {
+        data.res.forEach((element) => {
           const ul: HTMLParagraphElement = this.renderer.createElement('ul');
           ul.innerHTML = `${element.sender === this.username ? "you" : element.sender}: ${element.content}`
           this.renderer.appendChild(this.div.nativeElement, ul)
@@ -44,7 +44,7 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
     //listen for messages & add display them
     this.socketService.listen('message_res').subscribe((data: any) => {
       const ul: HTMLParagraphElement = this.renderer.createElement('ul');
-      ul.innerHTML = `${data.sender === this.username ? "you" : data.sender}: ${data.content}`
+      ul.innerHTML = `${data.res.sender === this.username ? "you" : data.res.sender}: ${data.res.content}`
       this.renderer.appendChild(this.div.nativeElement, ul)
       this.typeArea = ``
     })
@@ -53,13 +53,8 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
   
   //send message with socket
   sendMessage(data: string) {
-    if(this.socketRoom != this.roomId){
-      console.log('in same room')
-      this.socketService.emit('message', {sender: this.username, content: data})
-    } else {
-      console.log(`not in same room`)
-    }
-    
+    console.log(this.roomId)
+    this.socketService.emit('message', {roomId: this.roomId, sender: this.username, content: data})    
   }
 
   ngOnDestroy(){
