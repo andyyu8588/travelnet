@@ -1,8 +1,5 @@
-<div *ngIf='!session' class="modal-body">
-  <button (click)=openmodal()>yo</button>
-  
-<form id='form' (submit)="registerClicked(password.value, username.value, email.value)">
-        <h1 class='jumbotron'>Registration</h1>
+<form class="modal-body" id='form' (submit)="registerClicked(password.value, username.value, email.value)">
+        <h1 class='jumbotron modal-title'>Registration</h1>
         <div class="form-group">
         <!-- username -->
           <label for="exampleInputEmail1">username</label>
@@ -22,8 +19,7 @@
         <!-- checkbox -->
         <div class="form-group form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          <label class="form-check-label" for="exampleCheck1">Check</label>
         </div>
         <button type="submit" id ='submit' class="btn btn-primary" aria-required="true">Register</button>
     </form>
-</div>

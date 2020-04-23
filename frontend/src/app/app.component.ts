@@ -9,7 +9,10 @@ import { FriendlistService } from './services/friendlist.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  currentFeature = 'Registration'
+
+
+
+  currentFeature 
   title = 'frontend';
   session: boolean = this.SessionService.session()
   user = sessionStorage.getItem('username')

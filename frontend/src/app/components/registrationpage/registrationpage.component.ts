@@ -1,8 +1,30 @@
 import { SocketService } from '../../services/socket.service';
-import { Component, Input } from '@angular/core';
+import { Component} from '@angular/core';
 import{SessionService} from '../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+
+@Component({
+    selector: 'app-registration',
+    templateUrl:'./registration.component.html',
+    styleUrls: ['./registrationpage.component.scss'],
+    providers:[NgbModalConfig,NgbModal]
+})
+export class registrationComponent{
+    modal = null
+    constructor(private modalService:NgbModal) {
+        this.modal = this.openModal()
+    }
+    closeModal() {
+        this.modal.close(console.log('kms'));
+      }
+    openModal(){
+        this.modal = this.modalService.open(RegistrationComponent)
+    }
+
+
+
+}
 @Component({
     selector: 'app-registrationpage',
     templateUrl:'./registrationpage.component.html',
@@ -12,18 +34,10 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class RegistrationComponent{
 
-
-
-    session: boolean = this.sessionService.session()
-    constructor(private SocketService: SocketService, private sessionService:SessionService, private modalService:NgbModal) {
-      }
-openmodal() {
-    const modalRef = this.modalService.open(RegistrationComponent);
-        modalRef.componentInstance.name = "World";
+        
+//session: boolean = this.sessionService.session()
+    constructor(private SocketService: SocketService, private sessionService:SessionService) {
     }
-
-
-  
     //send register request with socket
     registerClicked(password: string, username: string, email: string){
         // event.preventDefault()

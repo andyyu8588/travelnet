@@ -12,6 +12,7 @@ import {HeaderComponent} from './components/header/header.component';
 import { FriendComponent } from './components/friendlist/friend/friend.component';
 import { MapComponent } from './components/map/map.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import{registrationComponent} from './components/registrationpage/registrationpage.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +24,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     HeaderComponent,
     FriendComponent,
     MapComponent,
+    registrationComponent
   ],
   imports: [
     BrowserModule,
