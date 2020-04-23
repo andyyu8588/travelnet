@@ -43,12 +43,14 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
     
     //listen for messages & add display them
     this.socketService.listen('message_res').subscribe((data: any) => {
-      const ul: HTMLParagraphElement = this.renderer.createElement('ul');
-      ul.innerHTML = `${data.res.sender === this.username ? "you" : data.res.sender}: ${data.res.content}`
-      this.renderer.appendChild(this.div.nativeElement, ul)
-      this.typeArea = ``
+      if(this.roomId == data.res.roomId){
+        const ul: HTMLParagraphElement = this.renderer.createElement('ul');
+        ul.innerHTML = `${data.res.sender === this.username ? "you" : data.res.sender}: ${data.res.content}`
+        this.renderer.appendChild(this.div.nativeElement, ul)
+        this.typeArea = ``
+      } else {
+      } 
     })
-
   }
   
   //send message with socket

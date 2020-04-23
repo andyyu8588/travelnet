@@ -70,16 +70,6 @@ io.on('connection', (socket) => {
 
   // socket helper functions
 
-  // handle join room & send back message history
-  // const joinRoom = (databaseobj, roomnum, message) => {
-  //   socket.join(`${roomnum}`, () => {
-  //     socket.room = roomnum
-  //     socket.emit('createChatroom_res', {res: message, id: databaseobj})
-  //     console.log(`joined ${socket.room}`)
-  //     messageHandler(databaseobj)
-  //   })  
-  // }
-
   function joinRoom(roomId) {
     return new Promise((resolve, reject) => {
       Chatroom.findById(roomId).exec((err, res) => {
@@ -98,15 +88,13 @@ io.on('connection', (socket) => {
     })
   }
 
-
-
   // message handler: join room & emit messages
   socket.on('message', (data) => {
     if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // need to Chatroom.find()
       joinRoom(data.roomId).then((roomObj) => {
           console.log('joined')
           socket.emit('message_res', {res: data})
-          socket.in(socket.currentRoomId).emit('message_res', {res: data})
+          // socket.in(socket.currentRoomId).emit('message_res', {res: data})
           roomObj.messages.push({
             sender: data.sender,
             content: data.content
@@ -126,33 +114,14 @@ io.on('connection', (socket) => {
               console.log(err)
             } else {
               socket.emit('message_res', {res: data})
-              socket.in(socket.currentRoomId).emit('message_res', {res: data})
+              // socket.in(socket.currentRoomId).emit('message_res', {res: data})
             }
           })
     } else {
       console.log('actualy la fin')
     }
   })
-
  
-  // handle live chat on first connect to chatroom
-  const messageHandler = (databaseobj) => { 
-    if (socket.room) {
-      console.log('message handler called')
-      socket.on('message', (data) => {
-        databaseobj.messages.push({
-          sender: data.sender,
-          content: data.content 
-        })
-        databaseobj.save()
-        socket.emit('message_res', data)
-        socket.in(`${socket.room}`).emit('message_res', data)
-      })
-    } else {
-      console.log('message handler monkas')
-    }
-  }
-
   // check existence of one user and implement promises lmoa wtf 
   var searchUser = (user) => {
     return new Promise((resolve, reject) => {
@@ -316,6 +285,34 @@ io.on('connection', (socket) => {
     console.log(`disconnected`)
   })
 })
+
+  // handle join room & send back message history
+  // const joinRoom = (databaseobj, roomnum, message) => {
+  //   socket.join(`${roomnum}`, () => {
+  //     socket.room = roomnum
+  //     socket.emit('createChatroom_res', {res: message, id: databaseobj})
+  //     console.log(`joined ${socket.room}`)
+  //     messageHandler(databaseobj)
+  //   })  
+  // }
+
+  // handle live chat on first connect to chatroom
+  // const messageHandler = (databaseobj) => { 
+  //   if (socket.room) {
+  //     console.log('message handler called')
+  //     socket.on('message', (data) => {
+  //       databaseobj.messages.push({
+  //         sender: data.sender,
+  //         content: data.content 
+  //       })
+  //       databaseobj.save()
+  //       socket.emit('message_res', data)
+  //       socket.in(`${socket.room}`).emit('message_res', data)
+  //     })
+  //   } else {
+  //     console.log('message handler monkas')
+  //   }
+  // }
 
   // handle chatrooms & assign socket.join(room) w/ chatroom id as room
   // socket.on('createChatroom', (data) => {
