@@ -13,13 +13,13 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class RegistrationComponent{
 
 
+
     session: boolean = this.sessionService.session()
-    constructor(private SocketService: SocketService, private sessionService:SessionService, config:NgbModalConfig, private modalService:NgbModal) {
-        config.backdrop = 'static';
-        config.keyboard = false;
+    constructor(private SocketService: SocketService, private sessionService:SessionService, private modalService:NgbModal) {
       }
-    open(content){
-        this.modalService.open(content)
+openmodal() {
+    const modalRef = this.modalService.open(RegistrationComponent);
+        modalRef.componentInstance.name = "World";
     }
 
 
