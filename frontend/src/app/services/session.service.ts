@@ -19,15 +19,11 @@ public sessionState: Observable<boolean> = this._sessionState.asObservable()
   constructor(private SocketService: SocketService) { }
 
   session(): any {
-    this.SocketService.emit('searchUser', sessionStorage.getItem('username') ? [sessionStorage.getItem('username')]: [])
-    this.SocketService.once('searchUser_res').subscribe((data: any) => {
-      if(data.res){
-        this._sessionState.next(true)
-      } else if (data.err) {
-        sessionStorage.removeItem('username')
-        this._sessionState.next(false)
-      }
-    })
+    if(sessionStorage.getItem('username')){
+      this._sessionState.next(true)
+    } else {
+      this._sessionState.next(false)
+    }
   }
 
   changeFeature() {

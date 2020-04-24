@@ -51,6 +51,7 @@ export class RegistrationComponent{
                 } 
                 else if (data.res) {
                     sessionStorage.setItem('username', data.res.username)
+                    this.sessionService.session()
                     console.log(`user created: ${sessionStorage.getItem('username')}`)
                 } else {
                     console.log("c fini")

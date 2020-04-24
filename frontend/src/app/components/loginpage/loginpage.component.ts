@@ -52,6 +52,7 @@ export class LoginComponent{
                 else if (data.res) {
                     sessionStorage.setItem('username', data.res)
                     this.modalService.dismissAll()
+                    this.sessionService.session()
                     console.log(sessionStorage.getItem('username'))
                 }
             })
