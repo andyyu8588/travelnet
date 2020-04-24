@@ -28,7 +28,7 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
 
   ngOnInit(){
     //pull Chatroom content from backend
-    this.socketService.emit('initChatroom', this.roomId)
+    this.socketService.emit('initChatroom', ({id: this.roomId, username: this.username}))
     this.socketService.once('initChatroom_res').subscribe((data: any) => {
       if(data.res) {
         data.res.forEach((element) => {

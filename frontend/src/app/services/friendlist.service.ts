@@ -57,7 +57,9 @@ export class FriendlistService {
       if(data.err){
 
       } else if (data.res) {
+        console.log(polishedarr)
         polishedarr.push(sessionStorage.getItem('username')) 
+        console.log(polishedarr)
         this.SocketService.emit('createChatroom', polishedarr.sort())
       } else {
         console.log('somethin went wrong')

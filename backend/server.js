@@ -30,8 +30,8 @@ var Chatroom = mongoose.model('Chatroom', {
   messages: [
     {content: String,
     sender: String,
-    delivered: Boolean,
-    read: Boolean
+    time: String,
+    seen: Array
     }]
 })
 
@@ -107,14 +107,16 @@ io.on('connection', (socket) => {
 
   // message handler: join room & emit messages
   socket.on('message', (data) => {
+    let currentTime = new Date()
     if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // need to Chatroom.find()
       joinRoom(data.roomId).then((roomObj) => {
           console.log('joined')
-          socket.emit('message_res', {res: data})
-          socket.in(socket.currentRoomId).emit('message_res', {res: data})
+          io.in(socket.currentRoomId).emit('message_res', {res: data})
           roomObj.messages.push({
             sender: data.sender,
-            content: data.content
+            content: data.content,
+            time: currentTime,
+            seen: [data.sender]
           })
           roomObj.save()
         }).catch((err) => {
@@ -125,13 +127,14 @@ io.on('connection', (socket) => {
         Chatroom.findByIdAndUpdate({_id: socket.currentRoomId},
           {$push: {messages: {
             sender: data.sender,
-            content: data.content
+            content: data.content,
+            time: currentTime,
+            seen: [data.sender]
           }}}, (err) => {
             if (err) {
               console.log(err)
             } else {
-              socket.emit('message_res', {res: data})
-              socket.in(socket.currentRoomId).emit('message_res', {res: data})
+              io.in(socket.currentRoomId).emit('message_res', {res: data})
             }
           })
     } else {
@@ -234,17 +237,24 @@ io.on('connection', (socket) => {
   })
 
   // send content of chatroom to chatWidgets
-  socket.on('initChatroom', (id) => {
-    console.log(`chatroom init for ${id}`)
-    Chatroom.findById(id).exec((err,res) => {
+  socket.on('initChatroom', (data) => {
+    console.log(`chatroom init for ${data.id}`)
+    Chatroom.findById(data.id).exec((err, res) => {
       if (err) {
         console.log(err)
         socket.emit('initChatroom_res', {err: err})
       }
       else if (res) {
         // console.log('chatroom exists')
-        let length = res.messages.length 
-        socket.emit('initChatroom_res', {res: res.messages.slice((length < 100 ? 0 : length - 100), length)})
+        let length = res.messages.length
+        console.log(res.messages[length - 1].seen)
+        if (length > 0) {
+          if (!res.messages[length - 1].seen.includes(data.username)) {
+            res.messages[length - 1].seen.push(data.username)
+            res.save()
+          }
+          socket.emit('initChatroom_res', {res: res.messages.slice((length < 100 ? 0 : length - 100), length)})
+        }
       }
       else {
         console.log('parti loin')        
@@ -252,12 +262,34 @@ io.on('connection', (socket) => {
     })
   })
 
+  // Chatroom.findByIdAndUpdate({_id: id}, 
+  //   {$push: {messages[messages.length - 1].seen: username}},
+  //   (err) => {
+  //     if (err) {
+  //       console.log(err)
+  //     } else {
+  //       console.log()
+  //     }
+  //   }
+  // })
+
   // creates new chatroom with all users in array (allows duplicates but not non-existent users)
   socket.on('createChatroom', (data) => {
     console.log('createChatroom called')
     console.log(`chatroom created: ${data}`)
-    var newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
+    console.log(data)
+    const newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
     newChatroom.save()
+    data.forEach((user) => {
+      User.findOneAndUpdate({username: user}, 
+        {$push: {rooms: newChatroom._id.toString()}}, (err) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('room added to user')
+          }
+        })      
+    })
   })
 
   // handle user login
