@@ -3,6 +3,7 @@ const cookieParser = require('cookie')
 const http = require('http')
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
+const currentTime = new Date().toISOString()
 
 // set socket.io
 const app = express()
@@ -107,7 +108,6 @@ io.on('connection', (socket) => {
 
   // message handler: join room & emit messages
   socket.on('message', (data) => {
-    let currentTime = new Date()
     if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // need to Chatroom.find()
       joinRoom(data.roomId).then((roomObj) => {
           console.log('joined')
@@ -144,16 +144,32 @@ io.on('connection', (socket) => {
 
   // socket responses
 
-  // confirm login has worked
+  // handle user login
   socket.on('login', (data) => {
-    console.log(`loginreceived ${data.username}, ${data.password}`)
+    console.log(data)
+    User.findOneAndUpdate({$and:[{$or:[{email:data.email}, {username:data.email}]}, {password: data.password}]}, {
+      $push : {'log.in' : currentTime}
+    }, (err, doc, res) => {
+      console.log(doc)
+      if (err) {
+        console.log(err)
+        socket.emit('login_res', {err: err})
+      }
+      else if (doc) {
+        socket.emit('login_res', {res: doc.username})
+      }
+      else {
+        console.log('monkas')
+      }
+    })
   })
+
   //set logout for users
   socket.on('logout', (user) => {
     console.log(user)
     User.findOneAndUpdate({username: user},
     {
-      $push: {res.log.out: currentTime}
+      $push : {'log.out' : currentTime}
     }, (err,res) => {
       if (err) {
         console.log(err)
@@ -164,7 +180,7 @@ io.on('connection', (socket) => {
 
       }
     }
-    )
+    ) 
   })
 
   // receive and send parsed cookie
@@ -203,7 +219,7 @@ io.on('connection', (socket) => {
               socket.emit('createUser_res', {err: 'username exists'})
             }
             else if (res1.length === 0) {
-              var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms})
+              var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms, 'log.in': currentTime})
               newuser.save()
               socket.emit('createUser_res', {res: newuser})
             }
@@ -306,25 +322,6 @@ io.on('connection', (socket) => {
             console.log('room added to user')
           }
         })      
-    })
-  })
-
-  // handle user login
-  socket.on('UserIn', (data) => {
-    User.find( {$and:[{$or:[{email:data.email}, {username:data.email}]}, {password: data.password}]}, (err, res) => {
-      if (err) {
-        console.log(err)
-        socket.emit('UserIn_res', {err: err})
-      }
-      else if (res.length === 1) {
-        socket.emit('UserIn_res', {res: res[0].username})
-      }
-      else if (res.length === 0){
-        socket.emit('UserIn_res', {err: 'not found'})
-      }
-      else {
-        console.log('monkas')
-      }
     })
   })
 

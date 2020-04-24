@@ -45,7 +45,7 @@ export class LoginComponent{
     //handle user login with socket
     loginClicked(password, username, event: Event){
         if(!(sessionStorage.getItem('username'))){
-            this.SocketService.once('UserIn_res').subscribe((data: any) => {
+            this.SocketService.once('login_res').subscribe((data: any) => {
                 if (data.err) {
                     console.log(data.err)
                 } 
@@ -56,7 +56,7 @@ export class LoginComponent{
                     console.log(sessionStorage.getItem('username'))
                 }
             })
-            this.SocketService.emit('UserIn', {email:username , password:password})
+            this.SocketService.emit('login', {email:username , password:password})
         } else {
             console.log('nothing')
         }
