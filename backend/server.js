@@ -150,17 +150,21 @@ io.on('connection', (socket) => {
   })
   //set logout for users
   socket.on('logout', (user) => {
-    console.log('logged out')
-    // User.findOneAndUpdate({username: user},
-    // (err,res) => {
-    //   if (err) {
-    //     console.log(err)
-    //   }
-    //   else {
-    //     console.log('hello')
-    //   }
-    // }
-    // )
+    console.log(user)
+    User.findOneAndUpdate({username: user},
+    {
+      $push: {res.log.out: currentTime}
+    }, (err,res) => {
+      if (err) {
+        console.log(err)
+      }
+      else if (res) {
+        console.log('updated')
+      } else {
+
+      }
+    }
+    )
   })
 
   // receive and send parsed cookie
