@@ -4,11 +4,10 @@ const http = require('http')
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
 
+// set socket.io
 const app = express()
 const server = http.createServer(app)
 const io = require('socket.io').listen(server)
-
-// to implement with socket.on('disconnect')
 
 // set URL:
 var dbURL = 'mongodb://localhost/Travelnet'
@@ -25,9 +24,9 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFin
 
 // create Chatroom scheme
 var Chatroom = mongoose.model('Chatroom', {
-  roomName : String,
-  userNum : Number,
-  Users : Array, 
+  roomName: String,
+  userNum: Number,
+  Users: Array, 
   messages: [
     {content: String,
     sender: String,
@@ -70,7 +69,7 @@ io.on('connection', (socket) => {
 
   // socket helper functions
 
-  function joinRoom(roomId) {
+  const joinRoom = (roomId) => {
     return new Promise((resolve, reject) => {
       Chatroom.findById(roomId).exec((err, res) => {
         if (err) {
@@ -88,13 +87,31 @@ io.on('connection', (socket) => {
     })
   }
 
+  // check existence of one user and implement promises lmoa wtf 
+  const searchUser = (user) => {
+    return new Promise((resolve, reject) => {
+      User.findOne({username: user}).exec((err, res) => {
+        if(err){
+          reject(err)
+        }
+        else if(res) {
+          user = res.username
+          resolve({res: res.username})
+        }
+        else {
+          resolve('error')
+        }
+      })
+    })
+  }
+
   // message handler: join room & emit messages
   socket.on('message', (data) => {
     if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // need to Chatroom.find()
       joinRoom(data.roomId).then((roomObj) => {
           console.log('joined')
           socket.emit('message_res', {res: data})
-          // socket.in(socket.currentRoomId).emit('message_res', {res: data})
+          socket.in(socket.currentRoomId).emit('message_res', {res: data})
           roomObj.messages.push({
             sender: data.sender,
             content: data.content
@@ -114,31 +131,13 @@ io.on('connection', (socket) => {
               console.log(err)
             } else {
               socket.emit('message_res', {res: data})
-              // socket.in(socket.currentRoomId).emit('message_res', {res: data})
+              socket.in(socket.currentRoomId).emit('message_res', {res: data})
             }
           })
     } else {
       console.log('actualy la fin')
     }
-  })
- 
-  // check existence of one user and implement promises lmoa wtf 
-  var searchUser = (user) => {
-    return new Promise((resolve, reject) => {
-      User.findOne({username: user}).exec((err, res) => {
-        if(err){
-          reject(err)
-        }
-        else if(res) {
-          user = res.username
-          resolve({res: res.username})
-        }
-        else {
-          resolve('error')
-        }
-      })
-    })
-  }
+  }) 
 
   // socket responses
 
@@ -280,64 +279,8 @@ io.on('connection', (socket) => {
     })
   })
 
-  // manage disconnections (to implement)
-  socket.on('disconnect', ()=>{
+  // manage disconnections
+  socket.on('disconnect', () => {
     console.log(`disconnected`)
   })
 })
-
-  // handle join room & send back message history
-  // const joinRoom = (databaseobj, roomnum, message) => {
-  //   socket.join(`${roomnum}`, () => {
-  //     socket.room = roomnum
-  //     socket.emit('createChatroom_res', {res: message, id: databaseobj})
-  //     console.log(`joined ${socket.room}`)
-  //     messageHandler(databaseobj)
-  //   })  
-  // }
-
-  // handle live chat on first connect to chatroom
-  // const messageHandler = (databaseobj) => { 
-  //   if (socket.room) {
-  //     console.log('message handler called')
-  //     socket.on('message', (data) => {
-  //       databaseobj.messages.push({
-  //         sender: data.sender,
-  //         content: data.content 
-  //       })
-  //       databaseobj.save()
-  //       socket.emit('message_res', data)
-  //       socket.in(`${socket.room}`).emit('message_res', data)
-  //     })
-  //   } else {
-  //     console.log('message handler monkas')
-  //   }
-  // }
-
-  // handle chatrooms & assign socket.join(room) w/ chatroom id as room
-  // socket.on('createChatroom', (data) => {
-  //   // if (!socket.room) {
-  //     console.log(`chatroom req by ${data}`)
-  //     Chatroom.find({Users: data, userNum: data.length}, (err,res) => {
-  //       if (err) {
-  //         console.log(err)
-  //       }
-  //       else if (res.length === 1) {
-  //         console.log('chatroom exists')
-  //         // joinRoom(res[0], res[0].id, res[0].messages)
-  //       }
-  //       else {
-  //         var newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
-  //         newChatroom.save((err, product) => {
-  //           if (err) {
-  //             console.log(err)
-  //           }
-  //           else {
-  //             console.log('new chatroom created')
-  //             // joinRoom(product, product.id, product.messages)
-  //           }
-  //         })
-  //       }
-  //     })
-  //   // } 
-  // })

@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
 
-    <title></title>
+  <title></title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" alt='/socket.io/socket.io.js' defer></script>
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2&display=swap');
-    </style>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet'/>
-  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" alt='/socket.io/socket.io.js' defer></script>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2&display=swap');
+  </style>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet'/>
+  
+</head>
 
-  <body scroll="no" style="overflow: hidden">
-
-
-
-
-    <header-navbar (featureSelected)="onNavigate($event)"></header-navbar>
+<body scroll="no" style="overflow: hidden">
 
 
-    <div><app-registration  *ngIf='currentFeature === "Registration"'></app-registration></div>
-    <div><app-login  *ngIf='currentFeature === "Login"'></app-login></div>
-    <div><app-map></app-map></div>
 
-    
-    <app-friendlist></app-friendlist>
 
-    <div class="container" style="
-      position: fixed;
-      bottom: 1%;
-      width: auto;
-      "
-      *ngIf='session'>
-      <app-chatwidget 
-      *ngFor='let widget of openChatWidgets.roomNames, let i = index '
-      [roomName]="widget"
-      [roomId]='openChatWidgets.roomIds[i]'>
-      </app-chatwidget>
-    </div>
-  </body>
+  <header-navbar (featureSelected)="onNavigate($event)"></header-navbar>
+
+
+  <div><app-registration  *ngIf='currentFeature === "Registration"'></app-registration></div>
+  <div><app-login  *ngIf='currentFeature === "Login"'></app-login></div>
+  <div><app-map></app-map></div>
+
+  
+  <app-friendlist></app-friendlist>
+
+  <div class="container" style="
+    position: fixed;
+    right: 11%;
+    bottom: 1%;
+    width: auto;
+    "
+    *ngIf='session'>
+    <app-chatwidget 
+    *ngFor='let widget of openChatWidgets.roomNames, let i = index '
+    [roomName]="widget"
+    [roomId]='openChatWidgets.roomIds[i]'>
+    </app-chatwidget>
+  </div>
+</body>
 </html>
