@@ -148,6 +148,20 @@ io.on('connection', (socket) => {
   socket.on('login', (data) => {
     console.log(`loginreceived ${data.username}, ${data.password}`)
   })
+  //set logout for users
+  socket.on('logout', (user) => {
+    console.log('logged out')
+    // User.findOneAndUpdate({username: user},
+    // (err,res) => {
+    //   if (err) {
+    //     console.log(err)
+    //   }
+    //   else {
+    //     console.log('hello')
+    //   }
+    // }
+    // )
+  })
 
   // receive and send parsed cookie
   socket.on('cookie', (data) => {
@@ -247,7 +261,6 @@ io.on('connection', (socket) => {
       else if (res) {
         // console.log('chatroom exists')
         let length = res.messages.length
-        console.log(res.messages[length - 1].seen)
         if (length > 0) {
           if (!res.messages[length - 1].seen.includes(data.username)) {
             res.messages[length - 1].seen.push(data.username)
