@@ -1,5 +1,4 @@
 const express = require('express')
-const cookieParser = require('cookie')
 const http = require('http')
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
@@ -92,10 +91,10 @@ io.on('connection', (socket) => {
   const searchUser = (user) => {
     return new Promise((resolve, reject) => {
       User.findOne({username: user}).exec((err, res) => {
-        if(err){
+        if (err) {
           reject(err)
         }
-        else if(res) {
+        else if (res) {
           user = res.username
           resolve({res: res.username})
         }
@@ -130,7 +129,7 @@ io.on('connection', (socket) => {
             content: data.content,
             time: currentTime,
             seen: [data.sender]
-          }}}, (err) => {
+          }}}, (err, res) => {
             if (err) {
               console.log(err)
             } else {
@@ -146,11 +145,9 @@ io.on('connection', (socket) => {
 
   // handle user login
   socket.on('login', (data) => {
-    console.log(data)
-    User.findOneAndUpdate({$and:[{$or:[{email:data.email}, {username:data.email}]}, {password: data.password}]}, {
-      $push : {'log.in' : currentTime}
-    }, (err, doc, res) => {
-      console.log(doc)
+    User.findOneAndUpdate({$and: [{$or: [{email: data.email}, {username: data.email}]}, {password: data.password}]}, 
+    {$push: {'log.in': currentTime}},
+    (err, doc, res) => {
       if (err) {
         console.log(err)
         socket.emit('login_res', {err: err})
@@ -161,33 +158,22 @@ io.on('connection', (socket) => {
       else {
         console.log('monkas')
       }
-    })
+    })  
   })
 
-  //set logout for users
+  // set logout for users
   socket.on('logout', (user) => {
-    console.log(user)
     User.findOneAndUpdate({username: user},
-    {
-      $push : {'log.out' : currentTime}
-    }, (err,res) => {
+    {$push: {'log.out': currentTime}},
+    (err, doc, res) => {
       if (err) {
         console.log(err)
-      }
-      else if (res) {
+      } else if (doc) {
         console.log('updated')
       } else {
-
+        console.log('monkas')
       }
-    }
-    ) 
-  })
-
-  // receive and send parsed cookie
-  socket.on('cookie', (data) => {
-    let cookie = cookieParser.parse(data)
-    socket.emit('cookieres', {res: cookie})
-    socket.username = cookie.username
+    }) 
   })
 
   // save new users in database
@@ -235,13 +221,15 @@ io.on('connection', (socket) => {
   // seaches for each in list of users 
   socket.on('searchUser', (arr) => {
     console.log('searchuser called')
-    let reform = arr.map(searchUser)
-    let wat = Promise.all(reform)
-    wat.then(result => {
+    let findUsers = arr.map(searchUser)
+    let response = Promise.all(findUsers)
+    response.then((result) => {
       console.log(result)
       result.includes('error') ? socket.emit('searchUser_res', {err: result}) : socket.emit('searchUser_res', {res: result})
     })
-    .catch(err => {console.log(err)})
+    .catch((err) => {
+      console.log(err)
+    })
   })
 
   // search chatrooms and expect array of users in alphabetical order
@@ -308,9 +296,10 @@ io.on('connection', (socket) => {
 
   // creates new chatroom with all users in array (allows duplicates but not non-existent users)
   socket.on('createChatroom', (data) => {
+
     console.log('createChatroom called')
     console.log(`chatroom created: ${data}`)
-    console.log(data)
+
     const newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
     newChatroom.save()
     data.forEach((user) => {
