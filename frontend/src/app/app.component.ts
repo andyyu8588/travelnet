@@ -15,14 +15,12 @@ export class AppComponent implements DoCheck {
   sessionState: boolean
   user = sessionStorage.getItem('username')
   openChatWidgets: any
-  private openChatWidgets_sub: any
 
   constructor(
     private FriendlistService: FriendlistService,
     private SessionService: SessionService){
-    if(this.sessionState){
-      this.openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)
-    }
+      
+    let openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)
     this.SessionService.session()
     let y = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
     let x = this.SessionService.currentFeature.subscribe(x => this.currentFeature = x)

@@ -8,11 +8,13 @@ import{SessionService} from '../../services/session.service'
   styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-  session:boolean = this.SessionService.session()
+  sessionState:boolean
  
   constructor(
     private SessionService:SessionService,
     private SocketService: SocketService) {
+
+      let x = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
 
   }
 

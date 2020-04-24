@@ -38,7 +38,7 @@ export class loginComponent{
 })
 export class LoginComponent{
 
-    constructor(private SocketService: SocketService, private sessionService:SessionService){
+    constructor(private SocketService: SocketService, private sessionService: SessionService, private modalService:NgbModal){
 
     }
 
@@ -51,6 +51,7 @@ export class LoginComponent{
                 } 
                 else if (data.res) {
                     sessionStorage.setItem('username', data.res)
+                    this.modalService.dismissAll()
                     console.log(sessionStorage.getItem('username'))
                 }
             })
