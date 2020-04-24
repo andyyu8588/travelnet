@@ -56,7 +56,7 @@ export class RegistrationComponent{
                     console.log(data.err)
                 } 
                 else if (data.res) {
-                    sessionStorage.setItem('username', data.res)
+                    sessionStorage.setItem('username', data.res.username)
                     console.log(`user created: ${sessionStorage.getItem('username')}`)
                     location.reload();
                 } else {
