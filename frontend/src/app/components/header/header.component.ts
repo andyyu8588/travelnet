@@ -6,11 +6,11 @@ import{SessionService} from '../../services/session.service'
 })
 
 export class HeaderComponent{
-    session:boolean = this.sessionService.session()
+    sessionState:any 
     @Output() featureSelected = new EventEmitter<string>();
     
     constructor(private sessionService:SessionService) {
-
+        let x = this.sessionService.sessionState.subscribe(x => this.sessionState = x)
     }
 
     //select item from menu

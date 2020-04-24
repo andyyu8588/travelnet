@@ -1,6 +1,6 @@
 import { SessionService } from './services/session.service';
 import { RoomWidget } from './components/friendlist/friend/Room_Widget.model';
-import { Component } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
 import { FriendlistService } from './services/friendlist.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { FriendlistService } from './services/friendlist.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-
-
+export class AppComponent implements DoCheck {
 
   currentFeature:string
   title = 'frontend';
-  session: boolean = this.SessionService.session()
+  sessionState: boolean
   user = sessionStorage.getItem('username')
   openChatWidgets: any
   private openChatWidgets_sub: any
@@ -22,13 +20,20 @@ export class AppComponent {
   constructor(
     private FriendlistService: FriendlistService,
     private SessionService: SessionService){
-    if(this.user){
+    if(this.sessionState){
       this.openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)
     }
-      let x = this.SessionService.currentFeature.subscribe(x => this.currentFeature = x)
+    this.SessionService.session()
+    let y = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
+    let x = this.SessionService.currentFeature.subscribe(x => this.currentFeature = x)
   }
 
   onNavigate(feature: any) {
     this.currentFeature = feature;
   }
+
+  ngDoCheck() {
+    // console.log(this.sessionState)
+  }
+
 }

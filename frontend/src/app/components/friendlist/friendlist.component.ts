@@ -9,16 +9,20 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
   styleUrls: ['./friendlist.component.scss']
 })
 export class FriendlistComponent implements OnInit {
-  session: boolean = this.SessionService.session()
+  sessionState: boolean 
   friends: RoomWidget[] = []
   private friends_sub: any
+  
   constructor(
     private friendlistService: FriendlistService,
     private SessionService: SessionService,
     ) {
-    
+
+    //setup sessionState observable
+    let x = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
+
     //subscrive to friendlist observable 
-    if(this.session === true){
+    if(this.sessionState === true){
       this.friends_sub = this.friendlistService.chatroomList.subscribe(x => this.friends = x)
       this.friendlistService.getList([])
     } else {

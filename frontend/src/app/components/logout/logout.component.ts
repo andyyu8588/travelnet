@@ -1,3 +1,4 @@
+import { SocketService } from './../../services/socket.service';
 import { Component, OnInit } from '@angular/core';
 import{SessionService} from '../../services/session.service'
 
@@ -7,9 +8,11 @@ import{SessionService} from '../../services/session.service'
   styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-  session:boolean = this.sessionService.session()
+  session:boolean = this.SessionService.session()
  
-  constructor(private sessionService:SessionService) {
+  constructor(
+    private SessionService:SessionService,
+    private SocketService: SocketService) {
 
   }
 
@@ -19,8 +22,9 @@ export class LogoutComponent implements OnInit {
 
   //logout user
   logout() {
+    this.SocketService.emit('logout', sessionStorage.getItem('username'))
     sessionStorage.clear()
     console.log('session cleared')
-    window.location.reload()
+    this.SessionService.session()
   }
 }

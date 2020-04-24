@@ -15,27 +15,21 @@ export class registrationComponent{
 
     this.openModal()
 
-    this.modal.result.then(()=>{
+    this.modal.result.then(()=> {
         
         this.SessionService.changeFeature()
-       }, ()=>{
+        }, ()=>{    
         
         this.SessionService.changeFeature()
         //gets triggers when modal is dismissed.
        });
     }
-    openModal(){
+    openModal() {
         this.modal = this.modalService.open(RegistrationComponent,{})
-        }
-    
-
-
-    
-
-
-
-
+    }
 }
+
+
 @Component({
     selector: 'app-registrationpage',
     templateUrl:'./registrationpage.component.html',
@@ -58,7 +52,6 @@ export class RegistrationComponent{
                 else if (data.res) {
                     sessionStorage.setItem('username', data.res.username)
                     console.log(`user created: ${sessionStorage.getItem('username')}`)
-                    location.reload();
                 } else {
                     console.log("c fini")
                     console.log(data)
