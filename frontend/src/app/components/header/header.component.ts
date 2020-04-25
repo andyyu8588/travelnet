@@ -6,7 +6,8 @@ import{SessionService} from '../../services/session.service'
 })
 
 export class HeaderComponent{
-    sessionState:any 
+    sessionState:any
+    username: string = sessionStorage.getItem('username')
     @Output() featureSelected = new EventEmitter<string>();
     
     constructor(private sessionService:SessionService) {

@@ -110,7 +110,6 @@ io.on('connection', (socket) => {
   // message handler: join room & emit messages
   // expects object data with strings roomId, sender, content
   socket.on('message', (data) => {
-
     // parse data into message model
     let newMessage = {
       sender: data.sender,
@@ -121,8 +120,6 @@ io.on('connection', (socket) => {
     
     if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // if client has no room or the room is not the same
       joinRoom(data.roomId).then((roomObj) => {
-          console.log('joined')
-          
           // update database
           roomObj.messages.push(newMessage)
           roomObj.save()
@@ -140,8 +137,6 @@ io.on('connection', (socket) => {
           console.log(err)
         })
     } else if (socket.currentRoomId == data.roomId) { // client is already in room
-        console.log('already in room')
-
         // update database
         Chatroom.findByIdAndUpdate({_id: socket.currentRoomId},
           {$push: {messages: newMessage}},
@@ -155,6 +150,7 @@ io.on('connection', (socket) => {
               // emit notification
               res.Users.forEach((user) => {
                 if (user != data.sender) {
+                  console.log(`sockets: ${Object.keys(io.sockets.sockets)}`)
                   io.to(user).emit('notification', {message: newMessage, roomID: socket.currentRoomId})
                 }
               })
@@ -178,12 +174,14 @@ io.on('connection', (socket) => {
         socket.emit('login_res', {err: err})
       }
       else if (doc) {
+        socket[doc.username] = socket.id
         socket.emit('login_res', {res: doc.username})
+        console.log(`socket id: ${socket.id}`)
       }
       else {
         console.log('monkas')
       }
-    })  
+    })
   })
 
   // set logout for users
@@ -195,7 +193,7 @@ io.on('connection', (socket) => {
       if (err) {
         console.log(err)
       } else if (doc) {
-        console.log('updated')
+        // console.log('updated')
       } else {
         console.log('monkas')
       }
@@ -217,8 +215,10 @@ io.on('connection', (socket) => {
         else if (res.length === 0) {
             var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms, 'log.in': currentTime})
             newuser.save()
+            socket[newuser.username] = socket.id
             socket.emit('createUser_res', {res: newuser})
-        }
+            console.log(socket.id)
+          }
     })
   })
 

@@ -1,6 +1,6 @@
 import { SessionService } from './services/session.service';
 import { RoomWidget } from './components/friendlist/friend/Room_Widget.model';
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { FriendlistService } from './services/friendlist.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { FriendlistService } from './services/friendlist.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements DoCheck {
+export class AppComponent implements DoCheck, OnInit {
 
   currentFeature:string
   title = 'frontend';
@@ -33,6 +33,10 @@ export class AppComponent implements DoCheck {
 
   onNavigate(feature: any) {
     this.currentFeature = feature;
+  }
+
+  ngOnInit() {
+    this.FriendlistService.getNotifications()
   }
 
   ngDoCheck() {

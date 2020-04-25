@@ -1,4 +1,4 @@
-<div class="widget rounded" *ngIf='sessionState'>
+<div class="widget rounded" *ngIf='sessionState' (click)='initRoom()'>
     <p [innerText]='roomName' aria-readonly="true"></p>
     <br>
 

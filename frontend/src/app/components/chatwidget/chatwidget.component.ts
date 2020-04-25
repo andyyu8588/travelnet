@@ -61,9 +61,12 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
   
   //send message with socket
   sendMessage(data: string) {
-    console.log(this.roomId)
     this.socketService.emit('message', {roomId: this.roomId, sender: this.username, content: data})    
   }
+
+  initRoom() {
+
+  }  
 
   ngOnDestroy(){
     this.socketService.remove('message_res')

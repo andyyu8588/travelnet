@@ -84,8 +84,9 @@ export class FriendlistService {
   }
 
   getNotifications() {
+    console.log('listening for notif')
     this.SocketService.listen('notification').subscribe((data) => {
-      
+      console.log(data)
     })
   }
 }
