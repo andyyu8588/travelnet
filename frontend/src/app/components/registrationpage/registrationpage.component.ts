@@ -16,10 +16,10 @@ export class registrationComponent{
     this.openModal()
 
     this.modal.result.then(()=> {
-        
+
         this.SessionService.changeFeature()
-        }, ()=>{    
-        
+        }, ()=>{
+
         this.SessionService.changeFeature()
         //gets triggers when modal is dismissed.
        });
@@ -39,7 +39,7 @@ export class registrationComponent{
 
 export class RegistrationComponent{
 
-    constructor(private SocketService: SocketService, private sessionService:SessionService) {
+    constructor(private SocketService: SocketService, private sessionService:SessionService, private modalService:NgbModal) {
     }
     //send register request with socket
     registerClicked(password: string, username: string, email: string){
@@ -48,10 +48,11 @@ export class RegistrationComponent{
             this.SocketService.once('createUser_res').subscribe((data: any) => {
                 if (data.err) {
                     console.log(data.err)
-                } 
+                }
                 else if (data.res) {
                     sessionStorage.setItem('username', data.res.username)
                     this.sessionService.session()
+                    this.modalService.dismissAll()
                     console.log(`user created: ${sessionStorage.getItem('username')}`)
                 } else {
                     console.log("c fini")
@@ -62,6 +63,6 @@ export class RegistrationComponent{
             this.SocketService.emit('createUser', {email:email, username:username, password:password})
         } else {
             console.log('nothing')
-        }   
+        }
     }
 }
