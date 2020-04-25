@@ -13,7 +13,8 @@ import { FriendComponent } from './components/friendlist/friend/friend.component
 import { MapComponent } from './components/map/map.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import{registrationComponent} from './components/registrationpage/registrationpage.component';
-import{loginComponent} from './components/loginpage/loginpage.component'
+import{loginComponent} from './components/loginpage/loginpage.component';
+import { ChatsystemComponent } from './components/chatsystem/chatsystem.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import{loginComponent} from './components/loginpage/loginpage.component'
     MapComponent,
     registrationComponent,
     loginComponent,
+    ChatsystemComponent,
   ],
   imports: [
     BrowserModule,

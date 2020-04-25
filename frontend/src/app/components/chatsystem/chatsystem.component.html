@@ -1,0 +1,15 @@
+<app-friendlist></app-friendlist>
+
+<div class="container" style="
+  position: fixed;
+  right: 11%;
+  bottom: 1%;
+  width: auto;
+  "
+  *ngIf='sessionState'>
+  <app-chatwidget 
+  *ngFor='let widget of openChatWidgets.roomNames, let i = index '
+  [roomName]="widget"
+  [roomId]='openChatWidgets.roomIds[i]'>
+  </app-chatwidget>
+</div>
