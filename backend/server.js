@@ -287,17 +287,6 @@ io.on('connection', (socket) => {
     })
   })
 
-  // Chatroom.findByIdAndUpdate({_id: id}, 
-  //   {$push: {messages[messages.length - 1].seen: username}},
-  //   (err) => {
-  //     if (err) {
-  //       console.log(err)
-  //     } else {
-  //       console.log()
-  //     }
-  //   }
-  // })
-
   // creates new chatroom with all users in array (allows duplicates but not non-existent users)
   socket.on('createChatroom', (data) => {
 
