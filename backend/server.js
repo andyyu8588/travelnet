@@ -69,6 +69,8 @@ io.on('connection', (socket) => {
 
   // socket helper functions
 
+  // join room
+  // expects string roomId
   const joinRoom = (roomId) => {
     return new Promise((resolve, reject) => {
       Chatroom.findById(roomId).exec((err, res) => {
@@ -87,15 +89,15 @@ io.on('connection', (socket) => {
     })
   }
 
-  // check existence of one user and implement promises lmoa wtf 
-  const searchUser = (user) => {
+  // check existence of one user and implement promises lmoa wtf
+  // expects string username
+  const searchUser = (username) => {
     return new Promise((resolve, reject) => {
-      User.findOne({username: user}).exec((err, res) => {
+      User.findOne({username}).exec((err, res) => {
         if (err) {
           reject(err)
         }
         else if (res) {
-          user = res.username
           resolve({res: res.username})
         }
         else {
@@ -106,34 +108,48 @@ io.on('connection', (socket) => {
   }
 
   // message handler: join room & emit messages
+  // expects object data with strings roomId, sender, content
   socket.on('message', (data) => {
-    if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // need to Chatroom.find()
+
+    // parse data into message model
+    let newMessage = {
+      sender: data.sender,
+      content: data.content,
+      time: currentTime,
+      seen: [data.sender]
+    }
+    
+    if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // if client has no room or the room is not the same
       joinRoom(data.roomId).then((roomObj) => {
           console.log('joined')
-          io.in(socket.currentRoomId).emit('message_res', {res: data})
-          roomObj.messages.push({
-            sender: data.sender,
-            content: data.content,
-            time: currentTime,
-            seen: [data.sender]
-          })
+          
+          // update database
+          roomObj.messages.push(newMessage)
           roomObj.save()
+          
+          // emit message
+          io.in(socket.currentRoomId).emit('message_res', {res: data})
+
+          // emit notification
+          // socket.to(socket.currentRoomId).emit('notification', newMessage)
         }).catch((err) => {
           console.log(err)
         })
-    } else if (socket.currentRoomId == data.roomId) {
+    } else if (socket.currentRoomId == data.roomId) { // client is already in room
         console.log('already in room')
+
+        // update database
         Chatroom.findByIdAndUpdate({_id: socket.currentRoomId},
-          {$push: {messages: {
-            sender: data.sender,
-            content: data.content,
-            time: currentTime,
-            seen: [data.sender]
-          }}}, (err, res) => {
+          {$push: {messages: newMessage}},
+          (err, res) => {
             if (err) {
               console.log(err)
             } else {
+              // emit message
               io.in(socket.currentRoomId).emit('message_res', {res: data})
+              
+              // emit notification
+              // socket.to(socket.currentRoomId).emit('notification', newMessage)
             }
           })
     } else {
@@ -144,6 +160,7 @@ io.on('connection', (socket) => {
   // socket responses
 
   // handle user login
+  // expects object data with strings email, password
   socket.on('login', (data) => {
     User.findOneAndUpdate({$and: [{$or: [{email: data.email}, {username: data.email}]}, {password: data.password}]}, 
     {$push: {'log.in': currentTime}},
@@ -162,8 +179,9 @@ io.on('connection', (socket) => {
   })
 
   // set logout for users
-  socket.on('logout', (user) => {
-    User.findOneAndUpdate({username: user},
+  // expects string username
+  socket.on('logout', (username) => {
+    User.findOneAndUpdate({username},
     {$push: {'log.out': currentTime}},
     (err, doc, res) => {
       if (err) {
@@ -218,12 +236,12 @@ io.on('connection', (socket) => {
     }
   })
 
-  // seaches for each in list of users 
+  // seaches for each in 
+  // expects a list of users (arr)
   socket.on('searchUser', (arr) => {
     console.log('searchuser called')
-    let findUsers = arr.map(searchUser)
-    let response = Promise.all(findUsers)
-    response.then((result) => {
+    let findUsers = Promise.all(arr.map(searchUser))
+    findUsers.then((result) => {
       console.log(result)
       result.includes('error') ? socket.emit('searchUser_res', {err: result}) : socket.emit('searchUser_res', {res: result})
     })
@@ -267,7 +285,7 @@ io.on('connection', (socket) => {
         socket.emit('initChatroom_res', {err: err})
       }
       else if (res) {
-        // console.log('chatroom exists')
+        console.log('chatroom exists')
         let length = res.messages.length
         if (length > 0) {
           if (!res.messages[length - 1].seen.includes(data.username)) {
