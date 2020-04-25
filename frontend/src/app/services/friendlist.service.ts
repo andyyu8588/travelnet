@@ -83,5 +83,10 @@ export class FriendlistService {
     })
   }
 
+  getNotifications() {
+    this.SocketService.listen('notification').subscribe((data) => {
+      
+    })
+  }
 }
 

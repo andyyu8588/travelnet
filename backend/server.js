@@ -131,7 +131,11 @@ io.on('connection', (socket) => {
           io.in(socket.currentRoomId).emit('message_res', {res: data})
 
           // emit notification
-          // socket.to(socket.currentRoomId).emit('notification', newMessage)
+          roomObj.Users.forEach((user) => {
+            if (user != data.sender) {
+              io.to(user).emit('notification', {message: newMessage, roomID: socket.currentRoomId})
+            }
+          })
         }).catch((err) => {
           console.log(err)
         })
@@ -149,7 +153,11 @@ io.on('connection', (socket) => {
               io.in(socket.currentRoomId).emit('message_res', {res: data})
               
               // emit notification
-              // socket.to(socket.currentRoomId).emit('notification', newMessage)
+              res.Users.forEach((user) => {
+                if (user != data.sender) {
+                  io.to(user).emit('notification', {message: newMessage, roomID: socket.currentRoomId})
+                }
+              })
             }
           })
     } else {
