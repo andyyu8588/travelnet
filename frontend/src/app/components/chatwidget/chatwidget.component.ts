@@ -14,16 +14,17 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
   @ViewChild('textarea') div: ElementRef
   typeArea: string = ''
   // private socketRoom: string
-  session: boolean = this.sessionService.session()
+  sessionState: boolean 
   username: string = sessionStorage.getItem('username')
  
 
-  constructor(
-    private frienlistService: FriendlistService,
+  constructor(private frienlistService: FriendlistService,
     private renderer: Renderer2,
     private socketService: SocketService,
-    public sessionService: SessionService,
-    ){ 
+    public sessionService: SessionService) {
+      let x = this.sessionService.sessionState.subscribe((x) => {
+        this.sessionState = x
+      })
   }
 
   ngOnInit(){
@@ -50,6 +51,11 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
         this.typeArea = ``
       } else {
       } 
+    })
+
+    // listen for notifications
+    this.socketService.listen('notification').subscribe((data: any) => {
+      
     })
   }
   
