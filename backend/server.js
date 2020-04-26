@@ -69,6 +69,25 @@ io.on('connection', (socket) => {
 
   // socket helper functions
 
+  // create chatroom
+  // expects array of sorted usernames
+  const createChatroom = (usernames) => {
+    const newChatroom = new Chatroom({Users : usernames, roomName : usernames.toString(), messages : [], userNum: usernames.length })
+    newChatroom.save()
+    console.log('chatroom created with users ' + usernames)
+    usernames.forEach((user) => {
+      User.findOneAndUpdate({username: user},
+        {$push: {rooms: newChatroom._id.toString()}}, (err) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('room added to user')
+          }
+        }
+      )      
+    })
+  }
+
   // join room
   // expects string roomId
   const joinRoom = (roomId) => {
@@ -107,24 +126,116 @@ io.on('connection', (socket) => {
     })
   }
 
-  // create chatroom
-  // expects array of sorted usernames
-  const createChatroom = (usernames) => {
-    const newChatroom = new Chatroom({Users : usernames, roomName : usernames.toString(), messages : [], userNum: usernames.length })
-    newChatroom.save()
-    console.log('chatroom created with users ' + usernames)
-    usernames.forEach((user) => {
-      User.findOneAndUpdate({username: user},
-        {$push: {rooms: newChatroom._id.toString()}}, (err) => {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log('room added to user')
-          }
+  // socket responses
+
+  // creates new chatroom 
+  // expects array of users (allows duplicates but not non-existent users)
+  socket.on('createChatroom', (data) => {
+
+    console.log('createChatroom called')
+
+    if (data.length === 2) { // private chat
+      Chatroom.find({Users: data}, (err, res) => {
+        if (err) {
+          console.log(err)
+        } else if (res.length) {
+          console.log('private chatroom already exists')
+        } else {
+          createChatroom(data)
         }
-      )      
+      })
+    } else {
+      createChatroom(data)
+    }
+  })
+
+  // save new users in database
+  // expects non-empty data
+  socket.on('createUser', (data) => {
+    // check for {username || email} && password
+    User.find({$and: [{$or: [{username: data.username}, {email: data.email}]}, {password: data.password}]},
+    (err, res) => {
+        if (err) {
+            console.log(err)
+        }
+        else if (res.length === 1) {
+            socket.emit('createUser_res', {err: 'email or username taken'})
+        }
+        else if (res.length === 0) {
+            var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms, 'log.in': currentTime})
+            newuser.save()
+            socket[newuser.username] = socket.id
+            socket.emit('createUser_res', {res: newuser})
+            console.log(socket.id)
+          }
     })
-  }
+  })  
+
+  // manage disconnections
+  socket.on('disconnect', () => {
+    console.log(`disconnected`)
+  })
+
+  // send content of chatroom to chatWidgets
+  socket.on('initChatroom', (data) => {
+    console.log(`chatroom init for ${data.id}`)
+    Chatroom.findById(data.id).exec((err, res) => {
+      if (err) {
+        console.log(err)
+        socket.emit('initChatroom_res', {err: err})
+      }
+      else if (res) {
+        console.log('chatroom exists')
+        let length = res.messages.length
+        if (length > 0) {
+          if (!res.messages[length - 1].seen.includes(data.username)) {
+            res.messages[length - 1].seen.push(data.username)
+            res.save()
+          }
+          socket.emit('initChatroom_res', {res: res.messages.slice((length < 100 ? 0 : length - 100), length)})
+        }
+      }
+      else {
+        console.log('parti loin')        
+      }
+    })
+  })
+
+  // handle user login
+  // expects object data with strings email, password
+  socket.on('login', (data, ack) => {
+    User.findOneAndUpdate({$and: [{$or: [{email: data.email}, {username: data.email}]}, {password: data.password}]}, 
+    {$push: {'log.in': currentTime}},
+    (err, doc, res) => {
+      if (err) {
+        console.log(err)
+        ack({err: err})
+      }
+      else if (doc) {
+        socket[doc.username] = socket.id
+        ack({res: doc.username})
+      }
+      else {
+        console.log('monkas')
+      }
+    })
+  })
+
+  // set logout for users
+  // expects string username
+  socket.on('logout', (username) => {
+    User.findOneAndUpdate({username},
+    {$push: {'log.out': currentTime}},
+    (err, doc, res) => {
+      if (err) {
+        console.log(err)
+      } else if (doc) {
+        // console.log('updated')
+      } else {
+        console.log('monkas')
+      }
+    }) 
+  })
 
   // message handler: join room & emit messages
   // expects object data with strings roomId, sender, content
@@ -178,82 +289,7 @@ io.on('connection', (socket) => {
     } else {
       console.log('actualy la fin')
     }
-  }) 
-
-  // socket responses
-
-  // handle user login
-  // expects object data with strings email, password
-  socket.on('login', (data, ack) => {
-    User.findOneAndUpdate({$and: [{$or: [{email: data.email}, {username: data.email}]}, {password: data.password}]}, 
-    {$push: {'log.in': currentTime}},
-    (err, doc, res) => {
-      if (err) {
-        console.log(err)
-        ack({err: err})
-      }
-      else if (doc) {
-        socket[doc.username] = socket.id
-        ack({res: doc.username})
-      }
-      else {
-        console.log('monkas')
-      }
-    })
-  })
-
-
-  // set logout for users
-  // expects string username
-  socket.on('logout', (username) => {
-    User.findOneAndUpdate({username},
-    {$push: {'log.out': currentTime}},
-    (err, doc, res) => {
-      if (err) {
-        console.log(err)
-      } else if (doc) {
-        // console.log('updated')
-      } else {
-        console.log('monkas')
-      }
-    }) 
-  })
-
-  // save new users in database
-  // expects non-empty data
-  socket.on('createUser', (data) => {
-    // check for {username || email} && password
-    User.find({$and: [{$or: [{username: data.username}, {email: data.email}]}, {password: data.password}]},
-    (err, res) => {
-        if (err) {
-            console.log(err)
-        }
-        else if (res.length === 1) {
-            socket.emit('createUser_res', {err: 'email or username taken'})
-        }
-        else if (res.length === 0) {
-            var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms, 'log.in': currentTime})
-            newuser.save()
-            socket[newuser.username] = socket.id
-            socket.emit('createUser_res', {res: newuser})
-            console.log(socket.id)
-          }
-    })
-  })
-
-  // seaches for each in 
-  // expects a list of users (arr)
-  socket.on('searchUser', (arr) => {
-    console.log('searchuser called')
-    let findUsers = Promise.all(arr.map(searchUser))
-    findUsers.then((result) => {
-      console.log(result)
-      result.includes('error') ? socket.emit('searchUser_res', {err: result}) : socket.emit('searchUser_res', {res: result})
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  })
+  })  
 
   // search chatrooms and expect array of users in alphabetical order
   socket.on('searchChatroom', (data, ack) => {
@@ -281,53 +317,17 @@ io.on('connection', (socket) => {
     }
   })
 
-  // send content of chatroom to chatWidgets
-  socket.on('initChatroom', (data) => {
-    console.log(`chatroom init for ${data.id}`)
-    Chatroom.findById(data.id).exec((err, res) => {
-      if (err) {
-        console.log(err)
-        socket.emit('initChatroom_res', {err: err})
-      }
-      else if (res) {
-        console.log('chatroom exists')
-        let length = res.messages.length
-        if (length > 0) {
-          if (!res.messages[length - 1].seen.includes(data.username)) {
-            res.messages[length - 1].seen.push(data.username)
-            res.save()
-          }
-          socket.emit('initChatroom_res', {res: res.messages.slice((length < 100 ? 0 : length - 100), length)})
-        }
-      }
-      else {
-        console.log('parti loin')        
-      }
+  // seaches for each in 
+  // expects a list of users (arr)
+  socket.on('searchUser', (arr) => {
+    console.log('searchuser called')
+    let findUsers = Promise.all(arr.map(searchUser))
+    findUsers.then((result) => {
+      console.log(result)
+      result.includes('error') ? socket.emit('searchUser_res', {err: result}) : socket.emit('searchUser_res', {res: result})
     })
-  })
-
-  // creates new chatroom with all users in array (allows duplicates but not non-existent users)
-  socket.on('createChatroom', (data) => {
-
-    console.log('createChatroom called')
-
-    if (data.length === 2) { // private chat
-      Chatroom.find({Users: data}, (err, res) => {
-        if (err) {
-          console.log(err)
-        } else if (res.length) {
-          console.log('private chatroom already exists')
-        } else {
-          createChatroom(data)
-        }
-      })
-    } else {
-      createChatroom(data)
-    }
-  })
-
-  // manage disconnections
-  socket.on('disconnect', () => {
-    console.log(`disconnected`)
-  })
+    .catch((err) => {
+      console.log(err)
+    })
+  })  
 })
