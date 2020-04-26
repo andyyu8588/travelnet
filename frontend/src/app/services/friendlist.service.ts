@@ -29,7 +29,9 @@ export class FriendlistService {
   getList(array: string[]): any{
     array.push(sessionStorage.getItem('username'))
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
-    this.SocketService.once("searchChatroom_res").subscribe((data:any) => {
+    //sends array of users in alphabeltical order 
+    this.SocketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr}, (data) => {
+      console.log('ack received')
       this.roomarr = []
       this._chatroomList.next(this.roomarr)
       if(data.res){
@@ -41,10 +43,9 @@ export class FriendlistService {
         });
         this._chatroomList.next(this.roomarr)
       } else {
+        console.log('getList fini')
       }
     })
-    //sends array of users in alphabeltical order 
-    this.SocketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr})
   }
 
   // looks for users existence and creates chatroom

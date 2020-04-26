@@ -256,7 +256,7 @@ io.on('connection', (socket) => {
   })
 
   // search chatrooms and expect array of users in alphabetical order
-  socket.on('searchChatroom', (data) => {
+  socket.on('searchChatroom', (data, ack) => {
     // check if array is empty
     if (data.req.length === 0) {
       console.log('no search input')
@@ -273,9 +273,9 @@ io.on('connection', (socket) => {
           res.forEach((e)=>{
             resArr.push(e)
           })
-          socket.emit('searchChatroom_res', {res: resArr})          
+          ack({res: resArr})          
         } else { // nothing in database matching the search
-          socket.emit('searchChatroom_res', 'nothing found')
+          ack({err: 'nothing found'})
         }
       })
     }
