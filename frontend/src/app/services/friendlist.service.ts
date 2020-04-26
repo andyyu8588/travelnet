@@ -31,7 +31,6 @@ export class FriendlistService {
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     //sends array of users in alphabeltical order 
     this.SocketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr}, (data) => {
-      console.log('ack received')
       this.roomarr = []
       this._chatroomList.next(this.roomarr)
       if(data.res){
