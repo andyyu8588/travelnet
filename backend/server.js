@@ -108,10 +108,11 @@ io.on('connection', (socket) => {
   }
 
   // create chatroom
-  // expects array of usernames
+  // expects array of sorted usernames
   const createChatroom = (usernames) => {
     const newChatroom = new Chatroom({Users : usernames, roomName : usernames.toString(), messages : [], userNum: usernames.length })
     newChatroom.save()
+    console.log('chatroom created with users ' + usernames)
     usernames.forEach((user) => {
       User.findOneAndUpdate({username: user},
         {$push: {rooms: newChatroom._id.toString()}}, (err) => {
@@ -309,7 +310,6 @@ io.on('connection', (socket) => {
   socket.on('createChatroom', (data) => {
 
     console.log('createChatroom called')
-    console.log(`chatroom created: ${data}`)
 
     if (data.length === 2) { // private chat
       Chatroom.find({Users: data}, (err, res) => {
