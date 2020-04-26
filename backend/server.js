@@ -151,23 +151,27 @@ io.on('connection', (socket) => {
 
   // save new users in database
   // expects non-empty data
-  socket.on('createUser', (data) => {
+  socket.on('createUser', (data, callback) => {
     // check for {username || email} && password
     User.find({$and: [{$or: [{username: data.username}, {email: data.email}]}, {password: data.password}]},
-    (err, res) => {
+      (err, res) => {
         if (err) {
-            console.log(err)
+          callback({err})
         }
         else if (res.length === 1) {
-            socket.emit('createUser_res', {err: 'email or username taken'})
+          callback({err: 'email or username taken'})
         }
         else if (res.length === 0) {
-            var newuser = new User({username : data.username, password: data.password, email : data.email, rooms: data.rooms, 'log.in': currentTime})
-            newuser.save()
-            socket[newuser.username] = socket.id
-            socket.emit('createUser_res', {res: newuser})
-            console.log(socket.id)
-          }
+          const newUser = new User({username : data.username, 
+                                    password: data.password, 
+                                    email : data.email, 
+                                    rooms: data.rooms, 
+                                    'log.in': currentTime})
+          newUser.save()
+          socket[newUser.username] = socket.id
+          callback({user: newUser})
+          console.log(socket.id)
+        }
     })
   })  
 
@@ -177,12 +181,12 @@ io.on('connection', (socket) => {
   })
 
   // send content of chatroom to chatWidgets
-  socket.on('initChatroom', (data) => {
+  socket.on('initChatroom', (data, callback) => {
     console.log(`chatroom init for ${data.id}`)
     Chatroom.findById(data.id).exec((err, res) => {
       if (err) {
         console.log(err)
-        socket.emit('initChatroom_res', {err: err})
+        callback({err})
       }
       else if (res) {
         console.log('chatroom exists')
@@ -192,7 +196,7 @@ io.on('connection', (socket) => {
             res.messages[length - 1].seen.push(data.username)
             res.save()
           }
-          socket.emit('initChatroom_res', {res: res.messages.slice((length < 100 ? 0 : length - 100), length)})
+          callback({messages: res.messages.slice((length < 100 ? 0 : length - 100), length)})
         }
       }
       else {
@@ -208,7 +212,6 @@ io.on('connection', (socket) => {
     {$push: {'log.in': currentTime}},
     (err, doc, res) => {
       if (err) {
-        console.log(err)
         ack({err: err})
       }
       else if (doc) {

@@ -41,26 +41,24 @@ export class RegistrationComponent{
 
     constructor(private SocketService: SocketService, private sessionService:SessionService, private modalService:NgbModal) {
     }
-    //send register request with socket
+    // send register request with socket
     registerClicked(password: string, username: string, email: string){
         // event.preventDefault()
-        if(!(sessionStorage.getItem('username'))){
-            this.SocketService.once('createUser_res').subscribe((data: any) => {
-                if (data.err) {
-                    console.log(data.err)
+        if(!(sessionStorage.getItem('username'))){            
+            console.log('register sent')
+            this.SocketService.emit('createUser', {email:email, username:username, password:password}, (res) => {
+                if (res.err) {
+                    console.log(res.err)
                 }
-                else if (data.res) {
-                    sessionStorage.setItem('username', data.res.username)
+                else if (res.user) {
+                    sessionStorage.setItem('username', res.user.username)
                     this.sessionService.session()
                     this.modalService.dismissAll()
                     console.log(`user created: ${sessionStorage.getItem('username')}`)
                 } else {
                     console.log("c fini")
-                    console.log(data)
                 }
             })
-            console.log('register sent')
-            this.SocketService.emit('createUser', {email:email, username:username, password:password})
         } else {
             console.log('nothing')
         }
