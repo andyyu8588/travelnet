@@ -33,7 +33,10 @@ export class FriendlistService {
     this.SocketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr}, (data) => {
       this.roomarr = []
       this._chatroomList.next(this.roomarr)
-      if(data.res){
+      if(data.err){
+        console.log(data.err)
+      }
+      else if(data.res){
         (data.res).forEach(element => {
           this.roomarr.push({
             roomName: element.roomName,
@@ -41,8 +44,6 @@ export class FriendlistService {
           })
         });
         this._chatroomList.next(this.roomarr)
-      } else {
-        console.log('getList fini')
       }
     })
   }
@@ -51,7 +52,9 @@ export class FriendlistService {
   CreateChatroom(users: string): any{
     let array: string[] = users.split(' ')
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
-    this.SocketService.emit('searchUser', polishedarr)
+    this.SocketService.emit('searchUser', polishedarr, (data) => {
+      
+    })
     this.SocketService.once('searchUser_res').subscribe((data: any) => {
       console.log(data)
       if(data.err){
