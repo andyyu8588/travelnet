@@ -267,7 +267,18 @@ io.on('connection', (socket) => {
           // emit notification
           roomObj.Users.forEach((user) => {
             if (user != data.sender) {
-              io.to(user).emit('notification', {message: newMessage, roomID: socket.currentRoomId})
+              User.findOne({username: user}).exec((err, res) => {
+                if(err) {
+                  console.log('error')
+                } else if (res) {
+                  res.socketIds.forEach((element) => {
+                    console.log(element)
+                    io.to(element).emit('notification', {res: {
+                      roomId: roomObj._id
+                    }} )
+                  })
+                }
+              })
             }
           })
         }).catch((err) => {
@@ -287,8 +298,18 @@ io.on('connection', (socket) => {
               // emit notification
               res.Users.forEach((user) => {
                 if (user != data.sender) {
-                  console.log(`sockets: ${Object.keys(io.sockets.sockets)}`)
-                  io.to(user).emit('notification', {message: newMessage, roomID: socket.currentRoomId})
+                  User.findOne({username: user}).exec((err, res) => {
+                    if(err) {
+                      console.log('error')
+                    } else if (res) {
+                      res.socketIds.forEach((element) => {
+                        console.log(element)
+                        io.to(element).emit('notification', {res: {
+                          roomId: data.roomId
+                        }} )
+                      })
+                    }
+                  })
                 }
               })
             }

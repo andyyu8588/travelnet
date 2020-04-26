@@ -39,7 +39,7 @@ export class AppComponent implements DoCheck, OnInit {
     let y = this.SessionService.sessionState.subscribe(x => {
       this.sessionState = x
       if (this.sessionState) {
-        this.FriendlistService.getNotifications()
+        // this.FriendlistService.getNotifications()
       }
     })
     let x = this.SessionService.currentFeature.subscribe(x => this.currentFeature = x)
@@ -50,7 +50,7 @@ export class AppComponent implements DoCheck, OnInit {
   }
 
   ngOnInit() {
-    this.FriendlistService.getNotifications()
+    // this.FriendlistService.getNotifications()
   }
 
   ngDoCheck() {

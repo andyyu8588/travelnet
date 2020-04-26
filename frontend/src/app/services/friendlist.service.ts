@@ -82,8 +82,8 @@ export class FriendlistService {
 
   getNotifications() {
     console.log('listening for notif')
-    this.SocketService.listen('notification').subscribe((data) => {
-      console.log(data)
+    this.SocketService.listen('notification').subscribe((data: any) => {
+      console.log(data.res.roomId)
     })
   }
 }

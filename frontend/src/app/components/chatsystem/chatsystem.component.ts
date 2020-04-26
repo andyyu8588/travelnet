@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './chatsystem.component.html',
   styleUrls: ['./chatsystem.component.scss']
 })
-export class ChatsystemComponent {
+export class ChatsystemComponent implements OnInit {
 
   sessionState: boolean
   user = sessionStorage.getItem('username')
@@ -22,9 +22,12 @@ export class ChatsystemComponent {
     let y = this.SessionService.sessionState.subscribe(x => {
       this.sessionState = x
       if (this.sessionState) {
-        this.FriendlistService.getNotifications()
+        // this.FriendlistService.getNotifications()
       }
     })
   }
 
+  ngOnInit() {
+    this.FriendlistService.getNotifications()
+  }
 }
