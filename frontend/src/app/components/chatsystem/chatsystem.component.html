@@ -5,6 +5,7 @@
       <div class="col-10 row" id="chatroom" *ngIf='sessionState'>
         <div class="col-sm"></div>
         <app-chatwidget class="ml-auto"
+        (click)='refreshRoom(openChatWidgets.roomIds[i])'
         *ngFor='let widget of openChatWidgets.roomNames, let i = index '
         [roomName]="widget"
         [roomId]='openChatWidgets.roomIds[i]'>

@@ -7,11 +7,19 @@ import{SessionService} from '../../services/session.service'
 
 export class HeaderComponent{
     sessionState:any
-    username: string = sessionStorage.getItem('username')
+    username: string
     @Output() featureSelected = new EventEmitter<string>();
     
     constructor(private sessionService:SessionService) {
-        let x = this.sessionService.sessionState.subscribe(x => this.sessionState = x)
+        let x = this.sessionService.sessionState.subscribe(x => {
+            this.sessionState = x
+            if(x){
+              this.username = sessionStorage.getItem('username')  
+            } else {
+                this.username = ''
+            }
+            
+        })
     }
 
     //select item from menu

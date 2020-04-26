@@ -38,9 +38,12 @@ export class FriendlistService {
       }
       else if(data.res){
         (data.res).forEach(element => {
+          let l = element.messages.length -1
+          let i = element.messages[l].seen
           this.roomarr.push({
             roomName: element.roomName,
-            roomId: element._id
+            roomId: element._id,
+            unread: i.includes(sessionStorage.getItem('username'))? false : true
           })
         });
         this._chatroomList.next(this.roomarr)
@@ -78,12 +81,28 @@ export class FriendlistService {
       roomNames: this.widgetarr,
       roomIds: this.idarr
     })
-  }
+    }
 
   getNotifications() {
     console.log('listening for notif')
     this.SocketService.listen('notification').subscribe((data: any) => {
-      console.log(data.res.roomId)
+      if (data.res) {
+        let i = this.roomarr.findIndex((e) => e.roomId === data.res.roomId)
+        this.roomarr[i].unread = true
+        this._chatroomList.next(this.roomarr)
+      }
+    })
+  }
+
+  // user interacted with chatwidget
+  // mark as read in angular
+  selectChatwidget(roomId: string) {
+    this.SocketService.emit('initChatroom', {id: roomId, username: sessionStorage.getItem('username') }, (data) => {
+      if (data) {
+        let i = this.roomarr.findIndex((e) => e.roomId === roomId)
+        this.roomarr[i].unread = false
+        this._chatroomList.next(this.roomarr)
+      }
     })
   }
 }

@@ -10,7 +10,6 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
 export class FriendComponent implements OnInit {
 
   @Input() friend: RoomWidget
-
   constructor(private friendlistService: FriendlistService) {
 
   }

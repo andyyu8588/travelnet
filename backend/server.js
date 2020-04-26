@@ -170,33 +170,29 @@ io.on('connection', (socket) => {
                                     'log.in': currentTime,
                                     socketIds: [socket.id]})
           newUser.save()
-          socket[newUser.username] = socket.id
           callback({user: newUser})
-          console.log(socket.id)
         }
     })
   })  
 
   // manage disconnections
   socket.on('disconnect', () => {
-    console.log(`disconnected`)
     User.findOneAndUpdate({socketIds: socket.id}, {
       $pull: {'socketIds': socket.id},
+      $push: {'log.out': currentTime}
     }, (err, res) => {
-      err? console.log(err) : console.log(res)
+      err? console.log('err ' + err) : ''
     })
   })
 
   // send content of chatroom to chatWidgets
   socket.on('initChatroom', (data, callback) => {
-    console.log(`chatroom init for ${data.id}`)
     Chatroom.findById(data.id).exec((err, res) => {
       if (err) {
         console.log(err)
         callback({err})
       }
       else if (res) {
-        console.log('chatroom exists')
         let length = res.messages.length
         if (length > 0) {
           if (!res.messages[length - 1].seen.includes(data.username)) {
@@ -277,7 +273,6 @@ io.on('connection', (socket) => {
                   console.log('error')
                 } else if (res) {
                   res.socketIds.forEach((element) => {
-                    console.log(element)
                     io.to(element).emit('notification', {res: {
                       roomId: roomObj._id
                     }} )
@@ -308,7 +303,6 @@ io.on('connection', (socket) => {
                       console.log('error')
                     } else if (res) {
                       res.socketIds.forEach((element) => {
-                        console.log(element)
                         io.to(element).emit('notification', {res: {
                           roomId: data.roomId
                         }} )
@@ -358,10 +352,8 @@ io.on('connection', (socket) => {
   // seaches for each in 
   // expects a list of users (arr)
   socket.on('searchUser', (arr, ack) => {
-    console.log('searchuser called')
     let findUsers = Promise.all(arr.map(searchUser))
     findUsers.then((result) => {
-      console.log(result)
       result.includes('error') ? ack({err: result}) : ack({res: result})
     })
     .catch((err) => {
@@ -373,7 +365,6 @@ io.on('connection', (socket) => {
     User.findOneAndUpdate({username: data.username}, 
     {$push: {'socketIds': socket.id}},
     (err, doc, res) => {
-      console.log(err, doc, res)
       if (err) {
         ack({err: err})
       }

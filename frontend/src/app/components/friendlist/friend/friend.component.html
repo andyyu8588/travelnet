@@ -1,4 +1,6 @@
-<button type="button" class="list-group-item list-group-item-action"
+<button type="button" class="btn" 
+[ngClass]="friend.unread === true? 'btn-danger': 'btn-light'"
 (click)='toggleChatWidget(friend)'>
     {{friend.roomName}}
 </button>
+    
