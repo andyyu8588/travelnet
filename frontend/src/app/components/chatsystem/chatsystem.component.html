@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
   <div class="row">
-      <div class="col-10 row" id="chatroom" style="" *ngIf='sessionState'>
+      <div class="col-10 row" id="chatroom" *ngIf='sessionState'>
         <div class="col-sm"></div>
         <app-chatwidget class="ml-auto"
         *ngFor='let widget of openChatWidgets.roomNames, let i = index '
