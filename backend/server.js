@@ -180,6 +180,11 @@ io.on('connection', (socket) => {
   // manage disconnections
   socket.on('disconnect', () => {
     console.log(`disconnected`)
+    User.findOneAndUpdate({socketIds: socket.id}, {
+      $pull: {'socketIds': socket.id},
+    }, (err, res) => {
+      err? console.log(err) : console.log(res)
+    })
   })
 
   // send content of chatroom to chatWidgets
