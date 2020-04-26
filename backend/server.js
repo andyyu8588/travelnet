@@ -183,24 +183,24 @@ io.on('connection', (socket) => {
 
   // handle user login
   // expects object data with strings email, password
-  socket.on('login', (data) => {
+  socket.on('login', (data, ack) => {
     User.findOneAndUpdate({$and: [{$or: [{email: data.email}, {username: data.email}]}, {password: data.password}]}, 
     {$push: {'log.in': currentTime}},
     (err, doc, res) => {
       if (err) {
         console.log(err)
-        socket.emit('login_res', {err: err})
+        ack({err: err})
       }
       else if (doc) {
         socket[doc.username] = socket.id
-        socket.emit('login_res', {res: doc.username})
-        console.log(`socket id: ${socket.id}`)
+        ack({res: doc.username})
       }
       else {
         console.log('monkas')
       }
     })
   })
+
 
   // set logout for users
   // expects string username

@@ -22,8 +22,8 @@ export class SocketService {
     })
   }
 
-  emit(eventName: string, data: any, acknowledgement?: Function){
-    this.socket.emit(eventName, data, acknowledgement)
+  emit(eventName: string, data: any, ack?: (res?: any) => any) {
+    this.socket.emit(eventName, data, ack)
   }
 
   once(eventName: string){
