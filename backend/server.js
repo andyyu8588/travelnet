@@ -230,9 +230,9 @@ io.on('connection', (socket) => {
   // expects string username
   socket.on('logout', (username, ack) => {
     User.findOneAndUpdate({username: username},
-    {$push: {'log.out': currentTime}},  
+    {$push: {'log.out': currentTime},
+    $pull: {'socketIds': socket.id}},  
     (err, doc, res) => {
-      console.log(err, doc ,res)
       if (err) {
         console.log(err)
         ack({err: 'err'})

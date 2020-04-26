@@ -31,11 +31,11 @@ export class LogoutComponent implements OnInit {
             if(data.res){
               localStorage.removeItem('username') 
               sessionStorage.removeItem('username')
+              resolve()
             } else if (data.err) {
               reject(data.err)
             }
           })
-          resolve()
         } else {
           reject('wtf')
         }
