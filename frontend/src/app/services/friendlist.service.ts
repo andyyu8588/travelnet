@@ -53,20 +53,14 @@ export class FriendlistService {
     let array: string[] = users.split(' ')
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     this.SocketService.emit('searchUser', polishedarr, (data) => {
-      
-    })
-    this.SocketService.once('searchUser_res').subscribe((data: any) => {
-      console.log(data)
-      if(data.err){
-
+      if (data.err) {
+        console.log(data.err)
       } else if (data.res) {
         console.log(polishedarr)
         polishedarr.push(sessionStorage.getItem('username')) 
         console.log(polishedarr)
         this.SocketService.emit('createChatroom', polishedarr.sort())
-      } else {
-        console.log('somethin went wrong')
-      }
+      } 
       polishedarr = []
     })
   }

@@ -299,7 +299,12 @@ io.on('connection', (socket) => {
     } else {
       // note -> only private chats 
       // search for chatroom which includes {sender} & {all of searched users || matching roomName}
-      Chatroom.find( {$or: [{$and: [{Users: {$in: data.sender}}, {Users : {$regex: `.*${data.req}.*`, $options: 'i'}}]}, {$and: [{Users: {$in: data.sender}}, {roomName: {$regex: `.*${data.req.toString()}.*`, $options: 'i'}}]}]}, (err, res) => {
+      Chatroom.find({$or:
+                       [{$and: [{Users: {$in: data.sender}}, 
+                                {Users : {$regex: `.*${data.req}.*`, $options: 'i'}}]}, 
+                        {$and: [{Users: {$in: data.sender}},
+                                {roomName: {$regex: `.*${data.req}.*`, $options: 'i'}}]}]},
+        (err, res) => {
         // error in search
         if (err) {
           console.log(err)
@@ -319,12 +324,12 @@ io.on('connection', (socket) => {
 
   // seaches for each in 
   // expects a list of users (arr)
-  socket.on('searchUser', (arr) => {
+  socket.on('searchUser', (arr, ack) => {
     console.log('searchuser called')
     let findUsers = Promise.all(arr.map(searchUser))
     findUsers.then((result) => {
       console.log(result)
-      result.includes('error') ? socket.emit('searchUser_res', {err: result}) : socket.emit('searchUser_res', {res: result})
+      result.includes('error') ? ack({err: result}) : ack({res: result})
     })
     .catch((err) => {
       console.log(err)
