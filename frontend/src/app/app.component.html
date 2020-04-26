@@ -9,7 +9,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2&display=swap');
   </style>
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet'/>
-  
+
 </head>
 
 <body scroll="no" style="overflow: hidden">
@@ -22,10 +22,10 @@
 
   <div><app-registration  *ngIf='currentFeature === "Registration"'></app-registration></div>
   <div><app-login  *ngIf='currentFeature === "Login"'></app-login></div>
-  <div><app-map></app-map></div>
+  <!-- <div><app-map></app-map></div> -->
 
-  
-<div><app-chatsystem></app-chatsystem></div>
 
+<div id="chatroom"><app-chatsystem></app-chatsystem></div>
+<div>normal div</div>
 </body>
 </html>
