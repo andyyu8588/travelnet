@@ -107,6 +107,24 @@ io.on('connection', (socket) => {
     })
   }
 
+  // create chatroom
+  // expects array of usernames
+  const createChatroom = (usernames) => {
+    const newChatroom = new Chatroom({Users : usernames, roomName : usernames.toString(), messages : [], userNum: usernames.length })
+    newChatroom.save()
+    usernames.forEach((user) => {
+      User.findOneAndUpdate({username: user},
+        {$push: {rooms: newChatroom._id.toString()}}, (err) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('room added to user')
+          }
+        }
+      )      
+    })
+  }
+
   // message handler: join room & emit messages
   // expects object data with strings roomId, sender, content
   socket.on('message', (data) => {
@@ -293,18 +311,19 @@ io.on('connection', (socket) => {
     console.log('createChatroom called')
     console.log(`chatroom created: ${data}`)
 
-    const newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
-    newChatroom.save()
-    data.forEach((user) => {
-      User.findOneAndUpdate({username: user}, 
-        {$push: {rooms: newChatroom._id.toString()}}, (err) => {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log('room added to user')
-          }
-        })      
-    })
+    if (data.length === 2) { // private chat
+      Chatroom.find({Users: data}, (err, res) => {
+        if (err) {
+          console.log(err)
+        } else if (res.length) {
+          console.log('private chatroom already exists')
+        } else {
+          createChatroom(data)
+        }
+      })
+    } else {
+      createChatroom(data)
+    }
   })
 
   // manage disconnections
