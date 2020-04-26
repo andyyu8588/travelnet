@@ -19,16 +19,16 @@ export class FriendlistComponent implements OnInit {
     ) {
 
     //setup sessionState observable
-    let x = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
-
-    //subscrive to friendlist observable 
-    if(this.sessionState === true){
-      this.friends_sub = this.friendlistService.chatroomList.subscribe(x => this.friends = x)
-      this.friendlistService.getList([])
-    } else {
-      console.log(`not logged in`)
-    }
-  }
+    let x = this.SessionService.sessionState.subscribe(x => {
+      this.sessionState = x
+      if(x === true){
+        this.friends_sub = this.friendlistService.chatroomList.subscribe(x => this.friends = x)
+        this.friendlistService.getList([])
+      } else {
+        console.log(`not logged in`)
+      }
+    })
+  } 
 
   ngOnInit(): void {
     
