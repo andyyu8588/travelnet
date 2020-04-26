@@ -26,7 +26,7 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFin
 var Chatroom = mongoose.model('Chatroom', {
   roomName: String,
   userNum: Number,
-  Users: Array, 
+  Users: Array, // sorted alphabetically
   messages: [
     {content: String,
     sender: String,
