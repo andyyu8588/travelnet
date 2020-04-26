@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
   <div class="row">
-      <div class="col-10 row" id="chatroom" style="background-color:blue;" *ngIf='sessionState'>
+      <div class="col-10 row" id="chatroom" style="" *ngIf='sessionState'>
         <div class="col-sm"></div>
         <app-chatwidget class="ml-auto"
         *ngFor='let widget of openChatWidgets.roomNames, let i = index '
@@ -10,7 +10,7 @@
         [roomId]='openChatWidgets.roomIds[i]'>
         </app-chatwidget>
       </div>
-      <div class="col-2" style="background-color: pink;">
+      <div class="col-2">
         <app-friendlist></app-friendlist>
       </div>
   </div>

@@ -1,3 +1,4 @@
+import { SocketService } from 'src/app/services/socket.service';
 import { SessionService } from './services/session.service';
 import { RoomWidget } from './components/friendlist/friend/Room_Widget.model';
 import { Component, DoCheck, OnInit } from '@angular/core';
@@ -18,7 +19,20 @@ export class AppComponent implements DoCheck, OnInit {
 
   constructor(
     private FriendlistService: FriendlistService,
-    private SessionService: SessionService){
+    private SessionService: SessionService,
+    private SocketService: SocketService){
+
+    localStorage.getItem('username')? 
+    this.SocketService.emit('updateLogin', {username: localStorage.getItem('username')}, (data) => {
+      if(data.res){
+        sessionStorage.setItem('username', data.res)
+        SessionService.session()
+      } else {
+        console.log('updateLogin error')
+      }
+    })
+    : console.log('not loged in')
+
       
     let openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)
     this.SessionService.session()

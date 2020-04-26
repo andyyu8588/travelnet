@@ -27,7 +27,11 @@ export class LogoutComponent implements OnInit {
     let prom = () => {
       return new Promise((resolve, reject) => {
         if(sessionStorage.getItem('username')){
-          this.SocketService.emit('logout', sessionStorage.getItem('username'))
+          this.SocketService.emit('logout', sessionStorage.getItem('username'), (data) => {
+            data.res? 
+            localStorage.removeItem('username') :
+            console.log('could not log out')
+          })
           resolve()
         } else {
           reject()

@@ -42,6 +42,7 @@ var User = mongoose.model('User', {
   password: String,
   encounters: Array,
   rooms: Array,
+  socketIds: Array,
   isActive: Boolean, //active vs online
   log: {
     in: [],
@@ -166,7 +167,8 @@ io.on('connection', (socket) => {
                                     password: data.password, 
                                     email : data.email, 
                                     rooms: data.rooms, 
-                                    'log.in': currentTime})
+                                    'log.in': currentTime,
+                                    socketIds: [socket.id]})
           newUser.save()
           socket[newUser.username] = socket.id
           callback({user: newUser})
@@ -226,14 +228,14 @@ io.on('connection', (socket) => {
 
   // set logout for users
   // expects string username
-  socket.on('logout', (username) => {
+  socket.on('logout', (username, ack) => {
     User.findOneAndUpdate({username},
-    {$push: {'log.out': currentTime}},
+    {$push: {'log.out': currentTime}},  
     (err, doc, res) => {
       if (err) {
         console.log(err)
       } else if (doc) {
-        // console.log('updated')
+        ack()
       } else {
         console.log('monkas')
       }
@@ -338,4 +340,20 @@ io.on('connection', (socket) => {
       console.log(err)
     })
   })  
+
+  socket.on('updateLogin', (data, ack) => {
+    User.findOneAndUpdate({username: data}, 
+    {$push: {'socketIds': socket.id}},
+    (err, doc, res) => {
+      if (err) {
+        ack({err: err})
+      }
+      else if (doc) {
+        ack({res: doc.username})
+      }
+      else {
+        console.log('monkas')
+      }
+    })
+  })
 })

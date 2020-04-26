@@ -52,6 +52,7 @@ export class RegistrationComponent{
                 }
                 else if (res.user) {
                     sessionStorage.setItem('username', res.user.username)
+                    localStorage.setItem('username', res.user.username)
                     this.sessionService.session()
                     this.modalService.dismissAll()
                     console.log(`user created: ${sessionStorage.getItem('username')}`)
