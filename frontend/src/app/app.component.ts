@@ -27,11 +27,11 @@ export class AppComponent implements DoCheck, OnInit {
       if(data.res){
         sessionStorage.setItem('username', data.res)
         SessionService.session()
-      } else {
-        console.log('updateLogin error')
+      } else if (data.err){
+        console.log(data.err)
       }
     })
-    : console.log('not loged in')
+    : console.log('t cave')
 
       
     let openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)

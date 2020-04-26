@@ -229,13 +229,15 @@ io.on('connection', (socket) => {
   // set logout for users
   // expects string username
   socket.on('logout', (username, ack) => {
-    User.findOneAndUpdate({username},
+    User.findOneAndUpdate({username: username},
     {$push: {'log.out': currentTime}},  
     (err, doc, res) => {
+      console.log(err, doc ,res)
       if (err) {
         console.log(err)
+        ack({err: 'err'})
       } else if (doc) {
-        ack()
+        ack({res: 'ok'})
       } else {
         console.log('monkas')
       }
@@ -342,9 +344,10 @@ io.on('connection', (socket) => {
   })  
 
   socket.on('updateLogin', (data, ack) => {
-    User.findOneAndUpdate({username: data}, 
+    User.findOneAndUpdate({username: data.username}, 
     {$push: {'socketIds': socket.id}},
     (err, doc, res) => {
+      console.log(err, doc, res)
       if (err) {
         ack({err: err})
       }
