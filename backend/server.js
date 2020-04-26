@@ -26,7 +26,7 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFin
 var Chatroom = mongoose.model('Chatroom', {
   roomName: String,
   userNum: Number,
-  Users: Array, 
+  Users: Array, // sorted alphabetically
   messages: [
     {content: String,
     sender: String,
@@ -104,6 +104,25 @@ io.on('connection', (socket) => {
           resolve('error')
         }
       })
+    })
+  }
+
+  // create chatroom
+  // expects array of sorted usernames
+  const createChatroom = (usernames) => {
+    const newChatroom = new Chatroom({Users : usernames, roomName : usernames.toString(), messages : [], userNum: usernames.length })
+    newChatroom.save()
+    console.log('chatroom created with users ' + usernames)
+    usernames.forEach((user) => {
+      User.findOneAndUpdate({username: user},
+        {$push: {rooms: newChatroom._id.toString()}}, (err) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('room added to user')
+          }
+        }
+      )      
     })
   }
 
@@ -291,20 +310,20 @@ io.on('connection', (socket) => {
   socket.on('createChatroom', (data) => {
 
     console.log('createChatroom called')
-    console.log(`chatroom created: ${data}`)
 
-    const newChatroom = new Chatroom({Users : data, roomName : data.toString(), messages : [], userNum: data.length })
-    newChatroom.save()
-    data.forEach((user) => {
-      User.findOneAndUpdate({username: user}, 
-        {$push: {rooms: newChatroom._id.toString()}}, (err) => {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log('room added to user')
-          }
-        })      
-    })
+    if (data.length === 2) { // private chat
+      Chatroom.find({Users: data}, (err, res) => {
+        if (err) {
+          console.log(err)
+        } else if (res.length) {
+          console.log('private chatroom already exists')
+        } else {
+          createChatroom(data)
+        }
+      })
+    } else {
+      createChatroom(data)
+    }
   })
 
   // manage disconnections
