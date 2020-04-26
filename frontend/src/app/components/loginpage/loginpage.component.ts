@@ -45,20 +45,19 @@ export class LoginComponent{
     //handle user login with socket
     loginClicked(password, username, event: Event){
         if(!(sessionStorage.getItem('username'))){
-            this.SocketService.once('login_res').subscribe((data: any) => {
-                if (data.err) {
-                    console.log(data.err)
-                } 
-                else if (data.res) {
-                    sessionStorage.setItem('username', data.res)
-                    this.modalService.dismissAll()
-                    this.sessionService.session()
-                    console.log(sessionStorage.getItem('username'))
-                }
-            })
-            this.SocketService.emit('login', {email:username , password:password})
-        } else {
-            console.log('nothing')
+        this.SocketService.emit('login', {email:username , password:password}, (data: any) => {
+            if (data.err) {
+                console.log(data.err)
+            } 
+            else if (data.res) {
+                sessionStorage.setItem('username', data.res)
+                this.modalService.dismissAll()
+                this.sessionService.session()
+                console.log(sessionStorage.getItem('username'))
+            } else {
+                console.log('login fini')
+            }
+        })
         }
     }
 }
