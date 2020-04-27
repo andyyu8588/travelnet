@@ -110,7 +110,7 @@ io.on('connection', (socket) => {
   }
 
   // notify users that a message was read (does not precise)
-  const notify = (seenarr ,userarr, roomId, actionType) => {
+  const notify = (seenarr, userarr, roomId, actionType) => {
     return new Promise ((resolve, reject) => {
       userarr.forEach((user) => {
         User.findOne({username: user}).exec((err, res) => {
@@ -224,7 +224,7 @@ io.on('connection', (socket) => {
             res.messages[length - 1].seen.push(data.username)
             res.save()
             res.Users.forEach((user) => { // notify each user that someone saw the most recent message
-              notify(res.messages[length - 1].seen ,[user], res._id, seen).catch((err) => console.log(err))
+              notify(res.messages[length - 1].seen , [user], res._id, 'seen').catch((err) => console.log(err))
             })
           }
           callback({messages: res.messages.slice((length < 100 ? 0 : length - 100), length)})
@@ -309,7 +309,7 @@ io.on('connection', (socket) => {
               io.in(socket.currentRoomId).emit('message_res', {res: data})
               
               // emit notification
-              notify(res.Users, res._id, 'message').then().catch((err) => console.log(err))
+              notify(res.messages[length - 1].seen, res.Users, res._id, 'message').then().catch((err) => console.log(err))
             }
           })
     } else {

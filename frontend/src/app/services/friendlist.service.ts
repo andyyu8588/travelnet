@@ -101,7 +101,7 @@ export class FriendlistService {
     this.SocketService.listen('notification').subscribe((data: any) => {
       if (data.res) {
         let i = this.roomarr.findIndex((e) => e.roomId === data.res.roomId)
-        if(data.res.message) {
+        if(data.res.action == 'message') {
           if(i != -1) {
             console.log('i defined ' + i)
             this.roomarr[i].unread = true
@@ -109,7 +109,7 @@ export class FriendlistService {
           } else {
             console.log('i undefined')
           } 
-        } else if (data.res.seen) {
+        } else if (data.res.action == 'seen') {
           data.res.seen.forEach(element => {
             if(element.includes(sessionStorage.getItem('username'))) {
               this.roomarr[i].unread = false
