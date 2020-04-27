@@ -13,16 +13,18 @@
   height: 30px;
   background-color: rgba(255,255,255, 1);
 }
-ul{
+ul {
   text-align: left;
   padding-left: 0em !important
 }
+
 .input {
-  bottom: 2%;
+  bottom: 1%;
   position: fixed;
-  width: 175px;
+  width: 160px;
 }
-#chatbody{
+
+#chatbody {
 overflow-y: auto;
 display: flex;
 flex-direction:column-reverse ;
