@@ -109,6 +109,29 @@ io.on('connection', (socket) => {
     })
   }
 
+  // notify users that a message was read (does not precise)
+  const notify = (userarr, roomId) => {
+    return new Promise ((resolve, reject) => {
+      userarr.forEach((user) => {
+        User.findOne({username: user}).exec((err, res) => {
+          if(err) {
+            reject(err)
+          } else if (res) {
+            res.socketIds.forEach((element) => {
+              if(element != socket.id) // prevent from sending to himself
+                io.to(element).emit('notification', {res: {
+                  roomId: roomId
+                }
+              })
+            })
+            resolve()
+          }
+        })
+      })
+    })
+  }
+
+
   // check existence of one user and implement promises lmoa wtf
   // expects string username
   const searchUser = (username) => {
@@ -195,11 +218,15 @@ io.on('connection', (socket) => {
       else if (res) {
         let length = res.messages.length
         if (length > 0) {
-          if (!res.messages[length - 1].seen.includes(data.username)) {
+          if (!res.messages[length - 1].seen.includes(data.username)) { // mark last message as read if unread by sender
             res.messages[length - 1].seen.push(data.username)
             res.save()
+            res.Users.forEach((user) => {
+
+            })
           }
           callback({messages: res.messages.slice((length < 100 ? 0 : length - 100), length)})
+          notify(res.Users, res._id)
         }
       }
       else {
@@ -266,21 +293,8 @@ io.on('connection', (socket) => {
           io.in(socket.currentRoomId).emit('message_res', {res: data})
 
           // emit notification
-          roomObj.Users.forEach((user) => {
-            if (user != data.sender) {
-              User.findOne({username: user}).exec((err, res) => {
-                if(err) {
-                  console.log('error')
-                } else if (res) {
-                  res.socketIds.forEach((element) => {
-                    io.to(element).emit('notification', {res: {
-                      roomId: roomObj._id
-                    }} )
-                  })
-                }
-              })
-            }
-          })
+          notify(roomObj.Users, roomObj._id).then().catch((err) => console.log(err))
+          
         }).catch((err) => {
           console.log(err)
         })
@@ -291,26 +305,12 @@ io.on('connection', (socket) => {
           (err, res) => {
             if (err) {
               console.log(err)
-            } else {
+            } else if (res) {
               // emit message
               io.in(socket.currentRoomId).emit('message_res', {res: data})
               
               // emit notification
-              res.Users.forEach((user) => {
-                if (user != data.sender) {
-                  User.findOne({username: user}).exec((err, res) => {
-                    if(err) {
-                      console.log('error')
-                    } else if (res) {
-                      res.socketIds.forEach((element) => {
-                        io.to(element).emit('notification', {res: {
-                          roomId: data.roomId
-                        }} )
-                      })
-                    }
-                  })
-                }
-              })
+              notify(res.Users, res._id).then().catch((err) => console.log(err))
             }
           })
     } else {

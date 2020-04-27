@@ -2,6 +2,7 @@ import { RoomWidget } from './../components/friendlist/friend/Room_Widget.model'
 import { SocketService } from './socket.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { NumberFormatStyle } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -38,12 +39,23 @@ export class FriendlistService {
       }
       else if(data.res){
         (data.res).forEach(element => {
-          let l = element.messages.length -1
-          let i = element.messages[l].seen
+
+          let unread: boolean
+          if(element.messages.length) { // check if chat is empty and if last message is unread
+            let lastIndex = element.messages.length - 1
+            if(element.messages[lastIndex].seen.includes(sessionStorage.getItem('username'))) {
+              unread = false
+            } else {
+              unread = true
+            }
+          } else {
+            unread = false
+          }
+           
           this.roomarr.push({
             roomName: element.roomName,
             roomId: element._id,
-            unread: i.includes(sessionStorage.getItem('username'))? false : true
+            unread: unread
           })
         });
         this._chatroomList.next(this.roomarr)
@@ -68,6 +80,7 @@ export class FriendlistService {
     })
   }
 
+  // selecting a Chatroom from Friendlist component
   toggleChatWidget(friend: RoomWidget) {
     if(this.idarr.includes(friend.roomId)){
       let i = this.idarr.indexOf(friend.roomId)
@@ -81,15 +94,21 @@ export class FriendlistService {
       roomNames: this.widgetarr,
       roomIds: this.idarr
     })
-    }
+  }
 
+  // listen for unread messages from backend
   getNotifications() {
-    console.log('listening for notif')
     this.SocketService.listen('notification').subscribe((data: any) => {
       if (data.res) {
+        console.log('roomid '+ data.res.roomId)
         let i = this.roomarr.findIndex((e) => e.roomId === data.res.roomId)
-        this.roomarr[i].unread = true
-        this._chatroomList.next(this.roomarr)
+        if(i != -1) {
+          console.log('i defined ' + i)
+          this.roomarr[i].unread = true
+          this._chatroomList.next(this.roomarr)
+        } else {
+          console.log('i undefined')
+        }
       }
     })
   }
