@@ -221,16 +221,12 @@ io.on('connection', (socket) => {
           if (!res.messages[length - 1].seen.includes(data.username)) { // mark last message as read if unread by sender
             res.messages[length - 1].seen.push(data.username)
             res.save()
-            res.Users.forEach((user) => {
-
+            res.Users.forEach((user) => { // notify each user that someone saw the most recent message
+              notify([user], res._id).catch((err) => console.log(err))
             })
           }
           callback({messages: res.messages.slice((length < 100 ? 0 : length - 100), length)})
-          notify(res.Users, res._id)
         }
-      }
-      else {
-        console.log('parti loin')        
       }
     })
   })
