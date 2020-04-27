@@ -100,14 +100,22 @@ export class FriendlistService {
   getNotifications() {
     this.SocketService.listen('notification').subscribe((data: any) => {
       if (data.res) {
-        console.log('roomid '+ data.res.roomId)
         let i = this.roomarr.findIndex((e) => e.roomId === data.res.roomId)
-        if(i != -1) {
-          console.log('i defined ' + i)
-          this.roomarr[i].unread = true
-          this._chatroomList.next(this.roomarr)
-        } else {
-          console.log('i undefined')
+        if(data.res.message) {
+          if(i != -1) {
+            console.log('i defined ' + i)
+            this.roomarr[i].unread = true
+            this._chatroomList.next(this.roomarr)
+          } else {
+            console.log('i undefined')
+          } 
+        } else if (data.res.seen) {
+          data.res.seen.forEach(element => {
+            if(element.includes(sessionStorage.getItem('username'))) {
+              this.roomarr[i].unread = false
+              this._chatroomList.next(this.roomarr)
+            }
+          });
         }
       }
     })
