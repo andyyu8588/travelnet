@@ -110,7 +110,7 @@ io.on('connection', (socket) => {
   }
 
   // notify users that a message was read (does not precise)
-  const notify = (seenarr, userarr, roomId, actionType) => {
+  const notify = (sender, seenarr, userarr, roomId, actionType) => {
     return new Promise ((resolve, reject) => {
       userarr.forEach((user) => {
         User.findOne({username: user}).exec((err, res) => {
@@ -122,7 +122,8 @@ io.on('connection', (socket) => {
                 io.to(element).emit('notification', {res: {
                   roomId: roomId,
                   action: actionType,
-                  seen: seenarr
+                  seen: seenarr,
+                  sender: sender
                 }
               })
             })
@@ -224,7 +225,7 @@ io.on('connection', (socket) => {
             res.messages[length - 1].seen.push(data.username)
             res.save()
             res.Users.forEach((user) => { // notify each user that someone saw the most recent message
-              notify(res.messages[length - 1].seen , [user], res._id, 'seen').catch((err) => console.log(err))
+              notify(data.username ,res.messages[length - 1].seen , [user], res._id, 'seen').catch((err) => console.log(err))
             })
           }
           callback({messages: res.messages.slice((length < 100 ? 0 : length - 100), length)})
@@ -292,7 +293,7 @@ io.on('connection', (socket) => {
           io.in(socket.currentRoomId).emit('message_res', {res: data})
 
           // emit notification
-          notify(roomObj.messages[length - 1].seen, roomObj.Users, roomObj._id, 'message').then().catch((err) => console.log(err))
+          notify(data.sender, roomObj.messages[length - 1].seen, roomObj.Users, roomObj._id, 'message').then().catch((err) => console.log(err))
           
         }).catch((err) => {
           console.log(err)
@@ -305,11 +306,13 @@ io.on('connection', (socket) => {
             if (err) {
               console.log(err)
             } else if (res) {
+              let length = res.messages.length
+
               // emit message
               io.in(socket.currentRoomId).emit('message_res', {res: data})
               
               // emit notification
-              notify(res.messages[length - 1].seen, res.Users, res._id, 'message').then().catch((err) => console.log(err))
+              notify(data.sender, res.messages[length - 1].seen, res.Users, res._id, 'message').then().catch((err) => console.log(err))
             }
           })
     } else {

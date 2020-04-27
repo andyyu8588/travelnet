@@ -104,7 +104,11 @@ export class FriendlistService {
         if(data.res.action == 'message') {
           if(i != -1) {
             console.log('i defined ' + i)
-            this.roomarr[i].unread = true
+            if(data.res.sender == sessionStorage.getItem('username')) {
+              this.roomarr[i].unread = false
+            } else {
+              this.roomarr[i].unread = true
+            }
             this._chatroomList.next(this.roomarr)
           } else {
             console.log('i undefined')
