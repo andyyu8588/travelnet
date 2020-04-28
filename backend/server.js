@@ -1,12 +1,22 @@
 const express = require('express')
 const http = require('http')
+const https = require('https')
+const app = express()
+const fs = require('fs')
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
 const currentTime = new Date().toISOString()
 
-// set socket.io
-const app = express()
-const server = http.createServer(app)
+// setup https server
+const server  = https.createServer({
+  key: fs.readFileSync('./ssl/privateKey.key'),
+  cert: fs.readFileSync('./ssl/certificate.crt')
+}, app)
+
+
+server.listen(3000, () => {
+  console.log('Server started on port ' + PORT)
+})
 const io = require('socket.io').listen(server)
 
 // set URL:
@@ -48,11 +58,6 @@ var User = mongoose.model('User', {
     in: [],
     out: []
   },  
-})
-
-// env.PORT be useless tho
-server.listen(3000, () => {
-  console.log('Server started on port ' + PORT)
 })
 
 // send homepage
