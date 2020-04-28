@@ -1,7 +1,7 @@
-<div class="row container-fluid">
-  <div class="row chatwidget">
+<div class="container-fluid">
+  <div class="row chatwidget justify-content-end">
     <app-chatwidget
-      class="col"
+      class="col align-self-end"
       (click)='refreshRoom(openChatWidgets.roomIds[i])'
       *ngFor='let widget of openChatWidgets.roomNames, let i = index '
       [roomName]="widget"
