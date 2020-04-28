@@ -27,6 +27,7 @@ export class FriendComponent implements OnInit {
   // open or close chat widget 
   toggleChatWidget(friend: RoomWidget) {
     this.friendlistService.toggleChatWidget(friend)
+    this.friendlistService.resizeWindow(window.innerWidth)
   }
 
 }
