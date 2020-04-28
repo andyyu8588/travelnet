@@ -8,17 +8,19 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
   templateUrl: './chatwidget.component.html',
   styleUrls: ['./chatwidget.component.scss']
 })
-export class ChatwidgetComponent implements OnInit, OnDestroy{
+
+export class ChatwidgetComponent implements OnInit, OnDestroy {
   @Input() roomName: string
   @Input() roomId: string
   @ViewChild('textarea') div: ElementRef
+  sessionRoomName: string
   typeArea: string = ''
   // private socketRoom: string
   sessionState: boolean 
   username: string = sessionStorage.getItem('username')
  
 
-  constructor(private frienlistService: FriendlistService,
+  constructor(private friendlistService: FriendlistService,
     private renderer: Renderer2,
     private socketService: SocketService,
     public sessionService: SessionService) {
@@ -27,7 +29,9 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
       })
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.sessionRoomName = this.sessionService.getRoomName(this.roomName)
+
     // pull Chatroom content from backend
     this.socketService.emit('initChatroom', {id: this.roomId, username: this.username}, (data) => {
       if (data.err) {
@@ -41,10 +45,10 @@ export class ChatwidgetComponent implements OnInit, OnDestroy{
       }
     })
 
-    this.frienlistService.selectChatwidget(this.roomId)
+    this.friendlistService.selectChatwidget(this.roomId)
 
     
-    //listen for messages & add display them
+    // listen for messages & add display them
     this.socketService.listen('message_res').subscribe((data: any) => {
       if(this.roomId == data.res.roomId){
         const ul: HTMLParagraphElement = this.renderer.createElement('ul');

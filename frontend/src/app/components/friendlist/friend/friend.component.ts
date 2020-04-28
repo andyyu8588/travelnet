@@ -11,7 +11,7 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
 
 export class FriendComponent implements OnInit {
 
-  public sessionRoomName: string
+  sessionRoomName : string
   username: string = sessionStorage.getItem('username')
 
   @Input() friend: RoomWidget
@@ -21,14 +21,10 @@ export class FriendComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.friend.roomName.replace(`${this.username},`, "").includes(this.friend.roomName)) {
-      this.sessionRoomName = this.friend.roomName.replace(`,${this.username}`, "")
-    } else {
-      this.sessionRoomName = this.friend.roomName.replace(`${this.username},`, "")
-    }
+    this.sessionRoomName = this.sessionService.getRoomName(this.friend.roomName)
   }
 
-  //open or close chat widget 
+  // open or close chat widget 
   toggleChatWidget(friend: RoomWidget) {
     this.friendlistService.toggleChatWidget(friend)
   }
