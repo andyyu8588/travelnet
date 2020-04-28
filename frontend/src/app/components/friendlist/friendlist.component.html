@@ -1,4 +1,4 @@
-<div id="friendlist" *ngIf='sessionState' >
+<div id="friendlist" *ngIf='sessionState' class="col">
     <!-- <button class="btn btn-danger" (click)='session = !session'>hide (one time only)</button> -->
     <div *ngFor="let friend of friends">
         <app-friend [friend] = "friend">

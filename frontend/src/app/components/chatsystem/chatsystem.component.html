@@ -1,19 +1,15 @@
+<div class="row container-fluid">
+  <div class="row chatwidget">
+    <app-chatwidget
+      class="col"
+      (click)='refreshRoom(openChatWidgets.roomIds[i])'
+      *ngFor='let widget of openChatWidgets.roomNames, let i = index '
+      [roomName]="widget"
+      [roomId]='openChatWidgets.roomIds[i]'>
+    </app-chatwidget>
 
-<div class="container-fluid">
-
-  <div class="row">
-      <div class="col-10 row" id="chatroom" *ngIf='sessionState'>
-        <div class="col-sm"></div>
-        <app-chatwidget class="ml-auto"
-        (click)='refreshRoom(openChatWidgets.roomIds[i])'
-        *ngFor='let widget of openChatWidgets.roomNames, let i = index '
-        [roomName]="widget"
-        [roomId]='openChatWidgets.roomIds[i]'>
-        </app-chatwidget>
-      </div>
-      <div class="col-2">
-        <app-friendlist></app-friendlist>
-      </div>
+    <div class="col">
+      <app-friendlist></app-friendlist>
+    </div>
   </div>
 </div>
-

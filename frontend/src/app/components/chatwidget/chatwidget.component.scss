@@ -1,31 +1,38 @@
-.widget{
-    // position: fixed;
-    // bottom: 1% ;
-    // margin: 1%;
-    padding: 5%;
-    width: 200px;
-    height: 250px;
-    background-color: rgba(255,255,255, 0.8);
-    border: medium;
-}
-.space{
-  width: 200px;
-  height: 30px;
-  background-color: rgba(255,255,255, 1);
-}
 ul {
   text-align: left;
-  padding-left: 0em !important
+  padding-left: 0em 
+}
+  
+.widget {
+  // bottom: 1% ;
+  // margin: 1%;
+  padding: 5%;
+  width: 200px;
+  height: 250px;
+  background-color: rgba(255,255,255, 0.8);
+  border: medium;
+}
+
+.space {
+  width: 200px;
+  height: 30px;
+  padding-left: 2%;
+  background-color: rgba(255,255,255, 1);
 }
 
 .input {
-  bottom: 1%;
-  position: fixed;
+  bottom: 1px;
+  position: inherit;
   width: 160px;
 }
 
-#chatbody {
-overflow-y: auto;
-display: flex;
-flex-direction:column-reverse ;
+#textarea {
+  position: inherit;
 }
+
+#chatbody {
+  overflow-y: auto;
+  display: flex;
+  flex-direction:column-reverse ;
+}
+

@@ -1,3 +1,18 @@
+.chatwidget {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 app-chatwidget {
+    margin-left: 0;
+    margin-right: 0;
+    padding-right: 0px;
+    bottom: 1%;
     border-color: blue($color: #000000);
+}
+
+app-friendlist {
+    position: fixed;
+    right: 1%;
+    bottom: 1%;
 }
