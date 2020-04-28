@@ -1,8 +1,7 @@
 const express = require('express')
-const http = require('http')
 const https = require('https')
-const app = express()
 const fs = require('fs')
+const app = express()
 const PORT = process.env.PORT || 443
 const mongoose = require('mongoose')
 const currentTime = new Date().toISOString()
