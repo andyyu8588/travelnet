@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class SocketService {
   socket: any
   room: any
@@ -14,7 +15,7 @@ export class SocketService {
     this.socket = io(this.uri)
   }
 
-  listen(eventName: string){
+  listen(eventName: string) {
     return new Observable((sub) => {
       this.socket.on(eventName, (data) => {
         sub.next(data)
@@ -26,7 +27,7 @@ export class SocketService {
     this.socket.emit(eventName, data, ack)
   }
 
-  once(eventName: string){
+  once(eventName: string) {
     return new Observable((sub) => {
       this.socket.once(eventName, (data) => {
         sub.next(data)

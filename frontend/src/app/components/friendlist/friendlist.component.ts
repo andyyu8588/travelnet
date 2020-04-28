@@ -8,6 +8,7 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
   templateUrl: './friendlist.component.html',
   styleUrls: ['./friendlist.component.scss']
 })
+
 export class FriendlistComponent implements OnInit {
   sessionState: boolean 
   friends: RoomWidget[] = []
@@ -18,7 +19,7 @@ export class FriendlistComponent implements OnInit {
     private SessionService: SessionService,
     ) {
 
-    //setup sessionState observable
+    // setup sessionState observable
     let x = this.SessionService.sessionState.subscribe(x => {
       this.sessionState = x
       if(x === true){
@@ -34,13 +35,13 @@ export class FriendlistComponent implements OnInit {
     
   }
 
-  //update friendlist on each key press
+  // update friendlist on each key press
   onKey(data: string) {
     let arr: string[] = data.split(' ')
     this.friendlistService.getList(arr)
   }
 
-  //creates new room on submit
+  // creates new room on submit
   onSubmit(data: string) {
     this.friendlistService.CreateChatroom(data)
   }

@@ -1,6 +1,6 @@
 import { SocketService } from './../../services/socket.service';
 import { Component, OnInit } from '@angular/core';
-import{SessionService} from '../../services/session.service'
+import { SessionService } from '../../services/session.service'
 
 @Component({
   selector: 'app-logout',
@@ -10,25 +10,23 @@ import{SessionService} from '../../services/session.service'
 export class LogoutComponent implements OnInit {
   sessionState:boolean
  
-  constructor(
+  constructor (
     private SessionService:SessionService,
     private SocketService: SocketService) {
-
       let x = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
-
   }
 
   ngOnInit(): void {
     
   }
 
-  //logout user
+  // logout user
   logout() {
     let prom = () => {
       return new Promise((resolve, reject) => {
-        if(sessionStorage.getItem('username')){
+        if (sessionStorage.getItem('username')) {
           this.SocketService.emit('logout', sessionStorage.getItem('username'), (data) => {
-            if(data.res){
+            if (data.res) {
               localStorage.removeItem('username') 
               sessionStorage.removeItem('username')
               resolve()
