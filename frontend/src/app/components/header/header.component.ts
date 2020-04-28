@@ -1,11 +1,12 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import{SessionService} from '../../services/session.service'
+import { SessionService } from '../../services/session.service'
+
 @Component({
     selector: 'header-navbar',
     templateUrl:'./header.component.html'
 })
 
-export class HeaderComponent{
+export class HeaderComponent {
     sessionState:any
     username: string
     @Output() featureSelected = new EventEmitter<string>();
@@ -22,7 +23,7 @@ export class HeaderComponent{
         })
     }
 
-    //select item from menu
+    // select item from menu
     onSelect(feature: string) {
         this.featureSelected.emit(feature)
     }

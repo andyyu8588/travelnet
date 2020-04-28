@@ -9,6 +9,7 @@ import * as Mapboxgl from 'mapbox-gl'
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
+
 export class MapComponent implements OnInit {
 
   session: boolean = this.sessionService.session()

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class MessagingService {
 
   private _socketRoom: BehaviorSubject<string> = new BehaviorSubject('')

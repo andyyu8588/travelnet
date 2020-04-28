@@ -7,15 +7,16 @@ import { NumberFormatStyle } from '@angular/common';
 @Injectable({
   providedIn: 'root'
 })
+
 export class FriendlistService {
 
-  //lists of variables (eg: chatrooms, open chatWidgets)
+  // lists of variables (eg: chatrooms, open chatWidgets)
   private roomarr: RoomWidget[] = []
   private widgetarr: any = []
   private idarr: any = []
    
 
-  //creating observable
+  // creating observable
   private _chatroomList: BehaviorSubject<RoomWidget[]> = new BehaviorSubject(this.roomarr)
   public chatroomList: Observable<RoomWidget[]> = this._chatroomList.asObservable()
 
@@ -26,24 +27,24 @@ export class FriendlistService {
 
   }
 
-  //gets list of chatrooms with corresponding properties than user's query
+  // gets list of chatrooms with corresponding properties than user's query
   getList(array: string[]): any{
     array.push(sessionStorage.getItem('username'))
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
-    //sends array of users in alphabeltical order 
+    // sends array of users in alphabeltical order 
     this.SocketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr}, (data) => {
       this.roomarr = []
       this._chatroomList.next(this.roomarr)
       if(data.err){
         console.log(data.err)
       }
-      else if(data.res){
+      else if (data.res) {
         (data.res).forEach(element => {
 
           let unread: boolean
-          if(element.messages.length) { // check if chat is empty and if last message is unread
+          if (element.messages.length) { // check if chat is empty and if last message is unread
             let lastIndex = element.messages.length - 1
-            if(element.messages[lastIndex].seen.includes(sessionStorage.getItem('username'))) {
+            if (element.messages[lastIndex].seen.includes(sessionStorage.getItem('username'))) {
               unread = false
             } else {
               unread = true
@@ -64,7 +65,7 @@ export class FriendlistService {
   }
 
   // looks for users existence and creates chatroom
-  CreateChatroom(users: string): any{
+  CreateChatroom(users: string): any {
     let array: string[] = users.split(' ')
     let polishedarr = (array.filter((a,b) => array.indexOf(a) === (b))).sort()
     this.SocketService.emit('searchUser', polishedarr, (data) => {
@@ -82,7 +83,7 @@ export class FriendlistService {
 
   // selecting a Chatroom from Friendlist component
   toggleChatWidget(friend: RoomWidget) {
-    if(this.idarr.includes(friend.roomId)){
+    if (this.idarr.includes(friend.roomId)) {
       let i = this.idarr.indexOf(friend.roomId)
       this.widgetarr.splice(i, 1)
       this.idarr.splice(i, 1)
@@ -101,10 +102,10 @@ export class FriendlistService {
     this.SocketService.listen('notification').subscribe((data: any) => {
       if (data.res) {
         let i = this.roomarr.findIndex((e) => e.roomId === data.res.roomId)
-        if(data.res.action == 'message') {
-          if(i != -1) {
+        if (data.res.action == 'message') {
+          if (i != -1) {
             console.log('i defined ' + i)
-            if(data.res.sender == sessionStorage.getItem('username')) {
+            if (data.res.sender == sessionStorage.getItem('username')) {
               this.roomarr[i].unread = false
             } else {
               this.roomarr[i].unread = true
@@ -137,4 +138,3 @@ export class FriendlistService {
     })
   }
 }
-
