@@ -3,7 +3,7 @@ const http = require('http')
 const https = require('https')
 const app = express()
 const fs = require('fs')
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 443
 const mongoose = require('mongoose')
 const currentTime = new Date().toISOString()
 
@@ -14,7 +14,7 @@ const server  = https.createServer({
 }, app)
 
 
-server.listen(3000, () => {
+server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
 const io = require('socket.io').listen(server)
