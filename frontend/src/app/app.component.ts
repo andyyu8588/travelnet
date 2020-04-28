@@ -33,7 +33,6 @@ export class AppComponent implements DoCheck, OnInit {
     })
     : console.log('t cave')
 
-      
     let openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)
     this.SessionService.session()
     let y = this.SessionService.sessionState.subscribe(x => {
@@ -57,4 +56,7 @@ export class AppComponent implements DoCheck, OnInit {
     // console.log(this.sessionState)
   }
 
+  resizeWindow(){
+    this.FriendlistService.resizeWindow(window.innerWidth)
+  }
 }

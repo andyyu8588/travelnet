@@ -2,7 +2,6 @@ import { RoomWidget } from './../components/friendlist/friend/Room_Widget.model'
 import { SocketService } from './socket.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NumberFormatStyle } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +10,9 @@ import { NumberFormatStyle } from '@angular/common';
 export class FriendlistService {
 
   // lists of variables (eg: chatrooms, open chatWidgets)
-  private roomarr: RoomWidget[] = []
-  private widgetarr: any = []
-  private idarr: any = []
+  private roomarr: RoomWidget[] = [] //all chatrooms of user
+  private widgetarr: any = [] //open chatWidgets roomName(s)
+  private idarr: any = [] //open chatWidget roomId(s)
    
 
   // creating observable
@@ -22,6 +21,9 @@ export class FriendlistService {
 
   private _openWidgets: BehaviorSubject<object> = new BehaviorSubject([])
   public openWidgets: Observable<object> = this._openWidgets.asObservable()
+
+  private _windowsSize: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth)
+  public windowSize: Observable<number> = this._windowsSize.asObservable()
 
   constructor(private SocketService: SocketService) {
 
@@ -136,5 +138,17 @@ export class FriendlistService {
         this._chatroomList.next(this.roomarr)
       }
     })
+  }
+
+  resizeWindow(width: number) {
+    let chatWidgetWidth: number = 220
+    let maxNum = Math.floor((width - 220)/chatWidgetWidth) //take into account friendlist component
+    if(this.widgetarr.length > maxNum) {
+      for (let x=this.widgetarr.length; x>maxNum; x--) {
+        this.widgetarr.shift()
+        this.idarr.shift()
+      }
+    }    
+    this._windowsSize.next(width)
   }
 }

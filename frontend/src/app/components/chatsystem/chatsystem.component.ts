@@ -1,6 +1,7 @@
 import { SessionService } from './../../services/session.service';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 import { Component, OnInit } from '@angular/core';
+import { Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-chatsystem',
@@ -15,7 +16,7 @@ export class ChatsystemComponent implements OnInit {
 
   constructor(
     private FriendlistService: FriendlistService,
-    private SessionService: SessionService,){
+    private SessionService: SessionService){
     
     console.log(`windows ${window.innerWidth}`)
 
