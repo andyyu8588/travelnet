@@ -1,4 +1,4 @@
-<button type="button" class="btn" 
+<button type="button" class="btn" data-toggle="button"
     [ngClass]="friend.unread === true? 'btn-danger': 'btn-light'"
     (click)='toggleChatWidget(friend)'>
         {{sessionRoomName}}
