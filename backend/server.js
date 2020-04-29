@@ -3,19 +3,19 @@ const https = require('https')
 const http = require('http')
 const fs = require('fs')
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = 443
 const mongoose = require('mongoose')
 const currentTime = new Date().toISOString()
 
 // setup https server
-const server  = http.createServer(app)
+const server  = https.createServer({
+  key: fs.readFileSync('./ssl/privateKey.key'),
+  cert: fs.readFileSync('./ssl/certificate.crt')
+}, app)
 
+// const server  = http.createServer(app)
 
-server.listen(PORT, () => {
-  console.log('Server started on port ' + PORT)
-})
-
-const io = require('socket.io').listen(server)
+const io = require('socket.io')(server)
 
 // set URL:
 var dbURL = 'mongodb://localhost/Travelnet'
@@ -64,10 +64,10 @@ app.get('/', (req, res) => {
 })
 
 // redirect to any page (scripts)
-app.get('/*', (req, res) => {
-  page = req.params
-  res.sendFile(__dirname + '/keep the trash/' + page[0])
-})
+// app.get('/*', (req, res) => {
+//   page = req.params
+//   res.sendFile(__dirname + '/keep the trash/' + page[0])
+// })
 
 io.on('connection', (socket) => {
 
@@ -381,4 +381,8 @@ io.on('connection', (socket) => {
       }
     })
   })
+})
+
+server.listen(PORT, () => {
+  console.log('Server started on port ' + PORT)
 })

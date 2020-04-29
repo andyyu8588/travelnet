@@ -1,4 +1,4 @@
-const og = 'http://localhost:3000/'
+const og = 'https://204.197.178.47:443'
 const socket = io(og)
 document.getElementById('messaging').href = og +'messaging.html'
 document.getElementById('login').href = og + 'login.html'
