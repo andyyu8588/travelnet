@@ -8,12 +8,12 @@ const mongoose = require('mongoose')
 const currentTime = new Date().toISOString()
 
 // setup https server
-const server = https.createServer({
-  key: fs.readFileSync('./ssl/privateKey.key'),
-  cert: fs.readFileSync('./ssl/certificate.crt')
-}, app)
+// const server = https.createServer({
+//   key: fs.readFileSync('./ssl/privateKey.key'),
+//   cert: fs.readFileSync('./ssl/certificate.crt')
+// }, app)
 
-// const server = http.createServer(app)
+const server = http.createServer(app)
 
 const io = require('socket.io').listen(server)
 
@@ -22,9 +22,9 @@ server.listen(PORT, () => {
 })
 
 // send homepage
-// app.get('/', (req, res) => {
-//   res.sendFile(__dirname + '/index.html')
-// })
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html')
+})
 
 // set URL:
 var dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
