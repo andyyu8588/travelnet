@@ -1,13 +1,15 @@
 <div class="space rounded-top" [innerText]='sessionRoomName' aria-readonly="true"></div>
-    <div class="widget rounded-bottom" id='chatbody'*ngIf='sessionState' (click)='initRoom()'>
+<div class="widget rounded-bottom" id='chatbody'*ngIf='sessionState' (click)='initRoom()'>
 
-    <br>
-    <div id='textarea' #textarea >
-    </div>
+  <br>
 
-    <div>
+  <div id='textarea' #textarea ></div>
+
+  <div>
         <form (submit)='sendMessage(msg.value)'>
             <input class="input"name="ngModel" [(ngModel)]='typeArea' #msg='ngModel' type="text">
         </form>
-    </div>
+  </div>
+
+
 </div>
