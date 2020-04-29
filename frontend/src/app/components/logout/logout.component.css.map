@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,OAAO,CAAC;EACJ,MAAM,EAAE,gBAAgB;CAC3B",
+    "sources": [
+        "logout.component.scss"
+    ],
+    "names": [],
+    "file": "logout.component.css"
+}

@@ -2,7 +2,13 @@
     color:red($color: #123455)
 }
 
-#friends {
-    height: 250px;
+#friendlist {
+  max-height: 90%;
     overflow-y: auto;
+}
+
+#friend {
+  position: sticky;
+  bottom: 0;
+  right: 0;
 }

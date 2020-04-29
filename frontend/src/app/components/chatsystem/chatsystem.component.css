@@ -1,0 +1,19 @@
+.chatwidget {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+app-chatwidget {
+  margin-left: 0;
+  margin-right: 0;
+  padding-right: 0px;
+  bottom: 1%;
+  border-color: 0;
+}
+
+app-friendlist {
+  position: fixed;
+  right: 1%;
+  bottom: 1%;
+}
+/*# sourceMappingURL=chatsystem.component.css.map */

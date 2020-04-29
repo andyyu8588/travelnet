@@ -37,8 +37,12 @@ export class FriendlistComponent implements OnInit {
 
   // update friendlist on each key press
   onKey(data: string) {
-    let arr: string[] = data.split(' ')
-    this.friendlistService.getList(arr)
+    if (data === "") {
+      this.friendlistService.getList([sessionStorage.getItem("username")])
+    } else {
+      let arr: string[] = data.split(' ')
+      this.friendlistService.getList(arr)
+    }
   }
 
   // creates new room on submit

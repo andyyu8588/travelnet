@@ -24,8 +24,9 @@ export class FriendComponent implements OnInit {
     this.sessionRoomName = this.sessionService.getRoomName(this.friend.roomName)
   }
 
-  // open or close chat widget 
+  // open or close chat widget
   toggleChatWidget(friend: RoomWidget) {
+    console.log(friend)
     this.friendlistService.toggleChatWidget(friend)
     this.friendlistService.resizeWindow(window.innerWidth)
   }

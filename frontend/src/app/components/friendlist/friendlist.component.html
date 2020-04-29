@@ -1,12 +1,11 @@
-<div id="friendlist" *ngIf='sessionState' class="col">
-    <div id="friends">
-        <!-- <button class="btn btn-danger" (click)='session = !session'>hide (one time only)</button> -->
-        <div *ngFor="let friend of friends">
+<div *ngIf='sessionState'>
+    <div id="friendlist">
+        <div id = 'friend' *ngFor="let friend of friends">
             <app-friend [friend] = "friend">
             </app-friend>
         </div>
     </div>
     <form (submit)='onSubmit(input.value)'>
-        <input #input type="text" (keyup)="onKey(input.value)" placeholder="(submit)=create room">
+        <input #input type='text' (keyup)='onKey(input.value)' placeholder='(submit)=create room'>
     </form>
 </div>
