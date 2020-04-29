@@ -44,8 +44,11 @@ ul {
   flex-direction:column-reverse ;
 }
 #submit{
-  right: 0px;
+  right: 15px;
   width: 50px;
   bottom: 1px;
   position: absolute;
+}
+.col-2{
+  float: right !important;
 }

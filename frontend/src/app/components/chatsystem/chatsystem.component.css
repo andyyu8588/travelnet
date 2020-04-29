@@ -16,4 +16,12 @@ app-friendlist {
   right: 1%;
   bottom: 1%;
 }
+
+.yeetus {
+  padding: 0 5px 0 5px;
+}
+
+.col-10 {
+  float: right !important;
+}
 /*# sourceMappingURL=chatsystem.component.css.map */
