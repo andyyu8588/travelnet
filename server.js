@@ -75,8 +75,6 @@ var User = mongoose.model('User', {
 
 io.on('connection', (socket) => {
 
-  console.log('kieeeet')
-
   // socket helper functions
 
   // create chatroom
