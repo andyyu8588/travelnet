@@ -8,12 +8,12 @@ const mongoose = require('mongoose')
 const currentTime = new Date().toISOString()
 
 // setup https server
-// const server = https.createServer({
-//   key: fs.readFileSync('./ssl/privateKey.key'),
-//   cert: fs.readFileSync('./ssl/certificate.crt')
-// }, app)
+const server = https.createServer({
+  key: fs.readFileSync('./ssl/privateKey.key'),
+  cert: fs.readFileSync('./ssl/certificate.crt')
+}, app)
 
-const server = http.createServer(app)
+// const server = http.createServer(app)
 
 const io = require('socket.io').listen(server)
 
