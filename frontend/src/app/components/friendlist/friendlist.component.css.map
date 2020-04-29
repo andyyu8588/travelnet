@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,GAAG,CAAC;EACA,KAAK,EAAC,EAAoB;CAC7B;;AAED,AAAA,WAAW,CAAC;EACV,UAAU,EAAE,GAAG;EACb,UAAU,EAAE,IAAI;CACnB;;AAED,AAAA,OAAO,CAAC;EACN,QAAQ,EAAE,MAAM;EAChB,MAAM,EAAE,CAAC;EACT,KAAK,EAAE,CAAC;CACT",
-    "sources": [
-        "friendlist.component.scss"
-    ],
-    "names": [],
-    "file": "friendlist.component.css"
-}
