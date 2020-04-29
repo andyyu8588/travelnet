@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class SocketService {
   socket: any
   room: any
-  readonly uri: string = 'https://travelnet.kerokuapp.com'
+  readonly uri: string = 'https://travelnet.herokuapp.com'
 
   constructor() { 
     this.socket = io(this.uri)
