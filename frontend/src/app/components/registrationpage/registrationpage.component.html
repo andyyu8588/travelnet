@@ -1,0 +1,25 @@
+<form class='modal-body' id='form' (submit)='registerClicked(password.value, username.value, email.value)'>
+        <h1 class='jumbotron modal-title'>Registration</h1>
+        <div class='form-group'>
+        <!-- username -->
+          <label for='exampleInputEmail1'>username</label>
+          <input #username type='text' class='form-control' id='username' aria-describedby='emailHelp' placeholder='joblo123' required>
+        </div>
+        <!-- password -->
+        <div class='form-group'>
+          <label for='exampleInputPassword1'>Password</label>
+          <input #password type='password' class='form-control' id='password' pattern='.{5,}' required title = '5 or more characters' required>
+        </div>
+        <!-- email -->
+        <div class='form-group'>
+            <label for='exampleInputEmail1'>Email address</label>
+            <input #email type='email' class='form-control' id='email' aria-describedby='emailHelp' placeholder='name@example.com' required>
+            <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
+          </div>
+        <!-- checkbox -->
+        <div class='form-group form-check'>
+          <input type='checkbox' class='form-check-input' id='exampleCheck1' required>
+          <label class='form-check-label' for='exampleCheck1'>Check</label>
+        </div>
+        <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button>
+</form>
