@@ -24,6 +24,9 @@ export class FriendlistService {
 
   private _windowsSize: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth)
   public windowSize: Observable<number> = this._windowsSize.asObservable()
+  
+  private _roomModel: BehaviorSubject<RoomWidget> = new BehaviorSubject(new RoomWidget("asd", "asd", false))
+  public roomModel: Observable<RoomWidget> = this._roomModel.asObservable()
 
   constructor(private SocketService: SocketService) {
 
@@ -66,6 +69,15 @@ export class FriendlistService {
     })
   }
 
+  // looks for room model given a roomid
+  getRoomWidget(roomId: string) {
+    this.roomarr.forEach((room) => {
+      if (room.roomId == roomId) {
+        this._roomModel.next(room)
+      }
+    })
+  } 
+
   // looks for users existence and creates chatroom
   CreateChatroom(users: string): any {
     let array: string[] = users.split(' ')
@@ -85,13 +97,17 @@ export class FriendlistService {
 
   // selecting a Chatroom from Friendlist component
   toggleChatWidget(friend: RoomWidget) {
+    console.log(this.widgetarr)
+    console.log(this.idarr)
     if (this.idarr.includes(friend.roomId)) {
       let i = this.idarr.indexOf(friend.roomId)
       this.widgetarr.splice(i, 1)
       this.idarr.splice(i, 1)
+      friend.open = false
     } else {
       this.widgetarr.push(friend.roomName)
       this.idarr.push(friend.roomId)
+      friend.open = true
     }
     this._openWidgets.next({
       roomNames: this.widgetarr,
@@ -141,10 +157,17 @@ export class FriendlistService {
   }
 
   resizeWindow(width: number) {
-    let chatWidgetWidth: number = 220
-    let maxNum = Math.floor((width - 220)/chatWidgetWidth) //take into account friendlist component
-    if(this.widgetarr.length > maxNum) {
-      for (let x=this.widgetarr.length; x>maxNum; x--) {
+    const CHATWIDGETWIDTH: number = 220
+    const FRIENDLISTWIDTH: number = 220
+    const MAXNUM: number = Math.floor((width - FRIENDLISTWIDTH) / CHATWIDGETWIDTH) // take into account friendlist component
+    if (this.widgetarr.length > MAXNUM) {
+      for (let x = this.widgetarr.length; x > MAXNUM; x--) {
+        let removedRoomId = this.idarr[0]
+        this.roomarr.forEach((room) => {
+          if (room.roomId == removedRoomId) {
+            room.open = false
+          }
+        })
         this.widgetarr.shift()
         this.idarr.shift()
       }

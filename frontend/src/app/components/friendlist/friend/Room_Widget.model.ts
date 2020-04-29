@@ -3,7 +3,7 @@ export class RoomWidget {
    public roomName: string
    public roomId: string
    public unread?: boolean
-
+   public open?: boolean
    
    constructor(roomName: string, roomId: string, unread: boolean) {
       this.roomId= roomId
