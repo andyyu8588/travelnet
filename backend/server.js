@@ -1,21 +1,20 @@
 const express = require('express')
 const https = require('https')
+const http = require('http')
 const fs = require('fs')
 const app = express()
-const PORT = process.env.PORT || 443
+const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
 const currentTime = new Date().toISOString()
 
 // setup https server
-const server  = https.createServer({
-  key: fs.readFileSync('./ssl/privateKey.key'),
-  cert: fs.readFileSync('./ssl/certificate.crt')
-}, app)
+const server  = http.createServer(app)
 
 
 server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
+
 const io = require('socket.io').listen(server)
 
 // set URL:
