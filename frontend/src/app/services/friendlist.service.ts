@@ -24,6 +24,9 @@ export class FriendlistService {
 
   private _windowsSize: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth)
   public windowSize: Observable<number> = this._windowsSize.asObservable()
+  
+  private _roomModel: BehaviorSubject<RoomWidget> = new BehaviorSubject(new RoomWidget("asd", "asd", false))
+  public roomModel: Observable<RoomWidget> = this._roomModel.asObservable()
 
   constructor(private SocketService: SocketService) {
 
@@ -65,6 +68,15 @@ export class FriendlistService {
       }
     })
   }
+
+  // looks for room model given a roomid
+  getRoomWidget(roomId: string) {
+    this.roomarr.forEach((room) => {
+      if (room.roomId == roomId) {
+        this._roomModel.next(room)
+      }
+    })
+  } 
 
   // looks for users existence and creates chatroom
   CreateChatroom(users: string): any {

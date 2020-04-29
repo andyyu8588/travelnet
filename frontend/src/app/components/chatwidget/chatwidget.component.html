@@ -1,4 +1,4 @@
-<div class="space rounded-top" [innerText]='sessionRoomName' aria-readonly="true"></div>
+<div class="space rounded-top" [innerText]='sessionRoomName' aria-readonly="true" (click)='toggleChatWidget()'></div>
 
 <div class="widget" id='chatbody'*ngIf='sessionState' (click)='initRoom()'>
   <br>

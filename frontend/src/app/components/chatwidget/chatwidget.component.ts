@@ -2,6 +2,7 @@ import { SessionService } from './../../services/session.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { Component, OnInit, Renderer2, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
 import { FriendlistService } from 'src/app/services/friendlist.service';
+import { RoomWidget } from '../friendlist/friend/Room_Widget.model';
 
 @Component({
   selector: 'app-chatwidget',
@@ -16,7 +17,8 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   sessionRoomName: string
   typeArea: string = ''
   // private socketRoom: string
-  sessionState: boolean 
+  sessionState: boolean
+  roomModel: RoomWidget
   username: string = sessionStorage.getItem('username')
  
 
@@ -26,6 +28,9 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
     public sessionService: SessionService) {
       let x = this.sessionService.sessionState.subscribe((x) => {
         this.sessionState = x
+      })
+      this.friendlistService.roomModel.subscribe((room) => {
+        this.roomModel = room
       })
   }
 
@@ -72,7 +77,12 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
 
   initRoom() {
 
-  }  
+  }
+
+  toggleChatWidget() {
+    this.friendlistService.getRoomWidget(this.roomId)
+    this.friendlistService.toggleChatWidget(this.roomModel)
+  }
 
   ngOnDestroy(){
     this.socketService.remove('message_res')
