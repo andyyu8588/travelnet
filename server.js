@@ -21,6 +21,11 @@ server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
 
+// send homepage
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/index.html')
+// })
+
 // set URL:
 var dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
 
@@ -60,11 +65,6 @@ var User = mongoose.model('User', {
     in: [],
     out: []
   },  
-})
-
-// send homepage
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
 })
 
 // redirect to any page (scripts)
