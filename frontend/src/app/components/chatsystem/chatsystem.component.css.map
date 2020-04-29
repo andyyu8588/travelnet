@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,WAAW,CAAC;EACR,YAAY,EAAE,IAAI;EAClB,aAAa,EAAE,IAAI;CACtB;;AAED,AAAA,cAAc,CAAC;EACX,WAAW,EAAE,CAAC;EACd,YAAY,EAAE,CAAC;EACf,aAAa,EAAE,GAAG;EAClB,MAAM,EAAE,EAAE;EACV,YAAY,EAAE,CAAqB;CACtC;;AAED,AAAA,cAAc,CAAC;EACX,QAAQ,EAAE,KAAK;EACf,KAAK,EAAE,EAAE;EACT,MAAM,EAAE,EAAE;CACb",
+    "sources": [
+        "chatsystem.component.scss"
+    ],
+    "names": [],
+    "file": "chatsystem.component.css"
+}

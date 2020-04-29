@@ -1,14 +1,14 @@
 <div class="container-fluid">
   <div class="row chatwidget justify-content-end">
     <app-chatwidget
-      class="col align-self-end"
+      class="col-sm-6 col-md-auto align-self-end"
       (click)='refreshRoom(openChatWidgets.roomIds[i])'
       *ngFor='let widget of openChatWidgets.roomNames, let i = index '
       [roomName]="widget"
       [roomId]='openChatWidgets.roomIds[i]'>
     </app-chatwidget>
 
-    <div class="col">
+    <div class="col-sm-6 col-md-2">
       <app-friendlist></app-friendlist>
     </div>
   </div>

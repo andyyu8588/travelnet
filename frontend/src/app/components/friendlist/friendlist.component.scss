@@ -3,12 +3,12 @@
 }
 
 #friendlist {
-    height: 250px;
+  max-height: 90%;
     overflow-y: auto;
 }
 
-#friend{
-  position: relative;
+#friend {
+  position: sticky;
   bottom: 0;
   right: 0;
 }
