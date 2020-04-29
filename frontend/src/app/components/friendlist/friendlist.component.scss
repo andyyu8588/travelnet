@@ -1,0 +1,14 @@
+#id {
+    color:red($color: #123455)
+}
+
+#friendlist {
+  max-height: 90%;
+    overflow-y: auto;
+}
+
+#friend {
+  position: sticky;
+  bottom: 0;
+  right: 0;
+}
