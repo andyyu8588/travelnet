@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
+    "main": "nodemon main.js",
     "mongod": "D:/MongoDB/bin/mongod.exe",
     "mongo": "D:/MongoDB/bin/mongo.exe",
     "mongoda": "C:/MongoDB/Server/4.2/bin/mongod.exe",

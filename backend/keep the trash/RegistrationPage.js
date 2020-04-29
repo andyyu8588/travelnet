@@ -1,5 +1,5 @@
-const socket = io(`http://localhost:3000`)
-const domain = 'http://localhost:3000'
+const socket = io(`https://204.197.178.47:4433`)
+const domain = 'https://204.197.178.47:4433'
 const homepage = `${domain}/Welcome.html`
 
 var element = (e) => {
