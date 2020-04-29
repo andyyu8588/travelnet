@@ -68,10 +68,10 @@ app.get('/', (req, res) => {
 })
 
 // redirect to any page (scripts)
-app.get('/*', (req, res) => {
-  page = req.params
-  res.sendFile(__dirname + '/' +page[0])
-})
+// app.get('/*', (req, res) => {
+//   page = req.params
+//   res.sendFile(__dirname + '/' +page[0])
+// })
 
 io.on('connection', (socket) => {
 
