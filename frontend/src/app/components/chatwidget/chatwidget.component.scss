@@ -24,7 +24,6 @@ ul {
 
 .input {
   bottom: 1px;
-  position: absolute;
   width: 145px;
   overflow-y: visible;
 }
@@ -47,8 +46,9 @@ ul {
   right: 15px;
   width: 50px;
   bottom: 1px;
-  position: absolute;
+
 }
-.col-2{
-  float: right !important;
+#border{
+  border-color:red;
+  border-style:solid;
 }

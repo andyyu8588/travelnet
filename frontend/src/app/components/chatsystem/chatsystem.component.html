@@ -1,18 +1,24 @@
-<div class="container-fluid">
-  <div class="row chatwidget justify-content-end">
+<div class="container-fluid" id="border">
+  <div class="row chatwidget">
 
-    <div class="col-10 row yeetus">
-    <app-chatwidget
-      (click)='refreshRoom(openChatWidgets.roomIds[i])'
-      *ngFor='let widget of openChatWidgets.roomNames, let i = index '
-      [roomName]="widget"
-      [roomId]='openChatWidgets.roomIds[i]'>
-    </app-chatwidget>
+    <div id='border' class="col-xs-2 col-sm-8 col-md-9 col-lg-10">
+      <h1>HAHAHAH</h1>
+      <div class='container-fluid'>
+      <div class="row justify-content-end">
+      <app-chatwidget
+        (click)='refreshRoom(openChatWidgets.roomIds[i])'
+        *ngFor='let widget of openChatWidgets.roomNames, let i = index '
+        [roomName]="widget"
+        [roomId]='openChatWidgets.roomIds[i]'>
+      </app-chatwidget>
+      </div>
+    </div>
     </div>
 
-    <div class="col-2">
-      <app-friendlist></app-friendlist>
-    </div>
+  <div id='border' class="col-xs-8 col-sm-4 col-md-3 col-lg-2">
+   <h1>AHA</h1>
+    <!-- <app-friendlist></app-friendlist> -->
+  </div>
 
   </div>
 </div>
