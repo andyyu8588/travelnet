@@ -2,7 +2,13 @@
     color:red($color: #123455)
 }
 
-#friends {
+#friendlist {
     height: 250px;
     overflow-y: auto;
+}
+
+#friend{
+  position: relative;
+  bottom: 0;
+  right: 0;
 }
