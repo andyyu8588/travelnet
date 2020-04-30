@@ -1,11 +1,11 @@
 <div *ngIf='sessionState'>
-    <div id="friendlist">
+    <div id="friends">
         <div id = 'friend' *ngFor="let friend of friends">
             <app-friend [friend] = "friend">
             </app-friend>
         </div>
     </div>
-    <form (submit)='onSubmit(input.value)' id="friendlist">
-        <input #input type='text' (keyup)='onKey(input.value)' placeholder='(submit)=create room'>
+    <form (submit)='onSubmit(input.value)' >
+        <input #input type='text' (keyup)='onKey(input.value)' placeholder='(submit)=create room' id="input">
     </form>
 </div>
