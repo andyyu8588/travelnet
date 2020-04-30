@@ -16,6 +16,10 @@
 
   <header-navbar (featureSelected)="onNavigate($event)"></header-navbar>
 
+  <div id="sidebar">
+    <app-sidebar></app-sidebar>
+  </div>
+
   <div>
     <app-registration  *ngIf='currentFeature === "Registration"'></app-registration>
   </div>  
