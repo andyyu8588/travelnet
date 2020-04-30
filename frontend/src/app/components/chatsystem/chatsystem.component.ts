@@ -18,11 +18,11 @@ export class ChatsystemComponent implements OnInit {
     private FriendlistService: FriendlistService,
     private SessionService: SessionService){
     
-    console.log(`windows ${window.innerWidth}`)
-
     this.SessionService.session()
 
-    let openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)
+    let openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => {
+      this.openChatWidgets = x
+    })
     let y = this.SessionService.sessionState.subscribe(x => { this.sessionState = x })
   }
 

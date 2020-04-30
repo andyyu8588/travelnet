@@ -6,5 +6,6 @@ body {
   /* Firefox will set width as auto */
   width: 2000px;
   /* As IE6 ignores !important it will set width as 1000px; */
+  height: 100%
 }
 /*# sourceMappingURL=styles.css.map */

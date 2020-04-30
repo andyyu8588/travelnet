@@ -42,6 +42,7 @@ export class LogoutComponent implements OnInit {
 
     prom().then(() => {
       this.SessionService.session()
+      window.location.reload()
       console.log('session cleared')
     }).catch((err) => {
       console.log(err)

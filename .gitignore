@@ -1,4 +1,5 @@
 node_modules
+<<<<<<< HEAD
 # Created by https://www.gitignore.io/api/angular
 # Edit at https://www.gitignore.io/?templates=angular
 
@@ -36,3 +37,6 @@ e2e/*.map
 # End of https://www.gitignore.io/api/angular
 converter.js
 keep_the_trash/
+=======
+keep_the_trash
+>>>>>>> 299a8816d4592345fe1a584fbfcb9ee4ea9a9cc9

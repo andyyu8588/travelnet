@@ -16,7 +16,6 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   @ViewChild('textarea') div: ElementRef
   sessionRoomName: string
   typeArea: string = ''
-  // private socketRoom: string
   sessionState: boolean
   roomModel: RoomWidget
   username: string = sessionStorage.getItem('username')
@@ -26,10 +25,13 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private socketService: SocketService,
     public sessionService: SessionService) {
+
       let x = this.sessionService.sessionState.subscribe((x) => {
         this.sessionState = x
       })
-      this.friendlistService.roomModel.subscribe((room) => {
+
+      let y = this.friendlistService.roomModel.subscribe((room) => {
+        console.log(room)
         this.roomModel = room
       })
   }

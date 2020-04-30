@@ -1,27 +1,23 @@
 .chatwidget {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-app-chatwidget {
-    margin-left: 0;
-    margin-right: 0;
-    padding-right: 0px;
-    bottom: 1%;
-    border-color: blue($color: #000000);
-}
-
-app-friendlist {
-    right: 1%;
-    bottom: 1%;
-    position: fixed;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .row{
   max-height: 310px;
 }
 
-#border{
-  border-color:red;
-  border-style:solid;
+app-chatwidget {
+  z-index: 2;
+  margin-left: 0;
+  margin-right: 0;
+  padding-right: 0px;
+  border-color: blue($color: #000000);
 }
+
+app-friendlist {
+  right: 1%;
+  bottom: 1%;
+  position: fixed;
+}
+

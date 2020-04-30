@@ -86,9 +86,7 @@ export class FriendlistService {
       if (data.err) {
         console.log(data.err)
       } else if (data.res) {
-        console.log(polishedarr)
         polishedarr.push(sessionStorage.getItem('username')) 
-        console.log(polishedarr)
         this.SocketService.emit('createChatroom', polishedarr.sort())
       } 
       polishedarr = []
@@ -97,8 +95,6 @@ export class FriendlistService {
 
   // selecting a Chatroom from Friendlist component
   toggleChatWidget(friend: RoomWidget) {
-    console.log(this.widgetarr)
-    console.log(this.idarr)
     if (this.idarr.includes(friend.roomId)) {
       let i = this.idarr.indexOf(friend.roomId)
       this.widgetarr.splice(i, 1)
@@ -158,7 +154,7 @@ export class FriendlistService {
 
   resizeWindow(width: number) {
     const CHATWIDGETWIDTH: number = 220
-    const FRIENDLISTWIDTH: number = 220
+    const FRIENDLISTWIDTH: number = 220 + (width*.2) // take in account sidebar of 20%
     const MAXNUM: number = Math.floor((width - FRIENDLISTWIDTH) / CHATWIDGETWIDTH) // take into account friendlist component
     if (this.widgetarr.length > MAXNUM) {
       for (let x = this.widgetarr.length; x > MAXNUM; x--) {
