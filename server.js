@@ -2,6 +2,7 @@ const express = require('express')
 const https = require('https')
 const http = require('http')
 const fs = require('fs')
+const path = require('path')
 const app = express()
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
@@ -22,9 +23,12 @@ server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
 
+// allow static access to folder to get js
+app.use('/', express.static(path.join(__dirname, './frontend/dist/frontend')))
+
 // send homepage
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
+app.use((req,res, next) => {
+  res.sendFile(path.join(__dirname, './frontend/dist/frontend', 'index.html') )
 })
 
 // set URL:
