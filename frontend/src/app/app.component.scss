@@ -17,6 +17,7 @@
 }
 
 #chatroom {
+    z-index: 1;
     width: 100%;
     bottom: 10px;
     position: absolute;
@@ -26,3 +27,4 @@ html, body {
     overflow-y: hidden !important;
     max-height: 100% !important;
 }
+
