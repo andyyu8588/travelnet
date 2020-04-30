@@ -21,3 +21,8 @@
     bottom: 10px;
     position: absolute;
 }
+
+html, body {
+    overflow-y: hidden !important;
+    height: 100vh !important;
+}

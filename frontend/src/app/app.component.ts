@@ -31,7 +31,7 @@ export class AppComponent implements DoCheck, OnInit {
         console.log(data.err)
       }
     })
-    : console.log('t cave')
+    : {}
 
     let openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => this.openChatWidgets = x)
     this.SessionService.session()
