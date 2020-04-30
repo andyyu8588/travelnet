@@ -6,7 +6,7 @@ node_modules
 ### Angular ###
 ## Angular ##
 # compiled output
-dist/
+# dist/
 tmp/
 app/**/*.js
 app/**/*.js.map
