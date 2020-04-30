@@ -153,7 +153,6 @@ export class FriendlistService {
   }
 
   resizeWindow(width: number) {
-    console.log(width)
     const CHATWIDGETWIDTH: number = 220
     const FRIENDLISTWIDTH: number = 220
     const MAXNUM: number = Math.floor((width - FRIENDLISTWIDTH) / CHATWIDGETWIDTH) // take into account friendlist component
