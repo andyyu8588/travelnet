@@ -154,7 +154,7 @@ export class FriendlistService {
 
   resizeWindow(width: number) {
     const CHATWIDGETWIDTH: number = 220
-    const FRIENDLISTWIDTH: number = 220
+    const FRIENDLISTWIDTH: number = 220 + (width*.2) // take in account sidebar of 20%
     const MAXNUM: number = Math.floor((width - FRIENDLISTWIDTH) / CHATWIDGETWIDTH) // take into account friendlist component
     if (this.widgetarr.length > MAXNUM) {
       for (let x = this.widgetarr.length; x > MAXNUM; x--) {
