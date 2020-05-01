@@ -48,7 +48,8 @@ export class LoginComponent {
     loginClicked(password, username, event: Event) {
         if (!(sessionStorage.getItem('username'))) {
         this.SocketService.authenticate(username, password)
-        this.SocketService.authenticator.subscribe((data:any) => {
+
+        this.SocketService.emit('login', {email: username, password: password}, (data: any) => {
             if (data.err || data === '') {
                 console.log(data.err)
             } 
@@ -61,6 +62,9 @@ export class LoginComponent {
             } else {
                 console.log('login fini')
             } 
+        })
+        this.SocketService.authenticator.subscribe((data:any) => {
+            
         })
         }
     }

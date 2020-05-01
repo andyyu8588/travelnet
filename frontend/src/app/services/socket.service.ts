@@ -17,13 +17,14 @@ export class SocketService {
   constructor() { 
     this.socket = io(this.uri)
     this.socket.on('unauthorized', (data) => {
-      console.log(data)
+      console.log('un' + data)
     })
   }
 
 
   authenticate(username: string, password: string) {
     this.socket.emit('authenticate', {username: username, password: password}, (data: any) => {
+      console.log(data)
       this._authenticator.next(data)
     })
   }
