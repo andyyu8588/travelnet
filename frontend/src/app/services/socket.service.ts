@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as io from "socket.io-client/dist/socket.io";
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,9 @@ export class SocketService {
   room: any
   readonly uri: string = 'https://travelnet.herokuapp.com'
 
+  private _authenticator: BehaviorSubject<any> = new BehaviorSubject('')
+  public authenticator: Observable<any> = this._authenticator
+
   constructor() { 
     this.socket = io(this.uri)
     this.socket.on('unauthorized', (data) => {
@@ -18,9 +21,10 @@ export class SocketService {
     })
   }
 
-  authenticate(username: string, password: string): any {
+
+  authenticate(username: string, password: string) {
     this.socket.emit('authenticate', {username: username, password: password}, (data: any) => {
-      return data
+      this._authenticator.next(data)
     })
   }
 
