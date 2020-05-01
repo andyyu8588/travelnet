@@ -2,8 +2,9 @@ const express = require('express')
 const https = require('https')
 const http = require('http')
 const fs = require('fs')
+const path = require('path')
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
 const currentTime = new Date().toISOString()
 
@@ -13,16 +14,31 @@ const currentTime = new Date().toISOString()
 //   cert: fs.readFileSync('./ssl/certificate.crt')
 // }, app)
 
+// setup http server (https in heroku tho)
 const server = http.createServer(app)
 
 const io = require('socket.io').listen(server)
+
+require('socketio-auth')(io, {
+  authenticate: (socket, data, callback) => {
+    console.log(data)
+  }
+})
 
 server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
 
+// allow static access to folder to get js
+app.use('/', express.static(path.join(__dirname, 'frontend/dist/frontend')))
+
+// send homepage
+app.use((req,res, next) => {
+  res.sendFile(path.join(__dirname, 'frontend/dist/frontend', 'index.html') )
+})
+
 // set URL:
-var dbURL = 'mongodb://localhost/Travelnet'
+var dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
 
 // connect mongoose to Mongodb
 mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, (err) => {
@@ -62,16 +78,11 @@ var User = mongoose.model('User', {
   },  
 })
 
-// send homepage
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/keep the trash/Welcome.html')
-})
-
 // redirect to any page (scripts)
-app.get('/*', (req, res) => {
-  page = req.params
-  res.sendFile(__dirname + '/keep the trash/' + page[0])
-})
+// app.get('/*', (req, res) => {
+//   page = req.params
+//   res.sendFile(__dirname + '/' +page[0])
+// })
 
 io.on('connection', (socket) => {
 
