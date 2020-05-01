@@ -25,6 +25,8 @@
 
 html, body {
     overflow-y: hidden !important;
-    max-height: 100% !important;
-    height: 100%;
+    max-height: 100vh;
+    max-height: 100vh !important;
+    height: 100vh !important;
+    height: 100vh;
 }
