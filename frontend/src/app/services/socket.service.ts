@@ -13,6 +13,9 @@ export class SocketService {
 
   constructor() { 
     this.socket = io(this.uri)
+    this.socket.on('unauthorized', (data) => {
+      console.log(data)
+    })
   }
 
   authenticate(username: string, password: string): any {
