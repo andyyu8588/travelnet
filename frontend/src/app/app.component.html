@@ -12,7 +12,7 @@
 
 </head>
 
-<body (window:resize)='resizeWindow()'>
+<body (window:resize)='resizeWindow()' [attr.height]='windowHeight'>
 
   <header-navbar (featureSelected)="onNavigate($event)"></header-navbar>
 

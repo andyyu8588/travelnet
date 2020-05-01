@@ -16,6 +16,7 @@ export class AppComponent implements DoCheck, OnInit {
   sessionState: boolean
   user = sessionStorage.getItem('username')
   openChatWidgets: any
+  windowHeight: number = window.innerHeight
 
   constructor(
     private FriendlistService: FriendlistService,
@@ -57,6 +58,7 @@ export class AppComponent implements DoCheck, OnInit {
   }
 
   resizeWindow(){
+    this.windowHeight = window.innerHeight
     this.FriendlistService.resizeWindow(window.innerWidth)
   }
 }

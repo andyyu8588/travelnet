@@ -12,7 +12,6 @@ export class SocketService {
   readonly uri: string = 'https://travelnet.herokuapp.com'
 
   constructor() { 
-    console.log('socket const')
     this.socket = io(this.uri)
   }
 
