@@ -7,19 +7,18 @@ import { SessionService } from '../../services/session.service'
 })
 
 export class HeaderComponent {
-    sessionState:any
+    sessionState: any
     username: string
     @Output() featureSelected = new EventEmitter<string>();
     
     constructor(private sessionService:SessionService) {
-        let x = this.sessionService.sessionState.subscribe(x => {
-            this.sessionState = x
-            if(x){
-              this.username = sessionStorage.getItem('username')  
+        this.sessionService.sessionState.subscribe((username) => {
+            this.sessionState = username
+            if (username) {
+                this.username = sessionStorage.getItem('username')  
             } else {
                 this.username = ''
-            }
-            
+            }            
         })
     }
 
