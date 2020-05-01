@@ -47,7 +47,7 @@ export class LoginComponent {
     //handle user login with socket
     loginClicked(password, username, event: Event) {
         if (!(sessionStorage.getItem('username'))) {
-        this.SocketService.emit('login', {email:username , password:password}, (data: any) => {
+        this.SocketService.authenticate(username, password).subscribe((data:any) => {
             if (data.err) {
                 console.log(data.err)
             } 
@@ -59,7 +59,7 @@ export class LoginComponent {
                 console.log(sessionStorage.getItem('username'))
             } else {
                 console.log('login fini')
-            }
+            } 
         })
         }
     }

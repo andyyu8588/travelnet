@@ -15,6 +15,12 @@ export class SocketService {
     this.socket = io(this.uri)
   }
 
+  authenticate(username: string, password: string): any {
+    this.socket.emit('authenticate', {username: username, password: password}, (data: any) => {
+      return data
+    })
+  }
+
   listen(eventName: string) {
     return new Observable((sub) => {
       this.socket.on(eventName, (data) => {
