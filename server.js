@@ -19,11 +19,11 @@ const server = http.createServer(app)
 
 const io = require('socket.io').listen(server)
 
-// require('socketio-auth')(io, {
-//   authenticate: (socket, data, callback) => {
-    
-//   }
-// })
+require('socketio-auth')(io, {
+  authenticate: (socket, data, callback) => {
+    console.log(data)
+  }
+})
 
 server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
