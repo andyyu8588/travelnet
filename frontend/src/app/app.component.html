@@ -14,26 +14,21 @@
 
 <body (window:resize)='resizeWindow()' [attr.height]='windowHeight'>
 
-  <header-navbar (featureSelected)="onNavigate($event)"></header-navbar>
+  <header-navbar ></header-navbar>
 
-  
+  <router-outlet></router-outlet>
 
-  <div>
-    <app-registration  *ngIf='currentFeature === "Registration"'></app-registration>
-  </div>  
-
-  <div>
-    <app-login  *ngIf='currentFeature === "Login"'></app-login>
-  </div>
  <div>
     <app-sidebar></app-sidebar>
   </div>
   <div id="map">
-    <app-map></app-map>
+    <!-- <app-map></app-map> -->
   </div>
- 
+
   <div id="chatroom">
     <app-chatsystem></app-chatsystem>
   </div>
+
+
 </body>
 </html>

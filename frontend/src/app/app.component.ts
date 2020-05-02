@@ -11,7 +11,6 @@ import { FriendlistService } from './services/friendlist.service';
 })
 export class AppComponent implements DoCheck, OnInit {
 
-  currentFeature:string
   title = 'frontend';
   sessionState: boolean
   user = sessionStorage.getItem('username')
@@ -23,7 +22,7 @@ export class AppComponent implements DoCheck, OnInit {
     private SessionService: SessionService,
     private SocketService: SocketService){
 
-    localStorage.getItem('username')? 
+    localStorage.getItem('username')?
     this.SocketService.emit('updateLogin', {username: localStorage.getItem('username')}, (data) => {
       if(data.res){
         sessionStorage.setItem('username', data.res)
@@ -42,11 +41,6 @@ export class AppComponent implements DoCheck, OnInit {
         // this.FriendlistService.getNotifications()
       }
     })
-    let x = this.SessionService.currentFeature.subscribe(x => this.currentFeature = x)
-  }
-
-  onNavigate(feature: any) {
-    this.currentFeature = feature;
   }
 
   ngOnInit() {
