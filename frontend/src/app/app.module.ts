@@ -16,6 +16,7 @@ import { registrationComponent } from './components/registrationpage/registratio
 import { loginComponent } from './components/loginpage/loginpage.component';
 import { ChatsystemComponent } from './components/chatsystem/chatsystem.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     loginComponent,
     ChatsystemComponent,
     SidebarComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

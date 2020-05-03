@@ -5,7 +5,6 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ConstantPool } from '@angular/compiler';
-import { resolve } from 'dns';
 
 
 @Component({

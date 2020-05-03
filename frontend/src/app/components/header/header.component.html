@@ -14,7 +14,7 @@
           <a class='nav-link'>Link</a>
         </li>
         <li class='nav-item'>
-          <a class='nav-link' [innerHTML]='username' (click)='onSelect("Profile")'></a>
+          <a class='nav-link' routerLink='profile'>{{ username }}</a>
         </li>
       </ul>
 
