@@ -163,7 +163,7 @@ io.on('connection', (socket) => {
           reject(err)
         }
         else if (res) {
-          resolve({res: res.username})
+          resolve({res})
         }
         else {
           resolve('error')
