@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy{
                 email: this.loginForm.get('username').value,
                 password: this.loginForm.get('password').value
             }
-
+            this.login_err = false
             this.SocketService.emit('login', credentials, (data: any) => {
                 if (data.err || data === '') {
                     console.log(data.err)

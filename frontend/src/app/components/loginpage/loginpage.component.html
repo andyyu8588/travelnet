@@ -14,18 +14,19 @@
 <div>
   <form class='modal-body' [formGroup]='loginForm' (ngSubmit)='loginClicked()'>
     <h1 class='jumbotron modal-title'>Login</h1>
+    <br *ngIf='!login_err'>
       <span *ngIf='login_err' class="help-block text-danger">username or password incorrect</span>
       <!-- email/username -->
       <div class='form-group' >
         <label for='exampleInputEmail1'>Email or Username</label>
         <input type='text' class='form-control' formControlName='username'>
-        <small class="help-block" *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched">Please enter something</small>
+        <small class="help-block text-danger" *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched">Please enter something</small>
       </div>
       <!-- password -->
       <div class='form-group'>
         <label for='exampleInputPassword1'>Password</label>
         <input type='password' class='form-control' formControlName='password'>
-        <small class="help-block" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Please enter something</small>
+        <small class="help-block text-danger" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Please enter something</small>
       </div>
       <button type='submit' class='btn btn-primary'>Login</button>
   </form>
