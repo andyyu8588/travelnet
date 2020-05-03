@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy{
                 if (data.err || data === '') {
                     console.log(data.err)
                     this.login_err = true
+                    this.loginForm.get('password').reset()
                 }
                 else if (data.res) {
                     sessionStorage.setItem('username', data.res)
