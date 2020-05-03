@@ -46,9 +46,9 @@ export class RegistrationComponent implements OnDestroy, OnInit {
 
   ngOnInit(){
     this.registrationForm = new FormGroup({
-      'username': new FormControl(null,[Validators.required],this.forbiddenUsernames),
-      'password': new FormControl(null,[Validators.required]),
-      'email': new FormControl(null,[Validators.required]),
+      'username': new FormControl(null,[Validators.required,Validators.minLength(2)],this.forbiddenUsernames.bind(this)),
+      'password': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
+      'email': new FormControl(null,[Validators.required,Validators.email]),
       'checkbox': new FormControl(null,[Validators.required]),
     })
   }
@@ -62,7 +62,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
           username:this.registrationForm.get('username').value,
           password:this.registrationForm.get('password').value}
 
-          this.SocketService.emit('createUser',data, (res) => {
+          this.SocketService.emit('createUser',[data], (res) => {
               if (res.err) {
                   console.log(res.err)
               }
@@ -84,9 +84,12 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   }
   forbiddenUsernames(control: FormControl): Promise<any> {
     const promise = new Promise<any>((resolve, reject) => {
-      this.SocketService.emit('searchUser', control.value, (res) => {
+      this.SocketService.emit('searchUser', [control.value], (res) => {
           if (res.err) {
             resolve({'username is taken': true});
+          }
+          else{
+            resolve (null)
           }
 
         }
