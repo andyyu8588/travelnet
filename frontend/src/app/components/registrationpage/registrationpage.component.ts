@@ -84,11 +84,12 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   }
   forbiddenUsernames(control: FormControl): Promise<any> {
     const promise = new Promise<any>((resolve, reject) => {
+      console.log(this.registrationForm.controls)
       this.SocketService.emit('searchUser', [control.value], (res) => {
-          if (res.err) {
-            resolve({'username is taken': true});
-          }
-          else{
+
+          if (res.res) {
+            resolve({'forbiddenUsername': true});
+          } else {
             resolve(null)
           }
 
