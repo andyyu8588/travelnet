@@ -1,9 +1,12 @@
+import { Router } from '@angular/router';
 import { Component, Output, EventEmitter } from '@angular/core';
 import { SessionService } from '../../services/session.service'
 
+
 @Component({
     selector: 'header-navbar',
-    templateUrl:'./header.component.html'
+    templateUrl:'./header.component.html',
+    styleUrls: ['./header.component.scss'],
 })
 
 export class HeaderComponent {
@@ -21,10 +24,4 @@ export class HeaderComponent {
             }            
         })
     }
-
-    // select item from menu
-    onSelect(feature: string) {
-        this.featureSelected.emit(feature)
-    }
 }
-    
