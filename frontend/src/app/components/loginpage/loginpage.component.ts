@@ -31,37 +31,42 @@ export class loginComponent {
 
 export class LoginComponent implements OnDestroy{
 
-  constructor(private SocketService: SocketService,
-              private sessionService: SessionService,
-              private modalService:NgbModal,
-              private router:Router,) {}
-  ngOnDestroy(){
-    this.router.navigate(['/'])
-  }
+    constructor(private SocketService: SocketService,
+                private sessionService: SessionService,
+                private modalService:NgbModal,
+                private router:Router,) {
+
+    }
+
+    
+
+    ngOnDestroy(){
+        this.router.navigate(['/'])
+    }
 
 
-  //handle user login with socket
-  loginClicked(password, username, event: Event) {
-      if (!(sessionStorage.getItem('username'))) {
-      this.SocketService.authenticate(username, password)
+    //handle user login with socket
+    loginClicked(password, username, event: Event) {
+    if (!(sessionStorage.getItem('username'))) {
+        this.SocketService.authenticate(username, password)
 
-      this.SocketService.emit('login', {email: username, password: password}, (data: any) => {
-          if (data.err || data === '') {
-              console.log(data.err)
-          }
-          else if (data.res) {
-              sessionStorage.setItem('username', data.res)
-              localStorage.setItem('username', data.res)
-              this.modalService.dismissAll()
-              this.sessionService.session()
-              console.log(sessionStorage.getItem('username'))
-          } else {
-              console.log('login fini')
-          }
-      })
-      this.SocketService.authenticator.subscribe((data:any) => {
+        this.SocketService.emit('login', {email: username, password: password}, (data: any) => {
+            if (data.err || data === '') {
+                console.log(data.err)
+            }
+            else if (data.res) {
+                sessionStorage.setItem('username', data.res)
+                localStorage.setItem('username', data.res)
+                this.modalService.dismissAll()
+                this.sessionService.session()
+                console.log(sessionStorage.getItem('username'))
+            } else {
+                console.log('login fini')
+            }
+        })
+        this.SocketService.authenticator.subscribe((data:any) => {
 
-      })
-      }
-  }
+        })
+    }
+    }
 }
