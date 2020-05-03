@@ -160,9 +160,12 @@ io.on('connection', (socket) => {
     return new Promise((resolve, reject) => {
       User.findOne({username}).exec((err, res) => {
         if (err) {
+          console.log(err)
           reject(err)
+          
         }
         else if (res) {
+          console.log(res)
           resolve({res})
         }
         else {

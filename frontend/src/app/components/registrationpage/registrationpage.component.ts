@@ -5,7 +5,6 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ConstantPool } from '@angular/compiler';
-import { resolve } from 'dns';
 
 
 @Component({
@@ -15,7 +14,7 @@ import { resolve } from 'dns';
 })
 
 export class registrationComponent {
-    modal = null
+    modal:any
     constructor(private modalService:NgbModal, private SessionService:SessionService) {
       this.openModal()
     }
@@ -55,6 +54,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
 
   onSubmit()  {
     {
+      console.log(this.registrationForm.get('username').errors)
       if(!(sessionStorage.getItem('username'))){
           console.log('register sent')
 
@@ -89,7 +89,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
             resolve({'username is taken': true});
           }
           else{
-            resolve (null)
+            resolve(null)
           }
 
         }
