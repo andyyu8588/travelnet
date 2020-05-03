@@ -4,3 +4,7 @@
     position: fixed;
     right: 290px;
 }
+
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}

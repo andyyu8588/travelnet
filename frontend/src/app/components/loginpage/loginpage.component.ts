@@ -1,5 +1,6 @@
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { SocketService } from '../../services/socket.service';
-import { Component, OnDestroy} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SessionService } from '../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -29,44 +30,55 @@ export class loginComponent {
     providers:[NgbModalConfig,NgbModal]
 })
 
-export class LoginComponent implements OnDestroy{
+export class LoginComponent implements OnInit, OnDestroy{
+    loginForm: FormGroup
+    login_err: boolean = false
 
     constructor(private SocketService: SocketService,
                 private sessionService: SessionService,
                 private modalService:NgbModal,
-                private router:Router,) {
+                private router:Router,
+                ) {
 
     }
 
-    
-
-    ngOnDestroy(){
-        this.router.navigate(['/'])
+    ngOnInit() {
+        this.loginForm = new FormGroup({
+            'username': new FormControl(null, Validators.required),
+            'password': new FormControl(null, Validators.required)
+        })
     }
-
 
     //handle user login with socket
-    loginClicked(password, username, event: Event) {
-    if (!(sessionStorage.getItem('username'))) {
-        this.SocketService.authenticate(username, password)
-
-        this.SocketService.emit('login', {email: username, password: password}, (data: any) => {
-            if (data.err || data === '') {
-                console.log(data.err)
+    loginClicked() {
+        if (!(sessionStorage.getItem('username'))) {
+            let credentials = {
+                email: this.loginForm.get('username').value,
+                password: this.loginForm.get('password').value
             }
-            else if (data.res) {
-                sessionStorage.setItem('username', data.res)
-                localStorage.setItem('username', data.res)
-                this.modalService.dismissAll()
-                this.sessionService.session()
-                console.log(sessionStorage.getItem('username'))
-            } else {
-                console.log('login fini')
-            }
-        })
-        this.SocketService.authenticator.subscribe((data:any) => {
 
-        })
+            this.SocketService.emit('login', credentials, (data: any) => {
+                if (data.err || data === '') {
+                    console.log(data.err)
+                    this.login_err = true
+                }
+                else if (data.res) {
+                    sessionStorage.setItem('username', data.res)
+                    localStorage.setItem('username', data.res)
+                    this.modalService.dismissAll()
+                    this.sessionService.session()
+                    console.log(sessionStorage.getItem('username'))
+                } else {
+                    console.log('login fini')
+                }
+            })
+        } else {
+            sessionStorage.removeItem('username')
+            this.loginClicked()
+        }
     }
+    
+    ngOnDestroy(){
+        this.router.navigate(['/'])
     }
 }

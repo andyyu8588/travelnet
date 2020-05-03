@@ -267,6 +267,7 @@ io.on('connection', (socket) => {
         ack({res: doc.username})
       }
       else {
+        ack({err: 'not found'})
         console.log('monkas')
       }
     })
