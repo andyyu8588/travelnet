@@ -1,8 +1,12 @@
 import { SocketService } from '../../services/socket.service';
-import { Component, OnDestroy} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { SessionService } from '../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
+import { ConstantPool } from '@angular/compiler';
+import { resolve } from 'dns';
+
 
 @Component({
     selector: 'app-registration',
@@ -28,26 +32,37 @@ export class registrationComponent {
     providers:[NgbModalConfig,NgbModal]
 })
 
-export class RegistrationComponent implements OnDestroy{
-
-
+export class RegistrationComponent implements OnDestroy, OnInit {
   constructor(
     private SocketService: SocketService,
     private sessionService:SessionService,
     private modalService:NgbModal,
     private router:Router
+
     )
     {}
-  ngOnDestroy(){
-    this.router.navigate(['/'])
+  registrationForm:FormGroup;
+
+
+  ngOnInit(){
+    this.registrationForm = new FormGroup({
+      'username': new FormControl(null,[Validators.required],this.forbiddenUsernames),
+      'password': new FormControl(null,[Validators.required]),
+      'email': new FormControl(null,[Validators.required]),
+      'checkbox': new FormControl(null,[Validators.required]),
+    })
   }
 
-  // send register request with socket
-  registerClicked(password: string, username: string, email: string) {
-      // event.preventDefault()
+  onSubmit()  {
+    {
       if(!(sessionStorage.getItem('username'))){
           console.log('register sent')
-          this.SocketService.emit('createUser', {email:email, username:username, password:password}, (res) => {
+
+          let data = {email:this.registrationForm.get('email').value,
+          username:this.registrationForm.get('username').value,
+          password:this.registrationForm.get('password').value}
+
+          this.SocketService.emit('createUser',data, (res) => {
               if (res.err) {
                   console.log(res.err)
               }
@@ -58,12 +73,32 @@ export class RegistrationComponent implements OnDestroy{
                   this.modalService.dismissAll()
                   console.log(`user created: ${sessionStorage.getItem('username')}`)
               } else {
-                  console.log("c fini")
+                  console.log("an error occured")
               }
           })
-      } else {
-          console.log('nothing')
-      }
+        } else {
+            console.log('nothing')
+        }
+
+    }
+  }
+  forbiddenUsernames(control: FormControl): Promise<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+      this.SocketService.emit('searchUser', control.value, (res) => {
+          if (res.err) {
+            resolve({'username is taken': true});
+          }
+
+        }
+      )});
+      return promise;
+
+  }
+
+
+
+  ngOnDestroy(){
+    this.router.navigate(['/'])
   }
 }
 
