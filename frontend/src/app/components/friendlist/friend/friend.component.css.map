@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,IAAI,CAAC;EACD,KAAK,EAAE,KAAK;EACZ,gBAAgB,EAAE,KAAK;CAC1B;;AAED,AAAA,IAAI,AAAA,OAAO,CAAC;EACR,gBAAgB,EAAE,IAAI;EACtB,MAAM,EAAE,IAAI;EACZ,OAAO,EAAE,IAAI;EACb,OAAO,EAAE,IAAI;CAChB;;AAED,AAAA,IAAI,AAAA,MAAM,CAAC;EACP,gBAAgB,EAAE,KAAK;EACvB,MAAM,EAAE,IAAI;EACZ,OAAO,EAAE,IAAI;EACb,OAAO,EAAE,IAAI;CAChB",
-    "sources": [
-        "friend.component.scss"
-    ],
-    "names": [],
-    "file": "friend.component.css"
-}
