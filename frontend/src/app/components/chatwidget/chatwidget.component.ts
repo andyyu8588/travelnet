@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { SessionService } from './../../services/session.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { Component, OnInit, Renderer2, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
@@ -17,26 +18,29 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   sessionRoomName: string
   typeArea: string = ''
   sessionState: boolean
+  private sessionSub: Subscription
   roomModel: RoomWidget
+  private roomSub: Subscription
   username: string = sessionStorage.getItem('username')
  
 
   constructor(private friendlistService: FriendlistService,
-    private renderer: Renderer2,
-    private socketService: SocketService,
-    public sessionService: SessionService) {
+              private renderer: Renderer2,
+              private socketService: SocketService,
+              public sessionService: SessionService) {
 
-      let x = this.sessionService.sessionState.subscribe((x) => {
-        this.sessionState = x
-      })
-
-      let y = this.friendlistService.roomModel.subscribe((room) => {
-        console.log(room)
-        this.roomModel = room
-      })
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // subscribe to Observables
+    this.sessionSub = this.sessionService.sessionState.subscribe((isLoggedIn) => {
+      this.sessionState = isLoggedIn
+    })
+
+    this.roomSub = this.friendlistService.roomModel.subscribe((room) => {
+      this.roomModel = room
+    })
+
     this.sessionRoomName = this.sessionService.getRoomName(this.roomName)
 
     // pull Chatroom content from backend
@@ -72,22 +76,20 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
     })
   }
   
-  //send message with socket
-  sendMessage(data: string) {
+  ngOnDestroy(): void {
+    this.socketService.remove('message_res')
+    this.socketService.remove('notification')
+    this.roomSub.unsubscribe()
+    this.sessionSub.unsubscribe()
+  }
+  
+  // send message with socket
+  sendMessage(data: string): void {
     this.socketService.emit('message', {roomId: this.roomId, sender: this.username, content: data})    
   }
 
-  initRoom() {
-
-  }
-
-  toggleChatWidget() {
+  toggleChatWidget(): void {
     this.friendlistService.getRoomWidget(this.roomId)
     this.friendlistService.toggleChatWidget(this.roomModel)
-  }
-
-  ngOnDestroy(){
-    this.socketService.remove('message_res')
-    this.socketService.remove('createChatroom_res')
   }
 }

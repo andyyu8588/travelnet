@@ -74,8 +74,8 @@ var User = mongoose.model('User', {
   socketIds: Array,
   isActive: Boolean, //active vs online
   log: {
-    in: [],
-    out: []
+    in: Array,
+    out: Array
   },  
 })
 

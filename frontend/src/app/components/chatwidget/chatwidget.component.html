@@ -1,17 +1,19 @@
 <div  id='border' class="col-auto" *ngIf='sessionState'>
 <div class="space rounded-top" [innerText]='sessionRoomName' aria-readonly="true" (click)='toggleChatWidget()'></div>
 
-<div class="widget" id='chatbody'*ngIf='sessionState' (click)='initRoom()'>
+<div class="widget" id='chatbody'*ngIf='sessionState'>
   <br>
   <div id='textarea' #textarea ></div>
 </div>
 
 <div  class='space rounded-bottom' >
   <div id="input">
-        <form (submit)='sendMessage(msg.value)'>
-            <input class="input" name="ngModel" [(ngModel)]='typeArea' #msg='ngModel' type="text">
-            <input class= 'btnbtn-outline-secondary'id='submit'type="submit" value="Enter">
-        </form>
+    <form (submit)='sendMessage(msg.value)' class="container-fluid">
+      <div class="row">
+        <input class="input col-auto" name="ngModel" [(ngModel)]='typeArea' #msg='ngModel' type="text">
+        <input class='btn btn-primary col' id='submit' type="submit" value="Send">
+      </div>
+    </form>
   </div>
 </div>
 </div>
