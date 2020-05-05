@@ -18,16 +18,18 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   sessionRoomName: string
   typeArea: string = ''
   sessionState: boolean
-  sessionSub: Subscription
+  private sessionSub: Subscription
   roomModel: RoomWidget
-  roomSub: Subscription
+  private roomSub: Subscription
   username: string = sessionStorage.getItem('username')
  
 
   constructor(private friendlistService: FriendlistService,
-    private renderer: Renderer2,
-    private socketService: SocketService,
-    public sessionService: SessionService) { }
+              private renderer: Renderer2,
+              private socketService: SocketService,
+              public sessionService: SessionService) {
+
+  }
 
   ngOnInit(): void {
     // subscribe to Observables
@@ -36,7 +38,6 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
     })
 
     this.roomSub = this.friendlistService.roomModel.subscribe((room) => {
-      console.log(room)
       this.roomModel = room
     })
 
