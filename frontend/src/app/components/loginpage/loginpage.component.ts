@@ -27,7 +27,7 @@ export class loginComponent {
     selector: 'app-loginpage',
     templateUrl:'./loginpage.component.html',
     styleUrls: ['./loginpage.component.scss'],
-    providers:[NgbModalConfig,NgbModal]
+    providers:[NgbModalConfig, NgbModal]
 })
 
 export class LoginComponent implements OnInit, OnDestroy{
@@ -37,10 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy{
     constructor(private SocketService: SocketService,
                 private sessionService: SessionService,
                 private modalService:NgbModal,
-                private router:Router,
-                ) {
-
-    }
+                private router:Router) { }
 
     ngOnInit() {
         this.loginForm = new FormGroup({

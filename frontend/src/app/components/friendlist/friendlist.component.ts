@@ -1,6 +1,7 @@
+import { Subscription } from 'rxjs';
 import { SessionService } from './../../services/session.service';
 import { RoomWidget } from './friend/Room_Widget.model';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 
 @Component({
@@ -9,30 +10,32 @@ import { FriendlistService } from 'src/app/services/friendlist.service';
   styleUrls: ['./friendlist.component.scss']
 })
 
-export class FriendlistComponent implements OnInit {
+export class FriendlistComponent implements OnInit, OnDestroy {
   sessionState: boolean 
   friends: RoomWidget[] = []
-  private friends_sub: any
+  private friendsSub: Subscription
+  private sessionSub: Subscription
   
-  constructor(
-    private friendlistService: FriendlistService,
-    private SessionService: SessionService,
-    ) {
+  constructor(private friendlistService: FriendlistService,
+    private SessionService: SessionService) { }
 
-    // setup sessionState observable
-    let x = this.SessionService.sessionState.subscribe(x => {
-      this.sessionState = x
-      if(x === true){
-        this.friends_sub = this.friendlistService.chatroomList.subscribe(x => this.friends = x)
+  ngOnInit(): void {
+    // setup sessionState and friends observable
+    this.sessionSub = this.SessionService.sessionState.subscribe((isLoggedIn) => {
+      this.sessionState = isLoggedIn
+
+      if (isLoggedIn) {
+        this.friendsSub = this.friendlistService.chatroomList.subscribe((friends) => this.friends = friends)
         this.friendlistService.getList([])
       } else {
         console.log(`not logged in`)
       }
     })
-  } 
+  }
 
-  ngOnInit(): void {
-    
+  ngOnDestroy(): void {
+    this.friendsSub.unsubscribe()
+    this.sessionSub.unsubscribe()
   }
 
   // update friendlist on each key press
