@@ -16,9 +16,9 @@ export class AppComponent implements DoCheck, OnInit, OnDestroy {
   windowHeight: number
   user = sessionStorage.getItem('username')
   openChatWidgets: any
-  openChatWidgets_sub: Subscription
+  private openChatWidgets_sub: Subscription
   sessionState: boolean
-  sessionState_sub: Subscription
+  private sessionState_sub: Subscription
 
   constructor(
     private FriendlistService: FriendlistService,
