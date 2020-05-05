@@ -14,18 +14,30 @@ id='form'
         id='username'
         placeholder='Enter a Username'>
     </div>
-    <span *ngIf="registrationForm.get('username').errors['forbiddenUsername'] && registrationForm.get('username').touched">This Username is invalid</span>
-    <!-- password -->
-    <div class='form-group'>
-      <label for='password'>Password</label>
-      <input
-      class='form-control'
-      formControlName='password'
-      type='password'
-      id='password'
-      placeholder='*******************'>
-    </div>
+    <small id="passwordHelpBlock" class="text-muted"*ngIf="checkUsernameUse()">This username is already in use.</small>
+    <small id="passwordHelpBlock" class="text-muted"*ngIf="checkUsernameLength()">Your password must be between 2 and 15 characters long.</small>
+    <!-- password confirmation -->
+    <!-- <div formGroupName='passwords'> -->
+      <!-- password -->
+      <div class='form-group'>
+        <label for='password'>Password</label>
+        <input
+        class='form-control'
+        formControlName='password'
+        type='password'
 
+        placeholder='*******************'>
+      </div>
+      <!-- confirm password -->
+      <div class='form-group'>
+        <label for='password'>confirm your password</label>
+        <input
+        class='form-control'
+        formControlName='confirmPassword'
+        type='password'
+        placeholder='*******************'>
+      </div>
+  <!-- </div> -->
     <!-- email -->
     <div class='form-group'>
       <label for='email'>Email Address</label>

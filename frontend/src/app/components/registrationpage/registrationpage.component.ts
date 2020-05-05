@@ -45,11 +45,38 @@ export class RegistrationComponent implements OnDestroy, OnInit {
 
   ngOnInit(){
     this.registrationForm = new FormGroup({
-      'username': new FormControl(null,[Validators.required,Validators.minLength(2)],this.forbiddenUsernames.bind(this)),
-      'password': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
+      'passwords': new FormGroup({
+        'password': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
+        'confirmPassword': new FormControl(null,[]),
+      }),
+
+      'username': new FormControl(null,[Validators.required,Validators.minLength(2),Validators.maxLength(15)],this.forbiddenUsernames.bind(this)),
       'email': new FormControl(null,[Validators.required,Validators.email]),
       'checkbox': new FormControl(null,[Validators.required]),
     })
+  }
+  checkUsernameUse() {
+    if (this.registrationForm.get('username').errors && this.registrationForm.get('username').touched){
+      if (this.registrationForm.get('username').errors['forbiddenUsername']){
+        return true
+      }
+    }
+  }
+  checkUsernameLength() {
+    if (this.registrationForm.get('username').errors && this.registrationForm.get('username').touched){
+      if (this.registrationForm.get('username').errors['maxlength'] || this.registrationForm.get('username').errors['minlength']){
+        return true
+      }
+    }
+  }
+  // checkPasswords(passwords:FormGroup) {
+  //   let pass = passwords.get('password').value;
+  //   let confirmPass = passwords.get('confirmPassword').value;
+  //   return pass === confirmPass ? null :{notSame:true}
+  // }
+
+  checkPasswordValidity(){
+
   }
 
   onSubmit()  {
