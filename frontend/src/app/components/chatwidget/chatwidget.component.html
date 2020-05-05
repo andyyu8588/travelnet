@@ -1,7 +1,7 @@
 <div  id='border' class="col-auto" *ngIf='sessionState'>
 <div class="space rounded-top" [innerText]='sessionRoomName' aria-readonly="true" (click)='toggleChatWidget()'></div>
 
-<div class="widget" id='chatbody'*ngIf='sessionState' (click)='initRoom()'>
+<div class="widget" id='chatbody'*ngIf='sessionState'>
   <br>
   <div id='textarea' #textarea ></div>
 </div>
