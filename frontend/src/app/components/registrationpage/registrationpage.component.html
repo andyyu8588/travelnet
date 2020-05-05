@@ -14,10 +14,10 @@ id='form'
         id='username'
         placeholder='Enter a Username'>
     </div>
-    <small id="passwordHelpBlock" class="text-muted"*ngIf="checkUsernameUse()">This username is already in use.</small>
-    <small id="passwordHelpBlock" class="text-muted"*ngIf="checkUsernameLength()">Your password must be between 2 and 15 characters long.</small>
+    <small id="passwordHelpBlock" class="text-muted text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
+    <small id="passwordHelpBlock" class="text-muted text-danger" *ngIf="checkUsernameLength()">Your password must be between 2 and 15 characters long.</small>
     <!-- password confirmation -->
-    <!-- <div formGroupName='passwords'> -->
+    <div formGroupName='passwords'>
       <!-- password -->
       <div class='form-group'>
         <label for='password'>Password</label>
@@ -36,8 +36,9 @@ id='form'
         formControlName='confirmPassword'
         type='password'
         placeholder='*******************'>
+        <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordValidity">Your passwords does not match</small>
       </div>
-  <!-- </div> -->
+    </div>
     <!-- email -->
     <div class='form-group'>
       <label for='email'>Email Address</label>
@@ -49,7 +50,6 @@ id='form'
       id='email'
       placeholder='name@example.com' >
       <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
-
     </div>
     <!-- checkbox -->
     <div class='form-group form-check'>
@@ -58,7 +58,7 @@ id='form'
       type='checkbox'
       class='form-check-input'
       id='terms'>
-      <label class='form-check-label' for='terms'>i have read and understand the terms & conditions of this agreement</label>
+      <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
     </div>
     <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button>
 </form>
