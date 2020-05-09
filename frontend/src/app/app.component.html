@@ -13,20 +13,23 @@
 </head>
 
 <body (window:resize)='resizeWindow()' [attr.height]='windowHeight'>
+  <app-map></app-map>
 
-  <header-navbar></header-navbar>
-
-  <router-outlet></router-outlet>
-
-  <!-- <div>
-    <app-sidebar></app-sidebar>
-  </div> -->
-  
-  <div id="map">
-    <app-map></app-map>
+  <div id='head' class="container-fluid">
+    <header-navbar ></header-navbar>
   </div>
 
-  <div id="chatroom">
+  <router-outlet ></router-outlet>
+  
+
+
+  <div>
+    <app-sidebar></app-sidebar>
+  </div>
+  
+  
+
+  <div id="chatsystem">
     <app-chatsystem></app-chatsystem>
   </div>
 
