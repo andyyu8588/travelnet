@@ -31,8 +31,12 @@
     height: auto;
 }
 
+#outlet {
+    z-index: 2;
+}
+
 app-map {
-    z-index: 0;
+    z-index: -1;
 }
 
 html, body {

@@ -9,10 +9,18 @@
       *ngIf='!sessionState'>
         <a class='btn btn-primary' routerLink='register' style="margin-right: 1%;">Register<span class='sr-only'></span></a>
         <a class='btn btn-primary' routerLink='login'>Login<span class='sr-only'></span></a>
-      </div>
+    </div>
 
-    <app-logout class='col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1
-                       offset-sm-1 offset-md-3 offset-lg-2 offset-xl-3'></app-logout> 
+    <div class='col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2
+                offset-lg-1 offset-xl-2'
+      *ngIf='sessionState'>
+      <a class='btn btn-primary' routerLink='profile' style="margin-right: 1%;">Profile<span class='sr-only'></span></a>
+      <app-logout></app-logout>
+    </div>
+
+    <!-- <app-logout class='col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1
+                       offset-sm-1 offset-md-3 offset-lg-2 offset-xl-3'>
+    </app-logout>  -->
   </div>
 
 <!-- 
