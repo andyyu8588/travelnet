@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./password.component.scss']
 })
 export class PasswordComponent implements OnInit {
+  @Input() username: string
   @Input() password: string
   changeForm: FormGroup
   changing: boolean
@@ -25,5 +26,14 @@ export class PasswordComponent implements OnInit {
   }
 
   onSubmit(): void {
+    const requestedChange = {
+      username: this.username,
+      proprety: 'password',
+      newProprety: this.changeForm.get('newPassword').value
+    }
+    console.log(requestedChange.newProprety)
+    this.socketService.emit('editUser', requestedChange, (res) => {
+      console.log(res)
+    })
   }
 }
