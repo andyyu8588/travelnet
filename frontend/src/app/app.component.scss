@@ -31,7 +31,8 @@
     height: auto;
 }
 
-#outlet {
+router-outlet {
+    // position: absolute;
     z-index: 2;
 }
 
