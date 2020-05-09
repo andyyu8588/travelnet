@@ -25,6 +25,5 @@ export class PasswordComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.socketService.emit()
   }
 }

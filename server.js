@@ -230,6 +230,18 @@ io.on('connection', (socket) => {
     })
   })
 
+  // change user data
+  socket.on('editUser', (data, callback) => {
+    searchUser(data.username).then((User) => {
+      User[data.proprety] = data.newProprety
+      User.save()
+      callback('success')
+    }).catch((err) => {
+      console.log(err)
+      callback('error')
+    })
+  })
+
   // send content of chatroom to chatWidgets
   socket.on('initChatroom', (data, callback) => {
     Chatroom.findById(data.id).exec((err, res) => {

@@ -1,12 +1,14 @@
-<div id='username' *ngIf='User'>
-    <h1>Username</h1>
-    {{ User.username }}
+<div *ngIf='User'>
+    <app-username [username]='User.username'></app-username>
+    <br>
+    <app-password [password]='User.password'></app-password>
+    <br>
+    <app-email [email]='User.email'></app-email>
+    <br>
+    <div id='delete'>
+        <button class='btn btn-danger'>Delete Account</button>
+    </div>
 </div>
-<div id='password' *ngIf='User'>
-    <h1>Password</h1>
-    {{ User.password }}
-</div>
-<div id='email' *ngIf='User'>
-    <h1>Email</h1>
-    {{ User.email }}
+<div *ngIf='!User'>
+    Error: User not found
 </div>

@@ -18,6 +18,9 @@ import { ChatsystemComponent } from './components/chatsystem/chatsystem.componen
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EmailComponent } from './components/profile/email/email.component';
+import { UsernameComponent } from './components/profile/username/username.component';
+import { PasswordComponent } from './components/profile/password/password.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ChatsystemComponent,
     SidebarComponent,
     ProfileComponent,
+    EmailComponent,
+    UsernameComponent,
+    PasswordComponent,
   ],
   imports: [
     BrowserModule,

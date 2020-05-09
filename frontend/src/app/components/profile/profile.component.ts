@@ -26,4 +26,8 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
+
+  onChange(proprety: string) {
+
+  }
 }

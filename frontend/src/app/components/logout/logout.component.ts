@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { SocketService } from './../../services/socket.service';
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../../services/session.service'
@@ -10,9 +11,9 @@ import { SessionService } from '../../services/session.service'
 export class LogoutComponent implements OnInit {
   sessionState:boolean
  
-  constructor (
-    private SessionService:SessionService,
-    private SocketService: SocketService) {
+  constructor(private SessionService:SessionService,
+              private SocketService: SocketService,
+              private router: Router) {
       let x = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
   }
 
