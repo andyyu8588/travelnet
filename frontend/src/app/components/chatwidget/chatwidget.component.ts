@@ -85,7 +85,9 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   
   // send message with socket
   sendMessage(data: string): void {
-    this.socketService.emit('message', {roomId: this.roomId, sender: this.username, content: data})    
+    if (data != '') {
+      this.socketService.emit('message', {roomId: this.roomId, sender: this.username, content: data})    
+    }
   }
 
   toggleChatWidget(): void {
