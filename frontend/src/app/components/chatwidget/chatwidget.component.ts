@@ -78,7 +78,6 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   
   ngOnDestroy(): void {
     this.socketService.remove('message_res')
-    this.socketService.remove('notification')
     this.roomSub.unsubscribe()
     this.sessionSub.unsubscribe()
   }

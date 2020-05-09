@@ -6,9 +6,9 @@
   <div id='textarea' #textarea ></div>
 </div>
 
-<div  class='space rounded-bottom' >
+<div class='space rounded-bottom' >
   <div id="input">
-    <form (submit)='sendMessage(msg.value)' class="container-fluid">
+    <form (submit)='sendMessage(msg.value)' class="container-fluid" autocomplete="off">
       <div class="row">
         <input class="input col-auto" name="ngModel" [(ngModel)]='typeArea' #msg='ngModel' type="text">
         <input class='btn btn-primary col' id='submit' type="submit" value="Send">
