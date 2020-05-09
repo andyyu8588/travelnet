@@ -1,19 +1,23 @@
+import { Router } from '@angular/router';
 import { SocketService } from 'src/app/services/socket.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   User: {
     username: string,
     password: string,
     email: string,
   }
 
-  constructor(private socketService: SocketService) {  }
+  constructor(private socketService: SocketService,
+              private Router: Router) {
+
+  }
 
   ngOnInit(): void {
     // get user info in database
@@ -29,5 +33,13 @@ export class ProfileComponent implements OnInit {
 
   onChange(proprety: string) {
 
+  }
+
+  onExit() {
+    this.ngOnDestroy()
+  }
+
+  ngOnDestroy() {
+    this.Router.navigate(['./'])
   }
 }
