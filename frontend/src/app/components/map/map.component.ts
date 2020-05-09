@@ -27,10 +27,10 @@ export class MapComponent implements OnInit {
       container: 'mapbox', // container id
       style: 'mapbox://styles/travelnet/ck99afyp80hhu1iqrodjf1brl',
       center: [-74.5, 40], // starting position
-      zoom: 9 // starting zoom
+      zoom: 4 // starting zoom
     });
     
     // Add zoom and rotation controls to the map.
-    this.map.addControl(new Mapboxgl.NavigationControl());
+    // this.map.addControl(new Mapboxgl.NavigationControl(), 'top-right');
   }
 }
