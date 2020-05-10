@@ -1,3 +1,9 @@
+#icon {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
 .row {
     z-index: 1;
     padding-top: 0.8%;
@@ -6,4 +12,8 @@
 
 .input {
     padding: 2%;
+}
+
+img {
+    max-width: 60px;
 }

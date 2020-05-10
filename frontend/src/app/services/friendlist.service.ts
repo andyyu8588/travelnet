@@ -22,8 +22,8 @@ export class FriendlistService {
   private _openWidgets: BehaviorSubject<object> = new BehaviorSubject([])
   public openWidgets: Observable<object> = this._openWidgets.asObservable()
 
-  private _windowsSize: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth)
-  public windowSize: Observable<number> = this._windowsSize.asObservable()
+  private _windowSize: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth)
+  public windowSize: Observable<number> = this._windowSize.asObservable()
   
   private _roomModel: BehaviorSubject<RoomWidget> = new BehaviorSubject(new RoomWidget("asd", "asd", false))
   public roomModel: Observable<RoomWidget> = this._roomModel.asObservable()
@@ -167,7 +167,7 @@ export class FriendlistService {
         this.widgetarr.shift()
         this.idarr.shift()
       }
-    }    
-    this._windowsSize.next(width)
+    }
+    this._windowSize.next(width)
   }
 }
