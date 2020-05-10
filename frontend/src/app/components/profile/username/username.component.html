@@ -1,7 +1,15 @@
 <div id='username'>
-    <h3>Username 
-        <br> 
+    <h3 *ngIf='!changing'>Username
+        <br>
         {{ username }}
     </h3>
-    <button class='btn btn-danger'>Change Username</button>
+    <form *ngIf='changing' [formGroup]='changeForm' (ngSubmit)='onSubmit()'>
+        <div class='form-group'>
+            <label for='newUsername'>New Username</label>
+            <input type='text' formControlName='newUsername' class='form-control'>
+        </div>        
+        <button *ngIf='changing' class='btn btn-danger' type='submit'>Confirm</button>
+        <button *ngIf='changing' class='btn btn-light' id='cancel' (click)='onClick()'>Cancel</button> 
+    </form>
+    <button *ngIf='!changing' class='btn btn-danger' (click)='onClick()'>Change Password</button>
 </div>
