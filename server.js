@@ -108,6 +108,22 @@ io.on('connection', (socket) => {
     })
   }
 
+  // edits User
+  // expects strings username propretiy and newProprety
+  const editUser = (username, proprety, newProprety) => {
+    return new Promise((resolve, reject) => {
+      User.findOneAndUpdate({username}, {proprety, newProprety}, (err, doc, res) => {
+        if (err) {
+          resolve('error')
+        } else if (doc) {
+          resolve(`Success! ${proprety} changed to ${newProprety}`)
+        } else {
+          reject('monkas')
+        }
+      })
+    })
+  }
+
   // join room
   // expects string roomId
   const joinRoom = (roomId) => {
@@ -232,14 +248,10 @@ io.on('connection', (socket) => {
 
   // change user data
   socket.on('editUser', (data, callback) => {
-    searchUser(data.username).then((result) => {
-      result.res[data.proprety] = data.newProprety
+    editUser(data.username, data.proprety, data.newProprety).then((result) => {
       console.log(result)
-      result.save()
-      callback('success')
     }).catch((err) => {
       console.log(err)
-      callback('error')
     })
   })
 
