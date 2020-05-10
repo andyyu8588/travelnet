@@ -233,6 +233,7 @@ io.on('connection', (socket) => {
   // change user data
   socket.on('editUser', (data, callback) => {
     searchUser(data.username).then((User) => {
+      console.log(User)
       User[data.proprety] = data.newProprety
       User.save()
       callback('success')
