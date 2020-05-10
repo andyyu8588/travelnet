@@ -58,16 +58,20 @@ hide = true;
     if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
       if (this.registrationForm.get('username').errors['forbiddenUsername']){
         return true
+      } 
+    } else {
+        return false
       }
-    }
   }
 
   checkUsernameLength() {
     if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
       if (this.registrationForm.get('username').errors['maxlength'] || this.registrationForm.get('username').errors['minlength']){
         return true
+      } 
+    } else {
+        return false
       }
-    }
   }
 
   checkPasswordValidity: boolean = false

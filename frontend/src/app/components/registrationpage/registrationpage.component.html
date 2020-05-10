@@ -12,10 +12,10 @@ id='form'
       <input matInput
       formControlName='username'
       placeholder="Enter a Username">
+      <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
+      <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameLength()">Your username must be between 2 and 15 characters long.</small>
     </mat-form-field>
-    <br>
-    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
-    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameLength()">Your username must be between 2 and 15 characters long.</small>
+    
     <!-- password confirmation -->
     <div formGroupName='passwords' class="row">
       <!-- password -->
