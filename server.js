@@ -68,7 +68,7 @@ var Chatroom = mongoose.model('Chatroom', {
 var User = mongoose.model('User', {
   email: String,
   username: String,
-  'password': String,
+  "password": String,
   encounters: Array,
   rooms: Array,
   socketIds: Array,
