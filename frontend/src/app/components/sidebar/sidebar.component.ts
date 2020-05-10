@@ -19,7 +19,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.windowSub = this.FriendlistService.windowSize.subscribe((x) => {
-      console.log(x)
       if (x > 1000) {
         this.window = true
       } else {
