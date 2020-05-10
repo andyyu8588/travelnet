@@ -251,9 +251,9 @@ io.on('connection', (socket) => {
   // change user data
   socket.on('editUser', (data, callback) => {
     editUser(data.username, data.proprety, data.newProprety).then((result) => {
-      console.log(result)
+      callback(result)
     }).catch((err) => {
-      console.log(err)
+      callback(err)
     })
   })
 
