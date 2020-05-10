@@ -235,7 +235,7 @@ io.on('connection', (socket) => {
     searchUser(data.username).then((User) => {
       console.log(User)
       User[data.proprety] = data.newProprety
-      User.save()
+      console.log(User)
       callback('success')
     }).catch((err) => {
       console.log(err)
