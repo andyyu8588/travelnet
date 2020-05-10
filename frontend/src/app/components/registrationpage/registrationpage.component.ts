@@ -2,9 +2,9 @@ import { SocketService } from '../../services/socket.service';
 import { Component, OnDestroy, OnInit} from '@angular/core';
 import { SessionService } from '../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
-import { ConstantPool } from '@angular/compiler';
+import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 @Component({
@@ -33,14 +33,14 @@ export class registrationComponent {
 
 export class RegistrationComponent implements OnDestroy, OnInit {
   registrationForm:FormGroup;
-  
+hide = true;
   constructor(private SocketService: SocketService,
               private sessionService:SessionService,
               private modalService:NgbModal,
               private router:Router) {
-    
+
   }
-  
+
   ngOnInit(){
     this.registrationForm = new FormGroup({
       'passwords': new FormGroup({
@@ -55,7 +55,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   }
 
   checkUsernameUse() {
-    if (this.registrationForm.get('username').errors && this.registrationForm.get('username').touched){
+    if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
       if (this.registrationForm.get('username').errors['forbiddenUsername']){
         return true
       }
@@ -63,16 +63,16 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   }
 
   checkUsernameLength() {
-    if (this.registrationForm.get('username').errors && this.registrationForm.get('username').touched){
+    if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
       if (this.registrationForm.get('username').errors['maxlength'] || this.registrationForm.get('username').errors['minlength']){
         return true
       }
     }
   }
-  
+
   checkPasswordValidity: boolean = false
   checkPasswordsMatch(control: FormControl) {
-    if (this.registrationForm) { 
+    if (this.registrationForm) {
       let pass: string = control.get('password').value
       let confirm: string = control.get('confirmPassword').value
       if (pass === confirm) {
@@ -86,7 +86,20 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       }
     }
   }
- 
+  checkPasswordLength() {
+    if (this.registrationForm.get('passwords.password').errors && this.registrationForm.get('passwords.password').dirty){
+      if (this.registrationForm.get('passwords.password').errors['maxlength'] || this.registrationForm.get('passwords.password').errors['minlength']){
+        return true
+      }
+    }
+  }
+  checkEmailValidity() {
+    if (this.registrationForm.get('email').errors && this.registrationForm.get('email').dirty){
+      if (this.registrationForm.get('email').errors['email']){
+        return true
+      }
+    }
+  }
 
   onSubmit()  {
 

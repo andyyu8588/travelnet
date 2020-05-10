@@ -21,7 +21,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EmailComponent } from './components/profile/email/email.component';
 import { UsernameComponent } from './components/profile/username/username.component';
 import { PasswordComponent } from './components/profile/password/password.component';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +44,7 @@ import { PasswordComponent } from './components/profile/password/password.compon
     EmailComponent,
     UsernameComponent,
     PasswordComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -49,6 +53,10 @@ import { PasswordComponent } from './components/profile/password/password.compon
     ReactiveFormsModule,
     NgbModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

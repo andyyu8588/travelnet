@@ -3,54 +3,64 @@ class='modal-body'
 id='form'
 (ngSubmit)="onSubmit()"
 [formGroup]='registrationForm'>
-  <h1 class='jumbotron modal-title'>Registration</h1>
-    <div class='form-group'>
-    <!-- username -->
-      <label for='username'>Username</label>
-      <input
-        class='form-control'
-        formControlName='username'
-        type='text'
-        id='username'
-        placeholder='Enter a Username'>
-    </div>
-    <small id="passwordHelpBlock" class="text-muted text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
-    <small id="passwordHelpBlock" class="text-muted text-danger" *ngIf="checkUsernameLength()">Your password must be between 2 and 15 characters long.</small>
-    <!-- password confirmation -->
-    <div formGroupName='passwords'>
-      <!-- password -->
-      <div class='form-group'>
-        <label for='password'>Password</label>
-        <input
-        class='form-control'
-        formControlName='password'
-        type='password'
+  <h1 class='modal-title'>Registration</h1>
+  <hr>
 
-        placeholder='*******************'>
-      </div>
+    <!-- username -->
+    <mat-form-field appearance="outline" class='form-group' id="username">
+      <mat-label for='username'>Username</mat-label>
+      <input matInput
+      formControlName='username'
+      placeholder="Enter a Username">
+    </mat-form-field>
+    <br>
+    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
+    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameLength()">Your username must be between 2 and 15 characters long.</small>
+    <!-- password confirmation -->
+    <div formGroupName='passwords' class="row">
+      <!-- password -->
+    <mat-form-field appearance="outline" class='form-group col-6'>
+      <mat-label for='password'>Password</mat-label>
+      <input matInput
+      placeholder="Enter a password"
+      formControlName='password'
+      [type]="hide ? 'password' : 'text'">
+      <button
+      type="button"
+      class="btn"
+      mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
       <!-- confirm password -->
-      <div class='form-group'>
-        <label for='password'>confirm your password</label>
-        <input
-        class='form-control'
-        formControlName='confirmPassword'
-        type='password'
-        placeholder='*******************'>
-        <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordValidity">Your passwords does not match</small>
-      </div>
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='password'>confirm your password</mat-label>
+        <input matInput
+        placeholder="confirm your password"
+        formControlName='password'
+        [type]="hide ? 'password' : 'text'">
+        <button
+        type="button"
+        class="btn"
+        mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
     </div>
+    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordValidity">your passwords do not match</small>
+    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordLength()">your password should be between 5-15 characters</small>
+
+
     <!-- email -->
-    <div class='form-group'>
-      <label for='email'>Email Address</label>
-      <input
-      class='form-control'
+    <mat-form-field appearance="outline" class='form-group' id="email">
+      <mat-label for='email'>Email Address</mat-label>
+      <input matInput
       formControlName='email'
-      placeholder='Enter a valid Email'
-      type='email'
-      id='email'
-      placeholder='name@example.com' >
-      <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
-    </div>
+      placeholder='Enter a valid Email'>
+      <small id="passwordHelpBlock" class="text-danger" *ngIf="checkEmailValidity()">Please enter a valid email</small>
+
+    </mat-form-field>
+    <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
     <!-- checkbox -->
     <div class='form-group form-check'>
       <input
