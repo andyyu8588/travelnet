@@ -68,7 +68,7 @@ var Chatroom = mongoose.model('Chatroom', {
 var User = mongoose.model('User', {
   email: String,
   username: String,
-  password: String,
+  'password': String,
   encounters: Array,
   rooms: Array,
   socketIds: Array,
@@ -112,7 +112,7 @@ io.on('connection', (socket) => {
   // expects strings username proprety and newProprety
   const editUser = (username, proprety, newProprety) => {
     return new Promise((resolve, reject) => {
-      User.findOneAndUpdate({username}, {password: newProprety}, (err, doc, res) => {
+      User.findOneAndUpdate({username}, {proprety: newProprety}, (err, doc, res) => {
         if (err) {
           resolve('error')
         } else if (doc) {
