@@ -1,11 +1,11 @@
-<div *ngIf='sessionState'>
+<div *ngIf='sessionState' class="border border-secondary">
     <div id="friends">
         <div id = 'friend' *ngFor="let friend of friends">
-            <app-friend [friend] = "friend">
+            <app-friend [friend]="friend">
             </app-friend>
         </div>
     </div>
     <form (submit)='onSubmit(input.value)' >
-        <input #input type='text' class="form-control" (keyup)='onKey(input.value)' placeholder='' id="input">
+        <input #input type='text' class="form-control rounded-0" (keyup)='onKey(input.value)' placeholder='' id="input">
     </form>
 </div>
