@@ -232,10 +232,9 @@ io.on('connection', (socket) => {
 
   // change user data
   socket.on('editUser', (data, callback) => {
-    searchUser(data.username).then((User) => {
-      console.log(User)
-      User[data.proprety] = data.newProprety
-      console.log(User)
+    searchUser(data.username).then((result) => {
+      result.res[data.proprety] = data.newProprety
+      console.log(result)
       callback('success')
     }).catch((err) => {
       console.log(err)
