@@ -112,7 +112,7 @@ io.on('connection', (socket) => {
   // expects strings username propretiy and newProprety
   const editUser = (username, proprety, newProprety) => {
     return new Promise((resolve, reject) => {
-      User.findOneAndUpdate({username}, {proprety, newProprety}, (err, doc, res) => {
+      User.findOneAndUpdate({username}, {proprety: newProprety}, (err, doc, res) => {
         if (err) {
           resolve('error')
         } else if (doc) {
