@@ -34,6 +34,7 @@ export class registrationComponent {
 export class RegistrationComponent implements OnDestroy, OnInit {
   registrationForm:FormGroup;
 hide = true;
+hide1 = true;
   constructor(private SocketService: SocketService,
               private sessionService:SessionService,
               private modalService:NgbModal,
@@ -58,7 +59,7 @@ hide = true;
     if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
       if (this.registrationForm.get('username').errors['forbiddenUsername']){
         return true
-      } 
+      }
     } else {
         return false
       }
@@ -68,7 +69,7 @@ hide = true;
     if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
       if (this.registrationForm.get('username').errors['maxlength'] || this.registrationForm.get('username').errors['minlength']){
         return true
-      } 
+      }
     } else {
         return false
       }
@@ -81,12 +82,12 @@ hide = true;
       let confirm: string = control.get('confirmPassword').value
       if (pass === confirm) {
         this.checkPasswordValidity = false
-        return null
+        return
       } else {
         if(control.get('confirmPassword').dirty) {
           this.checkPasswordValidity = true
         }
-        return({'passwordError': true})
+        return
       }
     }
   }
@@ -112,7 +113,7 @@ hide = true;
 
         let data = {email:this.registrationForm.get('email').value,
         username:this.registrationForm.get('username').value,
-        password:this.registrationForm.get('password').value}
+        password:this.registrationForm.get('passwords.password').value}
 
         this.SocketService.emit('createUser',[data], (res) => {
             if (res.err) {

@@ -15,7 +15,7 @@ id='form'
       <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
       <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameLength()">Your username must be between 2 and 15 characters long.</small>
     </mat-form-field>
-    
+
     <!-- password confirmation -->
     <div formGroupName='passwords' class="row">
       <!-- password -->
@@ -25,9 +25,8 @@ id='form'
       placeholder="Enter a password"
       formControlName='password'
       [type]="hide ? 'password' : 'text'">
-      <button
-      type="button"
-      class="btn"
+      <button mat-button
+      type='button'
       mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
@@ -37,13 +36,13 @@ id='form'
         <mat-label for='password'>confirm your password</mat-label>
         <input matInput
         placeholder="confirm your password"
-        formControlName='password'
-        [type]="hide ? 'password' : 'text'">
+        formControlName='confirmPassword'
+        [type]="hide1 ? 'password' : 'text'">
         <button
         type="button"
-        class="btn"
-        mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide1">
+        <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
     </mat-form-field>
     </div>
