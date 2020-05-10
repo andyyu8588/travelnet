@@ -3,14 +3,18 @@ ul {
   padding-left: 0em
 }
 
-.widget {
-  // bottom: 1% ;
-  // margin: 1%;
-  padding: 5%;
-  width: 200px;
+#chatbody {
   height: 250px;
   background-color: rgba(255,255,255, 0.8);
   border: medium;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column-reverse ;
 }
 
 .space.rounded-top {
@@ -20,35 +24,20 @@ ul {
 }
 
 .space {
-  width: 200px;
   height: 30px;
   background-color: rgba(255,255,255, 1);
-}
-
-.input {
-  width: 145px;
-  overflow-y: visible;
 }
 
 .row .container-fluid {
   margin: 0px;
 }
 
-#textarea {
-  position: inherit;
+#main {
+  width: 250px;
+  bottom: 2vh;
 }
 
-#chatbody {
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 0;
-  padding-bottom: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction:column-reverse ;
-}
-#submit{
+#submit {
   right: 0px;
   padding: 0;
   width: 50px;
@@ -56,3 +45,8 @@ ul {
   border-radius: 0px;
 }
 
+textarea {
+  width: 145px;
+  overflow: hidden;
+  resize: none;
+}

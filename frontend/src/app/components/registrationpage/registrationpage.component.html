@@ -9,9 +9,7 @@ id='form'
     <!-- username -->
     <mat-form-field appearance="outline" class='form-group' id="username">
       <mat-label for='username'>Username</mat-label>
-      <input matInput
-      formControlName='username'
-      placeholder="Enter a Username">
+      <input matInput formControlName='username' placeholder="Enter a Username" autocomplete="off">
       <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
       <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameLength()">Your username must be between 2 and 15 characters long.</small>
     </mat-form-field>
