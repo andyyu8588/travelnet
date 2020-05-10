@@ -5,7 +5,7 @@
         <div class="btn">Users</div>
     </div>
 </div> -->
-<ul class="nav nav-pills nav-fill" id="sidebar" [style.width.%]='width'>
+<ul *ngIf='window' class="nav nav-pills nav-fill" id="sidebar" [style.width.%]='width'>
     <li class="nav-item" *ngFor='let item of items, let i = index' >
         <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
     </li>
