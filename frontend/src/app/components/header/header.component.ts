@@ -37,7 +37,7 @@ export class HeaderComponent {
             this.loading = false
         } else {
             this.loading = true
-            this.SocketService.emit('searchChatroom', data, (ack) => {
+            this.SocketService.emit('searchChatroom', {req: [data]}, (ack) => {
                 console.log(ack)
                 this.loading = false
                 const ul: HTMLParagraphElement = this.Renderer.createElement('ul');
