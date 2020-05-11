@@ -24,6 +24,7 @@
     "@angular/router": "~9.1.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.3",
     "@types/jquery": "^3.3.35",
+    "angular-resizable-element": "^3.3.0",
     "bootstrap": "^4.4.1",
     "jquery": "^3.5.0",
     "mapbox-gl": "^1.9.1",

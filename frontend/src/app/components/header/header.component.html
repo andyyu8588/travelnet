@@ -6,8 +6,9 @@
       <input #seach (keyup)='onKey(seach.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
       <i class="fas fa-search" aria-hidden="true"></i>
        <!-- search results -->
-      <div class="container" id="searchResults">
+      <div class="container-fluid" id='searchResultsContainer'>
         <div *ngIf='loading'>Loading</div>
+        <div #searchResults></div>
       </div>
     </form>
 
