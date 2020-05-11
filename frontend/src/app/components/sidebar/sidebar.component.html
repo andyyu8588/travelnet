@@ -5,7 +5,14 @@
         <div class="btn">Users</div>
     </div>
 </div> -->
-<ul *ngIf='window' class="nav nav-pills nav-fill" id="sidebar" [style.width.%]='width'>
+<ul *ngIf='window' class="nav nav-pills nav-fill" id="sidebar" 
+    mwlResizable
+    [validateResize]='validate'
+    [enableGhostResize]="true"
+    [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
+    (resizeEnd)="onResizeEnd($event)"
+    [ngStyle]='Styles'>
+    
     <li class="nav-item" *ngFor='let item of items, let i = index' >
         <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
     </li>
