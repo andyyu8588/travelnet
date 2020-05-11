@@ -1,9 +1,6 @@
 #sidebar {
     z-index: 1;
-    position: absolute;
-    top: 10%;
-    bottom: 0%;
-    left: 2%;
+    position: fixed;
     max-height: 85%;
     max-width: 25;
     border-radius: 1%;
@@ -15,3 +12,7 @@
     height: 5%;
     background-color: rgba(255,255,255,0.85);
 }
+
+mwlResizable {
+    box-sizing: border-box; // required for the enableGhostResize option to work
+  }
