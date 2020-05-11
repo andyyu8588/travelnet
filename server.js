@@ -370,7 +370,7 @@ io.on('connection', (socket) => {
   // search chatrooms and expect array of users in alphabetical order
   socket.on('searchChatroom', (data, ack) => {
     // check if array is empty
-    if (data.req.length === 0) {
+    if (!data.req.length) {
       console.log('no search input')
     } else {
       // note -> only private chats 
