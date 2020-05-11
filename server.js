@@ -69,6 +69,10 @@ var User = mongoose.model('User', {
   email: String,
   username: String,
   password: String,
+  firstname: String,
+  lastname: String,
+  birthdate: String,
+  gender: String,
   encounters: Array,
   rooms: Array,
   socketIds: Array,
@@ -228,7 +232,11 @@ io.on('connection', (socket) => {
         else if (res.length === 0) {
           const newUser = new User({username : data.username, 
                                     password: data.password, 
-                                    email : data.email, 
+                                    email : data.email,
+                                    firstname: data.firstname, 
+                                    lastname: data.lastname, 
+                                    birthdate: data.birthdate,
+                                    gender: data.gender,
                                     rooms: data.rooms, 
                                     'log.in': currentTime,
                                     socketIds: [socket.id]})
@@ -237,6 +245,16 @@ io.on('connection', (socket) => {
         }
     })
   })  
+
+  socket.on('deleteUser', (username, callback) => {
+    User.findOneAndDelete({username}, (err, res) => {
+      if (err) {
+        callback({err})
+      } else { 
+        callback({res: `user ${data.username} successfully deleted!`})
+      }
+    })
+  })
 
   // manage disconnections
   socket.on('disconnect', () => {
@@ -370,7 +388,7 @@ io.on('connection', (socket) => {
   // search chatrooms and expect array of users in alphabetical order
   socket.on('searchChatroom', (data, ack) => {
     // check if array is empty
-    if (data.req.length === 0) {
+    if (!data.req.length) {
       console.log('no search input')
     } else {
       // note -> only private chats 

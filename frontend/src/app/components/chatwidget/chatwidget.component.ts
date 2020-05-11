@@ -76,12 +76,6 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
     })
   }
   
-  ngOnDestroy(): void {
-    this.socketService.remove('message_res')
-    this.roomSub.unsubscribe()
-    this.sessionSub.unsubscribe()
-  }
-  
   // send message with socket
   sendMessage(data: string): void {
     if (data != '') {
@@ -92,5 +86,12 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   toggleChatWidget(): void {
     this.friendlistService.getRoomWidget(this.roomId)
     this.friendlistService.toggleChatWidget(this.roomModel)
+    this.ngOnDestroy()
+  }
+  
+  ngOnDestroy(): void {
+    this.socketService.remove('message_res')
+    this.roomSub.unsubscribe()
+    this.sessionSub.unsubscribe()
   }
 }

@@ -1,10 +1,17 @@
 <div>
   <div class="row ">
+    <!-- search bar -->
     <form class='form col-6 col-sm-6 col-md-6 col-lg-6 col-xl-4
                       offset-3 offset-sm-3 offset-md-3 offset-lg-3 offset-xl-4'>
-      <input class='form-control' type='search' placeholder='Search' aria-label='Search'>
+      <input #seach (keyup)='onKey(seach.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
+      <i class="fas fa-search" aria-hidden="true"></i>
+       <!-- search results -->
+      <div class="container" id="searchResults">
+        <div *ngIf='loading'>Loading</div>
+      </div>
     </form>
 
+    <!-- login/register widgets -->
     <div class='col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2
                 offset-lg-1 offset-xl-2'
       *ngIf='!sessionState'>
@@ -13,6 +20,7 @@
     </div>
   </div>
 
+  <!-- dropdown menu -->
   <div *ngIf='sessionState' id='icon' class="dropdown">
     <img class='img-thumbnail dropdown-toggle' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [src]="link" alt="Settings">
     <div class="dropdown-menu dropdown-menu-right ">
