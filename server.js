@@ -250,8 +250,17 @@ io.on('connection', (socket) => {
     User.findOneAndDelete({username}, (err, res) => {
       if (err) {
         callback({err})
-      } else { 
-        callback({res: `user ${username} successfully deleted!`})
+      } else {        
+        Chatroom.find({Users: username}, (err, res) => {
+          if (err) {
+            callback(err)
+          } else {
+            res.forEach((room) => {
+              room.remove()
+            })
+            callback({res: `user ${username} successfully deleted!`})
+          }
+        })
       }
     })
   })
