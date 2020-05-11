@@ -13,11 +13,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     password: string,
     email: string,
   }
+  propreties: string[]
+  values: string[]
 
   constructor(private socketService: SocketService,
-              private Router: Router) {
-
-  }
+              private Router: Router) { }
 
   ngOnInit(): void {
     // get user info in database
@@ -27,12 +27,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
       } else {
         console.log(data)
         this.User = (({username, password, email}) => ({username, password, email}))(data.res[0].res)
+
+        // transform object in arrays
+        this.propreties = Object.keys(this.User)
+        this.values = Object.values(this.User)
+
+        // takeout username
+        this.propreties.shift()
+        this.values.shift()
       }
-    })
-  }
-
-  onChange(proprety: string) {
-
+    })    
   }
 
   onExit() {
