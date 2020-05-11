@@ -114,8 +114,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   }
 
   onSubmit()  {
-
-    if(!(sessionStorage.getItem('username'))){
+    if(this.registrationForm.valid && !(sessionStorage.getItem('username'))){
 
         let data = {email:this.registrationForm.get('email').value,
         username:this.registrationForm.get('username').value,
