@@ -3,13 +3,14 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-email',
-  templateUrl: './email.component.html',
-  styleUrls: ['./email.component.scss']
+  selector: 'app-proprety',
+  templateUrl: './proprety.component.html',
+  styleUrls: ['./proprety.component.scss']
 })
-export class EmailComponent implements OnInit {
-  @Input() email: string
+export class PropretyComponent implements OnInit {
   @Input() username: string
+  @Input() proprety: string
+  @Input() propretyValue: string
   changeForm: FormGroup
   changing: boolean
 
@@ -17,21 +18,21 @@ export class EmailComponent implements OnInit {
 
   ngOnInit(): void {
     this.changeForm = new FormGroup({
-      'newEmail': new FormControl(this.email)
+      'newPropretyValue': new FormControl(this.propretyValue)
     })
   }
 
-  // changing between form and h3 with old email
+  // changing between form and h3 with old proprety
   onClick(): void {
     this.changing = !this.changing
   }
 
-  // once a new email is submitted
+  // once a new proprety is submitted
   onSubmit(): void {
     const requestedChange = {
       username: this.username,
-      proprety: 'email',
-      newProprety: this.changeForm.get('newEmail').value
+      proprety: this.proprety,
+      newProprety: this.changeForm.get('newPropretyValue').value
     }
     this.socketService.emit('editUser', requestedChange, (res) => {
       console.log(res)

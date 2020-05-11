@@ -7,6 +7,23 @@ id='form'
   <h1 class='modal-title'>Registration</h1>
   <hr>
 
+    <!-- Name -->
+    <div formGroupName='name' class="row">
+      <!-- first Name -->
+    <mat-form-field appearance="outline" class='form-group col-6'>
+      <mat-label for='First Name'>First Name</mat-label>
+      <input matInput
+      placeholder="Enter your first name"
+      formControlName='firstName'>
+    </mat-form-field>
+      <!-- Last Name -->
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='password'>Last Name</mat-label>
+        <input matInput
+        placeholder="Enter your last name"
+        formControlName='lastName'>
+    </mat-form-field>
+    </div>
     <!-- username -->
     <mat-form-field appearance="outline" class='form-group' id="username">
       <mat-label for='username'>Username</mat-label>
@@ -59,14 +76,24 @@ id='form'
 
     </mat-form-field>
     <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
+
+  <br>
+    <!-- Gender -->
+    <mat-radio-group aria-label="Select an option" class="row">
+      <mat-radio-button value="Male" class='col-4'>Male</mat-radio-button>
+      <mat-radio-button value="Female" class='col-4'>Female</mat-radio-button>
+      <mat-radio-button value="Other" class='col-4'>Other</mat-radio-button>
+    </mat-radio-group>
+  <br>
+
+
+
     <!-- checkbox -->
-    <div class='form-group form-check'>
-      <input
-      formControlName='checkbox'
-      type='checkbox'
-      class='form-check-input'
-      id='terms'>
+    <div>
+    <mat-checkbox class='form-group'
+      formControlName='checkbox'>
       <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
-    </div>
+    </mat-checkbox>
+   </div>
     <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button>
 </form>

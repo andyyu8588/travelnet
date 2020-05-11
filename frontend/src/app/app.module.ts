@@ -18,14 +18,13 @@ import { ChatsystemComponent } from './components/chatsystem/chatsystem.componen
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EmailComponent } from './components/profile/email/email.component';
-import { UsernameComponent } from './components/profile/username/username.component';
-import { PasswordComponent } from './components/profile/password/password.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import{MatButtonModule} from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { PropretyComponent } from './components/profile/proprety/proprety.component'
+import {MatRadioModule} from '@angular/material/radio';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,9 +41,7 @@ import{MatButtonModule} from '@angular/material/button'
     ChatsystemComponent,
     SidebarComponent,
     ProfileComponent,
-    EmailComponent,
-    UsernameComponent,
-    PasswordComponent,
+    PropretyComponent,
 
   ],
   imports: [
@@ -58,7 +55,8 @@ import{MatButtonModule} from '@angular/material/button'
     MatInputModule,
     MatIconModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]
