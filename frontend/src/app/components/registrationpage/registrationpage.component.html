@@ -7,6 +7,65 @@ id='form'
   <h1 class='modal-title'>Registration</h1>
   <hr>
 
+    <!-- Name -->
+    <div formGroupName='name' class="row">
+      <!-- first Name -->
+    <mat-form-field appearance="outline" class='form-group col-6'>
+      <mat-label for='First Name'>First Name</mat-label>
+      <input matInput
+      placeholder="Enter your first name"
+      formControlName='firstName'>
+    </mat-form-field>
+      <!-- Last Name -->
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='password'>Last Name</mat-label>
+        <input matInput
+        placeholder="Enter your last name"
+        formControlName='lastName'>
+    </mat-form-field>
+    </div>
+
+    <div class="dropdown">
+      <button
+      class="btn btn-primary dropdown-toggle"
+      type="button"
+      id="dropdownMenuButton"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+      formControlName='gender'>
+        {{Gender}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" (click)="changeGender('Male')">Male</a>
+        <a class="dropdown-item" (click)="changeGender('Female')">Female</a>
+        <a class="dropdown-item" (click)="changeGender('Other')">Other</a>
+      </div>
+      <input *ngIf="Gender==='Other'">
+    </div>
+    <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- username -->
     <mat-form-field appearance="outline" class='form-group' id="username">
       <mat-label for='username'>Username</mat-label>

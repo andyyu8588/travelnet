@@ -33,6 +33,7 @@ export class registrationComponent {
 
 export class RegistrationComponent implements OnDestroy, OnInit {
   registrationForm:FormGroup;
+Gender = 'Gender';
 hide = true;
 hide1 = true;
   constructor(private SocketService: SocketService,
@@ -44,6 +45,10 @@ hide1 = true;
 
   ngOnInit(){
     this.registrationForm = new FormGroup({
+      'name': new FormGroup({
+        'firstName': new FormControl(null,[Validators.required,Validators.minLength(1),Validators.maxLength(50)]),
+        'lastName': new FormControl(null,[Validators.required,Validators.minLength(1),Validators.maxLength(50)]),
+      },),
       'passwords': new FormGroup({
         'password': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
         'confirmPassword': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
@@ -52,9 +57,13 @@ hide1 = true;
       'username': new FormControl(null,[Validators.required,Validators.minLength(2),Validators.maxLength(15)], this.forbiddenUsernames.bind(this)),
       'email': new FormControl(null,[Validators.required,Validators.email]),
       'checkbox': new FormControl(null,[Validators.required]),
+      'gender':new FormControl(null),
     })
   }
-
+  changeGender(newGender){
+    console.log('started')
+    this.Gender = newGender
+  }
   checkUsernameUse() {
     if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
       if (this.registrationForm.get('username').errors['forbiddenUsername']){
@@ -109,13 +118,12 @@ hide1 = true;
   onSubmit()  {
 
     if(!(sessionStorage.getItem('username'))){
-        console.log('register sent')
 
         let data = {email:this.registrationForm.get('email').value,
         username:this.registrationForm.get('username').value,
         password:this.registrationForm.get('passwords.password').value}
-
-        this.SocketService.emit('createUser',[data], (res) => {
+        console.log(data)
+        this.SocketService.emit('createUser',data, (res) => {
             if (res.err) {
                 console.log(res.err)
             }
@@ -135,8 +143,8 @@ hide1 = true;
   }
 
   forbiddenUsernames(control: FormControl): Promise<any> {
+    console.log(control)
     const promise = new Promise<any>((resolve, reject) => {
-      console.log(this.registrationForm.controls)
       this.SocketService.emit('searchUser', [control.value], (res) => {
 
           if (res.res) {
