@@ -37,6 +37,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   hide = true;
   hide1 = true;
   model: NgbDateStruct;
+
   constructor(private SocketService: SocketService,
               private sessionService:SessionService,
               private modalService:NgbModal,

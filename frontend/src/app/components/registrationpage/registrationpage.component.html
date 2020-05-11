@@ -79,6 +79,7 @@ id='form'
 
 
     <!-- Birthdate -->
+    <ngb-datepicker [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2020, month: 1, day: 1}"></ngb-datepicker>
     <br>
     <div class="form-inline">
       <div class="form-group">
@@ -113,5 +114,5 @@ id='form'
     </mat-checkbox>
    </div>
     <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button>
-
+    <small *ngIf="!registrationForm.get('checkbox').valid && registrationForm.get('submit').touched" class="text-danger">Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy</small>
   </form>
