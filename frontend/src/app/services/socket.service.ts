@@ -7,26 +7,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 
 export class SocketService {
-  socket: any
+  private socket: any
   room: any
   readonly uri: string = 'https://travelnet.herokuapp.com'
 
-  private _authenticator: BehaviorSubject<any> = new BehaviorSubject('')
-  public authenticator: Observable<any> = this._authenticator
-
   constructor() { 
     this.socket = io(this.uri)
-    this.socket.on('unauthorized', (data) => {
-      console.log('un' + data)
-    })
-  }
-
-
-  authenticate(username: string, password: string) {
-    this.socket.emit('authenticate', {username: username, password: password}, (data: any) => {
-      console.log(data)
-      this._authenticator.next(data)
-    })
   }
 
   listen(eventName: string) {
@@ -36,6 +22,20 @@ export class SocketService {
       })
     })
   }
+
+  
+  emitO(eventName: string, data: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (!this.socket) {
+        reject()
+      } else {
+        this.socket.emit(eventName, data, (ack) => {
+          resolve(ack)
+      })
+      } 
+    })
+  }
+
 
   emit(eventName: string, data: any, ack?: (res?: any) => any) {
     this.socket.emit(eventName, data, ack)
