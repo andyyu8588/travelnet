@@ -24,48 +24,6 @@ id='form'
         formControlName='lastName'>
     </mat-form-field>
     </div>
-
-    <div class="dropdown">
-      <button
-      class="btn btn-primary dropdown-toggle"
-      type="button"
-      id="dropdownMenuButton"
-      data-toggle="dropdown"
-      aria-haspopup="true"
-      aria-expanded="false"
-      formControlName='gender'>
-        {{Gender}}
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" (click)="changeGender('Male')">Male</a>
-        <a class="dropdown-item" (click)="changeGender('Female')">Female</a>
-        <a class="dropdown-item" (click)="changeGender('Other')">Other</a>
-      </div>
-      <input *ngIf="Gender==='Other'">
-    </div>
-    <br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- username -->
     <mat-form-field appearance="outline" class='form-group' id="username">
       <mat-label for='username'>Username</mat-label>
@@ -118,14 +76,24 @@ id='form'
 
     </mat-form-field>
     <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
+
+  <br>
+    <!-- Gender -->
+    <mat-radio-group aria-label="Select an option" class="row">
+      <mat-radio-button value="Male" class='col-4'>Male</mat-radio-button>
+      <mat-radio-button value="Female" class='col-4'>Female</mat-radio-button>
+      <mat-radio-button value="Other" class='col-4'>Other</mat-radio-button>
+    </mat-radio-group>
+  <br>
+
+
+
     <!-- checkbox -->
-    <div class='form-group form-check'>
-      <input
-      formControlName='checkbox'
-      type='checkbox'
-      class='form-check-input'
-      id='terms'>
+    <div>
+    <mat-checkbox class='form-group'
+      formControlName='checkbox'>
       <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
-    </div>
+    </mat-checkbox>
+   </div>
     <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button>
 </form>

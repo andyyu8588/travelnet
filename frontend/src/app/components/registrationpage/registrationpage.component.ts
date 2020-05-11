@@ -33,7 +33,6 @@ export class registrationComponent {
 
 export class RegistrationComponent implements OnDestroy, OnInit {
   registrationForm:FormGroup;
-Gender = 'Gender';
 hide = true;
 hide1 = true;
   constructor(private SocketService: SocketService,
@@ -59,10 +58,7 @@ hide1 = true;
       'checkbox': new FormControl(null,[Validators.required]),
       'gender':new FormControl(null),
     })
-  }
-  changeGender(newGender){
-    console.log('started')
-    this.Gender = newGender
+
   }
   checkUsernameUse() {
     if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
