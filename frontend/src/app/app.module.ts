@@ -23,8 +23,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import { PropretyComponent } from './components/profile/proprety/proprety.component'
-import {MatRadioModule} from '@angular/material/radio';
+import { PropretyComponent } from './components/profile/proprety/proprety.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { ResizableModule  } from 'angular-resizable-element'
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,7 @@ import {MatRadioModule} from '@angular/material/radio';
     SidebarComponent,
     ProfileComponent,
     PropretyComponent,
-
+    ResizableModule
   ],
   imports: [
     BrowserModule,
@@ -56,7 +57,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatIconModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatRadioModule
+    MatRadioModule,
+    ResizableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
