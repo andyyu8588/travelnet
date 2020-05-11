@@ -112,12 +112,6 @@ io.on('connection', (socket) => {
     })
   }
 
-  // deletes User from database
-  // expects string username
-  const deleteUser = (username) => {
-    User.findOneAndDelete({username})
-  }
-
   // edits User
   // expects strings username proprety and newProprety
   const editUser = (username, proprety, newProprety) => {
@@ -253,7 +247,13 @@ io.on('connection', (socket) => {
   })  
 
   socket.on('deleteUser', (data, callback) => {
-    searchUser()
+    User.findOneAndDelete({username: data.username}, (err, res) => {
+      if (err) {
+        callback(err)
+      } else { 
+        callback(`user ${data.username} successfully deleted!`)
+      }
+    })
   })
 
   // manage disconnections
