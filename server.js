@@ -251,7 +251,7 @@ io.on('connection', (socket) => {
       if (err) {
         callback({err})
       } else { 
-        callback({res: `user ${data.username} successfully deleted!`})
+        callback({res: `user ${username} successfully deleted!`})
       }
     })
   })
