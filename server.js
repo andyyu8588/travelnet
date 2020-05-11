@@ -69,6 +69,10 @@ var User = mongoose.model('User', {
   email: String,
   username: String,
   password: String,
+  firstname: String,
+  lastname: String,
+  birthdate: String,
+  gender: String,
   encounters: Array,
   rooms: Array,
   socketIds: Array,
@@ -228,7 +232,11 @@ io.on('connection', (socket) => {
         else if (res.length === 0) {
           const newUser = new User({username : data.username, 
                                     password: data.password, 
-                                    email : data.email, 
+                                    email : data.email,
+                                    firstname: data.firstname, 
+                                    lastname: data.lastname, 
+                                    birthdate: data.birthdate,
+                                    gender: data.gender,
                                     rooms: data.rooms, 
                                     'log.in': currentTime,
                                     socketIds: [socket.id]})
