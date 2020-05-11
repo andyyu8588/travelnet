@@ -4,7 +4,8 @@ import { SessionService } from '../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap'
+
 
 
 @Component({
@@ -33,8 +34,9 @@ export class registrationComponent {
 
 export class RegistrationComponent implements OnDestroy, OnInit {
   registrationForm:FormGroup;
-hide = true;
-hide1 = true;
+  hide = true;
+  hide1 = true;
+  model: NgbDateStruct;
   constructor(private SocketService: SocketService,
               private sessionService:SessionService,
               private modalService:NgbModal,
@@ -52,11 +54,11 @@ hide1 = true;
         'password': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
         'confirmPassword': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
       }, this.checkPasswordsMatch.bind(this)),
-
+      'birthdate':new FormControl(null,[Validators.required]),
       'username': new FormControl(null,[Validators.required,Validators.minLength(2),Validators.maxLength(15)], this.forbiddenUsernames.bind(this)),
       'email': new FormControl(null,[Validators.required,Validators.email]),
       'checkbox': new FormControl(null,[Validators.required]),
-      'gender':new FormControl(null),
+      'gender':new FormControl(null,[Validators.required]),
     })
 
   }
@@ -139,7 +141,7 @@ hide1 = true;
   }
 
   forbiddenUsernames(control: FormControl): Promise<any> {
-    console.log(control)
+    console.log(this.registrationForm)
     const promise = new Promise<any>((resolve, reject) => {
       this.SocketService.emit('searchUser', [control.value], (res) => {
 
@@ -157,5 +159,6 @@ hide1 = true;
   ngOnDestroy(){
     this.router.navigate(['/'])
   }
+
 }
 

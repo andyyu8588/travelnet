@@ -25,6 +25,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { PropretyComponent } from './components/profile/proprety/proprety.component';
 import { MatRadioModule } from '@angular/material/radio';
+// import { NgbdDatepickerPopup } from './datepicker-popup';
 import { ResizableModule  } from 'angular-resizable-element'
 @NgModule({
   declarations: [
@@ -57,7 +58,7 @@ import { ResizableModule  } from 'angular-resizable-element'
     MatCheckboxModule,
     MatButtonModule,
     MatRadioModule,
-    ResizableModule
+    ResizableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
