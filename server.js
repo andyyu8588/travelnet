@@ -246,8 +246,8 @@ io.on('connection', (socket) => {
     })
   })  
 
-  socket.on('deleteUser', (data, callback) => {
-    User.findOneAndDelete({username: data.username}, (err, res) => {
+  socket.on('deleteUser', (username, callback) => {
+    User.findOneAndDelete({username}, (err, res) => {
       if (err) {
         callback({err})
       } else { 
