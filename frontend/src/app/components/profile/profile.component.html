@@ -2,7 +2,7 @@
     <div *ngIf='User'>
         <app-proprety *ngFor='let proprety of propreties; let i = index' [username]='User.username' [proprety]='proprety' [propretyValue]='values[i]'></app-proprety>
         <div id='delete'>
-            <button class='btn btn-danger'>Delete Account</button>
+            <button class='btn btn-danger' (click)='onDelete()'>Delete Account</button>
         </div>
     </div>
     <div *ngIf='!User'>
