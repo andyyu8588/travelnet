@@ -1,3 +1,4 @@
+import { ResizableModule } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -13,7 +14,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   items: Array<any> = ['Home', 'Discover','My Trip']
   width: number = 30
 
-  constructor(private FriendlistService: FriendlistService) { 
+  constructor(private FriendlistService: FriendlistService,
+              private ResizableModule: ResizableModule) { 
 
   }
 

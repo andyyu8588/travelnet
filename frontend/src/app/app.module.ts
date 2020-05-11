@@ -43,7 +43,6 @@ import { ResizableModule  } from 'angular-resizable-element'
     SidebarComponent,
     ProfileComponent,
     PropretyComponent,
-    ResizableModule
   ],
   imports: [
     BrowserModule,
