@@ -13,6 +13,13 @@
     background-color: rgba(255,255,255,0.85);
 }
 
+.collapsing {
+    transition-property: width, margin-left ;
+    transition-duration: 0.4s;
+    width: 0px;
+    margin-left: -10px;
+}
+
 mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
-  }
+}

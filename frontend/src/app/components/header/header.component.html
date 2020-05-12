@@ -7,7 +7,7 @@
       <i class="fas fa-search" aria-hidden="true"></i>
        <!-- search results -->
       <div class="container-fluid" id='searchResultsContainer'>
-        <div *ngIf='loading'>Loading</div>
+        <div *ngIf='loading' class="spinner-border text-primary" style="margin-left: 50%;"></div>
         <div #searchResults></div>
       </div>
     </form>

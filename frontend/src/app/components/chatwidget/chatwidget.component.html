@@ -1,9 +1,9 @@
 <div  id='main' class="col-auto" *ngIf='sessionState'>
   <div class="space rounded-top" [innerText]='sessionRoomName' aria-readonly="true" (click)='toggleChatWidget()'></div>
 
-  <div class="" id='chatbody'*ngIf='sessionState'>
+  <div class="text-wrap" id='chatbody'*ngIf='sessionState'>
     <br>
-    <div id='textarea' #textarea ></div>
+    <div class="text-wrap" id='textarea' #textarea ></div>
   </div> 
 
   <div class='space rounded-bottom' >

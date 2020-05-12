@@ -5,15 +5,20 @@
         <div class="btn">Users</div>
     </div>
 </div> -->
-<ul *ngIf='window' class="nav nav-pills nav-fill" id="sidebar" 
-    mwlResizable
-    [validateResize]='validate'
-    [enableGhostResize]="true"
-    [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
-    (resizeEnd)="onResizeEnd($event)"
-    [ngStyle]='Styles'>
-    
-    <li class="nav-item" *ngFor='let item of items, let i = index' >
-        <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
-    </li>
-</ul>
+<div class="collapse show" id="collapseSidebar" aria-expanded="true">
+    <ul *ngIf='window' class="nav nav-pills nav-fill border-right" id="sidebar" 
+        mwlResizable
+        [validateResize]='validate'
+        [enableGhostResize]="true"
+        [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
+        (resizeEnd)="onResizeEnd($event)"
+        [ngStyle]='Styles'>
+        
+        <li class="nav-item" *ngFor='let item of items, let i = index' >
+            <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"><button class="close" data-toggle="collapse" data-target='#collapseSidebar' type='button' role="button" ><span aria-hidden="true">&times;</span></button></a>
+        </li>
+    </ul>  
+</div>

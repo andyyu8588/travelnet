@@ -26,7 +26,7 @@
     "@types/jquery": "^3.3.35",
     "angular-resizable-element": "^3.3.0",
     "bootstrap": "^4.4.1",
-    "jquery": "^3.5.0",
+    "jquery": "^3.5.1",
     "mapbox-gl": "^1.9.1",
     "rxjs": "~6.5.4",
     "socket.io-client": "^2.3.0",
