@@ -1,19 +1,42 @@
-<!-- <div id='sidebar' class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-    <div class="row navbar">
-        <div class="btn">Places</div>
-        <div class="btn">Attractions</div>
-        <div class="btn">Users</div>
-    </div>
-</div> -->
-<ul *ngIf='window' class="nav nav-pills nav-fill" id="sidebar" 
+<!-- <ul class="nav nav-pills nav-fill border-right" id="sidebar" 
     mwlResizable
     [validateResize]='validate'
     [enableGhostResize]="true"
     [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
     (resizeEnd)="onResizeEnd($event)"
     [ngStyle]='Styles'>
+        
+        <li class="nav-item" *ngFor='let item of items, let i = index' >
+            <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"><button class="close" data-toggle="collapse" data-target='#collapseSidebar' type='button' role="button" ><span aria-hidden="true">&times;</span></button></a>
+        </li>
+</ul>   -->
     
-    <li class="nav-item" *ngFor='let item of items, let i = index' >
-        <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
-    </li>
-</ul>
+
+
+<div class="collapse sidebar navbar-collapse navbar-expand-md show" id="sidebar"
+    mwlResizable
+    [validateResize]='validate'
+    [enableGhostResize]="true"
+    [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
+    (resizeEnd)="onResizeEnd($event)"
+    [ngStyle]='Styles'>
+        <ul class="nav nav-pills nav-fill justify border-right">
+        
+            <li class="nav-item" *ngFor='let item of items, let i = index' >
+                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"><button class="navbar-toggler third-button" type="button" data-toggle="collapse" data-target="#sidebar"
+                    aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" id="theButton">
+                        <div class="animated-icon3"><span></span><span></span><span></span></div>
+                </button></a>
+            </li>
+        </ul>
+        <div class="container-fluid" id="sidebarContent">
+            <p>actual content</p>
+        </div> 
+</div>
+

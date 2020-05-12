@@ -40,7 +40,7 @@ export class FriendlistService {
     this.SocketService.emit('searchChatroom', {sender: sessionStorage.getItem('username'), req: polishedarr}, (data) => {
       this.roomarr = []
       this._chatroomList.next(this.roomarr)
-      if(data.err){
+      if (data.err) {
         console.log(data.err)
       }
       else if (data.res) {

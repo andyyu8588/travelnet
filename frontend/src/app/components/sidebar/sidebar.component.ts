@@ -14,12 +14,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
   items: Array<any> = ['Home', 'Discover','My Trip']
   width: number = 30
   Styles = {
+    'position': 'fixed',
+    'background-color': 'rgba(255,255,255,0.7)',
     'top': '10%',
-    'bottom': '0%',
     'left': '2%',
+    'height': '85%',
     'width': '30%'
   }
-  
 
   constructor(private FriendlistService: FriendlistService,
               private ResizableModule: ResizableModule) { 
