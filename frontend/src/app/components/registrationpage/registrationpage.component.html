@@ -79,13 +79,15 @@ id='form'
 
 
     <!-- Birthdate -->
-    <ngb-datepicker [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2020, month: 1, day: 1}"></ngb-datepicker>
     <br>
     <div class="form-inline">
+
       <div class="form-group">
         <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd"
-          formControlName="birthdate"
+          <input class="form-control"
+          [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2020, month: 1, day: 1}"
+          placeholder="yyyy-mm-dd"
+          formControlName="birthDate"
                 name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
           <div class="input-group-append">
             <button id='calendar' class="btn btn-outline-secondary calendar"
@@ -95,9 +97,6 @@ id='form'
       </div>
     </div>
     <br>
-
-
-
     <!-- Gender -->
     <mat-radio-group aria-label="Select an option" class="row"
     formControlName="gender">

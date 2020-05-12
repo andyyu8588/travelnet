@@ -4,8 +4,9 @@ import { SessionService } from '../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap'
-
+import { stringify } from 'querystring';
+import {NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class registrationComponent {
     selector: 'app-registrationpage',
     templateUrl:'./registrationpage.component.html',
     styleUrls: ['./registrationpage.component.scss'],
-    providers:[NgbModalConfig,NgbModal]
+    providers:[NgbModalConfig,NgbModal,]
 })
 
 export class RegistrationComponent implements OnDestroy, OnInit {
@@ -41,7 +42,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   constructor(private SocketService: SocketService,
               private sessionService:SessionService,
               private modalService:NgbModal,
-              private router:Router) {
+              private router:Router,) {
 
   }
 
@@ -55,7 +56,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
         'password': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
         'confirmPassword': new FormControl(null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
       }, this.checkPasswordsMatch.bind(this)),
-      'birthdate':new FormControl(null,[Validators.required]),
+      'birthDate':new FormControl(null,[Validators.required]),
       'username': new FormControl(null,[Validators.required,Validators.minLength(2),Validators.maxLength(15)], this.forbiddenUsernames.bind(this)),
       'email': new FormControl(null,[Validators.required,Validators.email]),
       'checkbox': new FormControl(null,[Validators.required]),
@@ -113,38 +114,65 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       }
     }
   }
+  isOld(){
+    let setTime = this.convertBirthDate();
+    console.log(setTime)
+    let now = moment()
+    let difference = now.diff(setTime,'years')
+    if (difference < 13){
+      return false
+    }
+    else{
+      return true
+    }
+
+  }
+  convertBirthDate(){
+    let unparsedDate = this.registrationForm.get('birthDate').value
+    let parsedDate = moment(unparsedDate)
+    return parsedDate
+  }
 
   onSubmit()  {
-    if(this.registrationForm.valid && !(sessionStorage.getItem('username'))){
+    if(this.isOld()){
+      if(this.registrationForm.valid && !(sessionStorage.getItem('username'))){
+          let data = {
+            firstName:this.registrationForm.get('name.firstName').value,
+            lastName:this.registrationForm.get('name.lastName').value,
+            email:this.registrationForm.get('email').value,
+            username:this.registrationForm.get('username').value,
+            password:this.registrationForm.get('passwords.password').value,
+            gender:this.registrationForm.get('gender').value,
+            birthdate:this.convertBirthDate().toDate()
 
-        let data = {email:this.registrationForm.get('email').value,
-        username:this.registrationForm.get('username').value,
-        password:this.registrationForm.get('passwords.password').value}
-        console.log(data)
-        this.SocketService.emit('createUser',data, (res) => {
-            if (res.err) {
-                console.log(res.err)
-            }
-            else if (res.user) {
-                sessionStorage.setItem('username', res.user.username)
-                localStorage.setItem('username', res.user.username)
-                this.sessionService.session()
-                this.modalService.dismissAll()
-                console.log(`user created: ${sessionStorage.getItem('username')}`)
-            } else {
-                console.log("an error occured")
-            }
-        })
-      } else {
-          console.log('nothing')
+          }
+          console.log(data)
+          this.SocketService.emit('createUser',data, (res) => {
+              if (res.err) {
+                  console.log(res.err)
+              }
+              else if (res.user) {
+                  sessionStorage.setItem('username', res.user.username)
+                  localStorage.setItem('username', res.user.username)
+                  this.sessionService.session()
+                  this.modalService.dismissAll()
+                  console.log(`user created: ${sessionStorage.getItem('username')}`)
+              } else {
+                  console.log("an error occured")
+              }
+          })
+        } else {
+            console.log('nothing')
+        }
+      }
+    else{
+      alert('your registration cannot be processed')
       }
   }
 
   forbiddenUsernames(control: FormControl): Promise<any> {
-    console.log(this.registrationForm)
     const promise = new Promise<any>((resolve, reject) => {
       this.SocketService.emit('searchUser', [control.value], (res) => {
-
           if (res.res) {
             resolve({'forbiddenUsername': true});
           } else {
