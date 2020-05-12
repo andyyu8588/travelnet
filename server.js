@@ -71,7 +71,7 @@ var User = mongoose.model('User', {
   password: String,
   firstname: String,
   lastname: String,
-  birthdate: String,
+  birthdate: Date,
   gender: String,
   encounters: Array,
   rooms: Array,
