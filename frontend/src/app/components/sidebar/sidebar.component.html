@@ -14,7 +14,11 @@
         </li>
 </ul>   -->
     
-
+<div (click)="onClick()" class="btn navbar-toggler bg-light navbar-collapse" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" id="theButton">
+    <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'topX'"></div>
+    <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"></div>
+    <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'bottomX'"></div>
+</div>
 
 <div class="collapse sidebar navbar-collapse navbar-expand-md show" id="sidebar"
     mwlResizable
@@ -29,10 +33,11 @@
                 <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link"><button class="navbar-toggler third-button" type="button" data-toggle="collapse" data-target="#sidebar"
-                    aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" id="theButton">
-                        <div class="animated-icon3"><span></span><span></span><span></span></div>
-                </button></a>
+                <a class="nav-link">
+                    <button (click)='onClick()' type="button" class="close" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </a>
             </li>
         </ul>
         <div class="container-fluid" id="sidebarContent">

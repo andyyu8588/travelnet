@@ -2,11 +2,33 @@ import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { trigger, state, style, animate, transition, } from '@angular/animations'
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
+  animations: [
+    trigger('hamburguerX', [
+      state('hamburguer', style({})),
+      state('topX', style({
+        transform: 'rotate(45deg)', 
+        transformOrigin: 'left',
+        margin: '6px'
+      })),
+      state('hide', style({
+        opacity: 0
+      })),
+      state('bottomX', style({
+        transform: 'rotate(-45deg)',
+        transformOrigin: 'left',
+        margin: '6px'
+      })),
+      transition('* => *', [
+        animate('0.2s')
+      ]),
+    ]),
+  ],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   windowSub: Subscription
@@ -21,6 +43,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     'height': '85%',
     'width': '30%'
   }
+  isHamburguer = false;
+  onClick() {
+    this.isHamburguer = !this.isHamburguer;
+  }
+  
 
   constructor(private FriendlistService: FriendlistService,
               private ResizableModule: ResizableModule) { 
