@@ -14,23 +14,29 @@
         </li>
 </ul>   -->
     
-<button class="navbar-toggler close" type="button" data-toggle="collapse" data-target="#sidebarContent"
-        aria-controls="sidebarContent" aria-expanded="false" aria-label="Toggle navigation"
-        id="theButton">
-    <span class="navbar-toggler-icon bg-light "></span>
-</button>  
 
-<div class="navbar navbar-expand-lg navbar-collapse collapse sidebar" id="sidebarContent" aria-expanded="true"
+
+<div class="collapse sidebar navbar-collapse navbar-expand-md show" id="sidebar"
     mwlResizable
+    [validateResize]='validate'
     [enableGhostResize]="true"
     [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
-    (resizeEnd)="onResizeEnd($event)">
-
-    <div class="" id="sidebarContent">
-        <ul class="navbar-nav">
+    (resizeEnd)="onResizeEnd($event)"
+    [ngStyle]='Styles'>
+        <ul class="nav nav-pills nav-fill justify border-right">
+        
+            <li class="nav-item" *ngFor='let item of items, let i = index' >
+                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
+            </li>
             <li class="nav-item">
-                <a href="" class="">hello</a>
+                <a class="nav-link"><button class="navbar-toggler third-button" type="button" data-toggle="collapse" data-target="#sidebar"
+                    aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" id="theButton">
+                        <div class="animated-icon3"><span></span><span></span><span></span></div>
+                </button></a>
             </li>
         </ul>
-    </div>
+        <div class="container-fluid" id="sidebarContent">
+            <p>actual content</p>
+        </div> 
 </div>
+

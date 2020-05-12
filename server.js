@@ -230,6 +230,7 @@ io.on('connection', (socket) => {
           callback({err: 'email or username taken'})
         }
         else if (res.length === 0) {
+          console.log(data.birthdate)
           const newUser = new User({username : data.username, 
                                     password: data.password, 
                                     email : data.email,
