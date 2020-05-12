@@ -22,7 +22,6 @@ export class SocketService {
       })
     })
   }
-
   
   emitO(eventName: string, data: any): Promise<any> {
     return new Promise((resolve, reject) => {
