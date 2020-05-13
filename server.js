@@ -51,6 +51,8 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFin
   }
 })
 
+const User = require('./models/User')
+
 // create Chatroom scheme
 var Chatroom = mongoose.model('Chatroom', {
   roomName: String,
@@ -62,25 +64,6 @@ var Chatroom = mongoose.model('Chatroom', {
     time: String,
     seen: Array
     }]
-})
-
-// create User scheme
-var User = mongoose.model('User', {
-  email: String,
-  username: String,
-  password: String,
-  firstname: String,
-  lastname: String,
-  birthdate: Date,
-  gender: String,
-  encounters: Array,
-  rooms: Array,
-  socketIds: Array,
-  isActive: Boolean, //active vs online
-  log: {
-    in: Array,
-    out: Array
-  },  
 })
 
 // redirect to any page (scripts)
