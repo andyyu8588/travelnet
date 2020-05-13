@@ -22,8 +22,8 @@
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'bottomX'"></div>
 </div>
 
-<div class="border-right" 
-*ngIf='!sidebar.show'
+<div class="border-right"
+[hidden]='isHamburguer' 
 mwlResizable
 [validateResize]='validate'
 [enableGhostResize]="true"
