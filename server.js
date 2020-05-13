@@ -19,6 +19,10 @@ const server = http.createServer(app)
 
 const io = require('socket.io').listen(server)
 
+// import models
+const User = require("./models/User")
+const Chatroom = require("./models/Chatroom")
+
 // require('socketio-auth')(io, {
 //   authenticate: (socket, data, callback) => {
 //     console.log(socket, data, callback)
@@ -49,21 +53,6 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFin
   else {
     console.log('lit')
   }
-})
-
-const User = require('./models/User')
-
-// create Chatroom scheme
-var Chatroom = mongoose.model('Chatroom', {
-  roomName: String,
-  userNum: Number,
-  Users: Array, // sorted alphabetically
-  messages: [
-    {content: String,
-    sender: String,
-    time: String,
-    seen: Array
-    }]
 })
 
 // redirect to any page (scripts)
