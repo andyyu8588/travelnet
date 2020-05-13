@@ -1,34 +1,23 @@
 const express = require('express')
-const https = require('https')
 const http = require('http')
-const fs = require('fs')
 const path = require('path')
-const app = express()
-const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
-const currentTime = new Date().toISOString()
-
-// setup https server
-// const server = https.createServer({
-//   key: fs.readFileSync('./ssl/privateKey.key'),
-//   cert: fs.readFileSync('./ssl/certificate.crt')
-// }, app)
 
 // setup http server (https in heroku tho)
+const PORT = process.env.PORT || 3000
+const app = express()
 const server = http.createServer(app)
-
 const io = require('socket.io').listen(server)
 
 // import models
 const User = require("./models/User")
 const Chatroom = require("./models/Chatroom")
 
-// require('socketio-auth')(io, {
-//   authenticate: (socket, data, callback) => {
-//     console.log(socket, data, callback)
-//   },
-//   timeout: 2000
-// })
+// take time
+const currentTime = new Date().toISOString()
+
+// set URL:
+const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
 
 server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
@@ -38,12 +27,9 @@ server.listen(PORT, () => {
 app.use('/', express.static(path.join(__dirname)))
 
 // send homepage
-app.use((req,res, next) => {
+app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'index.html') )
 })
-
-// set URL:
-var dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
 
 // connect mongoose to Mongodb
 mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, (err) => {
@@ -54,12 +40,6 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFin
     console.log('lit')
   }
 })
-
-// redirect to any page (scripts)
-// app.get('/*', (req, res) => {
-//   page = req.params
-//   res.sendFile(__dirname + '/' +page[0])
-// })
 
 io.on('connection', (socket) => {
 
