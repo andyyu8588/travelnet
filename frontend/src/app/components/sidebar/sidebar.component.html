@@ -14,34 +14,38 @@
         </li>
 </ul>   -->
     
-<div (click)="onClick()" class="btn navbar-toggler bg-light navbar-collapse" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" id="theButton">
-    <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'topX'"></div>
-    <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"></div>
-    <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'bottomX'"></div>
-</div>
+<!--  -->
+    <div (click)="onClick()" class="btn navbar-toggler bg-light navbar-collapse" id="theButton" data-toggle="collapse" data-target=".multi-collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" >
+        <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'topX'"></div>
+        <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"></div>
+        <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'bottomX'"></div>
+    </div>
 
-<div class="collapse sidebar navbar-collapse navbar-expand-md show" id="sidebar"
-    mwlResizable
-    [validateResize]='validate'
-    [enableGhostResize]="true"
-    [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
-    (resizeEnd)="onResizeEnd($event)"
-    [ngStyle]='Styles'>
-        <ul class="nav nav-pills nav-fill justify border-right">
+<div class="multi-collapse" 
+mwlResizable
+[validateResize]='validate'
+[enableGhostResize]="true"
+[resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
+(resizeEnd)="onResizeEnd($event)"
+[ngStyle]='Styles'>
+    <ul class="nav nav-pills nav-fill justify border-right navbar navbar-light navbar-expand-lg" id="sidebar">
         
+        <div class="navbar-collapse collapse multi-collapse ">
             <li class="nav-item" *ngFor='let item of items, let i = index' >
                 <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link">
-                    <button (click)='onClick()' type="button" class="close" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                    <button (click)='onClick()' type="button" class="close" data-toggle="collapse" data-target=".multi-collapse" aria-controls="sidebar sidebarContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </a>
             </li>
-        </ul>
-        <div class="container-fluid" id="sidebarContent">
-            <p>actual content</p>
-        </div> 
-</div>
+        </div>
+    </ul>
+    <!-- <div class="container-fluid multi-collapse" id="sidebarContent">
+        <p>actual content</p>
+    </div>  -->
+</div> 
+
 
