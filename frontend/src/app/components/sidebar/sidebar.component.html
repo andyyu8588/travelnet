@@ -1,21 +1,4 @@
-<!-- <ul class="nav nav-pills nav-fill border-right" id="sidebar" 
-    mwlResizable
-    [validateResize]='validate'
-    [enableGhostResize]="true"
-    [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
-    (resizeEnd)="onResizeEnd($event)"
-    [ngStyle]='Styles'>
-        
-        <li class="nav-item" *ngFor='let item of items, let i = index' >
-            <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link"><button class="close" data-toggle="collapse" data-target='#collapseSidebar' type='button' role="button" ><span aria-hidden="true">&times;</span></button></a>
-        </li>
-</ul>   -->
-    
-<!--  -->
-   
+<!--    
 <div (click)="onClick()" id="theButton" class="btn navbar-toggler bg-light navbar-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" >
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'topX'"></div>
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"></div>
@@ -47,6 +30,36 @@ mwlResizable
     <div class="container-fluid multi-collapse collapse show" id="sidebarContent">
         <p>actual content</p>
     </div> 
-</div> 
+</div>  -->
+<div class="example-sidenav-content bg-light" id="theButton">
+    <button type="button" mat-button (click)="drawer.toggle()">
+    Toggle sidenav
+    </button>
+</div>
 
-
+<mat-drawer-container class="example-container" autosize >
+    <mat-drawer
+    mwlResizable
+    [validateResize]='validate'
+    [enableGhostResize]="true"
+    [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
+    (resizeEnd)="onResizeEnd($event)"
+    [opened]='window'
+    #drawer class="example-sidenav" mode="side" [ngStyle]='Styles'>
+       
+        <ul class="nav nav-pills nav-fill justify">
+            <li class="nav-item" *ngFor='let item of items, let i = index' >
+                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
+            </li>
+            <li class="nav-item">
+                <button class="example-sidenav-content nav-link" type="button" mat-button (click)="drawer.toggle()">
+                    <span>&times;</span>
+                </button>
+            </li>
+        </ul>  
+        <button (click)="showFiller = !showFiller" mat-raised-button>
+          Toggle extra text
+        </button>
+        <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+    </mat-drawer>
+</mat-drawer-container>

@@ -43,11 +43,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     'height': '85%',
     'width': '30%'
   }
-  isHamburguer = false;
-  onClick() {
-    this.isHamburguer = !this.isHamburguer;
-  }
-  
+  showFiller = true;
+ 
 
   constructor(private FriendlistService: FriendlistService,
               private ResizableModule: ResizableModule) { 
@@ -88,3 +85,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
 }
+
+// old animations
+// isHamburguer = false;
+// onClick() {
+//   this.isHamburguer = !this.isHamburguer;
+// }
