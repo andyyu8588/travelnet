@@ -239,7 +239,7 @@ io.on('connection', (socket) => {
               io.in(socket.currentRoomId).emit('message_res', {res: data})
               
               // emit notification
-              utils.(data.sender, res.messages[length - 1].seen, res.Users, res._id, 'message').then().catch((err) => console.log(err))
+              utils.notify(data.sender, res.messages[length - 1].seen, res.Users, res._id, 'message').then().catch((err) => console.log(err))
             }
           })
     } else {
