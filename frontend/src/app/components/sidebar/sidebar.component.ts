@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, animate, transition, } from '@angular/animations'
-
+import { foursquareService } from 'src/app/services/foursquare.service'
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -12,7 +12,7 @@ import { trigger, state, style, animate, transition, } from '@angular/animations
     trigger('hamburguerX', [
       state('hamburguer', style({})),
       state('topX', style({
-        transform: 'rotate(45deg)', 
+        transform: 'rotate(45deg)',
         transformOrigin: 'left',
         margin: '6px'
       })),
@@ -47,10 +47,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
  
 
   constructor(private FriendlistService: FriendlistService,
-              private ResizableModule: ResizableModule) { 
+              private ResizableModule: ResizableModule,
+              private foursquare: foursquareService
+              ) {
 
   }
-
+initFoursquare(){
+  console.log('works')
+  this.foursquare.onSendRequest()
+}
   ngOnInit(): void {
     this.windowSub = this.FriendlistService.windowSize.subscribe((x) => {
       if (x > 1000) {
