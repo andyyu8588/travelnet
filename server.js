@@ -31,7 +31,7 @@ app.use('/', express.static(path.join(__dirname)))
 
 // send homepage
 app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, 'index.html') )
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html') )
 })
 
 // connect mongoose to Mongodb
