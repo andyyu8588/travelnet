@@ -27,7 +27,7 @@ server.listen(PORT, () => {
 })
 
 // allow static access to folder to get js
-app.use('/', express.static(path.join(__dirname)))
+app.use('/', express.static(path.join(__dirname, 'frontend', 'dist')))
 
 // send homepage
 app.use((req, res, next) => {
