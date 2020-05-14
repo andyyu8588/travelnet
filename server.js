@@ -46,90 +46,6 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFin
 
 io.on('connection', (socket) => {
 
-  // socket helper functions
-
-  // edits User
-  // expects strings username proprety and newProprety
-  const editUser = (username, proprety, newProprety) => {
-    return new Promise((resolve, reject) => {
-      let tempProprety = {}
-      tempProprety[proprety] = newProprety
-      User.findOneAndUpdate({username}, {$set: tempProprety}, (err, doc, res) => {        
-        if (err) {
-          resolve('error')
-        } else if (doc) {
-          resolve(`Success! ${proprety} changed to ${newProprety}`)
-        } else {
-          reject('monkas')
-        }
-      })
-    })
-  }
-
-  // join room
-  // expects string roomId
-  const joinRoom = (roomId) => {
-    return new Promise((resolve, reject) => {
-      Chatroom.findById(roomId).exec((err, res) => {
-        if (err) {
-          reject(err)
-        } else if (res) {
-          socket.currentRoomId = res._id
-          socket.join(res._id, () => {
-            resolve(res)
-          })
-        } else {
-          reject('not found')
-          console.log('room was not found')
-        }
-      })
-    })
-  }
-
-  // notify users that a message was read (does not precise)
-  const notify = (sender, seenarr, userarr, roomId, actionType) => {
-    return new Promise ((resolve, reject) => {
-      userarr.forEach((user) => {
-        User.findOne({username: user}).exec((err, res) => {
-          if(err) {
-            reject(err)
-          } else if (res) {
-            res.socketIds.forEach((element) => {
-              if(element != socket.id) // prevent from sending to himself
-                io.to(element).emit('notification', {res: {
-                  roomId: roomId,
-                  action: actionType,
-                  seen: seenarr,
-                  sender: sender
-                }
-              })
-            })
-            resolve()
-          }
-        })
-      })
-    })
-  }
-
-
-  // check existence of one user and implement promises lmoa wtf
-  // expects string username
-  const searchUser = (username) => {
-    return new Promise((resolve, reject) => {
-      User.findOne({username}).exec((err, res) => {
-        if (err) {
-          reject(err)
-        }
-        else if (res) {
-          resolve({res})
-        }
-        else {
-          resolve('error')
-        }
-      })
-    })
-  }
-
   // socket responses
 
   // creates new chatroom 
@@ -214,7 +130,7 @@ io.on('connection', (socket) => {
 
   // change user data
   socket.on('editUser', (data, callback) => {
-    editUser(data.username, data.proprety, data.newProprety).then((result) => {
+    utils.editUser(data.username, data.proprety, data.newProprety).then((result) => {
       callback(result)
     }).catch((err) => {
       callback(err)
@@ -235,7 +151,7 @@ io.on('connection', (socket) => {
             res.messages[length - 1].seen.push(data.username)
             res.save()
             res.Users.forEach((user) => { // notify each user that someone saw the most recent message
-              notify(data.username ,res.messages[length - 1].seen , [user], res._id, 'seen').catch((err) => console.log(err))
+              utils.notify(data.username ,res.messages[length - 1].seen , [user], res._id, 'seen').catch((err) => console.log(err))
             })
           }
           callback({messages: res.messages.slice((length < 100 ? 0 : length - 100), length)})
@@ -294,7 +210,7 @@ io.on('connection', (socket) => {
     }
     
     if (!socket.currentRoomId || socket.currentRoomId != data.roomId) { // if client has no room or the room is not the same
-      joinRoom(data.roomId).then((roomObj) => {
+      utils.joinRoom(data.roomId).then((roomObj) => {
           // update database
           roomObj.messages.push(newMessage)
           roomObj.save()
@@ -304,7 +220,7 @@ io.on('connection', (socket) => {
           io.in(socket.currentRoomId).emit('message_res', {res: data})
 
           // emit notification
-          notify(data.sender, roomObj.messages[length - 1].seen, roomObj.Users, roomObj._id, 'message').then().catch((err) => console.log(err))
+          utils.notify(data.sender, roomObj.messages[length - 1].seen, roomObj.Users, roomObj._id, 'message').then().catch((err) => console.log(err))
           
         }).catch((err) => {
           console.log(err)
@@ -323,7 +239,7 @@ io.on('connection', (socket) => {
               io.in(socket.currentRoomId).emit('message_res', {res: data})
               
               // emit notification
-              notify(data.sender, res.messages[length - 1].seen, res.Users, res._id, 'message').then().catch((err) => console.log(err))
+              utils.(data.sender, res.messages[length - 1].seen, res.Users, res._id, 'message').then().catch((err) => console.log(err))
             }
           })
     } else {
@@ -365,7 +281,7 @@ io.on('connection', (socket) => {
   // seaches for each in 
   // expects a list of users (arr)
   socket.on('searchUser', (arr, ack) => {
-    let findUsers = Promise.all(arr.map(searchUser))
+    let findUsers = Promise.all(arr.map(utils.searchUser))
     findUsers.then((result) => {
       result.includes('error') ? ack({err: result}) : ack({res: result})
     })
