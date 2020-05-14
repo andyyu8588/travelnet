@@ -24,8 +24,11 @@ lol = 'https://api.foursquare.com/v2/venues/search?client_id=NYZJ324E5GAY2MSQUNY
           'https://api.foursquare.com/v2/venues/search',
           {
             headers: {
-              'client_id': 'NYZJ324E5GAY2MSQUNYIYLKIDCMX2ETMQREKQXZLW3S5ZYVG',
-              'client_secret': 'K51P2Y1T3TMTCU24LOFHDFOAONPGU44ZBNZCGTWCOJESUW4A',
+             
+            },
+            params: {
+              'client_id': this.CLIENT_ID,
+              'client_secret': this.CLIENT_SECRET,
               'v': '20200513',
               'll': '40.7099,-73.9622',
             }
