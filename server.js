@@ -27,11 +27,11 @@ server.listen(PORT, () => {
 })
 
 // allow static access to folder to get js
-app.use('/', express.static(path.join(__dirname, 'frontend', 'dist')))
+app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
 
 // send homepage
 app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html') )
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'frontend', 'index.html') )
 })
 
 // connect mongoose to Mongodb
