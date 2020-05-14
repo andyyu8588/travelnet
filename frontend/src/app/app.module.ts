@@ -25,7 +25,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { PropretyComponent } from './components/profile/proprety/proprety.component';
 import { MatRadioModule } from '@angular/material/radio';
-import { ResizableModule  } from 'angular-resizable-element'
+import { ResizableModule  } from 'angular-resizable-element';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +59,7 @@ import { ResizableModule  } from 'angular-resizable-element'
     MatButtonModule,
     MatRadioModule,
     ResizableModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

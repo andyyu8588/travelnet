@@ -11,13 +11,6 @@
 }
 
 
-.collapsing {
-    // transition-property: height ;
-    // transition-duration: 4s;
-    // height: 0px;
-    // margin-left: -10px;
-}
-
 mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
 }
@@ -25,7 +18,7 @@ mwlResizable {
 .btn {
     cursor: pointer;
 }
-  
+
 .icon-bar {
 width: 22px;
 height: 2px;

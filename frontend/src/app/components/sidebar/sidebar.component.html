@@ -1,21 +1,3 @@
-<!-- <ul class="nav nav-pills nav-fill border-right" id="sidebar" 
-    mwlResizable
-    [validateResize]='validate'
-    [enableGhostResize]="true"
-    [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
-    (resizeEnd)="onResizeEnd($event)"
-    [ngStyle]='Styles'>
-        
-        <li class="nav-item" *ngFor='let item of items, let i = index' >
-            <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link"><button class="close" data-toggle="collapse" data-target='#collapseSidebar' type='button' role="button" ><span aria-hidden="true">&times;</span></button></a>
-        </li>
-</ul>   -->
-    
-<!--  -->
-   
 <div (click)="onClick()" id="theButton" class="btn navbar-toggler bg-light navbar-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" >
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'topX'"></div>
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"></div>
@@ -23,7 +5,7 @@
 </div>
 
 <div class="border-right"
-[hidden]='isHamburguer' 
+[hidden]='isHamburguer'
 mwlResizable
 [validateResize]='validate'
 [enableGhostResize]="true"
@@ -45,8 +27,8 @@ mwlResizable
         </div>
     </ul>
     <div class="container-fluid multi-collapse collapse show" id="sidebarContent">
-        <p>actual content</p>
-    </div> 
-</div> 
+        <button class="btn btn-info" (click)='initFoursquare()'></button>
+    </div>
+</div>
 
 
