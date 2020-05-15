@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const express = require('express')
 const http = require('http')
 const path = require('path')
@@ -83,8 +84,10 @@ io.on('connection', (socket) => {
         }
         else if (res.length === 0) {
           console.log(data.birthdate)
-          const newUser = new User({username : data.username, 
-                                    password: data.password, 
+          bcrypt.hash(data.password, 10)
+          .then((result) => {
+            const newUser = new User({username : data.username, 
+                                    password: result, 
                                     email : data.email,
                                     firstname: data.firstname, 
                                     lastname: data.lastname, 
@@ -93,8 +96,12 @@ io.on('connection', (socket) => {
                                     rooms: data.rooms, 
                                     'log.in': currentTime,
                                     socketIds: [socket.id]})
-          newUser.save()
-          callback({user: newUser})
+            newUser.save()
+            callback({user: newUser})
+          })
+          .catch((err) => {
+            callback({err: err})
+          })
         }
     })
   })  
@@ -170,8 +177,19 @@ io.on('connection', (socket) => {
         ack({err: err})
       }
       else if (doc) {
-        socket[doc.username] = socket.id
-        ack({res: doc.username})
+        bcrypt.compare(data.password, doc.password)
+        .then((resultBool) => {
+          if(resultBool){
+            socket[doc.username] = socket.id
+            ack({res: doc.username})       
+          } else {
+            ack({err: 'login failed'})
+          }
+        })
+        .catch((err) => {
+          ack({err: err})
+        })
+
       }
       else {
         ack({err: 'not found'})
