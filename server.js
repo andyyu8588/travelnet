@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const express = require('express')
 const http = require('http')
 const path = require('path')
 const mongoose = require('mongoose')
+const jwtSecret = 'MonkasczI69'
 
 // setup http server (https in heroku tho)
 const PORT = process.env.PORT || 3000
@@ -97,7 +99,10 @@ io.on('connection', (socket) => {
                                     'log.in': currentTime,
                                     socketIds: [socket.id]})
             newUser.save()
-            callback({user: newUser})
+            const token = jwt.sign({
+              id: newUser._id
+            }, jwtSecret)
+            callback({user: newUser, token: token})
           })
           .catch((err) => {
             callback({err: err})
@@ -170,7 +175,7 @@ io.on('connection', (socket) => {
   // handle user login
   // expects object data with strings email, password
   socket.on('login', (data, ack) => {
-    User.findOneAndUpdate({$and: [{$or: [{email: data.email}, {username: data.email}]}, {password: data.password}]}, 
+    User.findOneAndUpdate({$or: [{email: data.email}, {username: data.email}]}, 
     {$push: {'log.in': currentTime}},
     (err, doc, res) => {
       if (err) {
@@ -180,8 +185,11 @@ io.on('connection', (socket) => {
         bcrypt.compare(data.password, doc.password)
         .then((resultBool) => {
           if(resultBool){
+            const token = jwt.sign({
+              id: doc._id
+            }, jwtSecret)
             socket[doc.username] = socket.id
-            ack({res: doc.username})       
+            ack({res: doc.username, token: token})       
           } else {
             ack({err: 'login failed'})
           }
