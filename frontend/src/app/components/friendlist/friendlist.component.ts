@@ -33,11 +33,6 @@ export class FriendlistComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy(): void {
-    this.friendsSub.unsubscribe()
-    this.sessionSub.unsubscribe()
-  }
-
   // update friendlist on each key press
   onKey(data: string) {
     if (data === "") {
@@ -51,5 +46,10 @@ export class FriendlistComponent implements OnInit, OnDestroy {
   // creates new room on submit
   onSubmit(data: string) {
     this.friendlistService.CreateChatroom(data)
+  }
+  
+  ngOnDestroy(): void {
+    this.friendsSub.unsubscribe()
+    this.sessionSub.unsubscribe()
   }
 }

@@ -61,11 +61,11 @@ export class LoginComponent implements OnInit, OnDestroy{
                     this.loginForm.get('password').reset()
                 }
                 else if (data.res) {
+                    console.log(data.token)
                     sessionStorage.setItem('username', data.res)
                     localStorage.setItem('username', data.res)
                     this.modalService.dismissAll()
                     this.sessionService.session()
-                    console.log(sessionStorage.getItem('username'))
                 } else {
                     console.log('login fini')
                 }
