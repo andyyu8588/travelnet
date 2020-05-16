@@ -25,6 +25,7 @@ const currentTime = new Date().toISOString()
 // set URL:
 const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
 
+// open server
 server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
