@@ -18,7 +18,8 @@ export class SearchService {
 
   foursquareSearch(value: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.foursquareService.onSendRequest().subscribe((result) => {
+      this.foursquareService.onSendRequest()
+      .subscribe((result) => {
         resolve(result.response)
       }, (err) => {
         reject(err)
@@ -31,7 +32,7 @@ export class SearchService {
       this.HttpClient.get<any>(environment.travelnet.searchFriends,
         {
           headers: {
-            authorization: localStorage.getItem('token')
+            // authorization: localStorage.getItem('token')
           },
           params: {
             list: value
