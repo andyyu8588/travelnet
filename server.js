@@ -6,9 +6,12 @@ const path = require('path')
 const mongoose = require('mongoose')
 const jwtSecret = 'MonkasczI69'
 
+const jwtMiddleware = require('./jwt.middleware')
+
 // setup http server (https in heroku tho)
 const PORT = process.env.PORT || 3000
 const app = express()
+const router = express.Router()
 const server = http.createServer(app)
 const io = require('socket.io').listen(server)
 
@@ -36,6 +39,10 @@ app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')
 // send homepage
 app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'frontend', 'dist', 'frontend', 'index.html') )
+})
+
+router.get('friends',jwtMiddleware, (req, res, next) => {
+  console.log('friends received')
 })
 
 // connect mongoose to Mongodb
