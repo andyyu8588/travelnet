@@ -45,6 +45,7 @@ app.use((req, res, next) => {
   )
   res.setHeader("Access-Control-Allow-Methods", "POST, DELETE, GET, PUT")
   res.sendFile(path.join(__dirname, 'frontend', 'dist', 'frontend', 'index.html'))
+  next()
 })
 
 router.get('friends',jwtMiddleware, (req, res, next) => {
