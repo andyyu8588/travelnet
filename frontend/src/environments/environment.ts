@@ -13,7 +13,7 @@ export const environment = {
   },
 
   travelnet: {
-    searchFriends: this.travelnetURL + '/friends',
+    searchFriends: 'https://travelnet.herokuapp.com/friends',
   }
 };
 
