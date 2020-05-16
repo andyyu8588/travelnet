@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const express = require('express')
+const bodyParser = require('body-parser')
 const http = require('http')
 const path = require('path')
 const mongoose = require('mongoose')
@@ -33,6 +34,10 @@ server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
 
+// body parser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+
 // send homepage
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*")
@@ -41,12 +46,12 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept, authorization"
   )
   res.setHeader("Access-Control-Allow-Methods", "POST, DELETE, GET, PUT")
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'frontend', 'index.html'))
+  // res.sendFile(path.join(__dirname, 'frontend', 'dist', 'frontend', 'index.html'))
   next()
 })
 
 // allow static access to folder to get js
-app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
+// app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
 
 router.get('/friends',jwtMiddleware, (req, res, next) => {
   res.status(200).json({
