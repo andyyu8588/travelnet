@@ -49,6 +49,7 @@ app.use((req, res, next) => {
 app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
 
 router.get('friends',jwtMiddleware, (req, res, next) => {
+  res.status(200)
   console.log('friends received')
 })
 
