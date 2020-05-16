@@ -57,9 +57,6 @@ app.get('/friends', (req, res, next) => {
   res.status(200).json({
     message: 'ok'
   })
-  res.send().json({
-    niga: 'ok'
-  })
   console.log('friends received')
 })
 

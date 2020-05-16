@@ -42,11 +42,13 @@ export class HeaderComponent {
             this.loading = true
             this.SearchService.mainSearch(data)
             .then((finalData) => {
-                console.log('ok '+ finalData)
                 this.loading = false
+                this.Renderer.removeChild(this.div, this.child)
+                this.child = this.Renderer.createElement('p');
+                this.child.innerHTML = finalData[1]
+                this.Renderer.appendChild(this.div.nativeElement, this.child)
             })
             .catch((err) => {
-                console.log(err)
                 this.loading = false
             })
         }
