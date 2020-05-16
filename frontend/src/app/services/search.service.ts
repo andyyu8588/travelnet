@@ -46,14 +46,7 @@ export class SearchService {
     })
   }
 
-  async mainSearch(value: string) {
-    await Promise.all([this.foursquareSearch(value), this.friendSearch(value)])
-    .then((allValues) => {
-      console.log(allValues)
-      return allValues
-    })
-    .catch((err) => {
-      return err
-    })
+  async mainSearch(value: string): Promise<any> {
+    return await Promise.all([this.foursquareSearch(value), this.friendSearch(value)])
   }
 }

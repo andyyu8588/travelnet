@@ -42,7 +42,7 @@ export class HeaderComponent {
             this.loading = true
             this.SearchService.mainSearch(data)
             .then((finalData) => {
-                console.log(finalData)
+                console.log('ok '+ finalData)
                 this.loading = false
             })
             .catch((err) => {
