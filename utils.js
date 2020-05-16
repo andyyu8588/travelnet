@@ -43,52 +43,6 @@ return new Promise((resolve, reject) => {
 })
 }
 
-// join room
-// expects string roomId
-const joinRoom = (roomId) => {
-return new Promise((resolve, reject) => {
-    Chatroom.findById(roomId).exec((err, res) => {
-    if (err) {
-        reject(err)
-    } else if (res) {
-        socket.currentRoomId = res._id
-        socket.join(res._id, () => {
-        resolve(res)
-        })
-    } else {
-        reject('not found')
-        console.log('room was not found')
-    }
-    })
-})
-}
-
-// notify users that a message was read (does not precise)
-const notify = (sender, seenarr, userarr, roomId, actionType) => {
-return new Promise ((resolve, reject) => {
-    userarr.forEach((user) => {
-    User.findOne({username: user}).exec((err, res) => {
-        if(err) {
-        reject(err)
-        } else if (res) {
-        res.socketIds.forEach((element) => {
-            if(element != socket.id) // prevent from sending to himself
-            io.to(element).emit('notification', {res: {
-                roomId: roomId,
-                action: actionType,
-                seen: seenarr,
-                sender: sender
-            }
-            })
-        })
-        resolve()
-        }
-    })
-    })
-})
-}
-
-
 // check existence of one user and implement promises lmoa wtf
 // expects string username
 const searchUser = (username) => {
@@ -107,4 +61,4 @@ return new Promise((resolve, reject) => {
 })
 }
 
-module.exports = {createChatroom, editUser, joinRoom, notify, searchUser}
+module.exports = {createChatroom, editUser, searchUser}
