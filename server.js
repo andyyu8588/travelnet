@@ -33,9 +33,6 @@ server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
 
-// allow static access to folder to get js
-app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
-
 // send homepage
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*")
@@ -47,6 +44,9 @@ app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'frontend', 'dist', 'frontend', 'index.html'))
   next()
 })
+
+// allow static access to folder to get js
+app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
 
 router.get('friends',jwtMiddleware, (req, res, next) => {
   console.log('friends received')
