@@ -4,7 +4,17 @@
 
 export const environment = {
   production: false,
-  mapbox: "pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ"
+  travelnetURL: 'https://travelnet.herokuapp.com',
+  mapbox: "pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ",
+
+  foursquare: {
+    venuesSearch: 'https://api.foursquare.com/v2/venues/search',
+
+  },
+
+  travelnet: {
+    searchFriends: this.travelnetURL + '/friends',
+  }
 };
 
 /*

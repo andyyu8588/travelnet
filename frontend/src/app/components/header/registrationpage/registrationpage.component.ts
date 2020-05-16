@@ -153,6 +153,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
               }
               else if (res.user) {
                   sessionStorage.setItem('username', res.user.username)
+                  localStorage.setItem('token', res.token)
                   localStorage.setItem('username', res.user.username)
                   this.sessionService.session()
                   this.modalService.dismissAll()

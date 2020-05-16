@@ -52,10 +52,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
               ) {
 
   }
-initFoursquare(){
-  console.log('works')
-  this.foursquare.onSendRequest()
-}
+    
   ngOnInit(): void {
     this.windowSub = this.FriendlistService.windowSize.subscribe((x) => {
       if (x > 1000) {
@@ -64,6 +61,10 @@ initFoursquare(){
         this.window = false
       }
     })
+  }
+
+  initFoursquare(){
+    this.foursquare.onSendRequest()
   }
 
   validate(event: ResizeEvent) {
