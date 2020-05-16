@@ -39,6 +39,10 @@ app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')
 // send homepage
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*")
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  )
   res.setHeader("Access-Control-Allow-Methods", "POST, DELETE, GET, PUT")
   res.sendFile(path.join(__dirname, 'frontend', 'dist', 'frontend', 'index.html'))
 })
