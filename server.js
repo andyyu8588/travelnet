@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 // allow static access to folder to get js
 app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
 
-app.get('friends/*',jwtMiddleware, (req, res, next) => {
+router.get('friends/:arr',jwtMiddleware, (req, res, next) => {
   res.status(201)
   console.log('friends received')
 })
