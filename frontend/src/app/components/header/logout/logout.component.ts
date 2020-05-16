@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
-import { SocketService } from './../../services/socket.service';
+import { SocketService } from '../../../services/socket.service';
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../../services/session.service'
+import { SessionService } from '../../../services/session.service'
 
 @Component({
   selector: 'app-logout',

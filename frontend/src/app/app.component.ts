@@ -1,7 +1,6 @@
 import { Subscription } from 'rxjs';
 import { SocketService } from 'src/app/services/socket.service';
 import { SessionService } from './services/session.service';
-import { RoomWidget } from './components/friendlist/friend/Room_Widget.model';
 import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core';
 import { FriendlistService } from './services/friendlist.service';
 

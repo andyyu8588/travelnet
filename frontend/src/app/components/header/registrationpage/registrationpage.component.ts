@@ -1,6 +1,6 @@
-import { SocketService } from '../../services/socket.service';
+import { SocketService } from '../../../services/socket.service';
 import { Component, OnDestroy, OnInit} from '@angular/core';
-import { SessionService } from '../../services/session.service'
+import { SessionService } from '../../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms'
