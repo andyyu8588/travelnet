@@ -53,7 +53,7 @@ app.use((req, res, next) => {
 // allow static access to folder to get js
 // app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
 
-router.get('/friends', (req, res, next) => {
+app.get('/friends', (req, res, next) => {
   res.status(200).json({
     message: 'ok'
   })
