@@ -1,3 +1,4 @@
+import { SearchService } from './../../services/search.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { Router } from '@angular/router';
 import { Component, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
@@ -22,7 +23,8 @@ export class HeaderComponent {
 
     constructor(private sessionService:SessionService,
                 private SocketService: SocketService,
-                private Renderer : Renderer2) {
+                private Renderer : Renderer2,
+                private SearchService: SearchService) {
         this.sessionService.sessionState.subscribe((username) => {
             this.sessionState = username
             if (username) {
@@ -38,23 +40,41 @@ export class HeaderComponent {
             this.loading = false
         } else {
             this.loading = true
-            this.SocketService.emit('searchChatroom', {req: [data]}, (ack) => {
-                console.log(ack)
-                // this.Renderer.removeChild(this.div, this.div)
-                if (ack.err) {
-                    this.loading = false
-                    this.Renderer.removeChild(this.div, this.child)
-                    this.child = this.Renderer.createElement('p');
-                    this.child.innerHTML = ack.err
-                    this.Renderer.appendChild(this.div.nativeElement, this.child)
-                } else {
-                    this.loading = false
-                    this.Renderer.removeChild(this.div, this.child)
-                    this.child = this.Renderer.createElement('p');
-                    this.child.innerHTML = ack.res
-                    this.Renderer.appendChild(this.div.nativeElement, this.child)
-                }
+            this.SearchService.mainSearch(data)
+            .then((finalData) => {
+                console.log(finalData)
+                this.loading = false
+            })
+            .catch((err) => {
+                console.log(err)
+                this.loading = false
             })
         }
     }
 }
+
+
+// onKey(data: string) {
+//     if (data === "") {
+//         this.loading = false
+//     } else {
+//         this.loading = true
+//         this.SocketService.emit('searchChatroom', {req: [data]}, (ack) => {
+//             console.log(ack)
+//             // this.Renderer.removeChild(this.div, this.div)
+//             if (ack.err) {
+//                 this.loading = false
+//                 this.Renderer.removeChild(this.div, this.child)
+//                 this.child = this.Renderer.createElement('p');
+//                 this.child.innerHTML = ack.err
+//                 this.Renderer.appendChild(this.div.nativeElement, this.child)
+//             } else {
+//                 this.loading = false
+//                 this.Renderer.removeChild(this.div, this.child)
+//                 this.child = this.Renderer.createElement('p');
+//                 this.child.innerHTML = ack.res
+//                 this.Renderer.appendChild(this.div.nativeElement, this.child)
+//             }
+//         })
+//     }
+// }
