@@ -54,10 +54,19 @@ app.use((req, res, next) => {
 // app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
 
 app.get('/friends', jwtMiddleware, (req, res, next) => {
-  res.status(200).json({
-    message: 'ok'
+  let origin = jwt.decode(req.get('authorization'), jwtSecret)
+  console.log(origin)
+  User.find({username: origin})
+  .then(res => {
+    res.status(200).json({
+      friendlist: res[0].encounters
+    })
   })
-  console.log('friends received')
+  .catch(err => {
+    res.status(500).json({
+      message: 'user not founds'
+    })
+  })
 })
 
 // connect mongoose to Mongodb

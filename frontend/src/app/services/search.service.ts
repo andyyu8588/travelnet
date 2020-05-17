@@ -31,7 +31,7 @@ export class SearchService {
       this.HttpClient.get<any>(environment.travelnet.searchFriends,
         {
           headers: {
-            // authorization: localStorage.getItem('token')
+            authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas'
           },
           params: {
             list: value
