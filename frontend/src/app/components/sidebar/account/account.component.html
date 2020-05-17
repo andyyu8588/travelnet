@@ -1,0 +1,7 @@
+<form [formGroup]='form' (submit)='onSubmit()'>
+    <button type='button' class='btn btn-danger button' (click)='filePicker.click()'>Upload Profile Picture</button>
+    <input type='file' style='visibility: hidden;' (change)='onImagePicked($event)' #filePicker>
+</form>
+<div class='image-preview' *ngIf="imagePreview && imagePreview !== '' && form.get('picture').valid">
+    <img [src]='imagePreview' alt="Invalid File">
+</div>
