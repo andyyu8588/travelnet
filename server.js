@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 app.get('/friends', jwtMiddleware, (req, res, next) => {
   let origin = jwt.decode(req.get('authorization'), jwtSecret)
   console.log(origin.id)
-  User.find({_id: origin.id}, (err, res) => {
+  User.find({_id: origin.id}, (err, result) => {
     if (err) {
       res.status(500).json({
         message: err
