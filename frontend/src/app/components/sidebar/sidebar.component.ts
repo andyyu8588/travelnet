@@ -1,3 +1,4 @@
+import { SearchService } from 'src/app/services/search.service';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/friendlist.service';
@@ -46,7 +47,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
 
   constructor(private FriendlistService: FriendlistService,
-              private ResizableModule: ResizableModule
+              private ResizableModule: ResizableModule,
+              private SearchService: SearchService
               ) {
 
   }
@@ -78,6 +80,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
   onResizeEnd(event: any): void {
     console.log('Element was resized', event);
     this.Styles.width = `${event.rectangle.width}px`
+  }
+
+  searchFriend() {
+    this.SearchService.friendSearch('saisi')
+    .then(x => {
+      console.log(x)
+    })
+    .catch(x => {
+      console.log(x)
+    })
   }
 
   ngOnDestroy() {
