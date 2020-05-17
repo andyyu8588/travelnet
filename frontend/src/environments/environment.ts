@@ -9,6 +9,7 @@ export const environment = {
 
   foursquare: {
     venuesSearch: 'https://api.foursquare.com/v2/venues/search',
+    venuesExplore: 'https://api.foursquare.com/v2/venues/explore'
 
   },
 

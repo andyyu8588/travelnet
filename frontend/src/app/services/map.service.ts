@@ -8,7 +8,7 @@ import * as Mapboxgl from 'mapbox-gl'
 })
 export class MapService {
 map: Mapboxgl.Map
-  constructor(private search: SearchService) {
+  constructor(private searchService: SearchService) {
     Mapboxgl.accessToken = environment.mapbox
   }
 
@@ -21,12 +21,19 @@ map: Mapboxgl.Map
     failIfMajorPerformanceCaveat:true, //map creation will fail
     //if the performance of Mapbox GL JS
     });
+
     this.map.on('click',(e)=>{
-      let lng = e.lngLat.lng;
-      let lag = e.lngLat.lat
-      let lngLag =  lng +','+ lag
+      let lng = Math.round(e.lngLat.lng *10000) / 10000
+      let lag = Math.round(e.lngLat.lat *10000) / 10000
+      let lngLag: string =  lng +','+ lag
       console.log(lngLag)
-      console.log(this.search.foursquareSearch(lngLag))
+      this.searchService.foursquareSearch(lngLag)
+      .then(x => {
+        console.log(x)
+      })
+      .catch(err => {
+        console.log(err)
+      })
     })
   }
 

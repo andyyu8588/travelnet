@@ -15,7 +15,7 @@ v = '20200516'
   onSendRequest(lngLag){
     return this.http
       .get<{[key: string]: any}>(
-        environment.foursquare.venuesSearch,
+        environment.foursquare.venuesExplore,
         {
           headers: {
           },

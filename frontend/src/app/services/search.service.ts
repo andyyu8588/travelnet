@@ -19,7 +19,7 @@ export class SearchService {
     return new Promise((resolve, reject) => {
       this.foursquareService.onSendRequest(value)
       .subscribe((result) => {
-        resolve(console.log(result.response))
+        resolve(result)
       }, (err) => {
         reject(err)
       })
