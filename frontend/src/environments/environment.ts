@@ -14,7 +14,13 @@ export const environment = {
 
   travelnet: {
     searchFriends: 'https://travelnet.herokuapp.com/friends',
+  },
+
+  openstreetmap:{
+    searchNodes:'https://master.apis.dev.openstreetmap.org/api/0.6/map',
+    searchRealNode:' https://api.openstreetmap.org/api/0.6/map'
   }
+
 };
 
 /*
