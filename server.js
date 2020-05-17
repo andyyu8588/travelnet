@@ -59,7 +59,7 @@ app.get('/friends', jwtMiddleware, (req, res, next) => {
   User.find({_id: origin.id})
   .then(res => {
     res.status(200).json({
-      friendlist: res[0].encounters
+      friendlist: res
     })
   })
   .catch(err => {
