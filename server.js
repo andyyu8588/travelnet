@@ -56,17 +56,27 @@ app.use((req, res, next) => {
 app.get('/friends', jwtMiddleware, (req, res, next) => {
   let origin = jwt.decode(req.get('authorization'), jwtSecret)
   console.log(origin.id)
-  User.find({_id: origin.id})
-  .then(res => {
-    res.status(200).json({
-      friendlist: res
-    })
+  User.find({_id: origin.id}, (err, res) => {
+    if (err) {
+      res.status(500).json({
+        message: err
+      })
+    } else {
+      res.status(200).json({
+        friendlist: result
+      })
+    }
   })
-  .catch(err => {
-    res.status(500).json({
-      message: err
-    })
-  })
+  // .then(result => {
+  //   res.status(200).json({
+  //     friendlist: result
+  //   })
+  // })
+  // .catch(err => {
+  //   res.status(500).json({
+  //     message: err
+  //   })
+  // })
 })
 
 // connect mongoose to Mongodb
