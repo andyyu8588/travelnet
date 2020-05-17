@@ -25,6 +25,7 @@ map: Mapboxgl.Map
       let lng = e.lngLat.lng;
       let lag = e.lngLat.lat
       let lngLag =  lng +','+ lag
+      console.log(lngLag)
       console.log(this.search.foursquareSearch(lngLag))
     })
   }
