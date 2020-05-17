@@ -1,6 +1,5 @@
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
-import { foursquareService } from './foursquare.service';
+import { FoursquareService } from './foursquare.service';
 import { SocketService } from './socket.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -12,15 +11,15 @@ export class SearchService {
 
   constructor(private HttpClient: HttpClient,
               private SocketService: SocketService,
-              private foursquareService: foursquareService) {
+              private foursquareService: FoursquareService) {
 
   }
 
   foursquareSearch(value: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.foursquareService.onSendRequest()
+      this.foursquareService.onSendRequest(value)
       .subscribe((result) => {
-        resolve(result.response)
+        resolve(console.log(result.response))
       }, (err) => {
         reject(err)
       })
@@ -37,7 +36,7 @@ export class SearchService {
           params: {
             list: value
           }
-        } 
+        }
       )
       .subscribe((response) => {
         resolve(response)

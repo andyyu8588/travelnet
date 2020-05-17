@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/friendlist.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, animate, transition, } from '@angular/animations'
-import { foursquareService } from 'src/app/services/foursquare.service'
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -44,15 +43,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
     'width': '30%'
   }
   showFiller = true;
- 
+
 
   constructor(private FriendlistService: FriendlistService,
-              private ResizableModule: ResizableModule,
-              private foursquare: foursquareService
+              private ResizableModule: ResizableModule
               ) {
 
   }
-    
+
   ngOnInit(): void {
     this.windowSub = this.FriendlistService.windowSize.subscribe((x) => {
       if (x > 1000) {
@@ -61,10 +59,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.window = false
       }
     })
-  }
-
-  initFoursquare(){
-    this.foursquare.onSendRequest()
   }
 
   validate(event: ResizeEvent) {

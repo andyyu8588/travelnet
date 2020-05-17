@@ -1,4 +1,4 @@
-<!--    
+<!--
 <div (click)="onClick()" id="theButton" class="btn navbar-toggler bg-light navbar-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" >
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'topX'"></div>
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"></div>
@@ -29,7 +29,7 @@ mwlResizable
     </ul>
     <div class="container-fluid multi-collapse collapse show" id="sidebarContent">
         <p>actual content</p>
-    </div> 
+    </div>
 </div>  -->
 <div class="example-sidenav-content bg-light" id="theButton">
     <button type="button" mat-button (click)="drawer.toggle()">
@@ -46,7 +46,7 @@ mwlResizable
     (resizeEnd)="onResizeEnd($event)"
     [opened]='window'
     #drawer class="example-sidenav" mode="side" [ngStyle]='Styles'>
-       
+
         <ul class="nav nav-pills nav-fill justify">
             <li class="nav-item" *ngFor='let item of items, let i = index' >
                 <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
@@ -56,9 +56,6 @@ mwlResizable
                     <span>&times;</span>
                 </button>
             </li>
-        </ul>  
-        <button (click)="initFoursquare()" mat-raised-button>
-          foursquare
-        </button>
+        </ul>
     </mat-drawer>
 </mat-drawer-container>
