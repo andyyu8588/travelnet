@@ -64,7 +64,7 @@ app.get('/friends', jwtMiddleware, (req, res, next) => {
   })
   .catch(err => {
     res.status(500).json({
-      message: 'user not founds'
+      message: err
     })
   })
 })
