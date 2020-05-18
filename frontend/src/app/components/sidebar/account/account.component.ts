@@ -1,6 +1,7 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { mimeType } from './mime-type.validator';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-account',
@@ -15,7 +16,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      'picture': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
+      'picture': new FormControl(null, [RxwebValidators.extension({extensions: ['jpeg', 'png']})])
     })
   }
 
@@ -27,11 +28,11 @@ export class AccountComponent implements OnInit {
     reader.onload = () => {
       this.imagePreview = reader.result.toString()
     }
+    console.log(this.form)
     reader.readAsDataURL(file)
   }
 
   onSubmit() {
-    
+    console.log(this.form)
   }
-
 }

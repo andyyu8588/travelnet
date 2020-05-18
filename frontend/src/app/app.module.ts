@@ -13,6 +13,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FriendComponent } from './components/chatsystem/friendlist/friend/friend.component';
 import { MapComponent } from './components/map/map.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
 import { registrationComponent } from './components/header/registrationpage/registrationpage.component';
 import { loginComponent } from './components/header/loginpage/loginpage.component';
 import { ChatsystemComponent } from './components/chatsystem/chatsystem.component';
@@ -81,6 +82,7 @@ import { AccountComponent } from './components/sidebar/account/account.component
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    RxReactiveFormsModule,
     NgbModule,
     BrowserAnimationsModule,
     MatFormFieldModule,

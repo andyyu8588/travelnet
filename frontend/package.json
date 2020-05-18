@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~9.1.0",
     "@angular/router": "~9.1.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.3",
+    "@rxweb/reactive-form-validators": "^2.0.0-rc2",
     "@types/jquery": "^3.3.35",
     "angular-resizable-element": "^3.3.0",
     "bootstrap": "^4.4.1",
