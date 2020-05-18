@@ -7,7 +7,8 @@ import * as Mapboxgl from 'mapbox-gl'
   providedIn: 'root'
 })
 export class MapService {
-map: Mapboxgl.Map
+  map: Mapboxgl.Map
+
   constructor(private searchService: SearchService) {
     Mapboxgl.accessToken = environment.mapbox
   }
@@ -27,7 +28,7 @@ map: Mapboxgl.Map
       let lag = Math.round(e.lngLat.lat *10000) / 10000
       let lngLag: string =  lng +','+ lag
       console.log(lngLag)
-      this.searchService.foursquareSearch(lngLag)
+      this.searchService.foursquareSearch('',lngLag)
       .then(x => {
         console.log(x)
       })
