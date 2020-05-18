@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class FoursquareService {
   constructor(private http: HttpClient) {}
 
-  onSendRequest(lngLag){
+  onSendRequest(query: string ,lngLag: string){
     return this.http
       .get<{[key: string]: any}>(
         environment.foursquare.venuesSearch,
@@ -19,7 +19,7 @@ export class FoursquareService {
             'client_id': environment.foursquare.clientId,
             'client_secret': environment.foursquare.clientSecret,
             'v': environment.foursquare.v,
-            'll': '11.3457,46.1096',
+            'll': lngLag,
           }
       })
   }

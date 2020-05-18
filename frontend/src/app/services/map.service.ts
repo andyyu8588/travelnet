@@ -7,7 +7,8 @@ import * as Mapboxgl from 'mapbox-gl'
   providedIn: 'root'
 })
 export class MapService {
-map: Mapboxgl.Map
+  map: Mapboxgl.Map
+
   constructor(private searchService: SearchService) {
     Mapboxgl.accessToken = environment.mapbox
   }

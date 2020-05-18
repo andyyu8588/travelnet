@@ -1,3 +1,4 @@
+import { MapService } from 'src/app/services/map.service';
 import { tab } from './../components/sidebar/tab.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -17,13 +18,14 @@ export class SearchService {
 
   constructor(private HttpClient: HttpClient,
               private SocketService: SocketService,
-              private foursquareService: FoursquareService) {
+              private foursquareService: FoursquareService,
+              private MapService: MapService) {
 
   }
 
-  foursquareSearch(value: string): Promise<any> {
+  foursquareSearch(query: string, lnglat: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.foursquareService.onSendRequest(value)
+      this.foursquareService.onSendRequest(query, lnglat)
       .subscribe((result) => {
         resolve(result)
       }, (err) => {
@@ -52,8 +54,8 @@ export class SearchService {
     })
   }
 
-  async mainSearch(value: string): Promise<any> {
-    return await Promise.all([this.foursquareSearch(value), this.friendSearch(value)])
+  async mainSearch(query: string, lnglat: string): Promise<any> {
+    return await Promise.all([this.foursquareSearch(query, lnglat), this.friendSearch(query)])
   }
 
   // when user opens new tab
@@ -63,7 +65,9 @@ export class SearchService {
       content: 'Loading'
     })
     this._searchTabs.next(this.openTabs)
-    this.mainSearch(query)
+    let lnglat = this.MapService.map.getCenter()
+    console.log(lnglat)
+    this.mainSearch(query, lnglat)
     .then(result => {
       result.forEach(element => {
         this.openTabs[this.openTabs.length].content.push(element)
