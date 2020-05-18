@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SearchService } from 'src/app/services/search.service'
 import * as Mapboxgl from 'mapbox-gl'
@@ -9,8 +10,12 @@ import * as Mapboxgl from 'mapbox-gl'
 export class MapService {
   map: Mapboxgl.Map
 
-  constructor(private searchService: SearchService) {
+  private _clickLocation: BehaviorSubject<any>
+  clickLocation: Observable<any>
+
+  constructor() {
     Mapboxgl.accessToken = environment.mapbox
+
   }
 
   buildMap() {
@@ -22,23 +27,17 @@ export class MapService {
       failIfMajorPerformanceCaveat:true, //map creation will fail
       //if the performance of Mapbox GL JS
     });
-
+    console.log(this.map.getCenter())
+    this._clickLocation = new BehaviorSubject(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
+    this.clickLocation = this._clickLocation.asObservable()
+    
     this.map.on('click',(e)=>{
-      let lng = Math.round(e.lngLat.lng *10000) / 10000
-      let lag = Math.round(e.lngLat.lat *10000) / 10000
+      let lng = e.lngLat.lng
+      let lag = e.lngLat.lat
       let lngLag: string =  lng +','+ lag
       console.log(lngLag)
-      this.searchService.foursquareSearch('',lngLag)
-      .then(x => {
-        console.log(x)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    })
+      this._clickLocation.next(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
+    }) 
   }
-
-
-
 
 }
