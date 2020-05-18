@@ -20,19 +20,19 @@ map: Mapboxgl.Map
     zoom: 2, // starting zoom
     failIfMajorPerformanceCaveat:true, //map creation will fail
     //if the performance of Mapbox GL JS
-    });
+  });
 
     this.map.on('click',(e)=>{
-      let lng = Math.round(e.lngLat.lng *10000) / 10000
-      let lag = Math.round(e.lngLat.lat *10000) / 10000
+      let lng = e.lngLat.lng
+      let lag = e.lngLat.lat
       let lngLag: string =  lng +','+ lag
       console.log(lngLag)
       this.searchService.foursquareSearch(lngLag)
-      .then(x => {
-        console.log(x)
-      })
-      .catch(err => {
-        console.log(err)
+        .then(x => {
+          console.log(x)
+        })
+        .catch(err => {
+          console.log(err)
       })
     })
   }

@@ -11,7 +11,7 @@ export class FoursquareService {
   onSendRequest(lngLag){
     return this.http
       .get<{[key: string]: any}>(
-        environment.foursquare.venuesExplore,
+        environment.foursquare.venuesSearch,
         {
           headers: {
           },
