@@ -30,21 +30,21 @@ export class HeaderComponent implements OnDestroy, OnInit{
                 private SocketService: SocketService,
                 private Renderer : Renderer2,
                 private SearchService: SearchService,
-                private MapService: MapService) {
+                private map: MapService) {
         this.sessionService.sessionState.subscribe((username) => {
             this.sessionState = username
             if (username) {
-                this.username = sessionStorage.getItem('username')  
+                this.username = sessionStorage.getItem('username')
             } else {
                 this.username = ''
-            }            
+            }
         })
     }
 
     ngOnInit() {
-        this.mapCenterSub = this.MapService.clickLocation.subscribe(x => {
-            this.mapCenter = x
-        })
+        // this.mapCenterSub = this.MapService.clickLocation.subscribe(x => {
+        //     this.mapCenter = x
+        // })
     }
 
     onKey(data: string) {
@@ -52,7 +52,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
             this.loading = false
         } else {
             this.loading = true
-            this.SearchService.mainSearch(data, this.mapCenter)
+            this.SearchService.mainSearch(data, this.map.getCenter())
             .then((finalData) => {
                 this.loading = false
                 this.Renderer.removeChild(this.div, this.child)

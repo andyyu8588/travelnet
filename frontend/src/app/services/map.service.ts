@@ -27,17 +27,19 @@ export class MapService {
       failIfMajorPerformanceCaveat:true, //map creation will fail
       //if the performance of Mapbox GL JS
     });
-    console.log(this.map.getCenter())
-    this._clickLocation = new BehaviorSubject(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
-    this.clickLocation = this._clickLocation.asObservable()
+    // this._clickLocation = new BehaviorSubject(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
+    // this.clickLocation = this._clickLocation.asObservable()
 
     this.map.on('click',(e)=>{
       let lng = e.lngLat.lng
       let lag = e.lngLat.lat
       let lngLag: string =  lng +','+ lag
       console.log(lngLag)
-      this._clickLocation.next(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
+      // this._clickLocation.next(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
     })
+  }
+  getCenter(){
+    return `${this.map.getCenter().lng},${this.map.getCenter().lat}`
   }
 
 }

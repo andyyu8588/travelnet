@@ -10,7 +10,7 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService implements OnInit, OnDestroy {
+export class SearchService implements OnDestroy {
 
   private openTabs: Array<tab> = [{title: 'Home'}, {title: 'Discover'}, {title: 'My Trip'}]
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
@@ -23,20 +23,17 @@ export class SearchService implements OnInit, OnDestroy {
               private SocketService: SocketService,
               private foursquareService: FoursquareService,
               private MapService: MapService) {
-
+    // this.mapCenterSub = this.MapService.clickLocation.subscribe(x => {
+    //   this.mapCenter = x})
   }
 
-  ngOnInit() {
-    this.mapCenterSub = this.MapService.clickLocation.subscribe(x => {
-      this.mapCenter = x
-    })
-  }
 
   foursquareSearch(query: string, lnglat: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.foursquareService.onSendRequest(query, lnglat)
       .subscribe((result) => {
-        resolve(result)
+        console.log(result.response.venues)
+        resolve(result.response.venues)
       }, (err) => {
         reject(err)
       })
