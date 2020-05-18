@@ -1,26 +1,35 @@
 import { MapService } from 'src/app/services/map.service';
 import { tab } from './../components/sidebar/tab.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './foursquare.service';
 import { SocketService } from './socket.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService {
+export class SearchService implements OnInit, OnDestroy {
 
   private openTabs: Array<tab> = [{title: 'Home'}, {title: 'Discover'}, {title: 'My Trip'}]
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   public searchTabs: Observable<any> = this._searchTabs.asObservable()
+
+  private mapCenterSub: Subscription
+  mapCenter: string
 
   constructor(private HttpClient: HttpClient,
               private SocketService: SocketService,
               private foursquareService: FoursquareService,
               private MapService: MapService) {
 
+  }
+
+  ngOnInit() {
+    this.mapCenterSub = this.MapService.clickLocation.subscribe(x => {
+      this.mapCenter = x
+    })
   }
 
   foursquareSearch(query: string, lnglat: string): Promise<any> {
@@ -65,9 +74,7 @@ export class SearchService {
       content: 'Loading'
     })
     this._searchTabs.next(this.openTabs)
-    let lnglat = this.MapService.map.getCenter()
-    console.log(lnglat)
-    this.mainSearch(query, lnglat)
+    this.mainSearch(query, this.mapCenter)
     .then(result => {
       result.forEach(element => {
         this.openTabs[this.openTabs.length].content.push(element)
@@ -77,5 +84,9 @@ export class SearchService {
     .catch(err => {
       console.log(err)
     })
+  }
+
+  ngOnDestroy() {
+    this.mapCenterSub.unsubscribe()
   }
 }
