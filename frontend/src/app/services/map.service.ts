@@ -15,12 +15,12 @@ export class MapService {
 
   buildMap() {
     this.map = new Mapboxgl.Map({
-    container: 'mapbox', // container id
-    style: 'mapbox://styles/travelnet/ck99afyp80hhu1iqrodjf1brl',
-    center: [54.5, 15.25], // starting position
-    zoom: 2, // starting zoom
-    failIfMajorPerformanceCaveat:true, //map creation will fail
-    //if the performance of Mapbox GL JS
+      container: 'mapbox', // container id
+      style: 'mapbox://styles/travelnet/ck99afyp80hhu1iqrodjf1brl',
+      center: [54.5, 15.25], // starting position
+      zoom: 2, // starting zoom
+      failIfMajorPerformanceCaveat:true, //map creation will fail
+      //if the performance of Mapbox GL JS
     });
 
     this.map.on('click',(e)=>{
