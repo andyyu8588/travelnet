@@ -48,8 +48,8 @@ mwlResizable
     #drawer class="example-sidenav" mode="side" [ngStyle]='Styles'>
 
         <ul class="nav nav-pills nav-fill justify">
-            <li class="nav-item" *ngFor='let item of items, let i = index' >
-                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
+            <li class="nav-item" *ngFor='let item of openTabs, let i = index' >
+                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}</a>
             </li>
             <li class="nav-item">
                 <button class="example-sidenav-content nav-link" type="button" mat-button (click)="drawer.toggle()">
@@ -57,5 +57,7 @@ mwlResizable
                 </button>
             </li>
         </ul>
+        <br>
+        <button class="btn btn-primary" (click)='searchFriend()'>send Friendlist</button>
     </mat-drawer>
 </mat-drawer-container>

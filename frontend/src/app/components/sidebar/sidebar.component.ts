@@ -1,3 +1,5 @@
+import { tab } from './tab.model';
+import { SearchService } from 'src/app/services/search.service';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/friendlist.service';
@@ -32,7 +34,6 @@ import { trigger, state, style, animate, transition, } from '@angular/animations
 export class SidebarComponent implements OnInit, OnDestroy {
   windowSub: Subscription
   window: boolean
-  items: Array<any> = ['Home', 'Discover','My Trip']
   width: number = 30
   Styles = {
     'position': 'fixed',
@@ -42,11 +43,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     'height': '85%',
     'width': '30%'
   }
-  showFiller = true;
-
+  showFiller = true
+  private openTabsSub: Subscription
+  openTabs: Array<tab>
 
   constructor(private FriendlistService: FriendlistService,
-              private ResizableModule: ResizableModule
+              private ResizableModule: ResizableModule,
+              private SearchService: SearchService
               ) {
 
   }
@@ -58,6 +61,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       } else {
         this.window = false
       }
+    })
+    this.openTabsSub = this.SearchService.searchTabs.subscribe(x => {
+      this.openTabs = x
     })
   }
 
@@ -80,8 +86,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.Styles.width = `${event.rectangle.width}px`
   }
 
+  searchFriend() {
+    this.SearchService.friendSearch('saisi')
+    .then(x => {
+      console.log(x)
+    })
+    .catch(x => {
+      console.log(x)
+    })
+  }
+
   ngOnDestroy() {
     this.windowSub.unsubscribe()
+    this.openTabsSub.unsubscribe()
   }
 
 }

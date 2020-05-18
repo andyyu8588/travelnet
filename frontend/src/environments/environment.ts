@@ -8,13 +8,23 @@ export const environment = {
   mapbox: "pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ",
 
   foursquare: {
+    clientId: 'NYZJ324E5GAY2MSQUNYIYLKIDCMX2ETMQREKQXZLW3S5ZYVG',
+    clientSecret: 'K51P2Y1T3TMTCU24LOFHDFOAONPGU44ZBNZCGTWCOJESUW4A',
+    v: '20200517',
     venuesSearch: 'https://api.foursquare.com/v2/venues/search',
+    venuesExplore: 'https://api.foursquare.com/v2/venues/explore'
 
   },
 
   travelnet: {
     searchFriends: 'https://travelnet.herokuapp.com/friends',
+  },
+
+  openstreetmap:{
+    searchNodes:'https://master.apis.dev.openstreetmap.org/api/0.6/map',
+    searchRealNode:' https://api.openstreetmap.org/api/0.6/map'
   }
+
 };
 
 /*

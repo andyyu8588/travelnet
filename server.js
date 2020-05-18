@@ -53,11 +53,30 @@ app.use((req, res, next) => {
 // allow static access to folder to get js
 // app.use('/', express.static(path.join(__dirname, 'frontend', 'dist', 'frontend')))
 
-app.get('/friends', (req, res, next) => {
-  res.status(200).json({
-    message: 'ok'
+app.get('/friends', jwtMiddleware, (req, res, next) => {
+  let origin = jwt.decode(req.get('authorization'), jwtSecret)
+  console.log(origin.id)
+  User.find({_id: origin.id}, (err, result) => {
+    if (err) {
+      res.status(500).json({
+        message: err
+      })
+    } else {
+      res.status(200).json({
+        friendlist: result
+      })
+    }
   })
-  console.log('friends received')
+  // .then(result => {
+  //   res.status(200).json({
+  //     friendlist: result
+  //   })
+  // })
+  // .catch(err => {
+  //   res.status(500).json({
+  //     message: err
+  //   })
+  // })
 })
 
 // connect mongoose to Mongodb

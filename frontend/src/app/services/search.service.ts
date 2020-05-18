@@ -1,25 +1,39 @@
+import { MapService } from 'src/app/services/map.service';
+import { tab } from './../components/sidebar/tab.model';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './foursquare.service';
 import { SocketService } from './socket.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService {
+export class SearchService implements OnDestroy {
+
+  private openTabs: Array<tab> = [{title: 'Home'}, {title: 'Discover'}, {title: 'My Trip'}]
+  private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
+  public searchTabs: Observable<any> = this._searchTabs.asObservable()
+
+  private mapCenterSub: Subscription
+  mapCenter: string
 
   constructor(private HttpClient: HttpClient,
               private SocketService: SocketService,
-              private foursquareService: FoursquareService) {
-
+              private foursquareService: FoursquareService,
+              private MapService: MapService) {
+    // this.mapCenterSub = this.MapService.clickLocation.subscribe(x => {
+    //   this.mapCenter = x})
   }
 
-  foursquareSearch(value: string): Promise<any> {
+
+  foursquareSearch(query: string, lnglat: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.foursquareService.onSendRequest(value)
+      this.foursquareService.onSendRequest(query, lnglat)
       .subscribe((result) => {
-        resolve(console.log(result.response))
+        console.log(result.response.venues)
+        resolve(result.response.venues)
       }, (err) => {
         reject(err)
       })
@@ -31,7 +45,7 @@ export class SearchService {
       this.HttpClient.get<any>(environment.travelnet.searchFriends,
         {
           headers: {
-            // authorization: localStorage.getItem('token')
+            authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas'
           },
           params: {
             list: value
@@ -46,7 +60,30 @@ export class SearchService {
     })
   }
 
-  async mainSearch(value: string): Promise<any> {
-    return await Promise.all([this.foursquareSearch(value), this.friendSearch(value)])
+  async mainSearch(query: string, lnglat: string): Promise<any> {
+    return await Promise.all([this.foursquareSearch(query, lnglat), this.friendSearch(query)])
+  }
+
+  // when user opens new tab
+  newSeach(query: string) {
+    this.openTabs.push({
+      title: query,
+      content: 'Loading'
+    })
+    this._searchTabs.next(this.openTabs)
+    this.mainSearch(query, this.mapCenter)
+    .then(result => {
+      result.forEach(element => {
+        this.openTabs[this.openTabs.length].content.push(element)
+      });
+      this._searchTabs.next(this.openTabs)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
+  ngOnDestroy() {
+    this.mapCenterSub.unsubscribe()
   }
 }
