@@ -48,7 +48,7 @@ mwlResizable
     #drawer class="example-sidenav" mode="side" [ngStyle]='Styles'>
 
         <ul class="nav nav-pills nav-fill justify">
-            <li class="nav-item" *ngFor='let item of items, let i = index' >
+            <li class="nav-item" *ngFor='let item of openTabs, let i = index' >
                 <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
             </li>
             <li class="nav-item">

@@ -33,7 +33,6 @@ import { trigger, state, style, animate, transition, } from '@angular/animations
 export class SidebarComponent implements OnInit, OnDestroy {
   windowSub: Subscription
   window: boolean
-  items: Array<any> = ['Home', 'Discover','My Trip']
   width: number = 30
   Styles = {
     'position': 'fixed',
@@ -43,8 +42,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     'height': '85%',
     'width': '30%'
   }
-  showFiller = true;
-
+  showFiller = true
+  private openTabsSub: Subscription
+  openTabs: Array<any>
 
   constructor(private FriendlistService: FriendlistService,
               private ResizableModule: ResizableModule,
@@ -60,6 +60,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       } else {
         this.window = false
       }
+    })
+    this.openTabsSub = this.SearchService.searchTabs.subscribe(x => {
+      this.openTabs = x
     })
   }
 
@@ -94,6 +97,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.windowSub.unsubscribe()
+    this.openTabsSub.unsubscribe()
   }
 
 }

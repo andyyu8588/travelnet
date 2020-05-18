@@ -8,10 +8,6 @@ import { HttpClient } from '@angular/common/http';
 export class FoursquareService {
   constructor(private http: HttpClient) {}
 
-CLIENT_ID = 'NYZJ324E5GAY2MSQUNYIYLKIDCMX2ETMQREKQXZLW3S5ZYVG';
-CLIENT_SECRET = 'K51P2Y1T3TMTCU24LOFHDFOAONPGU44ZBNZCGTWCOJESUW4A';
-v = '20200516'
-
   onSendRequest(lngLag){
     return this.http
       .get<{[key: string]: any}>(
@@ -20,10 +16,10 @@ v = '20200516'
           headers: {
           },
           params: {
-            'client_id': this.CLIENT_ID,
-            'client_secret': this.CLIENT_SECRET,
-            'v': this.v,
-            'll': lngLag,
+            'client_id': environment.foursquare.clientId,
+            'client_secret': environment.foursquare.clientSecret,
+            'v': environment.foursquare.v,
+            'll': '11.3457,46.1096',
           }
       })
   }

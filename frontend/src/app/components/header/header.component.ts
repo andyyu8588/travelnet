@@ -53,6 +53,10 @@ export class HeaderComponent {
             })
         }
     }
+
+    onSubmit(data: string) {
+        this.SearchService.newSeach(data)
+    }
 }
 
 
