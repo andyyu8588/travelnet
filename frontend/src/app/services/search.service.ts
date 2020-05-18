@@ -1,3 +1,4 @@
+import { tab } from './../components/sidebar/tab.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './foursquare.service';
@@ -10,7 +11,7 @@ import { Injectable } from '@angular/core';
 })
 export class SearchService {
 
-  private openTabs: Array<any> = ['Home', 'Discover','My Trip']
+  private openTabs: Array<tab> = [{title: 'Home'}, {title: 'Discover'}, {title: 'My Trip'}]
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
@@ -57,11 +58,15 @@ export class SearchService {
 
   // when user opens new tab
   newSeach(query: string) {
+    this.openTabs.push({
+      title: query,
+      content: 'Loading'
+    })
     this._searchTabs.next(this.openTabs)
     this.mainSearch(query)
     .then(result => {
       result.forEach(element => {
-        this.openTabs.push(element)
+        this.openTabs[this.openTabs.length].content.push(element)
       });
       this._searchTabs.next(this.openTabs)
     })

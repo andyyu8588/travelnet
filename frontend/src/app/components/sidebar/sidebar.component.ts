@@ -1,3 +1,4 @@
+import { tab } from './tab.model';
 import { SearchService } from 'src/app/services/search.service';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
@@ -44,7 +45,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
   showFiller = true
   private openTabsSub: Subscription
-  openTabs: Array<any>
+  openTabs: Array<tab>
 
   constructor(private FriendlistService: FriendlistService,
               private ResizableModule: ResizableModule,
