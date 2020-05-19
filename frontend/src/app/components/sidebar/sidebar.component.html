@@ -31,9 +31,9 @@ mwlResizable
         <p>actual content</p>
     </div>
 </div>  -->
-<div class="example-sidenav-content bg-light" id="theButton">
-    <button type="button" mat-button (click)="drawer.toggle()">
-    Toggle sidenav
+<div *ngIf='!window' class="example-sidenav-content bg-light" id="theButton">
+    <button type="button" mat-button (click)="drawer.toggle(); window = !window">
+    Open Sidebar
     </button>
 </div>
 
@@ -53,7 +53,7 @@ mwlResizable
                 <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}</a>
             </li>
             <li class="nav-item">
-                <button class="example-sidenav-content nav-link" type="button" mat-button (click)="drawer.toggle()">
+                <button class="example-sidenav-content nav-link" type="button" mat-button (click)="window = !window">
                     <span>&times;</span>
                 </button>
             </li>

@@ -40,11 +40,11 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   Styles = {
     'position': 'fixed',
     'background-color': 'rgba(255,255,255,0.7)',
-    'min-width': '500px',
+    'min-width': `'${window.innerWidth >= 500? 500: window.innerWidth}'px`,
     'top': '10%',
-    'left': '2%',
+    'left': `${window.innerWidth >= 500? '2%' : '0'}`,
     'height': '85%',
-    'width': `${window.innerWidth*this.width}px`
+    'width': `${window.innerWidth >= 500? window.innerWidth*this.width : window.innerWidth}px`
   }
   showFiller = true
   @ViewChild('drawer') drawer
@@ -69,7 +69,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this.windowSub = this.FriendlistService.windowSize.subscribe((windowWidth) => {
       if (windowWidth <= this.drawer._width) {
-        if (windowWidth < 500) {
+        if (windowWidth < 500 || window.innerWidth) {
           this.window = false
         } else {
           this.Styles.width= `${windowWidth * 0.96}px` 
@@ -113,11 +113,11 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.windowSub.unsubscribe()
     this.openTabsSub.unsubscribe()
   }
-
+isHamburguer = false;
+onClick() {
+  this.isHamburguer = !this.isHamburguer;
+}
 }
 
 // old animations
-// isHamburguer = false;
-// onClick() {
-//   this.isHamburguer = !this.isHamburguer;
-// }
+
