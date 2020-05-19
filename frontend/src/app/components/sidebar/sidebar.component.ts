@@ -3,7 +3,7 @@ import { SearchService } from 'src/app/services/search.service';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/friendlist.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
 import { trigger, state, style, animate, transition, } from '@angular/animations'
 @Component({
   selector: 'app-sidebar',
@@ -31,19 +31,25 @@ import { trigger, state, style, animate, transition, } from '@angular/animations
     ]),
   ],
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  // about sidebar
   windowSub: Subscription
-  window: boolean
-  width: number = 30
+  window: boolean = window.innerWidth > 500? true : false
+  width: number = 0.35
   Styles = {
     'position': 'fixed',
     'background-color': 'rgba(255,255,255,0.7)',
+    'min-width': '500px',
     'top': '10%',
     'left': '2%',
     'height': '85%',
-    'width': '30%'
+    'width': `${window.innerWidth*this.width}px`
   }
   showFiller = true
+  @ViewChild('drawer') drawer
+
+  // about sidebar tabs
   private openTabsSub: Subscription
   openTabs: Array<tab>
 
@@ -55,15 +61,22 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.windowSub = this.FriendlistService.windowSize.subscribe((x) => {
-      if (x > 1000) {
-        this.window = true
-      } else {
-        this.window = false
-      }
-    })
     this.openTabsSub = this.SearchService.searchTabs.subscribe(x => {
       this.openTabs = x
+    })
+  }
+
+  ngAfterViewInit() {
+    this.windowSub = this.FriendlistService.windowSize.subscribe((windowWidth) => {
+      if (windowWidth <= this.drawer._width) {
+        if (windowWidth < 500) {
+          this.window = false
+        } else {
+          this.Styles.width= `${windowWidth * 0.96}px` 
+        }
+      } else {
+        this.window = true
+      }
     })
   }
 

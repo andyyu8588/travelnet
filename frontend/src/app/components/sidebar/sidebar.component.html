@@ -45,7 +45,8 @@ mwlResizable
     [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
     (resizeEnd)="onResizeEnd($event)"
     [opened]='window'
-    #drawer class="example-sidenav" mode="side" [ngStyle]='Styles'>
+    #drawer class="example-sidenav" mode="side"
+    [ngStyle]='Styles'>
 
         <ul class="nav nav-pills nav-fill justify">
             <li class="nav-item" *ngFor='let item of openTabs, let i = index' >

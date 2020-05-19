@@ -23,8 +23,6 @@ export class SearchService implements OnDestroy {
               private SocketService: SocketService,
               private foursquareService: FoursquareService,
               private MapService: MapService) {
-    // this.mapCenterSub = this.MapService.clickLocation.subscribe(x => {
-    //   this.mapCenter = x})
   }
 
 
