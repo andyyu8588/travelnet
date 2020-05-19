@@ -1,28 +1,12 @@
-<!-- <form class='modal-body' id='form' (submit)='loginClicked(password.value, username.value, $event)'>
-    <h1 class='jumbotron modal-title'>Login</h1>
-      <div class='form-group'>
-          <label for='exampleInputEmail1'>Email or Username</label>
-          <input #username type='text' class='form-control' id='email/user' aria-describedby='emailHelp' required>
-        </div>
-      <div class='form-group'>
-        <label for='exampleInputPassword1'>Password</label>
-        <input #password type='password' class='form-control' id='password' pattern='.{5,}' required title='please enter your password' required>
-      </div>
-      <button type='submit' id ='submit' class='btn btn-primary' aria-required='true' >Login</button>
-</form> -->
-
-<div>
+<!-- <div>
   <form class='modal-body' [formGroup]='loginForm' (ngSubmit)='loginClicked()'>
     <h1 class='jumbotron modal-title'>Login</h1>
     <br *ngIf='!login_err'>
       <span *ngIf='login_err' class="help-block text-danger">username or password incorrect</span>
-      <!-- email/username -->
       <div class='form-group' >
         <label for='exampleInputEmail1'>Email or Username</label>
         <input type='text' class='form-control' formControlName='username'>
-        <small class="help-block text-danger" *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched">Please enter something</small>
       </div>
-      <!-- password -->
       <div class='form-group'>
         <label for='exampleInputPassword1'>Password</label>
         <input type='password' class='form-control' formControlName='password'>
@@ -30,5 +14,40 @@
       </div>
       <button type='submit' class='btn btn-primary'>Login</button>
   </form>
-</div>
+</div> -->
+
+
+<form
+ngbAutofocus
+class='modal-body'
+id='form'
+(ngSubmit)="loginClicked()"
+[formGroup]='loginForm'>
+  <h1 class='modal-title'>Login</h1>
+  <hr>
+    <!-- username -->
+    <mat-form-field appearance="outline" class='form-group' id="username">
+      <mat-label for='username'>Email or Username</mat-label>
+      <input matInput formControlName='username' placeholder="Enter a Username" autocomplete="off">
+      <small class="help-block text-danger" *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched">Please enter something</small>
+    </mat-form-field>
+    
+
+    <!-- password -->
+    <mat-form-field appearance="outline" class='form-group col-6'>
+      <mat-label for='password'>Password</mat-label>
+      <input matInput
+        placeholder="Enter a password"
+        formControlName='password'
+        [type]="hide ? 'password' : 'text'"
+        autocomplete="false">
+      <small class="help-block text-danger" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Please enter something</small>
+      <button mat-button
+        type='button'
+        mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Login</button>
+  </form>
 

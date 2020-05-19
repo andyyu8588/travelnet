@@ -33,6 +33,7 @@ export class loginComponent {
 export class LoginComponent implements OnInit, OnDestroy{
     loginForm: FormGroup
     login_err: boolean = false
+    hide: boolean = true
 
     constructor(private SocketService: SocketService,
                 private sessionService: SessionService,

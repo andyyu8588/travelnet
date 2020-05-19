@@ -9,20 +9,21 @@ id='form'
     <!-- Name -->
     <div formGroupName='name' class="row">
       <!-- first Name -->
-    <mat-form-field appearance="outline" class='form-group col-6'>
-      <mat-label for='First Name'>First Name</mat-label>
-      <input matInput
-      placeholder="Enter your first name"
-      formControlName='firstName'>
-    </mat-form-field>
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='First Name'>First Name</mat-label>
+        <input matInput
+        placeholder="Enter your first name"
+        formControlName='firstName'>
+      </mat-form-field>
       <!-- Last Name -->
       <mat-form-field appearance="outline" class='form-group col-6'>
         <mat-label for='password'>Last Name</mat-label>
         <input matInput
         placeholder="Enter your last name"
         formControlName='lastName'>
-    </mat-form-field>
+      </mat-form-field>
     </div>
+
     <!-- username -->
     <mat-form-field appearance="outline" class='form-group' id="username">
       <mat-label for='username'>Username</mat-label>
@@ -34,18 +35,19 @@ id='form'
     <!-- password confirmation -->
     <div formGroupName='passwords' class="row">
       <!-- password -->
-    <mat-form-field appearance="outline" class='form-group col-6'>
-      <mat-label for='password'>Password</mat-label>
-      <input matInput
-      placeholder="Enter a password"
-      formControlName='password'
-      [type]="hide ? 'password' : 'text'">
-      <button mat-button
-      type='button'
-      mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-    </mat-form-field>
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='password'>Password</mat-label>
+        <input matInput
+        placeholder="Enter a password"
+        formControlName='password'
+        [type]="hide ? 'password' : 'text'">
+        <button mat-button
+        type='button'
+        mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
       <!-- confirm password -->
       <mat-form-field appearance="outline" class='form-group col-6'>
         <mat-label for='password'>confirm your password</mat-label>
@@ -59,7 +61,7 @@ id='form'
         [attr.aria-pressed]="hide1">
         <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-    </mat-form-field>
+      </mat-form-field>
     </div>
     <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordValidity">your passwords do not match</small>
     <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordLength()">your password should be between 5-15 characters</small>
@@ -72,16 +74,12 @@ id='form'
       formControlName='email'
       placeholder='Enter a valid Email'>
       <small id="passwordHelpBlock" class="text-danger" *ngIf="checkEmailValidity()">Please enter a valid email</small>
-
     </mat-form-field>
     <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
-
-
 
     <!-- Birthdate -->
     <br>
     <div class="form-inline">
-
       <div class="form-group">
         <div class="input-group">
           <input class="form-control"
@@ -97,6 +95,7 @@ id='form'
       </div>
     </div>
     <br>
+
     <!-- Gender -->
     <mat-radio-group aria-label="Select an option" class="row"
     formControlName="gender">
@@ -104,13 +103,13 @@ id='form'
       <mat-radio-button value="Female" class='col-4'>Female</mat-radio-button>
       <mat-radio-button value="Other" class='col-4'>Other</mat-radio-button>
     </mat-radio-group>
-  <br>
+    <br>
     <!-- checkbox -->
     <div>
-    <mat-checkbox class='form-group'
-      formControlName='checkbox'>
-      <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
-    </mat-checkbox>
-   </div>
+      <mat-checkbox class='form-group'
+        formControlName='checkbox'>
+        <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
+      </mat-checkbox>
+    </div>
     <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button>
   </form>

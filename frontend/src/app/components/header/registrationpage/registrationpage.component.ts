@@ -62,8 +62,8 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       'checkbox': new FormControl(null,[Validators.required]),
       'gender':new FormControl(null,[Validators.required]),
     })
-
   }
+
   checkUsernameUse() {
     if (this.registrationForm.get('username').errors && this.registrationForm.get('username').dirty){
       if (this.registrationForm.get('username').errors['forbiddenUsername']){
@@ -100,6 +100,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       }
     }
   }
+  
   checkPasswordLength() {
     if (this.registrationForm.get('passwords.password').errors && this.registrationForm.get('passwords.password').dirty){
       if (this.registrationForm.get('passwords.password').errors['maxlength'] || this.registrationForm.get('passwords.password').errors['minlength']){
@@ -107,6 +108,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       }
     }
   }
+
   checkEmailValidity() {
     if (this.registrationForm.get('email').errors && this.registrationForm.get('email').dirty){
       if (this.registrationForm.get('email').errors['email']){
@@ -114,6 +116,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       }
     }
   }
+
   isOld(){
     let setTime = this.convertBirthDate();
     console.log(setTime)
@@ -127,6 +130,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
     }
 
   }
+
   convertBirthDate(){
     let unparsedDate = this.registrationForm.get('birthDate').value
     let parsedDate = moment(unparsedDate)
@@ -172,7 +176,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   }
 
   forbiddenUsernames(control: FormControl): Promise<any> {
-    const promise = new Promise<any>((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       this.SocketService.emit('searchUser', [control.value], (res) => {
           if (res.res) {
             resolve({'forbiddenUsername': true});
@@ -182,7 +186,6 @@ export class RegistrationComponent implements OnDestroy, OnInit {
 
         }
       )});
-      return promise;
   }
 
   ngOnDestroy(){
