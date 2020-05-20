@@ -31,15 +31,19 @@
 <ul class="nav nav-pills nav-fill">
 
   <li class="nav-item">
-    <form (submit)='onSubmit(search.value)' class='form col-auto'>
-      <input #search (keyup)='onKey(search.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
-      <i class="fas fa-search" aria-hidden="true"></i>
-        <!-- search results -->
-      <div class="container-fluid" id='searchResultsContainer'>
-        <div *ngIf='loading' class="spinner-border text-primary" style="margin-left: 50%;"></div>
-        <div #searchResults></div>
-      </div>
-    </form>
+    <!-- <form (submit)='onSubmit(search.value)' class='form'> -->
+
+      <mat-form-field>
+        <input #search (keyup)='onKey(search.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <mat-label>Sidenav mode</mat-label>
+        <mat-select #mode value="side">
+          <mat-option value="side">Side</mat-option>
+          <mat-option value="over">Over</mat-option>
+          <mat-option value="push">Push</mat-option>
+        </mat-select>
+      </mat-form-field>
+    <!-- </form> -->
   </li>
 
   <li *ngIf='!sessionState' class="nav-item">
