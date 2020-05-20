@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
-import { SocketService } from '../../../services/socket.service';
+import { SocketService } from '../../../../services/socket.service';
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../../../services/session.service'
+import { SessionService } from '../../../../services/session.service'
 
 @Component({
   selector: 'app-logout',
@@ -10,7 +10,7 @@ import { SessionService } from '../../../services/session.service'
 })
 export class LogoutComponent implements OnInit {
   sessionState:boolean
- 
+
   constructor(private SessionService:SessionService,
               private SocketService: SocketService,
               private router: Router) {
@@ -18,7 +18,7 @@ export class LogoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   // logout user
@@ -28,7 +28,7 @@ export class LogoutComponent implements OnInit {
         if (sessionStorage.getItem('username')) {
           this.SocketService.emit('logout', sessionStorage.getItem('username'), (data) => {
             if (data.res) {
-              localStorage.removeItem('username') 
+              localStorage.removeItem('username')
               sessionStorage.removeItem('username')
               resolve()
             } else if (data.err) {

@@ -1,6 +1,6 @@
-import { SocketService } from '../../../services/socket.service';
+import { SocketService } from '../../../../services/socket.service';
 import { Component, OnDestroy, OnInit} from '@angular/core';
-import { SessionService } from '../../../services/session.service'
+import { SessionService } from '../../../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms'
@@ -100,7 +100,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       }
     }
   }
-  
+
   checkPasswordLength() {
     if (this.registrationForm.get('passwords.password').errors && this.registrationForm.get('passwords.password').dirty){
       if (this.registrationForm.get('passwords.password').errors['maxlength'] || this.registrationForm.get('passwords.password').errors['minlength']){
