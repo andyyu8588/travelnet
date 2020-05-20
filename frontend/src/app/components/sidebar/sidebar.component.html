@@ -39,7 +39,7 @@ mwlResizable
 
 
 
-<mat-drawer-container class='rounded' id='yuh' autosize >
+<mat-drawer-container class='rounded' id='yuh' style="overflow-x: hidden;" autosize >
     <mat-drawer
     mwlResizable
     [validateResize]='validate'
@@ -49,10 +49,7 @@ mwlResizable
     [opened]='window'
     #drawer class="example-sidenav" mode="side"
     [ngStyle]='Styles'>
-
-      <div class="nav nav-pills nav-fill justify">
-        <header-navbar ></header-navbar>
-      </div>
+        <header-navbar></header-navbar>
         <ul class="nav nav-pills nav-fill justify">
 
             <li class="nav-item" *ngFor='let item of openTabs, let i = index' >
