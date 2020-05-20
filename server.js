@@ -17,11 +17,11 @@ const server = http.createServer(app)
 const io = require('socket.io').listen(server)
 
 // import helper functions
-const utils = require('./utils')
+const utils = require('./backend/utils')
 
 // import models
-const User = require("./models/User")
-const Chatroom = require("./models/Chatroom")
+const User = require("./backend/models/User")
+const Chatroom = require("./backend/models/Chatroom")
 
 // take time
 const currentTime = new Date().toISOString()
