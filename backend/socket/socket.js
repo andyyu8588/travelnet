@@ -4,11 +4,11 @@ const jwtSecret = 'MonkasczI69'
 const moongose = require('mongoose')
 
 // import helper functions
-const utils = require('./utils')
+const utils = require('../utils')
 
 // import models
-const User = require("./models/User")
-const Chatroom = require("./models/Chatroom")
+const User = require("../models/User")
+const Chatroom = require("../models/Chatroom")
 
 // take time
 const currentTime = new Date().toISOString()

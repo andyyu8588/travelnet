@@ -17,7 +17,7 @@ const io = require('socket.io').listen(server)
 const socket = require('./backend/socket/socket.js')
 socket(io)
 
-// import helper functions
+// import helper function
 const utils = require('./backend/utils')
 
 // import models
