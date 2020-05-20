@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
-import { SocketService } from 'src/app/services/socket.service';
+import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { SessionService } from './services/session.service';
 import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core';
-import { FriendlistService } from './services/friendlist.service';
+import { FriendlistService } from './services/chatsystem/friendlist.service';
 
 @Component({
   selector: 'app-root',

@@ -1,7 +1,7 @@
 import { SessionService } from '../../../../services/session.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { RoomWidget } from './Room_Widget.model';
-import { FriendlistService } from 'src/app/services/friendlist.service';
+import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
 
 @Component({
   selector: 'app-friend',

@@ -1,6 +1,6 @@
 import { SessionService } from 'src/app/services/session.service';
 import { Router } from '@angular/router';
-import { SocketService } from 'src/app/services/socket.service';
+import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({

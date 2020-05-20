@@ -1,4 +1,4 @@
-import { SocketService } from 'src/app/services/socket.service';
+import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 

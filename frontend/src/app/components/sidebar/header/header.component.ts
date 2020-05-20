@@ -1,7 +1,7 @@
-import { MapService } from 'src/app/services/map.service';
+import { MapService } from 'src/app/services/map/map.service';
 import { Subscription } from 'rxjs';
 import { SearchService } from './../../../services/search.service';
-import { SocketService } from 'src/app/services/socket.service';
+import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { Router } from '@angular/router';
 import { Component, Output, EventEmitter, ViewChild, ElementRef, Renderer2, OnDestroy, OnInit } from '@angular/core';
 import { SessionService } from '../../../services/session.service'

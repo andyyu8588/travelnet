@@ -1,5 +1,5 @@
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { SocketService } from '../../../../services/socket.service';
+import { SocketService } from '../../../../services/chatsystem/socket.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SessionService } from '../../../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';

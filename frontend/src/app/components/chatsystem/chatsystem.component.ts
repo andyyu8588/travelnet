@@ -1,5 +1,5 @@
 import { SessionService } from './../../services/session.service';
-import { FriendlistService } from 'src/app/services/friendlist.service';
+import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscriber } from 'rxjs';
 
