@@ -41,10 +41,11 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     'position': 'fixed',
     'background-color': 'rgba(255,255,255,0.7)',
     'min-width': `'${window.innerWidth >= 500? 500: window.innerWidth}'px`,
-    'top': '10%',
-    'left': `${window.innerWidth >= 500? '2%' : '0'}`,
-    'height': '85%',
-    'width': `${window.innerWidth >= 500? window.innerWidth*this.width : window.innerWidth}px`
+    'top': '1%',
+    'left': '1%',
+    'height': '95%',
+    'overflow':'hidden',
+    'width': `${window.innerWidth >= 500? window.innerWidth*this.width : window.innerWidth}px`,
   }
   showFiller = true
   @ViewChild('drawer') drawer
@@ -72,7 +73,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
         if (windowWidth < 500 || window.innerWidth) {
           this.window = false
         } else {
-          this.Styles.width= `${windowWidth * 0.96}px` 
+          this.Styles.width= `${windowWidth * 0.96}px`
         }
       } else {
         this.window = true
