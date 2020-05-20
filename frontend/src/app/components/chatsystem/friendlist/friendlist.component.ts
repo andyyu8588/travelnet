@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { SessionService } from '../../../services/session.service';
 import { RoomWidget } from './friend/Room_Widget.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FriendlistService } from 'src/app/services/friendlist.service';
+import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
 
 @Component({
   selector: 'app-friendlist',

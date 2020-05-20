@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
-import { MapService } from 'src/app/services/map.service'
+import { MapService } from 'src/app/services/map/map.service'
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',

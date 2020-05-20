@@ -1,9 +1,9 @@
-import { MapService } from 'src/app/services/map.service';
+import { MapService } from 'src/app/services/map/map.service';
 import { tab } from './../components/sidebar/tab.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { FoursquareService } from './foursquare.service';
-import { SocketService } from './socket.service';
+import { FoursquareService } from './map/foursquare.service';
+import { SocketService } from './chatsystem/socket.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 

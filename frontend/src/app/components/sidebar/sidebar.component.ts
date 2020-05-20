@@ -2,7 +2,7 @@ import { tab } from './tab.model';
 import { SearchService } from 'src/app/services/search.service';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
-import { FriendlistService } from 'src/app/services/friendlist.service';
+import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
 import { trigger, state, style, animate, transition, } from '@angular/animations'
 @Component({

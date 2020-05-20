@@ -1,5 +1,3 @@
-const mongoose = require('mongoose')
-
 // import models
 const User = require("./models/User")
 const Chatroom = require("./models/Chatroom")
