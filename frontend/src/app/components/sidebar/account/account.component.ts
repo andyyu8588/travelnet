@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { mimeType } from './mime-type.validator';
@@ -12,7 +13,7 @@ export class AccountComponent implements OnInit {
   form: FormGroup
   imagePreview: string
 
-  constructor() { }
+  constructor(http: HttpClient) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -33,6 +34,6 @@ export class AccountComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form)
+    const imageData = new FormData()
   }
 }
