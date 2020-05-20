@@ -16,19 +16,17 @@
 <body (window:resize)='resizeWindow()' [attr.height]='windowHeight'>
   <app-map></app-map>
 
-  <div id='head' class="container-fluid">
-    <header-navbar ></header-navbar>
-  </div>
+
 
   <router-outlet ></router-outlet>
-  
+
 
 
   <div>
     <app-sidebar></app-sidebar>
   </div>
 
-  
+
 
   <div id="chatsystem">
     <app-account></app-account>

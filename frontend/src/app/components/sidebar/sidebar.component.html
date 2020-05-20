@@ -37,7 +37,9 @@ mwlResizable
     </button>
 </div>
 
-<mat-drawer-container class="example-container" autosize >
+
+
+<mat-drawer-container autosize >
     <mat-drawer
     mwlResizable
     [validateResize]='validate'
@@ -48,7 +50,11 @@ mwlResizable
     #drawer class="example-sidenav" mode="side"
     [ngStyle]='Styles'>
 
+      <div class="nav nav-pills nav-fill justify">
+        <header-navbar ></header-navbar>
+      </div>
         <ul class="nav nav-pills nav-fill justify">
+
             <li class="nav-item" *ngFor='let item of openTabs, let i = index' >
                 <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}</a>
             </li>
