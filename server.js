@@ -24,7 +24,7 @@ const utils = require('./backend/utils')
 const User = require("./backend/models/User")
 const Chatroom = require("./backend/models/Chatroom")
 
-// set URL:
+// set database URL:
 const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
 
 // open server
