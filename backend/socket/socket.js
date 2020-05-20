@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const jwtSecret = 'MonkasczI69'
-const moongose = require('mongoose')
 
 // import helper functions
 const utils = require('../utils')
