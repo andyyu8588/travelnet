@@ -2,15 +2,15 @@
   <div class="row ">
     <!-- search bar -->
     <div class="col-6">
-    <form (submit)='onSubmit(search.value)' class='form'>
-      <input #search (keyup)='onKey(search.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
+    <mat-form-field (submit)='onSubmit(search.value)' class='form'>
+      <input matInput #search (keyup)='onKey(search.value)' class='form-control'  placeholder='Search' autocomplete='off'>
       <i class="fas fa-search" aria-hidden="true"></i>
        <!-- search results -->
       <div class="container-fluid" id='searchResultsContainer'>
         <div *ngIf='loading' class="spinner-border text-primary" style="margin-left: 50%;"></div>
         <div #searchResults></div>
       </div>
-    </form>
+    </mat-form-field>
   </div>
 
     <!-- login/register widgets -->
