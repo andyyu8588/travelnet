@@ -32,14 +32,14 @@ export class MapService {
 
     this.map.on('click',(e)=>{
       let lng = e.lngLat.lng
-      let lag = e.lngLat.lat
-      let lngLag: string =  lng +','+ lag
-      console.log(lngLag)
+      let lat = e.lngLat.lat
+      let latLng: string =  lat +','+ lng
+      console.log(latLng)
       // this._clickLocation.next(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
     })
   }
   getCenter(){
-    return `${this.map.getCenter().lng},${this.map.getCenter().lat}`
+    return `${this.map.getCenter().lat},${this.map.getCenter().lng}`
   }
 
 }

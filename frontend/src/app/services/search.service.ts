@@ -26,11 +26,11 @@ export class SearchService implements OnDestroy {
   }
 
 
-  foursquareSearch(query: string, lnglat: string): Promise<any> {
+  foursquareSearch(query: string, latLng: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.foursquareService.onSendRequest(query, lnglat)
+      this.foursquareService.onSendRequest(query, latLng)
       .subscribe((result) => {
-        console.log(result.response.venues)
+        console.log(result.response.groups[0].items)
         resolve(result.response.venues)
       }, (err) => {
         reject(err)
@@ -58,8 +58,8 @@ export class SearchService implements OnDestroy {
     })
   }
 
-  async mainSearch(query: string, lnglat: string): Promise<any> {
-    return await Promise.all([this.foursquareSearch(query, lnglat), this.friendSearch(query)])
+  async mainSearch(query: string, latLng: string): Promise<any> {
+    return await Promise.all([this.foursquareSearch(query, latLng), this.friendSearch(query)])
   }
 
   // when user opens new tab

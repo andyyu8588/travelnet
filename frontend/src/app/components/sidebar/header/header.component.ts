@@ -52,6 +52,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
             this.loading = false
         } else {
             this.loading = true
+            // this.SearchService.foursquareSearch(data,this.map.getCenter())
             this.SearchService.mainSearch(data, this.map.getCenter())
             .then((finalData) => {
                 this.loading = false

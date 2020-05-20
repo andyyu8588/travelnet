@@ -34,14 +34,14 @@
     <!-- <form (submit)='onSubmit(search.value)' class='form'> -->
 
       <mat-form-field>
-        <input #search (keyup)='onKey(search.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
+        <input matInput #search (keyup)='onKey(search.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
         <i class="fas fa-search" aria-hidden="true"></i>
         <mat-label>Sidenav mode</mat-label>
-        <mat-select #mode value="side">
+        <!-- <mat-select #mode value="side">
           <mat-option value="side">Side</mat-option>
           <mat-option value="over">Over</mat-option>
           <mat-option value="push">Push</mat-option>
-        </mat-select>
+        </mat-select> -->
       </mat-form-field>
     <!-- </form> -->
   </li>
