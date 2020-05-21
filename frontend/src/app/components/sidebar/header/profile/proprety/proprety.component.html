@@ -6,6 +6,10 @@
     </h3>
     <form *ngIf='changing' [formGroup]='changeForm' (ngSubmit)='onSubmit()'>
         <div class='form-group'>
+            <div *ngIf='proprety == "password"'>
+                <label for='newPropretyValue'>Old {{ proprety | titlecase }}</label>  
+                <input type='text' formControlName='oldPassword' class='form-control'>
+            </div>
             <label for='newPropretyValue'>New {{ proprety | titlecase }}</label>            
             <div *ngIf='invalid'>
                 Invalid {{ proprety | titlecase}}!

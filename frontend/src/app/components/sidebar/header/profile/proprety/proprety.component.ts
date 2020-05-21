@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
@@ -14,8 +15,10 @@ export class PropretyComponent implements OnInit {
   changeForm: FormGroup
   changing: boolean
   invalid: boolean
+  invalidOld: boolean
 
-  constructor(private socketService: SocketService) { }
+  constructor(private socketService: SocketService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     if (this.proprety == 'email') {
@@ -23,10 +26,15 @@ export class PropretyComponent implements OnInit {
         'newPropretyValue': new FormControl(this.propretyValue, [Validators.required, Validators.email])
       })
     } else if (this.proprety == 'password') {
+      this.propretyValue = "••••••••"
       this.changeForm = new FormGroup({
-        'newPropretyValue': new FormControl(this.propretyValue, [Validators.required, Validators.minLength(5)])
+        'oldPassword': new FormControl(null, [Validators.required, Validators.minLength(5)]),
+        'newPropretyValue': new FormControl(null, [Validators.required, Validators.minLength(5)])
       })
     } else {
+      if (this.proprety == 'birthdate') {
+        this.propretyValue = this.propretyValue.slice(0, 10)
+      }
       this.changeForm = new FormGroup({
         'newPropretyValue': new FormControl(this.propretyValue, [Validators.required])
       })
@@ -47,6 +55,9 @@ export class PropretyComponent implements OnInit {
     }
     if (this.changeForm.valid) {
       this.invalid = false
+      if (this.proprety == 'password') {
+        // implement old password
+      }
       this.socketService.emit('editUser', requestedChange, (res) => {
         console.log(res)
         window.location.reload()
