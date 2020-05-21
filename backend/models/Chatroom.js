@@ -9,7 +9,8 @@ const ChatroomSchema = mongoose.Schema({
       sender: String,
       time: String,
       seen: Array
-      }]
+      }
+    ]
 })
 
 module.exports = mongoose.model('Chatroom', ChatroomSchema)
