@@ -18,6 +18,7 @@ export const environment = {
 
   travelnet: {
     searchFriends: 'https://travelnet.herokuapp.com/friends',
+    getProfile: 'https://travelnet.herokuapp.com/profile',
   },
 
   openstreetmap:{

@@ -31,25 +31,21 @@
 <ul class="nav nav-pills nav-fill">
 
   <li class="nav-item">
-    <!-- <form (submit)='onSubmit(search.value)' class='form'> -->
+    <form (submit)='onSubmit(search.value)' class='form'>
 
       <mat-form-field>
         <input matInput #search (keyup)='onKey(search.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
-        <i class="fas fa-search" aria-hidden="true"></i>
+        <i fas fa-search aria-hidden="true"></i>
         <mat-label>Sidenav mode</mat-label>
-        <!-- <mat-select #mode value="side">
-          <mat-option value="side">Side</mat-option>
-          <mat-option value="over">Over</mat-option>
-          <mat-option value="push">Push</mat-option>
-        </mat-select> -->
       </mat-form-field>
-    <!-- </form> -->
+
+    </form>
   </li>
 
+  <!-- Register and Login buttons -->
   <li *ngIf='!sessionState' class="nav-item">
     <a class='btn btn-primary' routerLink='register' style="margin-right: 1%;">Register<span class='sr-only'></span></a>
     <a class='btn btn-primary' routerLink='login'>Login<span class='sr-only'></span></a>
-
   </li>
 
   <li *ngIf='sessionState' class="nav-item">
@@ -63,10 +59,4 @@
   </li>
 </ul>
 
-<!--
-  <div class='col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2
-  offset-lg-1 offset-xl-2'
-*ngIf='sessionState'>
-<a class='btn btn-primary' routerLink='profile' style="margin-right: 1%;">Profile<span class='sr-only'></span></a>
-<app-logout></app-logout>
-</div> -->
+
