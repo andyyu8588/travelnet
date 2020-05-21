@@ -12,7 +12,7 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 })
 export class SearchService implements OnDestroy {
 
-  private openTabs: Array<tab> = [{title: 'Home'}, {title: 'Discover'}, {title: 'My Trip'}]
+  private openTabs: Array<tab> = [{title: 'Home',path:'home'}, {title: 'Discover',path:'discover'}, {title: 'My Trip',path:'mytrip'}]
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
@@ -31,7 +31,7 @@ export class SearchService implements OnDestroy {
       this.foursquareService.onSendRequest(query, latLng)
       .subscribe((result) => {
         console.log(result.response.groups[0].items)
-        resolve(result.response.venues)
+        resolve(result)
       }, (err) => {
         reject(err)
       })
@@ -66,6 +66,7 @@ export class SearchService implements OnDestroy {
   newSeach(query: string) {
     this.openTabs.push({
       title: query,
+      path: 'searchresults',
       content: 'Loading'
     })
     this._searchTabs.next(this.openTabs)
