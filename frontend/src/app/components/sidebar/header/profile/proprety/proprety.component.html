@@ -1,11 +1,16 @@
 <div>
-    <h3 *ngIf='!changing'> {{ proprety | titlecase }}
+    <h3 *ngIf='!changing'> 
+        {{ proprety | titlecase }}
         <br>
         {{ propretyValue }}
     </h3>
     <form *ngIf='changing' [formGroup]='changeForm' (ngSubmit)='onSubmit()'>
         <div class='form-group'>
-            <label for='newPropretyValue'>New {{ proprety | titlecase }}</label>
+            <label for='newPropretyValue'>New {{ proprety | titlecase }}</label>            
+            <div *ngIf='invalid'>
+                Invalid {{ proprety | titlecase}}!
+                <br>
+            </div>
             <input type='text' formControlName='newPropretyValue' class='form-control'>
         </div>        
         <button *ngIf='changing' class='btn btn-danger' type='submit'>Confirm</button>
