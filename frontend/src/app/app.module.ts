@@ -58,6 +58,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { AccountComponent } from './components/sidebar/account/account.component';
+import { SearchresultsComponent } from './components/sidebar/header/tabs/searchresults/searchresults.component';
+import { HomeComponent } from './components/sidebar/header/tabs/home/home.component';
+import { DiscoverComponent } from './components/sidebar/header/tabs/discover/discover.component';
+import { MyaccountComponent } from './components/sidebar/header/tabs/myaccount/myaccount.component';
+import { MytripComponent } from './components/sidebar/header/tabs/mytrip/mytrip.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,6 +82,11 @@ import { AccountComponent } from './components/sidebar/account/account.component
     ProfileComponent,
     PropretyComponent,
     AccountComponent,
+    SearchresultsComponent,
+    HomeComponent,
+    DiscoverComponent,
+    MyaccountComponent,
+    MytripComponent,
   ],
   imports: [
     BrowserModule,
