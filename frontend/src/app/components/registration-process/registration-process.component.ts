@@ -1,4 +1,4 @@
-import { RegistrationComponent } from './../sidebar/header/registrationpage/registrationpage.component';
+import { RegistrationComponent } from './registrationpage/registrationpage.component';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 

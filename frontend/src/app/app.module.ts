@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegistrationComponent } from './components/sidebar/header/registrationpage/registrationpage.component';
+import { RegistrationComponent } from './components/registration-process/registrationpage/registrationpage.component';
 import { LoginComponent } from './components/sidebar/header/loginpage/loginpage.component';
 import { LogoutComponent } from './components/sidebar/header/logout/logout.component';
 import { ChatwidgetComponent } from './components/chatsystem/chatwidget/chatwidget.component';
@@ -14,7 +14,7 @@ import { FriendComponent } from './components/chatsystem/friendlist/friend/frien
 import { MapComponent } from './components/map/map.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
-import { registrationComponent } from './components/sidebar/header/registrationpage/registrationpage.component';
+import { registrationComponent } from './components/registration-process/registrationpage/registrationpage.component';
 import { loginComponent } from './components/sidebar/header/loginpage/loginpage.component';
 import { ChatsystemComponent } from './components/chatsystem/chatsystem.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -64,6 +64,7 @@ import { HomeComponent } from './components/sidebar/header/tabs/home/home.compon
 import { DiscoverComponent } from './components/sidebar/header/tabs/discover/discover.component';
 import { MyaccountComponent } from './components/sidebar/header/tabs/myaccount/myaccount.component';
 import { MytripComponent } from './components/sidebar/header/tabs/mytrip/mytrip.component';
+import { CountrySelectorComponent } from './components/registration-process/country-selector/country-selector.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { MytripComponent } from './components/sidebar/header/tabs/mytrip/mytrip.
     DiscoverComponent,
     MyaccountComponent,
     MytripComponent,
+    CountrySelectorComponent,
   ],
   imports: [
     BrowserModule,
