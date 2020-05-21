@@ -1,3 +1,5 @@
+import { HttpService } from './../../../../services/http.service';
+import { environment } from './../../../../../environments/environment';
 import { SessionService } from 'src/app/services/session.service';
 import { Router } from '@angular/router';
 import { SocketService } from 'src/app/services/chatsystem/socket.service';
@@ -16,14 +18,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     firstname: string,
     lastname: string,
     birthdate: string,
-    gender: string,
+    gender: any,
   }
   propreties: string[]
   values: string[]
 
   constructor(private socketService: SocketService,
               private sessionService: SessionService,
-              private Router: Router) { }
+              private Router: Router,
+              private httpService: HttpService) { }
 
   ngOnInit(): void {
     // get user info in database
@@ -43,6 +46,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.values.shift()
       }
     })    
+  }
+
+  getProfile() {
+    this.httpService.get('/profile', null).then((res) => {
+      // this.User.gender = res.friendlist
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
   onDelete() {

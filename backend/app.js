@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const friendsRoute = require('./routes/friends')
+const profileRoute = require('./routes/profile')
 const app = express()
 
 // body parser
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 
 // friends route authentication
 app.use('/friends', friendsRoute)
+app.use('/profile', profileRoute)
 
 // set database URL:
 const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
