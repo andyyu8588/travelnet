@@ -47,22 +47,18 @@ mwlResizable
     [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
     (resizeEnd)="onResizeEnd($event)"
     [opened]='window'
-    #drawer class="example-sidenav" mode="side"
+    #drawer class="" mode="side"
     [ngStyle]='Styles'>
         <header-navbar></header-navbar>
-        <ul class="nav nav-pills nav-pills mb-3">
+        <ul class="nav nav-pills nav-fill mb-3">
 
             <li class="nav-item" *ngFor='let item of openTabs, let i = index'  routerLink={{item.path}} >
 
                 <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}
-
-                <button class="close" type="button" mat-button (click)="window = !window">
-                    <span>&times;</span>
-                </button>
                 </a>
             </li>
 
-            <button class="example-sidenav-content nav-link" type="button" mat-button (click)="window = !window">
+            <button class="close-nav nav-link" type="button" mat-button (click)="window = !window">
                 <span>&times;</span>
             </button>
 

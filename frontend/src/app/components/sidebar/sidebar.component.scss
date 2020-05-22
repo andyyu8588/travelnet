@@ -14,7 +14,10 @@
 mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
 }
-
+.close-nav{
+  top: -80px;
+  position: relative;
+}
 .btn {
     cursor: pointer;
 }
