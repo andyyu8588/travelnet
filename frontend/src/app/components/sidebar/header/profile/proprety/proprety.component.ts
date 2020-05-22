@@ -1,7 +1,9 @@
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-proprety',
@@ -16,6 +18,7 @@ export class PropretyComponent implements OnInit {
   changing: boolean
   invalid: boolean
   invalidOld: boolean
+  model: NgbDateStruct;
 
   constructor(private socketService: SocketService,
     private http: HttpClient) { }
@@ -53,11 +56,16 @@ export class PropretyComponent implements OnInit {
       proprety: this.proprety,
       newProprety: this.changeForm.get('newPropretyValue').value
     }
+
     if (this.changeForm.valid) {
       this.invalid = false
+
       if (this.proprety == 'password') {
         // implement old password
+      } else if (this.proprety == 'birthdate') {
+        requestedChange.newProprety = moment(requestedChange.newProprety)
       }
+      
       this.socketService.emit('editUser', requestedChange, (res) => {
         console.log(res)
         window.location.reload()

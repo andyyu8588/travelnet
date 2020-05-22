@@ -98,7 +98,6 @@ module.exports = (io) => {
                     callback({err: 'email or username taken'})
                 }
                 else if (res.length === 0) {
-                    console.log(data.birthdate)
                     bcrypt.hash(data.password, 10)
                     .then((result) => {
                     const newUser = new User({username : data.username, 

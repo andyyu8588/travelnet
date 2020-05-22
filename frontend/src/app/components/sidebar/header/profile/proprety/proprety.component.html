@@ -12,10 +12,33 @@
             </div>
             <label for='newPropretyValue'>New {{ proprety | titlecase }}</label>            
             <div *ngIf='invalid'>
-                Invalid {{ proprety | titlecase}}!
+                Invalid {{ proprety | titlecase }}!
                 <br>
             </div>
-            <input type='text' formControlName='newPropretyValue' class='form-control'>
+
+            <!-- all but birthdate and gender -->
+            <input *ngIf='proprety != "birthdate" && proprety != "gender"' type='text' formControlName='newPropretyValue' class='form-control'>
+
+            <!-- birthdate -->
+            <div *ngIf='proprety == "birthdate"'>
+                <input [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2020, month: 1, day: 1}"
+                placeholder="yyyy-mm-dd" formControlName="newPropretyValue" [(ngModel)]="model" name="dp" ngbDatepicker #d="ngbDatepicker">
+                <div class="input-group-append">
+                    <button id='calendar' class="btn btn-outline-secondary calendar"
+                    (click)="d.toggle()" type="button"><mat-icon>calendar_today</mat-icon></button>
+                </div>
+            </div>
+
+            <!-- gender -->
+            <div *ngIf='proprety == "gender"'> 
+                <mat-radio-group aria-label="Select an option" class="row"
+                formControlName="newPropretyValue">
+                  <mat-radio-button value="Male" class='col-4'>Male</mat-radio-button>
+                  <mat-radio-button value="Female" class='col-4'>Female</mat-radio-button>
+                  <mat-radio-button value="Other" class='col-4'>Other</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            
         </div>        
         <button *ngIf='changing' class='btn btn-danger' type='submit'>Confirm</button>
         <button *ngIf='changing' class='btn btn-light' id='cancel' (click)='onClick()'>Cancel</button> 
