@@ -23,3 +23,5 @@ router.get('', jwtMiddleware, (req, res, next) => {
       }
     })
 })
+
+module.exports = router

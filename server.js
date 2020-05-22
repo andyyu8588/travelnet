@@ -10,7 +10,7 @@ const io = require('socket.io').listen(server)
 const socket = require('./backend/socket/socket.js')
 socket(io)
 
-// open server
+// open server 
 server.listen(PORT, () => {
   console.log('Server started on port ' + PORT)
 })
