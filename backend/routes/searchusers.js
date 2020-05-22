@@ -4,7 +4,7 @@ const router = express.Router()
 const User = require("../models/User")
 
 router.get('', (req, res, next) => {
-    let query = req.get(user)
+    let query = req.get('user')
     User.find({$or:
         [{$and: [{firstName: {$in: query}}, 
                 {firstName : {$regex: `.*${data.req}.*`, $options: 'i'}}]}, 
