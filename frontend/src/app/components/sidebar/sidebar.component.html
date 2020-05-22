@@ -50,21 +50,22 @@ mwlResizable
     #drawer class="example-sidenav" mode="side"
     [ngStyle]='Styles'>
         <header-navbar></header-navbar>
-        <ul class="nav nav-pills nav-fill justify">
+        <ul class="nav nav-pills nav-pills mb-3">
 
             <li class="nav-item" *ngFor='let item of openTabs, let i = index'  routerLink={{item.path}} >
-                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}
-                  <button class="example-sidenav-content nav-link" type="button" mat-button (click)="window = !window">
-                    <span>&times;</span>
-                </button>
 
-                </a>
-                  <button class="example-sidenav-content nav-link" type="button" mat-button (click)="window = !window">
+                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}
+
+                <button class="close" type="button" mat-button (click)="window = !window">
                     <span>&times;</span>
                 </button>
+                </a>
             </li>
-            <li class="nav-item">
-            </li>
+
+            <button class="example-sidenav-content nav-link" type="button" mat-button (click)="window = !window">
+                <span>&times;</span>
+            </button>
+
         </ul>
         <br>
         <router-outlet></router-outlet>

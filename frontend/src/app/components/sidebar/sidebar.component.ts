@@ -40,11 +40,12 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   Styles = {
     'position': 'fixed',
     'background-color': 'rgba(255,255,255,0.7)',
-    'min-width': `'${window.innerWidth >= 500? 700: window.innerWidth}'px`,
+    'min-width': '700px',
     'top': '1%',
     'left': '1%',
     'height': '95%',
     'overflow-x':'hidden',
+    'padding-right':'5px',
     'width': `${window.innerWidth >= 500? window.innerWidth*this.width : window.innerWidth}px`,
   }
   showFiller = true
