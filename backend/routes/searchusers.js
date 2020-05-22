@@ -6,12 +6,9 @@ const User = require("../models/User")
 router.get('', (req, res, next) => {
     let query = req.get('user')
     User.find({$or:
-        [{$and: [{firstName:query}, 
-                {firstName : {$regex: `.*${query}.*`, $options: 'i'}}]}, 
-        {$and: [{lastName: query},
-                {lastName: {$regex: `.*${query}.*`, $options: 'i'}}]},
-        {$and: [{username: query},
-                {username: {$regex: `.*${query}.*`, $options: 'i'}}]},]
+        [{firstName : {$regex: `.*${query}.*`, $options: 'i'}}, 
+        {lastName: {$regex: `.*${query}.*`, $options: 'i'}},
+        {username: {$regex: `.*${query}.*`, $options: 'i'}}]
             },
         (err, result) => {
         if (err) {
