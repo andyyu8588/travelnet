@@ -76,6 +76,15 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
     })
   }
   
+  // look for enter button
+  onKey(event: KeyboardEvent) {
+    if (event.key == 'Enter') {
+      event.preventDefault()
+      this.sendMessage(this.typeArea)
+      this.typeArea = ''
+    }
+  }
+
   // send message with socket
   sendMessage(data: string): void {
     if (data != '') {

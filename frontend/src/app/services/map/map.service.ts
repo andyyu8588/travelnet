@@ -10,8 +10,8 @@ import * as Mapboxgl from 'mapbox-gl'
 export class MapService {
   map: Mapboxgl.Map
 
-  private _clickLocation: BehaviorSubject<any>
-  clickLocation: Observable<any>
+  private _clickLocation: BehaviorSubject<any> = new BehaviorSubject('')
+  clickLocation: Observable<any> = this._clickLocation.asObservable()
 
   constructor() {
     Mapboxgl.accessToken = environment.mapbox
@@ -30,13 +30,19 @@ export class MapService {
     // this._clickLocation = new BehaviorSubject(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
     // this.clickLocation = this._clickLocation.asObservable()
 
-    this.map.on('click',(e)=>{
-      let lng = e.lngLat.lng
-      let lat = e.lngLat.lat
-      let latLng: string =  lat +','+ lng
-      console.log(latLng)
-      // this._clickLocation.next(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
+    this.map.on('load', () => {
+
+      this.map.on('click',(e)=>{
+        let lng = e.lngLat.lng
+        let lat = e.lngLat.lat
+        let latLng: string =  lat +','+ lng
+        // console.log(latLng)
+        this._clickLocation.next(`${lng}, ${lat}`)
+      })
+
     })
+
+    
   }
   getCenter(){
     return `${this.map.getCenter().lat},${this.map.getCenter().lng}`
