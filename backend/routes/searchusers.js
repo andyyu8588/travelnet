@@ -4,7 +4,8 @@ const router = express.Router()
 const User = require("../models/User")
 
 router.get('', (req, res, next) => {
-    let query = req.get('user')
+
+    let query = req.params.get('user')
     User.find({$or:
         [
                 {firstName : {$regex: `.*${query}.*`, $options: 'i'}}, 
@@ -20,7 +21,6 @@ router.get('', (req, res, next) => {
               })
         }
         else{
-            console.log(query)
             let resArr = []
             result.forEach((e)=>{
             resArr.push(e)

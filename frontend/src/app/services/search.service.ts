@@ -43,7 +43,7 @@ export class SearchService implements OnDestroy {
       this.HttpClient.get<any>(environment.travelnet.searchUsers,
         {
           headers: {
-            authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas'
+            authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas',
           },
           params: {
             user: value
