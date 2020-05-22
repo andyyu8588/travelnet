@@ -5,7 +5,7 @@ const User = require("../models/User")
 
 router.get('', (req, res, next) => {
 
-    let query = req.params.user
+    let query = req
     console.log(query)
     User.find({$or:
         [
