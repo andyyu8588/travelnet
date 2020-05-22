@@ -1,1 +1,19 @@
-<p>country-selector works!</p>
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Locations</mat-label>
+      <input matInput placeholder="Ex. Berlin" value="">
+    </mat-form-field>
+</form>
+
+<div id="mainList" *ngFor="let Place of allPlaces, let i = index" class="">
+    <button mat-raised-button  class="mat-chip-list-stacked" aria-orientation="vertical">
+        {{ Place.continent }}
+    </button>
+    <br>
+    <mat-chip-list class="">
+        <mat-chip *ngFor='let place of allPlaces[i].places'>
+            {{ place }}
+        </mat-chip>
+    </mat-chip-list>
+    <hr>  
+</div>
