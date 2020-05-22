@@ -36,19 +36,19 @@
       <mat-form-field>
         <input matInput #search (keyup)='onKey(search.value)' class='form-control' type='search' placeholder='Search' aria-label='Search' autocomplete='off'>
         <i fas fa-search aria-hidden="true"></i>
-        <mat-label>Sidenav mode</mat-label>
+        <mat-label>Search a place</mat-label>
       </mat-form-field>
 
     </form>
   </li>
 
   <!-- Register and Login buttons -->
-  <li *ngIf='!sessionState' class="nav-item">
+  <li *ngIf='!sessionState' class="nav-item topButton">
     <a class='btn btn-primary' routerLink='register' style="margin-right: 1%;">Register<span class='sr-only'></span></a>
     <a class='btn btn-primary' routerLink='login'>Login<span class='sr-only'></span></a>
   </li>
 
-  <li *ngIf='sessionState' class="nav-item">
+  <li *ngIf='sessionState' class="nav-item topButton">
     <div  id='icon' class="dropdown">
       <img class='img-thumbnail dropdown-toggle' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [src]="link" alt="Settings">
       <div class="dropdown-menu dropdown-menu-right ">
