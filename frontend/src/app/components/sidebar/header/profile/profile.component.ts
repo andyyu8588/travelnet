@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       if (data.err) {
         console.log(data.err)
       } else {
-        this.User = (({username, password, email, firstname, lastname, birthdate, gender}) => 
+        this.User = (({username, password, email, firstname, lastname, birthdate, gender}) =>
           ({username, password, email, firstname, lastname, birthdate, gender}))(data.res[0].res)
 
         // transform object in arrays
@@ -45,15 +45,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.propreties.shift()
         this.values.shift()
       }
-    })    
+    })
   }
 
   getProfile() {
-    this.httpService.get('/profile', null).then((res) => {
-      // this.User.gender = res.friendlist
-    }).catch((err) => {
-      console.log(err)
-    })
+    // this.httpService.get('/profile', null).then((res) => {
+    //   // this.User.gender = res.friendlist
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
   }
 
   onDelete() {
@@ -63,7 +63,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         console.log(data.err)
       } else {
         console.log(data.res)
-        localStorage.removeItem('username') 
+        localStorage.removeItem('username')
         sessionStorage.removeItem('username')
         this.sessionService.session()
         window.location.reload()

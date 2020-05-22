@@ -13,7 +13,7 @@ router.get('', (req, res, next) => {
         {$and: [{username: {$in: query}},
                 {username: {$regex: `.*${query}.*`, $options: 'i'}}]},]
             },
-        (err, res) => {
+        (err, result) => {
         if (err) {
             res.status(500).json({
                 message: err
@@ -21,7 +21,7 @@ router.get('', (req, res, next) => {
         }
         else{
             let resArr = []
-            res.forEach((e)=>{
+            result.forEach((e)=>{
             resArr.push(e)
         })
         res.status(200).json({
