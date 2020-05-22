@@ -15,7 +15,7 @@ mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
 }
 .close-nav{
-  top: -80px;
+  top: -85px;
   position: relative;
 }
 .btn {
@@ -34,5 +34,9 @@ mwlResizable {
 }
 header-navbar{
   width: 100%;
+}
+.close-tab{
+padding: 0px;
+width: 5px;
 }
 

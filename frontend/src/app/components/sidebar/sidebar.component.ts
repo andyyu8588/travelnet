@@ -56,16 +56,16 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   openTabs: Array<tab>
 
   constructor(private FriendlistService: FriendlistService,
-              private ResizableModule: ResizableModule,
               private SearchService: SearchService
-              ) {
-
-  }
+              ) {}
 
   ngOnInit(): void {
     this.openTabsSub = this.SearchService.searchTabs.subscribe(x => {
       this.openTabs = x
     })
+  }
+  deleteTab(i){
+    this.SearchService.deleteTab(i)
   }
 
   ngAfterViewInit() {
@@ -120,6 +120,4 @@ onClick() {
   this.isHamburguer = !this.isHamburguer;
 }
 }
-
-// old animations
 

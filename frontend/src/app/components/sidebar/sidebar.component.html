@@ -54,7 +54,9 @@ mwlResizable
 
             <li class="nav-item" *ngFor='let item of openTabs, let i = index'  routerLink={{item.path}} >
 
-                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}
+                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}</a>
+                <a *ngIf="item.path == 'searchresults'" class="close-tab nav-link" type="button" (click)="deleteTab(i)">
+                  <span  class="close-tab">&times;</span>
                 </a>
             </li>
 

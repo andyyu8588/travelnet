@@ -18,7 +18,7 @@ router.get('', jwtMiddleware, (req, res, next) => {
         })
       } else {
         res.status(200).json({
-          friendlist: result
+          user: result
         })
       }
     })

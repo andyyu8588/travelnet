@@ -38,19 +38,20 @@ export class SearchService implements OnDestroy {
     })
   }
 
-  friendSearch(value: string): Promise<any> {
+  userSearch(value: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.HttpClient.get<any>(environment.travelnet.searchFriends,
+      this.HttpClient.get<any>(environment.travelnet.getUserInfo,
         {
           headers: {
             authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas'
           },
           params: {
-            list: value
+            user: value
           }
         }
       )
       .subscribe((response) => {
+        console.log(response)
         resolve(response)
       }, (err) => {
         reject(err)
@@ -59,19 +60,21 @@ export class SearchService implements OnDestroy {
   }
 
   async mainSearch(query: string, latLng: string): Promise<any> {
-    return await Promise.all([this.foursquareSearch(query, latLng), this.friendSearch(query)])
+    return await Promise.all([this.foursquareSearch(query, latLng), this.userSearch(query)])
   }
 
   // when user opens new tab
-  newSeach(query: string) {
+  newSeach(query: string,latLng:string) {
     this.openTabs.push({
       title: query,
       path: 'searchresults',
       content: 'Loading'
     })
     this._searchTabs.next(this.openTabs)
-    this.mainSearch(query, this.mapCenter)
+    this.mainSearch(query, latLng)
     .then(result => {
+      console.log(result[0].response.warning)
+      console.log(result[1])
       result.forEach(element => {
         this.openTabs[this.openTabs.length].content.push(element)
       });
@@ -80,6 +83,10 @@ export class SearchService implements OnDestroy {
     .catch(err => {
       console.log(err)
     })
+  }
+  deleteTab(i:number){
+    this.openTabs.splice(i,1)
+    this._searchTabs.next(this.openTabs)
   }
 
   ngOnDestroy() {
