@@ -7,11 +7,11 @@ router.get('', (req, res, next) => {
     let query = req.get('user')
     User.find({$or:
         [{$and: [{firstName: {$in: query}}, 
-                {firstName : {$regex: `.*${data.req}.*`, $options: 'i'}}]}, 
-        {$and: [{lastName: {$in: quey}},
-                {lastName: {$regex: `.*${data.req}.*`, $options: 'i'}}]},
-        {$and: [{username: {$in: quey}},
-                {username: {$regex: `.*${data.req}.*`, $options: 'i'}}]},]
+                {firstName : {$regex: `.*${query}.*`, $options: 'i'}}]}, 
+        {$and: [{lastName: {$in: query}},
+                {lastName: {$regex: `.*${query}.*`, $options: 'i'}}]},
+        {$and: [{username: {$in: query}},
+                {username: {$regex: `.*${query}.*`, $options: 'i'}}]},]
             },
         (err, res) => {
         if (err) {
