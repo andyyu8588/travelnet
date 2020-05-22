@@ -102,7 +102,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   searchFriend() {
-    this.SearchService.friendSearch('saisi')
+    this.SearchService.userSearch('saisi')
     .then(x => {
       console.log(x)
     })
