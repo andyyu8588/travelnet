@@ -20,6 +20,7 @@ router.get('', (req, res, next) => {
               })
         }
         else{
+            console.log(query)
             let resArr = []
             result.forEach((e)=>{
             resArr.push(e)
