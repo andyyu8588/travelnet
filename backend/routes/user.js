@@ -27,7 +27,7 @@ router.post('/edit', jwtMiddleware, (req, res, next) => {
   let origin = jwt.decode(req.get('authorization'), jwtSecret)
   let tempProprety = {}
   tempProprety[proprety] = req.query.newProprety
-  User.findOneAndUpdate({username}, {$set: tempProprety}, (err, doc, res) => {        
+  User.findOneAndUpdate({_id: origin.id}, {$set: tempProprety}, (err, doc, res) => {        
     if (err) {
       console.log('a')
       res.status(500).json({
