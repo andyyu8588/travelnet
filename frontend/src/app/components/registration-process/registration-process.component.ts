@@ -10,6 +10,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 export class RegistrationProcessComponent implements OnInit, AfterViewInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  @ViewChild('step1') step1
   @ViewChild('registration') registration: RegistrationComponent
 
   constructor(private _formBuilder: FormBuilder) { }
@@ -24,7 +25,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
+    this.step1.stepControl = this.registration.registrationForm
   }
 
   registerClicked() {

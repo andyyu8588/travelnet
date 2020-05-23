@@ -1,5 +1,5 @@
   <mat-horizontal-stepper linear #stepper>
-    <mat-step [stepControl]="registration.registrationForm" [optional]="true">
+    <mat-step #step1  [optional]="true">
         <ng-template matStepLabel>Create Your Account</ng-template>
         <app-registrationpage #registration></app-registrationpage>
         <div>
