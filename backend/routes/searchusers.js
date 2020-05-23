@@ -9,11 +9,20 @@ router.get('', (req, res, next) => {
     console.log(query)
     User.find({$or:
         [
-        {firstname: {$regex: /.*query.*/, $options: 'i'}}, 
-        {lastname: {$regex: /.*query.*/, $options: 'i'}}, 
-        {username: {$regex: /.*query.*/, $options: 'i'}}, 
-     
-        ]},
+                // {firstName : {$regex: `.*${query}.*`, $options: 'i'}}, 
+                // {lastName: {$regex: `.*${query}.*`, $options: 'i'}},
+                // {username: {$regex: `.*${query}.*`, $options: 'i'}}
+                {firstname: {$regex: /.*{query}.*/, $options: 'i'}}, 
+                {lastname: {$regex: /.*{query}.*/, $options: 'i'}}, 
+                {username: {$regex: /.*{query}.*/, $options: 'i'}}, 
+            
+            
+            
+            
+            
+            
+            ],
+            },
         (err, result) => {
         if (err) {
             res.status(500).json({
