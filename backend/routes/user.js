@@ -29,14 +29,17 @@ router.post('/edit', jwtMiddleware, (req, res, next) => {
   tempProprety[proprety] = req.query.newProprety
   User.findOneAndUpdate({username}, {$set: tempProprety}, (err, doc, res) => {        
     if (err) {
+      console.log('a')
       res.status(500).json({
         message: err
       })
     } else if (doc) {
+      console.log('b')
       res.status(200).json({
         message: `Success! ${proprety} changed to ${newProprety}`
       })
     } else {
+      console.log('c')
       res.status(500).json({
         message: 'monkas'
       })
