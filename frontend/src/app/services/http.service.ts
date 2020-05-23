@@ -10,21 +10,37 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  // get(route: String, data: any) {
-  //   let serverRoute = this.serverURL + route
-  //   return new Promise((resolve, reject) => {
-  //     this.http.get<any>(serverRoute, {
-  //       headers: {
-  //         authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas'
-  //       },
-  //       params: {
-  //         list: data
-  //       }
-  //     }).subscribe((res) => {
-  //       resolve(res)
-  //     }, (err) => {
-  //       reject(err)
-  //     })
-  //   })
-  // }
+  get(route: String, params: any) {
+    let serverRoute = this.serverURL + route
+    return new Promise((resolve, reject) => {
+      this.http.get<any>(serverRoute, {
+        headers: {
+          authorization: localStorage.getItem('token') ? localStorage.getItem('token').toString() : 'monkas'
+        },
+        params
+      }).subscribe((res) => {
+        resolve(res)
+      }, (err) => {
+        reject(err)
+      })
+    })
+  }
+
+  post(route: String, params: any) {
+    let serverRoute = this.serverURL + route
+    return new Promise((resolve, reject) => {
+      this.http.post<any>(serverRoute, {
+        headers: {
+          authorization: localStorage.getItem('token') ? localStorage.getItem('token').toString() : 'monkas'
+        },
+        params
+      }).subscribe((res) => {
+        console.log('a')
+        resolve(res)
+      }, (err) => {
+        console.log('b')
+        reject(err)
+      })
+    })
+  }
 }

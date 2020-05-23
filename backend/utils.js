@@ -23,24 +23,6 @@ usernames.forEach((user) => {
 })
 }
 
-// edits User
-// expects strings username proprety and newProprety
-const editUser = (username, proprety, newProprety) => {
-return new Promise((resolve, reject) => {
-    let tempProprety = {}
-    tempProprety[proprety] = newProprety
-    User.findOneAndUpdate({username}, {$set: tempProprety}, (err, doc, res) => {        
-    if (err) {
-        resolve('error')
-    } else if (doc) {
-        resolve(`Success! ${proprety} changed to ${newProprety}`)
-    } else {
-        reject('monkas')
-    }
-    })
-})
-}
-
 // check existence of one user and implement promises lmoa wtf
 // expects string username
 const searchUser = (username) => {
@@ -59,4 +41,4 @@ return new Promise((resolve, reject) => {
 })
 }
 
-module.exports = {createChatroom, editUser, searchUser}
+module.exports = {createChatroom, searchUser}

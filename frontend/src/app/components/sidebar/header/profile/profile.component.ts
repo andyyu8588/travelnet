@@ -29,31 +29,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
               private httpService: HttpService) { }
 
   ngOnInit(): void {
-    // get user info in database
-    this.socketService.emit('searchUser', [sessionStorage.getItem('username')], (data) => {
-      if (data.err) {
-        console.log(data.err)
-      } else {
-        this.User = (({username, password, email, firstname, lastname, birthdate, gender}) =>
-          ({username, password, email, firstname, lastname, birthdate, gender}))(data.res[0].res)
-
-        // transform object in arrays
-        this.propreties = Object.keys(this.User)
-        this.values = Object.values(this.User)
-
-        // takeout username
-        this.propreties.shift()
-        this.values.shift()
-      }
-    })
+    // http request to get user info
+    this.getProfile()
   }
 
   getProfile() {
-    // this.httpService.get('/profile', null).then((res) => {
-    //   // this.User.gender = res.friendlist
-    // }).catch((err) => {
-    //   console.log(err)
-    // })
+    this.httpService.get('/user', null).then((res: any) => {
+      this.User = (({username, password, email, firstname, lastname, birthdate, gender}) =>
+          ({username, password, email, firstname, lastname, birthdate, gender}))(res.user[0])
+
+      // transform object in arrays
+      this.propreties = Object.keys(this.User)
+      this.values = Object.values(this.User)
+
+      // takeout username
+      this.propreties.shift()
+      this.values.shift()
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
   onDelete() {
