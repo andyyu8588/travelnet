@@ -41,4 +41,4 @@ return new Promise((resolve, reject) => {
 })
 }
 
-module.exports = {createChatroom, editUser, searchUser}
+module.exports = {createChatroom, searchUser}
