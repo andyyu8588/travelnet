@@ -27,7 +27,8 @@ router.post('/edit', (req, res, next) => {
   let origin = jwt.decode(req.get('authorization'), jwtSecret)
   let tempProprety = {
     proprety: req.query.newProprety
-  } 
+  }
+  console.log(req)
   User.findOneAndUpdate({username: req.query.username}, {$set: tempProprety}, (err, doc, result) => {        
     if (err) {
       console.log('a')
