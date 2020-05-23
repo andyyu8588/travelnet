@@ -5,16 +5,15 @@ const User = require("../models/User")
 
 router.get('', (req, res, next) => {
 
-    let query = req.query.user
+    let query = req.query.user.split(' ')
     console.log(query)
     User.find({$or:
         [
-                {firstName : {$regex: `.*${query}.*`, $options: 'i'}}, 
-        
-                {lastName: {$regex: `.*${query}.*`, $options: 'i'}},
-        
-                {username: {$regex: `.*${query}.*`, $options: 'i'}}],
-            },
+            {'User.firstname': {$in: query}}, 
+            {'User.lastname': {$in: query}},
+            {'User.username': {$in: query}},
+     
+        ]},
         (err, result) => {
         if (err) {
             res.status(500).json({

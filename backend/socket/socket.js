@@ -270,7 +270,7 @@ module.exports = (io) => {
                         }
                     })
             } else {
-                console.log('actualy la fin')
+                console.log('actually la fin')
             }
         })  
     
