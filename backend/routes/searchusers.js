@@ -9,9 +9,9 @@ router.get('', (req, res, next) => {
     console.log(query)
     User.find({$or:
         [
-                { firstname : { $in:[/.*${query}.*/i]}}, 
-                { lastname : { $in:[/.*${query}.*/i]}},
-                { username : { $in:[/.*${query}.*/i]}}
+                { firstname : { $regex: /.*{query}.*/, $options: 'i'}},
+                { lastname : { $regex: /.*{query}.*/, $options: 'i'}},
+                { username : { $regex: /.*{query}.*/, $options: 'i'}},
             ],
             },
         (err, result) => {
