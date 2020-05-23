@@ -1,3 +1,4 @@
+import { HttpService } from './../../../../../services/http.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { SocketService } from 'src/app/services/chatsystem/socket.service';
@@ -21,7 +22,7 @@ export class PropretyComponent implements OnInit {
   model: NgbDateStruct;
 
   constructor(private socketService: SocketService,
-    private http: HttpClient) { }
+    private httpService: HttpService) { }
 
   ngOnInit(): void {
     if (this.proprety == 'email') {
@@ -66,9 +67,11 @@ export class PropretyComponent implements OnInit {
         requestedChange.newProprety = moment(requestedChange.newProprety)
       }
       
-      this.socketService.emit('editUser', requestedChange, (res) => {
+      this.httpService.post('/user/edit', requestedChange).then((res) => {
         console.log(res)
         window.location.reload()
+      }).catch((err) => {
+        console.log(err)
       })
     } else {
       this.invalid = true

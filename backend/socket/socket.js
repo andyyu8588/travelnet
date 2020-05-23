@@ -150,16 +150,7 @@ module.exports = (io) => {
             }, (err, res) => {
                 err? console.log('err ' + err) : ''
             })
-        })
-    
-        // change user data
-        socket.on('editUser', (data, callback) => {
-            utils.editUser(data.username, data.proprety, data.newProprety).then((result) => {
-                callback(result)
-            }).catch((err) => {
-                callback(err)
-            })
-        })
+        })        
     
         // send content of chatroom to chatWidgets
         socket.on('initChatroom', (data, callback) => {

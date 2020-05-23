@@ -23,14 +23,6 @@ usernames.forEach((user) => {
 })
 }
 
-// edits User
-// expects strings username proprety and newProprety
-const editUser = (username, proprety, newProprety) => {
-return new Promise((resolve, reject) => {
-    
-})
-}
-
 // check existence of one user and implement promises lmoa wtf
 // expects string username
 const searchUser = (username) => {
