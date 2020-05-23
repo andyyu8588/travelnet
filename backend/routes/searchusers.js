@@ -5,7 +5,7 @@ const User = require("../models/User")
 
 router.get('', (req, res, next) => {
 
-    let query = req.query.user.split(' ')
+    let query = req.query.user
     console.log(query)
     User.find({$or:
         [
