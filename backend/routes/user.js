@@ -36,7 +36,7 @@ router.post('/edit', (req, res, next) => {
     } else if (doc) {
       console.log('b')
       res.status(200).json({
-        message: `Success! ${proprety} changed to ${newProprety}`
+        message: `Success! ${req.query.proprety} changed to ${req.query.newProprety}`
       })
     } else {
       console.log('c')
