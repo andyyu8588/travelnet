@@ -26,10 +26,9 @@ router.get('', jwtMiddleware, (req, res, next) => {
 router.post('/edit', (req, res, next) => {
   let origin = jwt.decode(req.get('authorization'), jwtSecret)
   let tempProprety = {
-    proprety: req.query.newProprety
+    proprety: req.body.params.newProprety
   }
-  console.log(req)
-  User.findOneAndUpdate({username: req.query.username}, {$set: tempProprety}, (err, doc, result) => {        
+  User.findOneAndUpdate({username: req.body.params.username}, {$set: tempProprety}, (err, doc, result) => {        
     if (err) {
       console.log('a')
       res.status(500).json({
@@ -38,7 +37,7 @@ router.post('/edit', (req, res, next) => {
     } else if (doc) {
       console.log('b')
       res.status(200).json({
-        message: `Success! ${req.query.proprety} changed to ${req.query.newProprety}`
+        message: `Success! ${req.body.params.proprety} changed to ${req.body.params.newProprety}`
       })
     } else {
       console.log('c')
