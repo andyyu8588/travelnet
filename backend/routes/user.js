@@ -28,7 +28,7 @@ router.post('/edit', (req, res, next) => {
   let tempProprety = {
     proprety: req.query.newProprety
   } 
-  User.findOneAndUpdate({username: req.query.username}, {$set: tempProprety}, (err, doc, res) => {        
+  User.findOneAndUpdate({username: req.query.username}, {$set: tempProprety}, (err, doc, result) => {        
     if (err) {
       console.log('a')
       res.status(500).json({
