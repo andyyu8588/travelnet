@@ -6,6 +6,7 @@ const User = require("../models/User")
 router.get('', (req, res, next) => {
 
     let query = req.query.user
+    console.log('query is ', query)
     User.aggregate([
         {
           $project: {
@@ -39,6 +40,7 @@ router.get('', (req, res, next) => {
             message: err})
         }
         else{
+            console.log(result)
             let resArr = []
             result.forEach((e)=>{
             resArr.push(e)
