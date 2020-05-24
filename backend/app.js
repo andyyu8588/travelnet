@@ -29,9 +29,9 @@ app.use((req, res, next) => {
 
 // friends route authentication
 app.use(cors(corsOptions))
-app.use('/user', userRoute)
-app.use('/profile', profileRoute)
-app.use('/searchusers',searchUsersRoute)
+app.use('/user', userRoute, cors(corsOptions))
+app.use('/profile', profileRoute, cors(corsOptions))
+app.use('/searchusers',searchUsersRoute, cors(corsOptions))
 
 // set database URL:
 const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
