@@ -2,11 +2,35 @@ const express = require('express')
 const jwt = require('jsonwebtoken')
 const jwtSecret = 'MonkasczI69'
 const jwtMiddleware = require('../jwt.middleware')
+const multer = require('multer')
 
 // import model
 const User = require("../models/User")
 
 const router = express.Router()
+
+// setup multer storage
+const MIME_TYPE_MAP = { 
+  'image/png': 'png',
+  'image/jpg': 'jpg',
+  'image/jpeg': 'jpeg',
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const isValid = MIME_TYPE_MAP[file.mimetype]
+    let error = new Error('Invalid mime type')
+    if (isValid) {
+      error = null
+    }
+    cb(error, 'backend/images')
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname.toLowerCase().split(' ').join('-')
+    const ext = MIME_TYPE_MAP[file.mimetype]
+    cb(null, name + '-' + Date.now() + '.' + ext)
+  }
+})
 
 router.get('', jwtMiddleware, (req, res, next) => {
     let origin = jwt.decode(req.get('authorization'), jwtSecret)
@@ -42,6 +66,10 @@ router.post('/edit', (req, res, next) => {
       })
     }
   })
+})
+
+router.post('/profilepicture', multer(storage).single('image'), (req, res, next) => {
+  console.log('image received')
 })
 
 module.exports = router
