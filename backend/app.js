@@ -1,10 +1,16 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const userRoute = require('./routes/user')
 const profileRoute = require('./routes/profile')
 const searchUsersRoute = require('./routes/searchusers')
 const app = express()
+
+// setup cors
+const corsOptions = {
+  origin: false
+}
 
 // body parser
 app.use(bodyParser.json())
@@ -22,6 +28,7 @@ app.use((req, res, next) => {
 })
 
 // friends route authentication
+app.use(cors(corsOptions))
 app.use('/user', userRoute)
 app.use('/profile', profileRoute)
 app.use('/searchusers',searchUsersRoute)
