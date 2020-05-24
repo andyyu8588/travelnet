@@ -39,6 +39,7 @@ router.get('', (req, res, next) => {
             message: err})
         }
         else{
+            console.log(result)
             let resArr = []
             result.forEach((e)=>{
             resArr.push(e)
