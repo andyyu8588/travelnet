@@ -11,8 +11,9 @@
             <mat-icon>close</mat-icon>
         </button>
         <mat-autocomplete #auto='matAutocomplete' (optionSelected)='onSelected($event)'>
-            <mat-option class="" *ngFor='let coutry of autoSuggestCountries | async' [value]='coutry'>
-                <span>{{ coutry }}</span>
+            <mat-spinner *ngIf='isLoading' style="margin:0 auto;"></mat-spinner>
+            <mat-option *ngFor='let coutry of autoSuggestCountries | async' [value]='coutry.name' (click)='passData(coutry)'>
+                <span>{{ coutry.name }}</span>
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>
@@ -20,11 +21,13 @@
         <span><strong>Or</strong></span>
     </div>
     <div class="col-auto mr-auto">
-        <button class="" mat-button><span>Click on the map</span></button>
+        <button mat-button><span>Click on the map</span></button>
     </div>
 </form>
+<img *ngIf='!myControl.dirty' src="https://img.icons8.com/bubbles/100/000000/geography.png" class="img" style="margin-left: 25%;">
+<small *ngIf='!myControl.dirty'><a href="https://icons8.com/icon/113643/geography">Geography icon by Icons8</a></small>
 
-<div id="mainList" *ngFor="let Place of allPlaces, let i = index" class="">
+<div id="mainList" #mainlist [hidden]='Place.places.length == 0? true:false' *ngFor="let Place of allPlaces, let i = index">
     <button mat-raised-button  class="mat-chip-list-stacked" aria-orientation="vertical">
         {{ Place.continent }}
     </button>
