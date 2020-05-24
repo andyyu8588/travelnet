@@ -68,8 +68,24 @@ router.post('/edit', (req, res, next) => {
   })
 })
 
-router.post('/profilepicture', multer({storage: storage}).single('image'), (req, res, next) => {
-  console.log('image received')
+router.post('/profilepicture', jwtMiddleware, multer({storage: storage}).single('image'), (req, res, next) => {
+  const url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename 
+  let origin = jwt.decode(req.get('authorization'), jwtSecret)
+    User.findByIdAndUpdate({_id: origin.id}, {profilepicture: url}, (err, result) => {
+      if (err) {
+        res.status(500).json({
+          message: err
+        })
+      } else if (result) {
+        res.status(201).json({
+          message: `Success! Profilepicture updated!`
+        })
+      } else {
+        res.status(500).json({
+          message: 'monkas'
+        })
+      }
+    })
 })
 
 module.exports = router
