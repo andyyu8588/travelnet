@@ -17,6 +17,10 @@ export class SearchService implements OnDestroy {
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
+  private returnSearch: []
+  private _searchResults: BehaviorSubject<any> = new BehaviorSubject(this.returnSearch)
+  public searchResults: Observable<any> = this._searchResults.asObservable()
+
   private mapCenterSub: Subscription
   mapCenter: string
 
@@ -31,7 +35,6 @@ export class SearchService implements OnDestroy {
     return new Promise((resolve, reject) => {
       this.foursquareService.onSendRequest(query, latLng)
       .subscribe((result) => {
-        console.log(result.response.groups[0].items)
         resolve(result)
       }, (err) => {
         reject(err)
@@ -52,7 +55,6 @@ export class SearchService implements OnDestroy {
         }
       )
       .subscribe((response) => {
-        console.log(response)
         resolve(response)
       }, (err) => {
         reject(err)
@@ -74,11 +76,21 @@ export class SearchService implements OnDestroy {
     this._searchTabs.next(this.openTabs)
     this.mainSearch(query, latLng)
     .then(result => {
-      console.log(result[0].response.warning)
-      console.log(result[1])
+      if (!result[0].response.warning){
+
+      result[0].response.groups.forEach( venue =>{
+        this.returnSearch.push({'type':'venue','name' : venue})
+      })
+      result[1].response.forEach(user=>{
+        this.returnSearch.push({'type' : 'User', 'name' : user})
+      })
+
+
       result.forEach(element => {
         this.openTabs[this.openTabs.length].content.push(element)
       });
+    }
+
       this._searchTabs.next(this.openTabs)
     })
     .catch(err => {
