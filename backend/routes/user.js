@@ -71,8 +71,7 @@ router.post('/profilepicture', multer({storage: storage}).single('image'), (req,
   console.log(req)
   const url = req.protocol + '://' + req.get('host')
   //  + '/images/' + req.file.filename 
-  let origin = jwt.decode(req.body.headers.authorization, jwtSecret)
-    User.findByIdAndUpdate({_id: origin.id}, {profilepicture: url}, (err, result) => {
+    User.findOneAndUpdate({username: req}, {profilepicture: url}, (err, result) => {
       if (err) {
         res.status(500).json({
           message: err

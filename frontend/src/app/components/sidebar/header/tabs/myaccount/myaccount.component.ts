@@ -34,6 +34,7 @@ export class MyaccountComponent implements OnInit {
 
   onSubmit() {
     let imageData = new FormData()
+    imageData.append('username', sessionStorage.get('username'))
     imageData.append('image', this.form.value.picture, 'profilepicture')
     console.log(imageData)
     this.httpService.post('/user/profilepicture', imageData).then((res) => {
