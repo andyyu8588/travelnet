@@ -57,7 +57,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-import { AccountComponent } from './components/sidebar/account/account.component';
 import { RegistrationProcessComponent } from './components/registration-process/registration-process.component';
 import { SearchresultsComponent } from './components/sidebar/header/tabs/searchresults/searchresults.component';
 import { HomeComponent } from './components/sidebar/header/tabs/home/home.component';
@@ -84,7 +83,6 @@ import { CountryList } from 'country-list'
     SidebarComponent,
     ProfileComponent,
     PropretyComponent,
-    AccountComponent,
     RegistrationProcessComponent,
     SearchresultsComponent,
     HomeComponent,

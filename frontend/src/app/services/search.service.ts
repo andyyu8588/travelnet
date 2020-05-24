@@ -12,7 +12,8 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 })
 export class SearchService implements OnDestroy {
 
-  private openTabs: Array<tab> = [{title: 'Home',path:'home'}, {title: 'Discover',path:'discover'}, {title: 'My Trip',path:'mytrip'}]
+  private openTabs: Array<tab> = [{title: 'Home',path:'home'}, {title: 'Discover',path:'discover'},
+    {title: 'My Trip', path:'mytrip'}, {title: 'My Account', path: 'myaccount'}]
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
