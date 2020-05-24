@@ -48,7 +48,7 @@ router.get('', jwtMiddleware, (req, res, next) => {
 })
 
 router.post('/edit', (req, res, next) => {
-  let origin = jwt.decode(req.get('authorization'), jwtSecret)
+  console.log(req)
   let tempProprety = {}
   tempProprety[req.body.params.proprety] = req.body.params.newProprety
   User.findOneAndUpdate({username: req.body.params.username}, {$set: tempProprety}, (err, doc, result) => {        
