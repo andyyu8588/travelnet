@@ -69,7 +69,7 @@ router.post('/edit', (req, res, next) => {
 })
 
 router.post('/profilepicture', multer({storage: storage}).single('image'), (req, res, next) => {
-  console.log(url)
+  console.log(req)
   const url = req.protocol + '://' + req.get('host')
   //  + '/images/' + req.file.filename 
   let origin = jwt.decode(req.get('authorization'), jwtSecret)
