@@ -33,24 +33,23 @@ router.get('', (req, res, next) => {
             }
           }
         }
-      ])
-      },(err,result) =>{
-        if (err) {
-            res.status(500).json({
-            message: err})
-        }
-        else{
-            console.log(result)
-            let resArr = []
-            result.forEach((e)=>{
-            resArr.push(e)
+      ]).exec(function(err,result){
+    if (err) {
+        res.status(500).json({
+        message: err})
+    }
+    else{
+        console.log(result)
+        let resArr = []
+        result.forEach((e)=>{
+        resArr.push(e)
+    })
+    res.status(200).json({
+        users: resArr
         })
-        res.status(200).json({
-            users: resArr
-            })
-            }
-
-      })
+        }
+    }
+    )})
 
 
     // User.find({
