@@ -16,16 +16,22 @@ export const environment = {
 
   },
 
+  nominatim: {
+    search: 'https://nominatim.openstreetmap.org/search'
+  },
+
+  openstreetmap:{
+    searchNodes:'https://master.apis.dev.openstreetmap.org/api/0.6/map',
+    searchRealNode:' https://api.openstreetmap.org/api/0.6/map'
+  },
+
   travelnet: {
     getUserInfo: 'https://travelnet.herokuapp.com/user',
     getProfile: 'https://travelnet.herokuapp.com/profile',
     searchUsers:'https://travelnet.herokuapp.com/searchusers',
   },
 
-  openstreetmap:{
-    searchNodes:'https://master.apis.dev.openstreetmap.org/api/0.6/map',
-    searchRealNode:' https://api.openstreetmap.org/api/0.6/map'
-  }
+
 
 };
 

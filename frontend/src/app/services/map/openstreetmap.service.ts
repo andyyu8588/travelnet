@@ -22,4 +22,19 @@ export class OpenstreetmapService {
           }
       })
   }
+
+  //search for cities with nominatim (geojson response)
+  citySearch(city: string) {
+    return this.http
+      .get<{[key: string]: any}>(
+        environment.nominatim.search,
+        {
+          headers: {},
+          params: {
+            'city': city,
+            'format': 'geojson'
+          }
+        }
+      )
+  }
 }

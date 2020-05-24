@@ -1,8 +1,27 @@
-<form class="example-form">
-    <mat-form-field class="example-full-width">
-      <mat-label>Locations</mat-label>
-      <input matInput placeholder="Ex. Berlin" value="">
+<form class="example-form row align-items-center">
+    <mat-form-field class="example-full-width" class="col">
+        <mat-label>Search Locations</mat-label>
+        <input type='text' 
+        matInput
+        placeholder="Ex. Berlin"
+        [matAutocomplete]="auto"
+        [formControl]="myControl"
+        [(ngModel)]='value'>
+        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete #auto='matAutocomplete' (optionSelected)='onSelected($event)'>
+            <mat-option class="" *ngFor='let coutry of autoSuggestCountries | async' [value]='coutry'>
+                <span>{{ coutry }}</span>
+            </mat-option>
+        </mat-autocomplete>
     </mat-form-field>
+    <div class="col-auto mr-auto">
+        <span><strong>Or</strong></span>
+    </div>
+    <div class="col-auto mr-auto">
+        <button class="" mat-button><span>Click on the map</span></button>
+    </div>
 </form>
 
 <div id="mainList" *ngFor="let Place of allPlaces, let i = index" class="">
@@ -11,8 +30,10 @@
     </button>
     <br>
     <mat-chip-list class="">
-        <mat-chip *ngFor='let place of allPlaces[i].places'>
+        <mat-chip *ngFor='let place of allPlaces[i].places'
+            (removed)=onRemove(place,i)>
             {{ place }}
+            <mat-icon matChipRemove class="" *ngIf='removable'>cancel</mat-icon>
         </mat-chip>
     </mat-chip-list>
     <hr>  
