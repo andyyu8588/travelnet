@@ -22,7 +22,7 @@ export class MyaccountComponent implements OnInit {
 
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0]
-    this.form.patchValue({image: file})
+    this.form.patchValue({picture: file})
     this.form.get('picture').updateValueAndValidity
     const reader = new FileReader()
     reader.onload = () => {
@@ -33,6 +33,7 @@ export class MyaccountComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form.get('picture'))
     const imageData = new FormData()
     imageData.append('image', this.form.value.picture)
     this.httpService.post('/user/profilepicture', imageData).then((res) => {
