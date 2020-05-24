@@ -68,7 +68,7 @@ router.post('/edit', (req, res, next) => {
   })
 })
 
-router.post('/profilepicture', multer(storage).single('image'), (req, res, next) => {
+router.post('/profilepicture', multer({storage}).single('image'), (req, res, next) => {
   console.log('image received')
 })
 
