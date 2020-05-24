@@ -15,9 +15,9 @@ router.get('', (req, res, next) => {
                 "$firstname",
                 " ",
                 "$lastname",
-                " ",
+                ",",
                 "$username",
-                " ",
+                ",",
                 "$email",
                 
               ]
