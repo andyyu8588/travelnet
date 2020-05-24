@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const jwtSecret = 'MonkasczI69'
 const jwtMiddleware = require('../jwt.middleware')
 const multer = require('multer')
+const upload = multer({ dest: 'backend/images' })
 
 // import model
 const User = require("../models/User")
@@ -67,10 +68,9 @@ router.post('/edit', (req, res, next) => {
   })
 })
 
-router.post('/profilepicture', multer({storage: storage}).single('image'), (req, res, next) => {
+router.post('/profilepicture', upload.single('image'), (req, res, next) => {
   console.log(req)
-  const url = req.protocol + '://' + req.get('host')
-  //  + '/images/' + req.file.filename 
+  const url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename 
     User.findOneAndUpdate({username: req.body.username}, {profilepicture: url}, (err, result) => {
       if (err) {
         res.status(500).json({
