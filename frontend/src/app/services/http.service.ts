@@ -10,6 +10,22 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
+  delete(route: String, params: any) {
+    let serverRoute = this.serverURL + route
+    return new Promise((resolve, reject) => {
+      this.http.delete<any>(serverRoute, {
+        headers: {
+          authorization: localStorage.getItem('token') ? localStorage.getItem('token').toString() : 'monkas'
+        },
+        params
+      }).subscribe((res) => {
+        resolve(res)
+      }, (err) => {
+        reject(err)
+      })
+    })
+  }
+
   get(route: String, params: any) {
     let serverRoute = this.serverURL + route
     return new Promise((resolve, reject) => {
@@ -35,10 +51,24 @@ export class HttpService {
         },
         params
       }).subscribe((res) => {
-        console.log('a')
         resolve(res)
       }, (err) => {
-        console.log('b')
+        reject(err)
+      })
+    })
+  }
+
+  put(route: String, params: any) {
+    let serverRoute = this.serverURL + route
+    return new Promise((resolve, reject) => {
+      this.http.put<any>(serverRoute, {
+        headers: {
+          authorization: localStorage.getItem('token') ? localStorage.getItem('token').toString() : 'monkas'
+        },
+        params
+      }).subscribe((res) => {
+        resolve(res)
+      }, (err) => {
         reject(err)
       })
     })

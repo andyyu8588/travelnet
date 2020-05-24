@@ -22,6 +22,10 @@ app.use((req, res, next) => {
 })
 
 // friends route authentication
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  next()
+})
 app.use('/user', userRoute)
 app.use('/profile', profileRoute)
 app.use('/searchusers',searchUsersRoute)
