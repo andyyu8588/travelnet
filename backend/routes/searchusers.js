@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 // import model
 const User = require("../models/User")
-
+// needs fixing
 router.get('', (req, res, next) => {
 
     let query = req.query.user
@@ -39,7 +39,6 @@ router.get('', (req, res, next) => {
         message: err})
     }
     else{
-        console.log(result)
         let resArr = []
         result.forEach((e)=>{
         resArr.push(e)
@@ -51,30 +50,4 @@ router.get('', (req, res, next) => {
     }
     )})
 
-
-    // User.find({
-    //     $or:
-    //         [
-    //             { firstname : { $regex: `.*${query}.*`, $options: 'i'}},
-    //             { lastname : { $regex: `.*${query}.*`, $options: 'i'}},
-    //             { username : { $regex: `.*${query}.*`, $options: 'i'}},
-    //         ],
-    //         },
-    //     (err, result) => {
-    //     if (err) {
-    //         res.status(500).json({
-    //             message: err
-    //           })
-    //     }
-    //     else{
-    //         let resArr = []
-    //         result.forEach((e)=>{
-    //         resArr.push(e)
-    //     })
-    //     res.status(200).json({
-    //         users: resArr
-    //         })
-    //         }
-    //     })
-    // })
 module.exports = router
