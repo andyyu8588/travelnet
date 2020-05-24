@@ -6,7 +6,7 @@ const User = require("../models/User")
 router.get('', (req, res, next) => {
 
     let query = req.query.user
-    db.collection.aggregate([
+    User.aggregate([
         {
           $project: {
             "name": {
