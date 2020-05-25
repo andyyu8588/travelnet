@@ -42,7 +42,9 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
   searched: Subscription
   
   constructor(private OpenstreetmapService: OpenstreetmapService,
-              private MapService: MapService) { }
+              private MapService: MapService) { 
+
+  }
   
   ngOnInit() {
     this.searched = this.myControl.valueChanges.subscribe(x => {
@@ -81,7 +83,7 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
       .then((value: any) => {
         let continent = value.continent
         this.allPlaces.forEach((element) => {
-          if (element.code === continent) {
+          if (element.code === continent && !element.places.includes(chip)) {
             element.places.push(chip)
           }
         })
@@ -93,8 +95,9 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
   }
 
   passData(content: any) {
-    console.log(content.content)
-    // this.MapService.highlightCountry('ok')
+    content.name = this.removeMiddle(content.name, 1)    
+    console.log(content)
+    this.MapService.showMarker(content)
   }
 
   // search Countrieslist countries 
@@ -115,6 +118,7 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
   onRemove(place: string, index: number) {
     let placesArr = this.allPlaces[index].places
     placesArr.splice(placesArr.indexOf(place), 1)
+    this.MapService.removeMarker(place)
   }
 
   ngOnDestroy() {

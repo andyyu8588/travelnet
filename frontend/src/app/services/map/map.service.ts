@@ -1,8 +1,33 @@
+import { VisitedPlaces } from './../../components/registration-process/country-selector/country-selector.component';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SearchService } from 'src/app/services/search.service'
 import * as Mapboxgl from 'mapbox-gl'
+
+export class featureGEOJSONModel {
+  public type: String
+  public geometry: {
+    type: String,
+    coordinates: number[]
+  }
+  public properties?: {
+    title: string,
+    icon: string
+  }
+
+  constructor(title: string, coordinates: number[]) {
+    this.type = 'Feature'
+    this.geometry = {
+      'type': 'Point',
+      'coordinates': coordinates
+    }
+    this.properties = {
+      title: title,
+      icon: 'monument'
+    }
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +37,8 @@ export class MapService {
 
   private _clickLocation: BehaviorSubject<any> = new BehaviorSubject('')
   clickLocation: Observable<any> = this._clickLocation.asObservable()
+
+  private visitedPlaces: featureGEOJSONModel[] = []
 
   constructor() {
     Mapboxgl.accessToken = environment.mapbox
@@ -39,7 +66,26 @@ export class MapService {
         // console.log(latLng)
         this._clickLocation.next(`${lng}, ${lat}`)
       })
+    })
+  }
 
+  addGeoJsonSource(id: string, type: string, content: featureGEOJSONModel[]) {
+    this.map.addSource(id, {
+      'type': 'geojson',
+      'data': {
+        'type': type,
+        'features': content
+      }
+    })
+  }
+
+  addLayer(id: string, type: string, source: string, layout?: {[key: string]: any}, paint?: {[key: string]: any}) {
+    this.map.addLayer({
+      'id': id,
+      'type': type,
+      'source': source,
+      'layout': layout,
+      'paint': paint
     })
   }
 
@@ -48,45 +94,87 @@ export class MapService {
   }
 
   // highlight selected coutries when register
-  highlightCountry(coord: any) {
-    console.log(coord)
-    this.map.addSource('points', {
-      'type': 'geojson',
-      'data': {
-      'type': 'FeatureCollection',
-      'features': [
+  showMarker(input: any) {
+    console.log(input.name, input.content.geometry.coordinates)
+    this.visitedPlaces.push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates))
+    this.map.flyTo({ 'center': input.content.geometry.coordinates, 'zoom': 4, 'speed': 0.8, 'curve': 1, 'essential': true });
+    if (this.map.getSource('points')) {
+      // update points
+      this.map.getSource('points').setData(
         {
-          // feature for Mapbox DC
-          'type': 'Feature',
-          'geometry': {
-          'type': 'Point',
-          'coordinates': [
-            -77.03238901390978,
-            38.913188059745586
+          'type': 'FeatureCollection',
+          'features': this.visitedPlaces
+        }
+      )
+    } else {
+      // add points
+      this.map.addSource('points', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': [
+            {
+              // feature for Mapbox DC
+              'type': 'Feature',
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [
+                  input.content.geometry.coordinates[0],
+                  input.content.geometry.coordinates[1],
+                ]
+              },
+              'properties': {
+                'title': input.name,
+                'icon': 'monument'
+              }
+            },
           ]
-          },
-          'properties': {
-            'title': 'Mapbox DC',
-            'icon': 'monument'
-          }
-        },
-      ]
-      }
-    });
-    this.map.addLayer({
-      'id': 'points',
-      'type': 'symbol',
-      'source': 'points',
-      'layout': {
-      // get the icon name from the source's "icon" property
-      // concatenate the name to get an icon from the style's sprite sheet
-      'icon-image': ['concat', ['get', 'icon'], '-15'],
-      // get the title name from the source's "title" property
-      'text-field': ['get', 'title'],
-      'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-      'text-offset': [0, 0.6],
-      'text-anchor': 'top'
-      }
+        }
       });
+      this.map.addLayer({
+        'id': 'points',
+        'type': 'symbol',
+        'source': 'points',
+        'layout': {
+          // get the icon name from the source's "icon" property
+          // concatenate the name to get an icon from the style's sprite sheet
+          'icon-image': ['concat', ['get', 'icon'], '-15'],
+          // get the title name from the source's "title" property
+          'text-field': ['get', 'title'],
+          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          'text-offset': [0, 0.6],
+          'text-anchor': 'top'
+        }
+      });
+      }
+  }
+
+  // remove markers on map
+  removeMarker(name: string) {
+    for (let x = 0; x < this.visitedPlaces.length; x++) {
+      if (this.visitedPlaces[x].properties.title == name) {
+        this.visitedPlaces.splice(x, 1)
+        this.map.getSource('points').setData(
+          {
+            'type': 'FeatureCollection',
+            'features': this.visitedPlaces
+          }
+        )
+        break
+      }
+    }
   }
 }
+
+      // add areas ** gotta complete the polygon
+      // this.addGeoJsonSource(input.name, 'Feature', [{
+      //   'type': 'Polygon',
+      //   'geometry': {
+      //     'type': 'Point',
+      //     'coordinates': [input.content.bbox]
+      //   }
+      // }])
+      // this.addLayer(input.name, 'fill', input.name, {}, {
+      //     'fill-color': '#088',
+      //     'fill-opacity': 0.8
+      //   } )
