@@ -1,5 +1,6 @@
 import { MapService } from 'src/app/services/map/map.service';
 import { tab } from './../components/sidebar/tab.model';
+import { search } from '../components/sidebar/header/tabs/searchresults/search/search.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';
@@ -17,7 +18,7 @@ export class SearchService implements OnDestroy {
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
-  private returnSearch: []
+  private returnSearch: Array<search> = []
   private _searchResults: BehaviorSubject<any> = new BehaviorSubject(this.returnSearch)
   public searchResults: Observable<any> = this._searchResults.asObservable()
 
@@ -77,25 +78,31 @@ export class SearchService implements OnDestroy {
     this.mainSearch(query, latLng)
     .then(result => {
       if (!result[0].response.warning){
-
-      result[0].response.groups.forEach( venue =>{
-        this.returnSearch.push({'type':'venue','name' : venue})
+      result[0].response.groups[0].items.forEach( venue =>{
+        this.returnSearch.push({'type':'venue','name' : venue.venue.name})
       })
-      result[1].response.forEach(user=>{
-        this.returnSearch.push({'type' : 'User', 'name' : user})
-      })
-
-
-      result.forEach(element => {
-        this.openTabs[this.openTabs.length].content.push(element)
-      });
+      if (result[1].users){
+        result[1].users.forEach(user=>{
+          this.returnSearch.push({'type' : 'User', 'name' : user.name})
+        })
+      }
     }
-
+    console.log(this.returnSearch)
+      this._searchResults.next(this.returnSearch)
       this._searchTabs.next(this.openTabs)
     })
     .catch(err => {
       console.log(err)
     })
+
+  }
+  getSearchResult(search){
+    if (search.type == 'venue'){
+      return ('venue: ' + search.name)
+    }
+    else{
+      return ('friend ' + search.name)
+    }
   }
   deleteTab(i:number){
     this.openTabs.splice(i,1)

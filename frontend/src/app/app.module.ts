@@ -64,7 +64,8 @@ import { DiscoverComponent } from './components/sidebar/header/tabs/discover/dis
 import { MyaccountComponent } from './components/sidebar/header/tabs/myaccount/myaccount.component';
 import { MytripComponent } from './components/sidebar/header/tabs/mytrip/mytrip.component';
 import { CountrySelectorComponent } from './components/registration-process/country-selector/country-selector.component';
-import { CountryList } from 'country-list'
+import { CountryList } from 'country-list';
+import { SearchComponent } from './components/sidebar/header/tabs/searchresults/search/search.component'
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { CountryList } from 'country-list'
     MyaccountComponent,
     MytripComponent,
     CountrySelectorComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
