@@ -1,15 +1,23 @@
 <div>
+
+    <!-- name and value -->
     <h3 *ngIf='!changing'> 
         {{ proprety | titlecase }}
         <br>
         {{ propretyValue }}
     </h3>
+
+    <!-- if user decides to change -->
     <form *ngIf='changing' [formGroup]='changeForm' (ngSubmit)='onSubmit()'>
         <div class='form-group'>
+
+            <!-- old password -->
             <div *ngIf='proprety == "password"'>
                 <label for='newPropretyValue'>Old {{ proprety | titlecase }}</label>  
                 <input type='text' formControlName='oldPassword' class='form-control'>
             </div>
+
+            <!-- new proprety space -->
             <label for='newPropretyValue'>New {{ proprety | titlecase }}</label>            
             <div *ngIf='invalid'>
                 Invalid {{ proprety | titlecase }}!
