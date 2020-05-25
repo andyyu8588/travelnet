@@ -83,11 +83,15 @@ export class SearchService implements OnDestroy {
       result[0].response.groups[0].items.forEach( venue =>{
         this.returnSearch.push({'type':'venue','name' : venue.venue.name})
       })
-      if (result[1].users){
-        result[1].users.forEach(user=>{
-          this.returnSearch.push({'type' : 'User', 'name' : user.name})
-        })
-      }
+      if (sessionStorage.getItem('username'))
+        if (result[1].users){
+          result[1].users.forEach(user=>{
+            this.returnSearch.push({'type' : 'User', 'name' : user.name})
+          })
+        }
+        else{
+          this.returnSearch.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
+        }
     }
     console.log(this.returnSearch)
       this._searchResults.next(this.returnSearch)
