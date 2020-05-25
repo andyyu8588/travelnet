@@ -6,7 +6,7 @@ const User = require("../models/User")
 router.get('', (req, res, next) => {
 
     let query = req.query.user
-    console.log('query is ', query)
+
     User.aggregate([
         {
           $project: {

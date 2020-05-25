@@ -69,6 +69,8 @@ export class SearchService implements OnDestroy {
 
   // when user opens new tab
   newSeach(query: string,latLng:string) {
+    this.returnSearch = []
+    this._searchResults.next([])
     this.openTabs.push({
       title: query,
       path: 'searchresults',
@@ -101,8 +103,12 @@ export class SearchService implements OnDestroy {
       return ('venue: ' + search.name)
     }
     else{
-      return ('friend ' + search.name)
+      return ('User: ' + search.name)
     }
+  }
+  resetSearch(){
+    this.returnSearch = []
+    this._searchResults.next([])
   }
   deleteTab(i:number){
     this.openTabs.splice(i,1)
@@ -111,5 +117,7 @@ export class SearchService implements OnDestroy {
 
   ngOnDestroy() {
     this.mapCenterSub.unsubscribe()
+    this._searchResults.next([])
+    this._searchResults.unsubscribe()
   }
 }
