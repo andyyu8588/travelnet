@@ -1,5 +1,6 @@
 import { MapService } from 'src/app/services/map/map.service';
 import { tab } from './../components/sidebar/tab.model';
+import { search } from '../components/sidebar/header/tabs/searchresults/search/search.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';
@@ -17,6 +18,10 @@ export class SearchService implements OnDestroy {
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
+  private returnSearch: Array<search> = []
+  private _searchResults: BehaviorSubject<any> = new BehaviorSubject(this.returnSearch)
+  public searchResults: Observable<any> = this._searchResults.asObservable()
+
   private mapCenterSub: Subscription
   mapCenter: string
 
@@ -31,7 +36,6 @@ export class SearchService implements OnDestroy {
     return new Promise((resolve, reject) => {
       this.foursquareService.onSendRequest(query, latLng)
       .subscribe((result) => {
-        console.log(result.response.groups[0].items)
         resolve(result)
       }, (err) => {
         reject(err)
@@ -52,7 +56,6 @@ export class SearchService implements OnDestroy {
         }
       )
       .subscribe((response) => {
-        console.log(response)
         resolve(response)
       }, (err) => {
         reject(err)
@@ -66,6 +69,8 @@ export class SearchService implements OnDestroy {
 
   // when user opens new tab
   newSeach(query: string,latLng:string) {
+    this.returnSearch = []
+    this._searchResults.next([])
     this.openTabs.push({
       title: query,
       path: 'searchresults',
@@ -74,16 +79,36 @@ export class SearchService implements OnDestroy {
     this._searchTabs.next(this.openTabs)
     this.mainSearch(query, latLng)
     .then(result => {
-      console.log(result[0].response.warning)
-      console.log(result[1])
-      result.forEach(element => {
-        this.openTabs[this.openTabs.length].content.push(element)
-      });
+      if (!result[0].response.warning){
+      result[0].response.groups[0].items.forEach( venue =>{
+        this.returnSearch.push({'type':'venue','name' : venue.venue.name})
+      })
+      if (result[1].users){
+        result[1].users.forEach(user=>{
+          this.returnSearch.push({'type' : 'User', 'name' : user.name})
+        })
+      }
+    }
+    console.log(this.returnSearch)
+      this._searchResults.next(this.returnSearch)
       this._searchTabs.next(this.openTabs)
     })
     .catch(err => {
       console.log(err)
     })
+
+  }
+  getSearchResult(search){
+    if (search.type == 'venue'){
+      return ('venue: ' + search.name)
+    }
+    else{
+      return ('User: ' + search.name)
+    }
+  }
+  resetSearch(){
+    this.returnSearch = []
+    this._searchResults.next([])
   }
   deleteTab(i:number){
     this.openTabs.splice(i,1)
@@ -92,5 +117,7 @@ export class SearchService implements OnDestroy {
 
   ngOnDestroy() {
     this.mapCenterSub.unsubscribe()
+    this._searchResults.next([])
+    this._searchResults.unsubscribe()
   }
 }

@@ -25,6 +25,8 @@ export class PropretyComponent implements OnInit {
     private httpService: HttpService) { }
 
   ngOnInit(): void {
+
+    // special forms that need validations
     if (this.proprety == 'email') {
       this.changeForm = new FormGroup({
         'newPropretyValue': new FormControl(this.propretyValue, [Validators.required, Validators.email])
@@ -35,7 +37,7 @@ export class PropretyComponent implements OnInit {
         'oldPassword': new FormControl(null, [Validators.required, Validators.minLength(5)]),
         'newPropretyValue': new FormControl(null, [Validators.required, Validators.minLength(5)])
       })
-    } else {
+    } else { // everything else
       if (this.proprety == 'birthdate') {
         this.propretyValue = this.propretyValue.slice(0, 10)
       }

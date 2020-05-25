@@ -11,11 +11,11 @@ import { FriendlistService } from 'src/app/services/chatsystem/friendlist.servic
 })
 
 export class FriendlistComponent implements OnInit, OnDestroy {
-  sessionState: boolean 
+  sessionState: boolean
   friends: RoomWidget[] = []
   private friendsSub: Subscription
   private sessionSub: Subscription
-  
+
   constructor(private friendlistService: FriendlistService,
     private SessionService: SessionService) { }
 
@@ -47,7 +47,7 @@ export class FriendlistComponent implements OnInit, OnDestroy {
   onSubmit(data: string) {
     this.friendlistService.CreateChatroom(data)
   }
-  
+
   ngOnDestroy(): void {
     this.friendsSub.unsubscribe()
     this.sessionSub.unsubscribe()

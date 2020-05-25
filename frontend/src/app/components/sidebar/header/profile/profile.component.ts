@@ -50,6 +50,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     })
   }
 
+  // delete account function
   onDelete() {
       this.Router.navigate(['./'])
       this.socketService.emit('deleteUser', sessionStorage.getItem('username'), (data) => {
@@ -66,6 +67,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     })
   }
 
+  // back button that destroys component
   onExit() {
     this.ngOnDestroy()
   }
