@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
+// http service that gives httpclient to everything
+
 export class HttpService {
   serverURL = environment.travelnetURL
 
