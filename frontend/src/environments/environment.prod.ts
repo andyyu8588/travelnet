@@ -1,9 +1,35 @@
 export const environment = {
-  mapbox: "pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ",
   production: true,
+  language: 'en',
+  travelnetURL: 'https://travelnet.herokuapp.com',
+
+  mapbox: {
+    token: 'pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ',
+    geocoding: 'https://api.mapbox.com/geocoding/v5/mapbox.places'
+  },
 
   foursquare: {
-    venues: 'https://api.foursquare.com/v2/venues/search',
+    clientId: 'NYZJ324E5GAY2MSQUNYIYLKIDCMX2ETMQREKQXZLW3S5ZYVG',
+    clientSecret: 'K51P2Y1T3TMTCU24LOFHDFOAONPGU44ZBNZCGTWCOJESUW4A',
+    v: '20200517',
+    venuesSearch: 'https://api.foursquare.com/v2/venues/search',
+    venuesExplore: 'https://api.foursquare.com/v2/venues/explore'
 
-  }
+  },
+
+  nominatim: {
+    search: 'https://nominatim.openstreetmap.org/search'
+  },
+
+  openstreetmap:{
+    searchNodes:'https://master.apis.dev.openstreetmap.org/api/0.6/map',
+    searchRealNode:' https://api.openstreetmap.org/api/0.6/map'
+  },
+
+  travelnet: {
+    getUserInfo: 'https://travelnet.herokuapp.com/user',
+    getProfile: 'https://travelnet.herokuapp.com/profile',
+    searchUsers:'https://travelnet.herokuapp.com/searchusers',
+  },
+
 };

@@ -41,7 +41,7 @@ export class MapService {
   private visitedPlaces: featureGEOJSONModel[] = []
 
   constructor() {
-    Mapboxgl.accessToken = environment.mapbox
+    Mapboxgl.accessToken = environment.mapbox.token
 
   }
 
@@ -62,9 +62,10 @@ export class MapService {
       this.map.on('click',(e)=>{
         let lng = e.lngLat.lng
         let lat = e.lngLat.lat
-        let latLng: string =  lat +','+ lng
-        // console.log(latLng)
-        this._clickLocation.next(`${lng}, ${lat}`)
+        this._clickLocation.next({
+          lng: lng,
+          lat: lat
+        })
       })
     })
   }
@@ -95,7 +96,7 @@ export class MapService {
 
   // highlight selected coutries when register
   showMarker(input: any) {
-    console.log(input.name, input.content.geometry.coordinates)
+    console.log(input)
     this.visitedPlaces.push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates))
     this.map.flyTo({ 'center': input.content.geometry.coordinates, 'zoom': 4, 'speed': 0.8, 'curve': 1, 'essential': true });
     if (this.map.getSource('points')) {
@@ -107,14 +108,13 @@ export class MapService {
         }
       )
     } else {
-      // add points
+      // add first point
       this.map.addSource('points', {
         'type': 'geojson',
         'data': {
           'type': 'FeatureCollection',
           'features': [
             {
-              // feature for Mapbox DC
               'type': 'Feature',
               'geometry': {
                 'type': 'Point',
