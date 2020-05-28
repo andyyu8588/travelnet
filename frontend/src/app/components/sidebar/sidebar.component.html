@@ -51,15 +51,13 @@ mwlResizable
     [ngStyle]='Styles'>
         <header-navbar></header-navbar>
         <ul class="nav nav-pills nav-fill mb-3">
+            <li class="nav-item active" data-toggle="pill" routerLink = 'home'>Home</li>
+            <li class="nav-item" data-toggle="pill" routerLink = 'discover'>Discover</li>
+            <li class="nav-item" data-toggle="pill" routerLink = 'mytrip'>My trip</li>
 
-            <li class="nav-item" *ngFor='let item of openTabs, let i = index'  routerLink={{item.path}} >
 
-                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item.title }}</a>
-                <a *ngIf="item.path == 'searchresults'" class="close-tab nav-link" type="button" (click)="deleteTab(i)">
-                  <span  class="close-tab">&times;</span>
-                </a>
-            </li>
-
+            <app-searchbutton *ngFor='let item of openTabs, let i = index'
+            [searchTab] = 'item'></app-searchbutton>
             <button class="close-nav nav-link" type="button" mat-button (click)="window = !window">
                 <span>&times;</span>
             </button>
@@ -67,7 +65,5 @@ mwlResizable
         </ul>
         <br>
         <router-outlet></router-outlet>
-        <!-- <app-registration-process></app-registration-process> -->
-        <!-- <button class="btn btn-primary" (click)='searchFriend()'>send Friendlist</button> -->
     </mat-drawer>
 </mat-drawer-container>

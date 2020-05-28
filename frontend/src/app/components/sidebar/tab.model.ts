@@ -1,9 +1,12 @@
 export class tab {
     [key: string]: any
-    title: string
-    content?: any
+    query: string
+    path: string
+    content: Object[]
 
-    constructor(title: string) {
-        title = this.title
+    constructor(query: string, path: string, content = []) {
+        query = this.query
+        path = this.path
+        content = this.content
     }
 }

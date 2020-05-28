@@ -18,7 +18,9 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'mytrip', component: MytripComponent},
   {path: 'myaccount', component: MyaccountComponent},
-  {path: 'searchresults', component: SearchresultsComponent},
+  {path: 'searchresults', component: SearchresultsComponent, children: [
+    {path: ':query', component: SearchresultsComponent},
+  ]},
 ];
 
 @NgModule({

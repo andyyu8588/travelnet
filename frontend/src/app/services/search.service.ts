@@ -13,8 +13,7 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 })
 export class SearchService implements OnDestroy {
 
-  private openTabs: Array<tab> = [{title: 'Home',path:'home'}, {title: 'Discover',path:'discover'},
-    {title: 'My Trip', path:'mytrip'}, {title: 'My Account', path: 'myaccount'}]
+  private openTabs: Array<tab> = []
   private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
@@ -26,7 +25,6 @@ export class SearchService implements OnDestroy {
   mapCenter: string
 
   constructor(private HttpClient: HttpClient,
-              private SocketService: SocketService,
               private foursquareService: FoursquareService,
               private MapService: MapService) {
   }
@@ -69,13 +67,6 @@ export class SearchService implements OnDestroy {
 
   // when user opens new tab
   newSeach(query: string,latLng:string) {
-    this.returnSearch = []
-    this._searchResults.next([])
-    this.openTabs.push({
-      title: query,
-      path: 'searchresults',
-      content: 'Loading'
-    })
     this._searchTabs.next(this.openTabs)
     this.mainSearch(query, latLng)
     .then(result => {
@@ -93,8 +84,14 @@ export class SearchService implements OnDestroy {
           this.returnSearch.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
         }
     }
-    console.log(this.returnSearch)
-      this._searchResults.next(this.returnSearch)
+    this.openTabs.push(
+      ({query: query,
+      path: 'searchresults/'+query,
+      content: this.returnSearch
+    })
+    )
+    console.log(this.openTabs)
+      this.resetSearch
       this._searchTabs.next(this.openTabs)
     })
     .catch(err => {
