@@ -29,20 +29,28 @@ export class featureGEOJSONModel {
   }
 }
 
+export interface clickLocationCoordinates {
+  [key: string]: any
+  lng: number
+  lat: number
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
   map: Mapboxgl.Map
 
-  private _clickLocation: BehaviorSubject<any> = new BehaviorSubject('')
-  clickLocation: Observable<any> = this._clickLocation.asObservable()
+  private _clickLocation: BehaviorSubject<clickLocationCoordinates> = new BehaviorSubject({
+    lat: null,
+    lng: null
+  })
+  clickLocation: Observable<clickLocationCoordinates> = this._clickLocation.asObservable()
 
-  private visitedPlaces: featureGEOJSONModel[] = []
+  private Places: Array<featureGEOJSONModel[]> = [[],[]]
 
   constructor() {
     Mapboxgl.accessToken = environment.mapbox.token
-
   }
 
   buildMap() {
@@ -90,47 +98,58 @@ export class MapService {
     })
   }
 
-  getCenter(){
+  getCenter(): string {
     return `${this.map.getCenter().lat},${this.map.getCenter().lng}`
   }
 
   // highlight selected coutries when register
-  showMarker(input: any) {
-    console.log(input)
-    this.visitedPlaces.push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates))
-    this.map.flyTo({ 'center': input.content.geometry.coordinates, 'zoom': 4, 'speed': 0.8, 'curve': 1, 'essential': true });
-    if (this.map.getSource('points')) {
-      // update points
+  showMarker(target: number, input?: {[key: string]: any}) {
+    if (!input && this.map.getSource('points') && this.Places[target - 1]) {
       this.map.getSource('points').setData(
         {
           'type': 'FeatureCollection',
-          'features': this.visitedPlaces
+          'features': this.Places[target - 1]
         }
       )
-    } else {
-      // add first point
-      this.map.addSource('points', {
-        'type': 'geojson',
-        'data': {
-          'type': 'FeatureCollection',
-          'features': [
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [
-                  input.content.geometry.coordinates[0],
-                  input.content.geometry.coordinates[1],
-                ]
+    } else if (input) {
+      this.Places[target - 1].push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates))
+      this.map.flyTo({ 'center': input.content.geometry.coordinates, 'zoom': 4, 'speed': 0.8, 'curve': 1, 'essential': true });
+      if (this.map.getSource('points')) {
+        // update points
+        this.map.getSource('points').setData(
+          {
+            'type': 'FeatureCollection',
+            'features': this.Places[target - 1]
+          }
+        )
+      } else {
+        // add first point
+        this.map.addSource('points', {
+          'type': 'geojson',
+          'data': {
+            'type': 'FeatureCollection',
+            'features': [
+              {
+                'type': 'Feature',
+                'geometry': {
+                  'type': 'Point',
+                  'coordinates': [
+                    input.content.geometry.coordinates[0],
+                    input.content.geometry.coordinates[1],
+                  ]
+                },
+                'properties': {
+                  'title': input.name,
+                  'icon': 'monument'
+                }
               },
-              'properties': {
-                'title': input.name,
-                'icon': 'monument'
-              }
-            },
-          ]
-        }
-      });
+            ]
+          }
+        });
+
+      } 
+    }
+    if (!this.map.getLayer('points') && this.map.getSource('points')) {
       this.map.addLayer({
         'id': 'points',
         'type': 'symbol',
@@ -146,21 +165,33 @@ export class MapService {
           'text-anchor': 'top'
         }
       });
-      }
+    }
   }
 
   // remove markers on map
-  removeMarker(name: string) {
-    for (let x = 0; x < this.visitedPlaces.length; x++) {
-      if (this.visitedPlaces[x].properties.title == name) {
-        this.visitedPlaces.splice(x, 1)
+  removeMarker(name: string, target: number, all?: boolean) {
+    if (all) {
+      this.Places[target - 1] = []
+      if(this.map.getSource('points')) {
         this.map.getSource('points').setData(
           {
             'type': 'FeatureCollection',
-            'features': this.visitedPlaces
+            'features': []
           }
         )
-        break
+      }
+    } else {
+      for (let x = 0; x < this.Places[target - 1].length; x++) {
+        if (this.Places[target - 1][x].properties.title == name) {
+          this.Places[target - 1].splice(x, 1)
+          this.map.getSource('points').setData(
+            {
+              'type': 'FeatureCollection',
+              'features': this.Places[target - 1]
+            }
+          )
+          break 
+        }
       }
     }
   }

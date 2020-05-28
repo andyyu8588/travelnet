@@ -1,3 +1,6 @@
+import { element } from 'protractor';
+import { clickLocationCoordinates } from './../../../services/map/map.service';
+import { progressUpdateData } from './../registration-process.component';
 import { environment } from './../../../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from 'src/app/services/map/map.service';
@@ -5,7 +8,7 @@ import { overwrite, getCode } from 'country-list';
 import { OpenstreetmapService } from './../../../services/map/openstreetmap.service';
 import { Observable, Subscription, BehaviorSubject, concat } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { Component, OnInit, Output, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, Input, OnDestroy, AfterContentInit } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import * as CountriesList from 'countries-list'
 import * as CountriesConverter from 'i18n-iso-countries'
@@ -21,8 +24,9 @@ export interface VisitedPlaces {
   templateUrl: './country-selector.component.html',
   styleUrls: ['./country-selector.component.scss']
 })
-export class CountrySelectorComponent implements OnInit, OnDestroy {
-  @Input() direction: boolean
+export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDestroy {
+  @Input() progressUpdate: any
+  @Input() target: number
   timeout: any
   value = ''
   allPlaces: VisitedPlaces[] = [
@@ -41,8 +45,8 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
   myControl: FormControl = new FormControl()
   removable: boolean = true
   searched: Subscription
-  
-  clickLocation: Subscription
+
+  clickLocationSub: Subscription
 
   constructor(private OpenstreetmapService: OpenstreetmapService,
               private MapService: MapService,
@@ -80,48 +84,54 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
         })
       }, 400)
     })
-    this.clickLocation = this.MapService.clickLocation.subscribe(x => {
-      if (x.lng && x.lat) {
-        this.Http.get<any>(
-          environment.mapbox.geocoding.concat('/', x.lng, ',', x.lat, '.json'),
-          {
-            headers: {},
-            params: {
-              access_token: environment.mapbox.token,
-              types: 'country,region,district,place',
-              language: environment.language
+    
+  }
+
+  ngAfterContentInit() {
+    this.clickLocationSub = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
+      if (this.progressUpdate && this.target == this.progressUpdate) {
+        if (x.lng != null) {
+          this.Http.get<any>(
+            environment.mapbox.geocoding.concat('/', x.lng.toString(), ',', x.lat.toString(), '.json'),
+            {
+              headers: {},
+              params: {
+                access_token: environment.mapbox.token,
+                types: 'country,region,district,place',
+                language: environment.language
+              }
             }
-          }
-        )
-        .subscribe((response) => {
-          if (response.features[0]) {
-            let placeName = response.features[0].place_name
-            let chip = this.removeMiddle(placeName, 1)
-            this.getKey(response.features[response.features.length -1].properties.short_code.toUpperCase())
-              .then((value: any) => {
-                let continent = value.continent
-                this.allPlaces.forEach((element) => {
-                  if (element.code === continent && !element.places.includes(chip)) {
-                    element.places.push(chip)
-                    this.MapService.showMarker({
-                      name: chip,
-                      content:{
-                        geometry:{
-                          coordinates: response.query
+          )
+          .subscribe((response) => {
+            if (response.features[0]) {
+              let placeName = response.features[0].place_name
+              let chip = this.removeMiddle(placeName, 1)
+              this.getKey(response.features[response.features.length -1].properties.short_code.toUpperCase())
+                .then((value: any) => {
+                  let continent = value.continent
+                  this.allPlaces.forEach((element) => {
+                    if (element.code === continent && !element.places.includes(chip)) {
+                      element.places.push(chip)
+                      this.MapService.showMarker(this.target, {
+                        name: chip,
+                        content:{
+                          geometry:{
+                            coordinates: response.query
+                          }
                         }
-                      }
-                    })
-                  }
+                      })
+                    }
+                  })
+                  
                 })
-                
-              })
-              .catch((err) => {
-                console.log(err)
-              })
-          }
-        }, (err) => {
-          console.log(err)
-        })
+                .catch((err) => {
+                  console.log(err)
+                })
+            }
+          }, (err) => {
+            console.log(err)
+          })
+        }
       }
     })
   }
@@ -159,7 +169,7 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
   passData(content: any) {
     content.name = this.removeMiddle(content.name, 1)    
     console.log(content)
-    this.MapService.showMarker(content)
+    this.MapService.showMarker(this.target, content)
   }
 
   // search Countrieslist countries 
@@ -180,11 +190,18 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
   onRemove(place: string, index: number) {
     let placesArr = this.allPlaces[index].places
     placesArr.splice(placesArr.indexOf(place), 1)
-    this.MapService.removeMarker(place)
+    this.MapService.removeMarker(place, this.target)
+  }
+
+  onClear() {
+    this.allPlaces.forEach(element => {
+      element.places = []
+    })
+    this.MapService.removeMarker('', null, true)
   }
 
   ngOnDestroy() {
     this.searched.unsubscribe()
-    this.clickLocation.unsubscribe()
+    this.clickLocationSub.unsubscribe()
   }
 }

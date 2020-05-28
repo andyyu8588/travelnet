@@ -189,7 +189,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(){
-    this.router.navigate(['/'])
+    // this.router.navigate(['/'])
   }
 
 }

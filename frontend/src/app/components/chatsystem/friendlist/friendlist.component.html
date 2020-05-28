@@ -1,10 +1,13 @@
 <div *ngIf='sessionState' class="border border-secondary">
+    <!-- actual friendlist -->
     <div id="friends">
         <div id = 'friend' *ngFor="let friend of friends">
             <app-friend [friend]="friend">
             </app-friend>
         </div>
     </div>
+
+    <!-- textarea -->
     <form (submit)='onSubmit(input.value)' >
         <input #input type='text' class="form-control rounded-0" (keyup)='onKey(input.value)' placeholder='Add a friend!' id="input" autocomplete='off'>
     </form>

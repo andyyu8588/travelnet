@@ -27,9 +27,7 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   constructor(private friendlistService: FriendlistService,
               private renderer: Renderer2,
               private socketService: SocketService,
-              public sessionService: SessionService) {
-
-  }
+              public sessionService: SessionService) { }
 
   ngOnInit(): void {
     // subscribe to Observables
@@ -57,7 +55,6 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
     })
 
     this.friendlistService.selectChatwidget(this.roomId)
-
     
     // listen for messages & add display them
     this.socketService.listen('message_res').subscribe((data: any) => {
