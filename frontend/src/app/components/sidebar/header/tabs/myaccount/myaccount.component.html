@@ -1,3 +1,6 @@
+<!-- profile picture -->
+<h1>Change Profile Picture</h1>
+
 <form [formGroup]='form' (ngSubmit)='onSubmit()'>
     <button type='button' class='btn btn-danger button' (click)='filePicker.click()'>Upload Profile Picture</button>
     <input type='file' style='visibility: hidden;' accept='image/*' (change)='onImagePicked($event)' #filePicker>
@@ -6,3 +9,12 @@
         <button type='submit' class='btn btn-primary'>Change Profile Picture</button>
     </div>
 </form>
+
+<!-- preferences -->
+<h1>Change Preferences</h1>
+
+<!-- places already visited -->
+
+<!-- interesting places -->
+
+<!-- post stuff -->
