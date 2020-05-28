@@ -1,7 +1,17 @@
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { MapService, clickLocationCoordinates } from './../../services/map/map.service';
 import { Router } from '@angular/router';
 import { RegistrationComponent } from './registrationpage/registrationpage.component';
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { MatHorizontalStepper } from '@angular/material/stepper';
+import { MatSelectChange } from '@angular/material/select';
+import { SelectionChange } from '@angular/cdk/collections';
+
+export interface progressUpdateData {
+  target: number
+  coordinates: number[]
+}
 
 @Component({
   selector: 'app-registration-process',
@@ -11,11 +21,22 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDestroy {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  @ViewChild('step1') step1
+  @ViewChild('stepper') stepper: MatHorizontalStepper
+  @ViewChild('step1') step1: any
+  editable: boolean = true
   @ViewChild('registration') registration: RegistrationComponent
 
+  private _progressUpdate: BehaviorSubject<progressUpdateData> = new BehaviorSubject({
+    target: 0,
+    coordinates: []
+  })
+  @ViewChild('progressUpdate') progressUpdate: Observable<progressUpdateData> = this._progressUpdate.asObservable()
+
+  clickLocation: Subscription
+
   constructor(private _formBuilder: FormBuilder,
-              private Router: Router) { }
+              private Router: Router,
+              private MapService: MapService) { }
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -24,14 +45,30 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ''
     });
-  }
+  } 
 
   ngAfterViewInit() {
     this.step1.stepControl = this.registration.registrationForm
+    this.clickLocation = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
+      this._progressUpdate.next({
+        target: this.stepper._getFocusIndex(),
+        coordinates: [x.lng, x.lat]
+      })
+    })
+    this.stepper.selectionChange.subscribe(x => {
+      if (x.selectedIndex != 0) {
+        this.editable = false
+        this.MapService.showMarker(x.selectedIndex)
+      }
+    })
   }
 
   registerClicked() {
     this.registration.onSubmit()
+  }
+
+  onClear(target: number) {
+
   }
 
   ngOnDestroy() {

@@ -1,13 +1,13 @@
   <mat-horizontal-stepper linear #stepper>
-    <mat-step #step1  [optional]="true">
-        <ng-template matStepLabel>Create Your Account</ng-template>
+    <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="false">
+        <!-- <ng-template matStepLabel>Create Your Account</ng-template> -->
         <app-registrationpage #registration></app-registrationpage>
         <div>
             <button mat-button matStepperNext class="btn btn-primary" (click)='registerClicked()'>Register</button>
         </div>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" [optional]="true">
-      <ng-template matStepLabel>Tell Us Where You've Been</ng-template>
+    <mat-step [stepControl]="secondFormGroup" label="Tell Us Where You've Been" [optional]="true">
+      <!-- <ng-template matStepLabel>Tell Us Where You've Been</ng-template> -->
       <!-- <form [formGroup]="secondFormGroup">
         <mat-form-field>
           <mat-label>Address</mat-label>
@@ -18,18 +18,18 @@
           <!-- <button mat-button matStepperPrevious>Back</button> -->
         <!-- </div>
       </form> -->
-      <app-country-selector class="" [direction]='true'></app-country-selector>
+      <app-country-selector [progressUpdate]='stepper._getFocusIndex()' [target]='1'></app-country-selector>
       <div>
-        <button mat-button matStepperNext>Skip</button>
+        <button mat-button matStepperNext>Next</button>
       </div>
     </mat-step>
-    <mat-step [optional]="true">
-      <ng-template matStepLabel>Where Do You Want To Go</ng-template>
+    <mat-step label='Where Do You Want To Go' [optional]="true">
+      <!-- <ng-template matStepLabel>Where Do You Want To Go</ng-template> -->
       <!-- <p>You are now done.</p> -->
-      <app-country-selector class="" [direction]='false'></app-country-selector>
+      <app-country-selector [progressUpdate]='stepper._getFocusIndex()' [target]='2'></app-country-selector>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+        <button mat-button routerLink='/myaccount' >Done</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
