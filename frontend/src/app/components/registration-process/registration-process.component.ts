@@ -1,5 +1,6 @@
+import { Router } from '@angular/router';
 import { RegistrationComponent } from './registrationpage/registrationpage.component';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,13 +8,14 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
   templateUrl: './registration-process.component.html',
   styleUrls: ['./registration-process.component.scss']
 })
-export class RegistrationProcessComponent implements OnInit, AfterViewInit {
+export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDestroy {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   @ViewChild('step1') step1
   @ViewChild('registration') registration: RegistrationComponent
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private _formBuilder: FormBuilder,
+              private Router: Router) { }
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -30,6 +32,10 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit {
 
   registerClicked() {
     this.registration.onSubmit()
+  }
+
+  ngOnDestroy() {
+    // this.Router.navigate(['/'])
   }
 
 }

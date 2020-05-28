@@ -79,6 +79,6 @@ export class LoginComponent implements OnInit, OnDestroy{
     }
 
     ngOnDestroy(){
-        this.router.navigate(['/'])
+        // this.router.navigate(['/'])
     }
 }
