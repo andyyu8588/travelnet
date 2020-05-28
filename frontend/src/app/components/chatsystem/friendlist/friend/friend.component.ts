@@ -29,5 +29,4 @@ export class FriendComponent implements OnInit {
     this.friendlistService.toggleChatWidget(friend)
     this.friendlistService.resizeWindow(window.innerWidth)
   }
-
 }

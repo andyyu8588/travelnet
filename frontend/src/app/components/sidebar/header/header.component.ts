@@ -30,7 +30,8 @@ export class HeaderComponent implements OnDestroy, OnInit{
                 private SocketService: SocketService,
                 private Renderer : Renderer2,
                 private SearchService: SearchService,
-                private map: MapService) {
+                private map: MapService,
+                private router: Router) {
         this.sessionService.sessionState.subscribe((username) => {
             this.sessionState = username
             if (username) {
@@ -65,6 +66,12 @@ export class HeaderComponent implements OnDestroy, OnInit{
                 this.loading = false
             })
         }
+    }
+
+    onReload() {
+        this.router.navigate(['home']).then(() => {
+            window.location.reload()
+        })
     }
 
     onSubmit(data: string) {
