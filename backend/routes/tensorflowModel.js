@@ -9,7 +9,8 @@ const router = express.Router()
 router.get('', (req, res, next) => {
     console.log(req)
     if (req) {
-        res.status(200).sendFile(path.join('app', 'backend', 'Tf', 'model.json'))
+        path.
+        res.status(200).sendFile(path.join('backend', 'Tf', 'model.json'))
     }
 })
 
