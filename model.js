@@ -4,7 +4,7 @@ const path = require('path')
 fileLocation = path.join(__dirname, 'JsModel', 'model.json')
 console.log(fileLocation)
 
-const model = tf.loadLayersModel('https://travelnet.herokuapp.com')
+const model = tf.loadLayersModel('https://travelnet.herokuapp.com/TfModel')
 
 venuesIn = [1, 4, 4, 5]
 
