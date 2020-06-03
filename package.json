@@ -23,22 +23,23 @@
   },
   "homepage": "https://github.com/andyyu8588/soundcloudrapper#readme",
   "dependencies": {
-    "@angular/cli": "^9.0.7",
+    "@tensorflow/tfjs-node": "^2.0.0",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
-    "cookie": "^0.4.0",
+    "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.6",
+    "mongoose": "^5.9.17",
     "multer": "^1.4.2",
+    "node-pre-gyp": "^0.15.0",
     "socket.io": "^2.3.0",
     "socketio-auth": "^0.1.1",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.3",
     "underscore": "^1.10.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.4"
   }
 }
