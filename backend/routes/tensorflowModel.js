@@ -5,7 +5,7 @@ const jwtMiddleware = require('../jwt.middleware')
 
 const router = express.Router()
 
-router.get('/TfModel', (req, res, next) => {
+router.get('', (req, res, next) => {
     console.log(req)
     if (req) {
         res.status(200).sendFile('../Tf/JsModel/model.json')
