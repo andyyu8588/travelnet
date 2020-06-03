@@ -1,4 +1,4 @@
-const tf = require('@tensorflow/tfjs')
+const tf = require('@tensorflow/tfjs-node')
 const path = require('path')
 
 fileLocation = path.join(__dirname, 'JsModel', 'model.json')
