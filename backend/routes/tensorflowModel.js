@@ -9,7 +9,7 @@ const router = express.Router()
 router.get('', (req, res, next) => {
     console.log(req)
     if (req) {
-        res.status(200).sendFile('model.json', {root: __dirname + '../Tf'})
+        res.status(200).sendFile('model.json', {root: '/app/backend/Tf'})
     }
 })
 
