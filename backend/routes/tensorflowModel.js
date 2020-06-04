@@ -7,7 +7,7 @@ const path = require('path')
 const router = express.Router()
 
 router.get('/:param', (req, res, next) => {
-    console.log(req)
+    console.log('ok '+req)
     if (req) {
         res.status(200).sendFile(req.params, {root: '/app/backend/Tf'})
     }
