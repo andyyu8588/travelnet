@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 app.use('/user', userRoute)
 app.use('/profile', profileRoute)
 app.use('/searchusers',searchUsersRoute)
-app.use(express.static('/TfModel', TfModelRoute))
+app.use('/TfModel', TfModelRoute)
 
 // set database URL:
 const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
