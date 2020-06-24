@@ -75,7 +75,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
     }
 
     onSubmit(data: string) {
-        this.SearchService.newSeach(data, this.map.getCenter())
+        // this.SearchService.newSeach(data, this.map.getCenter())
     }
 
     ngOnDestroy() {
