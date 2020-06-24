@@ -65,8 +65,19 @@ export class SearchService implements OnDestroy {
     return await Promise.all([this.foursquareSearch(query, latLng), this.userSearch(query)])
   }
 
-  // when user opens new tab
-  newSeach(query: string,latLng:string) {
+  // creates new tab
+  newTab(){
+    let newTab = [];
+    this.openTabs.push(
+      { query : null,
+        path : 'searchresults/',
+        content: null
+      }
+    )
+  }
+
+  //user makes new search in a tab
+  newSeach(query: string,latLng:string, index:number) {
     this._searchTabs.next(this.openTabs)
     this.mainSearch(query, latLng)
     .then(result => {
@@ -84,11 +95,11 @@ export class SearchService implements OnDestroy {
           this.returnSearch.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
         }
     }
-    this.openTabs.push(
-      ({query: query,
-      path: 'searchresults/'+query,
+    this.openTabs[index] = (
+      {query: query,
+      path: 'searchresults/' + query,
       content: this.returnSearch
-    })
+    }
     )
     console.log(this.openTabs)
       this.resetSearch
