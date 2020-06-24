@@ -17,6 +17,15 @@ const UserSchema = mongoose.Schema({
         in: Array,
         out: Array
     },
+    trips: [{
+        date: String,
+        name: String,
+        venues: [{
+            time: Date,
+            name: String,
+            price: Number
+        }]
+    }]
 })
 
 module.exports = mongoose.model('User', UserSchema)
