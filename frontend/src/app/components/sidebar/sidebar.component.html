@@ -31,14 +31,11 @@ mwlResizable
         <p>actual content</p>
     </div>
 </div>  -->
-<div *ngIf='!window' class="example-sidenav-content bg-light" id="theButton">
+<div *ngIf='!window' class="example-sidenav-content bg-light" id="openToggle">
     <button type="button" mat-button (click)="drawer.toggle(); window = !window">
     Open Sidebar
     </button>
 </div>
-
-
-
 <mat-drawer-container class='container-fluid' style="overflow-x: hidden;" autosize >
     <mat-drawer
     mwlResizable
@@ -47,23 +44,32 @@ mwlResizable
     [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
     (resizeEnd)="onResizeEnd($event)"
     [opened]='window'
-    #drawer class="" mode="side"
+    #drawer
+    mode="side"
     [ngStyle]='Styles'>
-        <header-navbar></header-navbar>
+    <br>
         <ul class="nav nav-pills nav-fill mb-3">
-            <li class="nav-item active" data-toggle="pill" routerLink = 'home'>Home</li>
-            <li class="nav-item" data-toggle="pill" routerLink = 'discover'>Discover</li>
-            <li class="nav-item" data-toggle="pill" routerLink = 'mytrip'>My trip</li>
+            <div class="container row justify-content-center">
+                <button mat-button class="nav-item active col-auto" data-toggle="pill" routerLink = 'home'>Home</button>
+                <button mat-button class="nav-item col-auto" data-toggle="pill" routerLink = 'discover'>Discover</button>
+                <button mat-button class="nav-item col-auto" data-toggle="pill" routerLink = 'mytrip'>My trip</button>
+            </div>
+            <br>
+                  
+            <app-searchbutton
+                *ngFor='let item of openTabs, let i = index'
+                [searchTab] = 'item'>
+            </app-searchbutton>
 
-
-            <app-searchbutton *ngFor='let item of openTabs, let i = index'
-            [searchTab] = 'item'></app-searchbutton>
-            <button class="close-nav nav-link" type="button" mat-button (click)="window = !window">
+            <button id='closeToggle' class="close-nav nav-link" type="button" mat-button (click)="window = !window">
                 <span>&times;</span>
             </button>
 
+            <div class="container-fluid">
+                <router-outlet></router-outlet>
+            </div>
+
         </ul>
         <br>
-        <router-outlet></router-outlet>
     </mat-drawer>
 </mat-drawer-container>

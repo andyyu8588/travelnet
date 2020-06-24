@@ -16,38 +16,39 @@
   </form>
 </div> -->
 
-
-<form
-ngbAutofocus
-class='modal-body'
-id='form'
-(ngSubmit)="loginClicked()"
-[formGroup]='loginForm'>
-  <h1 class='modal-title'>Login</h1>
-  <hr>
-    <!-- username -->
-    <mat-form-field appearance="outline" class='form-group' id="username">
-      <mat-label for='username'>Email or Username</mat-label>
-      <input matInput formControlName='username' placeholder="Enter a Username" autocomplete="off">
-      <small class="help-block text-danger" *ngIf="!loginForm.get('username').valid">Please enter something</small>
-    </mat-form-field>
-    
-
-    <!-- password -->
-    <mat-form-field appearance="outline" class='form-group col-6'>
-      <mat-label for='password'>Password</mat-label>
-      <input matInput
-        placeholder="Enter a password"
-        formControlName='password'
-        [type]="hide ? 'password' : 'text'"
-        autocomplete="false">
-      <small class="help-block text-danger" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Please enter something</small>
-      <button mat-button
-        type='button'
-        mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-    </mat-form-field>
-    <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Login</button>
-  </form>
-
+<mat-card class="">
+  <mat-card-content class="">
+    <form
+    ngbAutofocus
+    class='modal-body'
+    id='form'
+    (ngSubmit)="loginClicked()"
+    [formGroup]='loginForm'>
+      <h1 class='modal-title'>Login</h1>
+      <hr>
+      <!-- username -->
+      <mat-form-field appearance="outline" class='form-group' id="username">
+        <mat-label for='username'>Email or Username</mat-label>
+        <input matInput formControlName='username' placeholder="Enter a Username" autocomplete="off">
+        <small class="help-block text-danger" *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched">Please enter something</small>
+      </mat-form-field>
+        
+      <!-- password -->
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='password'>Password</mat-label>
+        <input matInput
+          placeholder="Enter a password"
+          formControlName='password'
+          [type]="hide ? 'password' : 'text'"
+          autocomplete="false">
+        <small class="help-block text-danger" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Please enter something</small>
+        <button mat-button
+          type='button'
+          mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <button type='submit' id='submit' class='btn btn-primary' aria-required='true'>Login</button>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,28 +1,22 @@
-// #sidebarContent {
-//     max-height: 85%;
-//     max-width: 25%;
-// }
-
-#theButton {
-    z-index: 2;
-    position: fixed;
-    top: 5%;
-    left: 2%;
+#openToggle {
+  z-index: 2;
+  position: fixed;
+  top: 5%;
+  left: 2%;
 }
 
+#closeToggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
 }
-.close-nav{
-  top: -85px;
-  position: relative;
-}
+
 .btn {
     cursor: pointer;
-}
-.col-2{
-  padding: 0px;
 }
 
 .icon-bar {
@@ -32,11 +26,13 @@ mwlResizable {
     margin: 4px;
     position: relative;
 }
+
 header-navbar{
   width: 100%;
 }
+
 .close-tab{
-padding: 0px;
-width: 5px;
+  padding: 0px;
+  width: 5px;
 }
 

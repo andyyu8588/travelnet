@@ -1,109 +1,117 @@
-<form
-ngbAutofocus
-class='modal-body'
-id='form'
-(ngSubmit)="onSubmit()"
-[formGroup]='registrationForm'>
-  <h1 class='modal-title'>Registration</h1>
-  <hr>
-  <!-- Name -->
-  <div formGroupName='name' class="row">
-    <!-- first Name -->
-    <mat-form-field appearance="outline" class='form-group col-6'>
-      <mat-label for='First Name'>First Name</mat-label>
-      <input matInput
-      placeholder="Enter your first name"
-      formControlName='firstName'>
+  <form
+  ngbAutofocus
+  class='modal-body'
+  id='form'
+  (ngSubmit)="onSubmit()"
+  [formGroup]='registrationForm'>
+    <h1 class='modal-title'>Registration</h1>
+    <hr>
+    <!-- Name -->
+    <div formGroupName='name' class="row">
+      <!-- first Name -->
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='First Name'>First Name</mat-label>
+        <input matInput
+        placeholder="Enter your first name"
+        formControlName='firstName'>
+      </mat-form-field>
+      <!-- Last Name -->
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='password'>Last Name</mat-label>
+        <input matInput
+        placeholder="Enter your last name"
+        formControlName='lastName'>
+      </mat-form-field>
+    </div>
+    <!-- username -->
+    <mat-form-field appearance="outline" class='form-group' id="username">
+      <mat-label for='username'>Username</mat-label>
+      <input matInput formControlName='username' placeholder="Enter a Username" autocomplete="off">
+      <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
+      <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameLength()">Your username must be between 2 and 15 characters long.</small>
     </mat-form-field>
-    <!-- Last Name -->
-    <mat-form-field appearance="outline" class='form-group col-6'>
-      <mat-label for='password'>Last Name</mat-label>
+    <!-- password confirmation -->
+    <div formGroupName='passwords' class="row">
+      <!-- password -->
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='password'>Password</mat-label>
+        <input matInput
+        placeholder="Enter a password"
+        formControlName='password'
+        [type]="hide ? 'password' : 'text'">
+        <button mat-button
+        type='button'
+        mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <!-- confirm password -->
+      <mat-form-field appearance="outline" class='form-group col-6'>
+        <mat-label for='password'>confirm your password</mat-label>
+        <input matInput
+        placeholder="confirm your password"
+        formControlName='confirmPassword'
+        [type]="hide1 ? 'password' : 'text'">
+        <button
+        type="button"
+        mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide1">
+        <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordValidity">your passwords do not match</small>
+    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordLength()">your password should be between 5-15 characters</small>
+    <!-- email -->
+    <mat-form-field appearance="outline" class='form-group' id="email">
+      <mat-label for='email'>Email Address</mat-label>
       <input matInput
-      placeholder="Enter your last name"
-      formControlName='lastName'>
+      formControlName='email'
+      placeholder='Enter a valid Email'>
+      <small id="passwordHelpBlock" class="text-danger" *ngIf="checkEmailValidity()">Please enter a valid email</small>
+      <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
     </mat-form-field>
-  </div>
-  <!-- username -->
-  <mat-form-field appearance="outline" class='form-group' id="username">
-    <mat-label for='username'>Username</mat-label>
-    <input matInput formControlName='username' placeholder="Enter a Username" autocomplete="off">
-    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameUse()">This username is already in use.</small>
-    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkUsernameLength()">Your username must be between 2 and 15 characters long.</small>
-  </mat-form-field>
-  <!-- password confirmation -->
-  <div formGroupName='passwords' class="row">
-    <!-- password -->
-    <mat-form-field appearance="outline" class='form-group col-6'>
-      <mat-label for='password'>Password</mat-label>
-      <input matInput
-      placeholder="Enter a password"
-      formControlName='password'
-      [type]="hide ? 'password' : 'text'">
-      <button mat-button
-      type='button'
-      mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- confirm password -->
-    <mat-form-field appearance="outline" class='form-group col-6'>
-      <mat-label for='password'>confirm your password</mat-label>
-      <input matInput
-      placeholder="confirm your password"
-      formControlName='confirmPassword'
-      [type]="hide1 ? 'password' : 'text'">
-      <button
-      type="button"
-      mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
-      [attr.aria-pressed]="hide1">
-      <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-    </mat-form-field>
-  </div>
-  <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordValidity">your passwords do not match</small>
-  <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordLength()">your password should be between 5-15 characters</small>
-  <!-- email -->
-  <mat-form-field appearance="outline" class='form-group' id="email">
-    <mat-label for='email'>Email Address</mat-label>
-    <input matInput
-    formControlName='email'
-    placeholder='Enter a valid Email'>
-    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkEmailValidity()">Please enter a valid email</small>
-    <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
-  </mat-form-field>
-  <!-- Birthdate -->
-  <br>
-  <div class="form-inline">
-    <div class="form-group">
-      <div class="input-group">
-        <input class="form-control"
-        [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2020, month: 1, day: 1}"
-        placeholder="yyyy-mm-dd"
-        formControlName="birthDate"
-              name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
-        <div class="input-group-append">
-          <button id='calendar' class="btn btn-outline-secondary calendar"
-          (click)="d.toggle()" type="button"><mat-icon>calendar_today</mat-icon></button>
+    <!-- Birthdate -->
+    <div class="form-inline">
+      <div class="form-group">
+        <div class="input-group">
+          <label for="calendar">Birthdate:</label>
+          &nbsp; &nbsp;
+          <input 
+            id="calendar"
+            class="form-control"
+            [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2020, month: 1, day: 1}"
+            placeholder="yyyy-mm-dd"
+            formControlName="birthDate"
+            name="dp"
+            [(ngModel)]="model"
+            ngbDatepicker 
+            #d="ngbDatepicker">
+          <button
+            id='calendar'
+            class="btn btn-outline-secondary calendar input-group-append rounded-0"
+            (click)="d.toggle()" type="button">
+            <mat-icon>calendar_today</mat-icon>
+          </button>
         </div>
       </div>
     </div>
-  </div>
-  <br>
-  <!-- Gender -->
-  <mat-radio-group aria-label="Select an option" class="row"
-  formControlName="gender">
-    <mat-radio-button value="Male" class='col-4'>Male</mat-radio-button>
-    <mat-radio-button value="Female" class='col-4'>Female</mat-radio-button>
-    <mat-radio-button value="Other" class='col-4'>Other</mat-radio-button>
-  </mat-radio-group>
-  <br>
-  <!-- checkbox -->
-  <div>
-    <mat-checkbox class='form-group'
-      formControlName='checkbox'>
-      <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
-    </mat-checkbox>
-  </div>
-  <!-- <button mat-button matStepperNext  type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button> -->
-</form>
-<!-- <button (click)='onSubmit()' class="btn btn-primary">onSubmit</button> -->
+    <br>
+    <!-- Gender -->
+    <mat-radio-group aria-label="Select an option" class="row"
+    formControlName="gender">
+      <mat-radio-button value="Male" class='col-4'>Male</mat-radio-button>
+      <mat-radio-button value="Female" class='col-4'>Female</mat-radio-button>
+      <mat-radio-button value="Other" class='col-4'>Other</mat-radio-button>
+    </mat-radio-group>
+    <br>
+    <!-- checkbox -->
+    <div>
+      <mat-checkbox class='form-group'
+        formControlName='checkbox'>
+        <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
+      </mat-checkbox>
+    </div>
+    <!-- <button mat-button matStepperNext  type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button> -->
+  </form>
+  <!-- <button (click)='onSubmit()' class="btn btn-primary">onSubmit</button> -->
