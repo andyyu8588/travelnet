@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { tab } from '../../../../tab.model'
+import { SearchService } from './../../../../../../services/search.service'
 @Component({
   selector: 'app-searchbutton',
   templateUrl: './searchbutton.component.html',
@@ -7,15 +8,14 @@ import { tab } from '../../../../tab.model'
 })
 export class SearchbuttonComponent implements OnInit {
   @Input() searchTab: tab
-  // @Input() index: number
 
-  constructor() { }
+  constructor(private SearchService: SearchService) { }
 
   ngOnInit(): void {
   }
 
-  deleteTab(i){
-    console.log(i)
+  deleteTab(tab){
+    this.SearchService.deleteTab(tab.index)
   }
 
 }

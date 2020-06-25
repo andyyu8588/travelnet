@@ -114,6 +114,9 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.windowSub.unsubscribe()
     this.openTabsSub.unsubscribe()
   }
+  newTab(){
+    this.SearchService.newTab()
+  }
 
 // isHamburguer = false;
 // onClick() {

@@ -51,15 +51,18 @@ mwlResizable
         <ul class="nav nav-pills nav-fill mb-3">
             <div class="container row justify-content-center">
                 <button mat-button class="nav-item active col-auto" data-toggle="pill" routerLink = 'home'>Home</button>
-                <button mat-button class="nav-item col-auto" data-toggle="pill" routerLink = 'discover'>Discover</button>
                 <button mat-button class="nav-item col-auto" data-toggle="pill" routerLink = 'mytrip'>My trip</button>
+
+                <app-searchbutton
+                  *ngFor='let item of openTabs, let i = index'
+                  [searchTab] = 'item'>
+                </app-searchbutton>
+
+
+
+                <button mat-button class="nav-item col-1" data-toggle="pill" (click)='newTab()'>+</button>
             </div>
             <br>
-                  
-            <app-searchbutton
-                *ngFor='let item of openTabs, let i = index'
-                [searchTab] = 'item'>
-            </app-searchbutton>
 
             <button id='closeToggle' class="close-nav nav-link" type="button" mat-button (click)="window = !window">
                 <span>&times;</span>

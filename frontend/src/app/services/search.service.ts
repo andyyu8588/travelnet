@@ -67,17 +67,19 @@ export class SearchService implements OnDestroy {
 
   // creates new tab
   newTab(){
-    let newTab = [];
+    console.log('new tab clicked')
     this.openTabs.push(
-      { query : null,
-        path : 'searchresults/',
+      { query : 'newTab',
+        index : this.openTabs.length,
+        path : 'searchresults/' + (this.openTabs.length).toString(),
         content: null
       }
     )
+    this._searchTabs.next(this.openTabs)
   }
 
   //user makes new search in a tab
-  newSeach(query: string,latLng:string, index:number) {
+  newSeach(query: string, latLng:string, index:number) {
     this._searchTabs.next(this.openTabs)
     this.mainSearch(query, latLng)
     .then(result => {

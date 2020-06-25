@@ -1,7 +1,7 @@
-<li>
-  <a class="nav-link" data-toggle="pill"  routerLink = {{searchTab.path}}  style="cursor: pointer;">{{searchTab.query}}</a>
-  <a class="close-tab nav-link" type="button" >
-  <span  class="close-tab">&times;</span>
-  </a>
-</li>
 
+  <button mat-button class="nav-item active col-auto" data-toggle="pill">
+    <div   style="float: left;" routerLink = {{searchTab.path}}>{{searchTab.query}}</div>
+    <div style="float: right; padding:  0px 10px 0px 10px;" type="button" (click)="deleteTab(searchTab)">
+      <span  class="">&times;</span>
+    </div>
+  </button>
