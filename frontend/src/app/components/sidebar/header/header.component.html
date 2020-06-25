@@ -28,8 +28,6 @@
   </div>
 </div> -->
 
-<ul class="nav nav-pills nav-fill">
-
   <!-- logo -->
   <!-- <li class="nav-item">
     <img src="assets/img/travelnet.jpg" id="logo" alt="asd" (click)="onReload()">
@@ -47,10 +45,8 @@
   </li> -->
 
   <!-- Register and Login buttons -->
-  <li *ngIf='!sessionState' class="nav-item topButton">
-    <a class='btn btn-primary' routerLink='register' style="margin-right: 1%;">Register<span class='sr-only'></span></a>
-    <a class='btn btn-primary' routerLink='login'>Login<span class='sr-only'></span></a>
-  </li>
+    <!-- <a class='btn btn-primary' routerLink='register' style="margin-right: 1%;">Register<span class='sr-only'></span></a> -->
+    <a *ngIf='!sessionState' class='btn btn-primary' routerLink='login'>Login<span class='sr-only'></span></a>
 
   <li *ngIf='sessionState' class="nav-item topIcon">
     <div  id='icon' class="dropdown">
@@ -61,6 +57,4 @@
       </div>
     </div>
   </li>
-</ul>
-
 

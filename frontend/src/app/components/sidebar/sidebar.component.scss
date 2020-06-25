@@ -11,8 +11,15 @@
   right: 0;
 }
 
+#resize {
+  z-index: -1;
+  position: absolute;
+  right: -4%;
+  top: 45%;
+}
+
 mwlResizable {
-    box-sizing: border-box; // required for the enableGhostResize option to work
+  box-sizing: border-box; // required for the enableGhostResize option to work
 }
 
 .btn {

@@ -38,13 +38,13 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number = 0.35
   Styles = {
     'position': 'fixed',
-    'background-color': 'rgba(255,255,255,0.7)',
+    'background-color': 'rgba(255,255,255,0.75)',
     'min-width': '700px',
     'top': '1%',
     'left': '1%',
     'height': '95%',
     'overflow-x':'hidden',
-    'padding-right':'5px',
+    'padding-right':'1%',
     'width': `${window.innerWidth >= 500? window.innerWidth*this.width : window.innerWidth}px`,
   }
   showFiller = true
