@@ -63,9 +63,6 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openTabs = x
     })
   }
-  deleteTab(i){
-    this.SearchService.deleteTab(i)
-  }
 
   ngAfterViewInit() {
     this.windowSub = this.FriendlistService.windowSize.subscribe((windowWidth) => {
@@ -118,9 +115,5 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.SearchService.newTab()
   }
 
-// isHamburguer = false;
-// onClick() {
-//   this.isHamburguer = !this.isHamburguer;
-// }
 }
 

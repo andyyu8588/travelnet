@@ -8,14 +8,15 @@ import { SearchService } from './../../../../../../services/search.service'
 })
 export class SearchbuttonComponent implements OnInit {
   @Input() searchTab: tab
+  @Input() i : number
 
   constructor(private SearchService: SearchService) { }
 
   ngOnInit(): void {
   }
 
-  deleteTab(tab){
-    this.SearchService.deleteTab(tab.index)
+  deleteTab(Tab){
+    this.SearchService.deleteTab(Tab)
   }
 
 }

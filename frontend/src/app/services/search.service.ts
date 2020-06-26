@@ -70,8 +70,7 @@ export class SearchService implements OnDestroy {
     console.log('new tab clicked')
     this.openTabs.push(
       { query : 'newTab',
-        index : this.openTabs.length,
-        path : 'searchresults/' + (this.openTabs.length).toString(),
+        path : 'searchresults/',
         content: null
       }
     )
@@ -124,8 +123,14 @@ export class SearchService implements OnDestroy {
     this.returnSearch = []
     this._searchResults.next([])
   }
-  deleteTab(i:number){
-    this.openTabs.splice(i,1)
+  getTabIndex(Tab:any){
+    return this.openTabs.indexOf(Tab)
+  }
+
+
+  deleteTab(Tab:any){
+    // console.log('tab at index '+this.openTabs.indexOf(Tab)+ ' was deleted')
+    this.openTabs.splice(this.openTabs.indexOf(Tab),1)
     this._searchTabs.next(this.openTabs)
   }
 
