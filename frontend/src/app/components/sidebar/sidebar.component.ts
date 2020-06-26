@@ -58,8 +58,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   tabs : any[] = ['home', 'mytrip', 'search']
 
   selectedTab(): string {
-    if (this.Router.url.substr(0, 7) == '/search') {
-      return '/search'
+    if (this.Router.url.substr(0, 14) == '/searchresults') {
+      return '/searchresults'
     } else {
       return this.Router.url
     }
@@ -108,7 +108,6 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onResizeEnd(event: any): void {
-    console.log('Element was resized', event);
     this.Styles.width = `${event.rectangle.width}px`
   }
 
