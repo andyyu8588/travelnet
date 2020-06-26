@@ -1,3 +1,19 @@
 <button type="button" class="btn">
-        {{searchResult}}
+  <mat-card>
+
+    <mat-card-header>
+      <mat-card-title>{{searchResult.type}} : {{searchResult.name}}</mat-card-title>
+      <mat-card-subtitle>{{searchResult.category}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="container">
+      <p>
+        {{searchResult.address.address}}
+      </p>
+      <p>
+        {{searchResult.reasons}}
+      </p>
+    </mat-card-content>
+
+  </mat-card>
 </button>

@@ -94,7 +94,16 @@ export class SearchService implements OnDestroy {
       .then(result => {
         if (!result[0].response.warning){
         result[0].response.groups[0].items.forEach( venue =>{
-          this.returnSearch.push({'type':'venue','name' : venue.venue.name})
+          console.log(venue)
+          this.returnSearch.push(
+            {
+            'type':'venue',
+            'name' : venue.venue.name,
+            'address' : venue.venue.location,
+            'formattedAddress' : venue.venue.formattedAddress,
+            'category' : (venue.venue.categories)[0].name,
+            'reasons' : (venue.reasons.items)[0].summary
+          })
         })
         if (sessionStorage.getItem('username'))
           if (result[1].users){
