@@ -18,7 +18,7 @@ export class SearchService implements OnDestroy {
   // private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   // public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
-  private search: tab = {query: null, path: 'searchresults/', content : []}
+  private search: tab = {query: null, path: 'search/', content : []}
   private _searchTab: BehaviorSubject<any> = new BehaviorSubject(this.search)
   public searchTab : Observable<any> = this._searchTab.asObservable()
 
@@ -85,8 +85,10 @@ export class SearchService implements OnDestroy {
   // }
 
   //user makes new search in a tab
-  newSeach(query: string, latLng:string, index:number) {
+  newSeach(query: string, latLng:string) {
     return new Promise((resolve,reject)=>{
+      this.search.content= []
+      this._searchTab.next(this.search)
       // this._searchTabs.next(this.openTabs)
       this.mainSearch(query, latLng)
       .then(result => {
@@ -106,15 +108,15 @@ export class SearchService implements OnDestroy {
       }
       this.search = (
         {query: query,
-        path: 'searchresults/' + query,
+        path: 'search/' + query,
         content: this.returnSearch
       }
       )
-        this.resetSearch
-        this._searchTab.next(this.search)
+      console.log(this.search)
+      resolve(this._searchTab.next(this.search))
       })
       .catch(err => {
-        console.log(err)
+        reject(err)
       })
     })
 

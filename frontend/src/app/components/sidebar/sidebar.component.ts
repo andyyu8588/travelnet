@@ -53,8 +53,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // about sidebar tabs
   private openTabsSub: Subscription
-  openTabs: Array<tab>
-  
+  openTab: tab
+
   tabs : any[] = ['home', 'mytrip', 'search']
 
   selectedTab(): string {
@@ -75,7 +75,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.openTabsSub = this.SearchService.searchTab.subscribe(x => {
-      this.openTabs = x
+      this.openTab = x
     })
   }
 

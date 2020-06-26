@@ -47,17 +47,17 @@
                 <button mat-button *ngIf='selectedTab() != "/mytrip"' class="nav-link col" routerLink='mytrip'>My Trip</button>
                 <button mat-raised-button *ngIf='selectedTab() == "/mytrip"' class="nav-link col" routerLink='mytrip'>My Trip</button>
 
-                <button mat-button *ngIf='selectedTab() != "/search"' class="nav-link col" routerLink='search'>Search</button>
-                <button mat-raised-button *ngIf='selectedTab() == "/search"' class="nav-link col" routerLink='search'>Search</button>
+                <button mat-button *ngIf='selectedTab() != "openTab.path"' class="nav-link col" [routerLink] = "[openTab.path]" >Search</button>
+                <button mat-raised-button *ngIf='selectedTab() == "openTab.path"' class="nav-link col" [routerLink] = "[openTab.path]" >Search</button>
 
                 <!-- new tabs feature -->
                 <!-- <app-searchbutton
                   *ngFor='let item of openTabs, let i = index'
                   [searchTab]='item'>
-                </app-searchbutton> 
+                </app-searchbutton>
                 <button mat-button class="nav-item col-1" data-toggle="pill" (click)='newTab()'>+</button>
                 -->
-                
+
                 <!-- hide sidebar -->
                 <button mat-button color='warn' id='closeToggle' class="close-nav nav-link offset-11" type="button" (click)="window = !window">
                     <span>
