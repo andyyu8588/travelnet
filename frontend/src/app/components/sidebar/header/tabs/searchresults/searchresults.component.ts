@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { tab } from '../../../tab.model'
 import { MapService } from 'src/app/services/map/map.service';
 import { SearchService } from 'src/app/services/search.service';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router'
 
 @Component({
   selector: 'app-searchresults',
@@ -12,25 +13,28 @@ import { SearchService } from 'src/app/services/search.service';
 export class SearchresultsComponent implements OnInit,OnDestroy {
   constructor(private SearchService : SearchService,
               private map: MapService,
-              private Renderer : Renderer2,) {}
+              private Renderer : Renderer2,
+              private router : Router
+              ) {}
   loading: boolean = false
   private child: HTMLParagraphElement
-  searches: any
-  openTabs: tab[] = []
-  private returnTabs: Subscription
+  openTab: tab
+  private returnTab: Subscription
   @ViewChild('searchResultsContainer') div: ElementRef
 
 
   ngOnInit(): void {
-  this.returnTabs = this.SearchService.searchTab.subscribe((tabs)=> this.openTabs = tabs)
+  this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
   }
 
 
 
   onSubmit(data: string) {
 
-    this.SearchService.newSeach(data, this.map.getCenter(),0)
-
+    this.SearchService.newSeach(data, this.map.getCenter()).then(()=>{
+    this.router.navigate([this.openTab.path])
+    console.log(this.openTab.content)
+    })
     // this.openTabs.forEach(element => {
     //   if (element.query == data.toLowerCase()){
     //     console.log(element.content)
