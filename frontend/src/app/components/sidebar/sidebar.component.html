@@ -4,40 +4,16 @@
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"></div>
     <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'bottomX'"></div>
 </div>
+-->
 
-<div class="border-right"
-[hidden]='isHamburguer'
-mwlResizable
-[validateResize]='validate'
-[enableGhostResize]="true"
-[resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
-(resizeEnd)="onResizeEnd($event)"
-[ngStyle]='Styles'>
-    <ul class="nav nav-pills nav-fill justify collapse multi-collapse show" id="sidebar" #sidebar aria-expanded="true">
-        <div class="navbar navbar-expand-lg navbar-collapse " >
-            <li class="nav-item" *ngFor='let item of items, let i = index' >
-                <a class="nav-link" data-toggle="pill" [ngClass]="{'active': i === 0}" style="cursor: pointer;">{{ item }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">
-                    <button (click)='onClick()' type="button" class="close" data-toggle="collapse" data-target=".multi-collapse" aria-controls="sidebar sidebarContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </a>
-            </li>
-        </div>
-    </ul>
-    <div class="container-fluid multi-collapse collapse show" id="sidebarContent">
-        <p>actual content</p>
-    </div>
-</div>  -->
+<!-- open sidebar button -->
 <div *ngIf='!window' class="example-sidenav-content bg-light" id="openToggle">
     <button type="button" mat-button (click)="drawer.toggle(); window = !window">
     Open Sidebar
     </button>
 </div>
 
-<mat-drawer-container class='container-fluid' style="overflow-x: hidden;" autosize >
+<mat-drawer-container class='container-fluid border' style="overflow-x: hidden;" autosize >
     <mat-drawer
         mwlResizable
         [validateResize]='validate'
@@ -53,7 +29,7 @@ mwlResizable
             mwlResizeHandle
             [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
             id="resize"
-            >
+            class="btn border-left">
             <span>
                 <svg class="bi bi-grip-horizontal" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -63,19 +39,21 @@ mwlResizable
 
         <ul class="nav nav-pills nav-fill mb-3">
             <!-- tabs menu -->
-            <div class="container row justify-content-center" style="background-color: rgba(255, 255, 255, 1); padding-right: 0;">
-                <button mat-button class="nav-item active col-auto" data-toggle="pill" routerLink = 'home'>Home</button>
-                <button mat-button class="nav-item col-auto" data-toggle="pill" routerLink = 'mytrip'>My trip</button>
+            <div class="container row " style="background-color: rgba(255, 255, 255, 1); padding-right: 0; margin-right: 0;">
+                <button mat-button class="nav-link col" routerLink='home'>Home</button>
+                <button mat-button class="nav-link col" routerLink='mytrip'>My Trip</button>
+                <button mat-button class="nav-link col" routerLink>Search</button>
 
-                <app-searchbutton
+                <!-- new tabs feature -->
+                <!-- <app-searchbutton
                   *ngFor='let item of openTabs, let i = index'
                   [searchTab]='item'>
-                </app-searchbutton>
-
+                </app-searchbutton> 
                 <button mat-button class="nav-item col-1" data-toggle="pill" (click)='newTab()'>+</button>
-
+                -->
+                
                 <!-- hide sidebar -->
-                <button id='closeToggle' class="close-nav nav-link col-1 offset-11 align-self-end" type="button" mat-button (click)="window = !window">
+                <button mat-button color='warn' id='closeToggle' class="close-nav nav-link" type="button" (click)="window = !window">
                     <span>
                         <svg class="bi bi-arrow-bar-left" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M5.854 4.646a.5.5 0 0 0-.708 0l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L3.207 8l2.647-2.646a.5.5 0 0 0 0-.708z"/>
@@ -85,7 +63,8 @@ mwlResizable
                 </button>
             </div>
 
-            <div class="container-fluid" style="width: 100%; height: 500px; padding: 0; padding-top: 1%; padding-right: 1%;">
+            <!-- sidebar content -->
+            <div class="container-fluid" style="width: 100%; height: 500px; padding: 0; padding-top: 1%; padding-left: 0; margin-right: 20px;">
                 <router-outlet style="width: 100%;"></router-outlet>
             </div>
         </ul>

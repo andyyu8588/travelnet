@@ -53,6 +53,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   // about sidebar tabs
   private openTabsSub: Subscription
   openTabs: Array<tab>
+  
+  raised= 'mat-raised-button'
 
   constructor(private FriendlistService: FriendlistService,
               private SearchService: SearchService
