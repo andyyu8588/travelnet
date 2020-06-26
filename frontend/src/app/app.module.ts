@@ -67,7 +67,9 @@ import { MytripComponent } from './components/sidebar/header/tabs/mytrip/mytrip.
 import { CountrySelectorComponent } from './components/registration-process/country-selector/country-selector.component';
 import { CountryList } from 'country-list';
 import { SearchComponent } from './components/sidebar/header/tabs/searchresults/search/search.component';
-import { SearchbuttonComponent } from './components/sidebar/header/tabs/searchresults/searchbutton/searchbutton.component'
+import { SearchbuttonComponent } from './components/sidebar/header/tabs/searchresults/searchbutton/searchbutton.component';
+import { VenueComponent } from './components/venue/venue.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component'
 
 @NgModule({
   declarations: [
@@ -95,6 +97,8 @@ import { SearchbuttonComponent } from './components/sidebar/header/tabs/searchre
     CountrySelectorComponent,
     SearchComponent,
     SearchbuttonComponent,
+    VenueComponent,
+    SearchBarComponent,
   ],
   imports: [
     BrowserModule,

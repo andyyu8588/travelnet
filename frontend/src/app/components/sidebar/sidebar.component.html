@@ -40,15 +40,15 @@
         <ul class="nav nav-pills nav-fill mb-3" style="margin: 0;">
             <!-- tabs menu -->
             <div class="container row " style="background-color: rgba(255, 255, 255, 1); padding-right: 1%; margin: 0; margin-right: 1%; min-width: 100%;">
-                
+
                 <button mat-button *ngIf='selectedTab() != "/home"' class="nav-link col" routerLink='home'>Home</button>
                 <button mat-raised-button *ngIf='selectedTab() == "/home"' class="nav-link col" routerLink='home'>Home</button>
 
                 <button mat-button *ngIf='selectedTab() != "/mytrip"' class="nav-link col" routerLink='mytrip'>My Trip</button>
                 <button mat-raised-button *ngIf='selectedTab() == "/mytrip"' class="nav-link col" routerLink='mytrip'>My Trip</button>
 
-                <button mat-button *ngIf='selectedTab() != "/searchresults"' class="nav-link col" [routerLink]="[openTab.path]" >Search</button>
-                <button mat-raised-button *ngIf='selectedTab() == "/searchresults"' class="nav-link col" [routerLink]="[openTab.path]" >Search</button>
+                <button mat-button *ngIf='selectedTab() != "/search"' class="nav-link col" [routerLink]="[openTab.path]" >Search</button>
+                <button mat-raised-button *ngIf='selectedTab() == "/search"' class="nav-link col" [routerLink]="[openTab.path]" >Search</button>
 
                 <!-- new tabs feature -->
                 <!-- <app-searchbutton

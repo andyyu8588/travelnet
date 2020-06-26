@@ -37,9 +37,9 @@ export class SearchService implements OnDestroy {
   }
 
 
-  foursquareSearch(query: string, latLng: string): Promise<any> {
+  foursquareSearchVenues(query: string, latLng: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.foursquareService.onSendRequest(query, latLng)
+      this.foursquareService.searchVenues(query, latLng)
       .subscribe((result) => {
         resolve(result)
       }, (err) => {
@@ -69,7 +69,7 @@ export class SearchService implements OnDestroy {
   }
 
   async mainSearch(query: string, latLng: string): Promise<any> {
-    return await Promise.all([this.foursquareSearch(query, latLng), this.userSearch(query)])
+    return await Promise.all([this.foursquareSearchVenues(query, latLng), this.userSearch(query)])
   }
 
   // creates new tab
@@ -83,6 +83,16 @@ export class SearchService implements OnDestroy {
   //   )
   //   this._searchTabs.next(this.openTabs)
   // }
+  formatDetails(query: string){
+    return new Promise<any>((resolve,reject)=>{
+      this.foursquareService.getDetails(query)
+      .subscribe(result=>{
+        resolve(result)
+      }, (err) => {
+        reject(err)
+      })
+    })
+  }
 
   //user makes new search in a tab
   newSeach(query: string, latLng:string) {
@@ -94,7 +104,7 @@ export class SearchService implements OnDestroy {
       .then(result => {
         if (!result[0].response.warning){
         result[0].response.groups[0].items.forEach( venue =>{
-          console.log(venue)
+          // console.log(venue)
           this.returnSearch.push(
             {
             'type':'venue',
@@ -102,7 +112,8 @@ export class SearchService implements OnDestroy {
             'address' : venue.venue.location,
             'formattedAddress' : venue.venue.formattedAddress,
             'category' : (venue.venue.categories)[0].name,
-            'reasons' : (venue.reasons.items)[0].summary
+            'reasons' : (venue.reasons.items)[0].summary,
+            'Id' : venue.venue.id,
           })
         })
         if (sessionStorage.getItem('username'))
@@ -141,6 +152,11 @@ export class SearchService implements OnDestroy {
   resetSearch(){
     this.returnSearch = []
     this._searchResults.next([])
+  }
+  updatePath(path){
+    this.search.path = path
+    this._searchTab.next(this.search)
+    console.log(this._searchTab)
   }
 
 

@@ -16,7 +16,8 @@ export const environment = {
     clientSecret: 'K51P2Y1T3TMTCU24LOFHDFOAONPGU44ZBNZCGTWCOJESUW4A',
     v: '20200517',
     venuesSearch: 'https://api.foursquare.com/v2/venues/search',
-    venuesExplore: 'https://api.foursquare.com/v2/venues/explore'
+    venuesExplore: 'https://api.foursquare.com/v2/venues/explore',
+    venueDetails: 'https://api.foursquare.com/v2/venues',
 
   },
 
