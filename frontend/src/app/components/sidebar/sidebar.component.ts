@@ -44,7 +44,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     'left': '1%',
     'height': '95%',
     'overflow-x':'hidden',
-    'padding-right':'1%',
+    'padding': '0',
     'width': `${window.innerWidth >= 500? window.innerWidth*this.width : window.innerWidth}px`,
   }
   showFiller = true

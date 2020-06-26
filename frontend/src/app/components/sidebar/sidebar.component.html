@@ -39,52 +39,53 @@ mwlResizable
 
 <mat-drawer-container class='container-fluid' style="overflow-x: hidden;" autosize >
     <mat-drawer
-    mwlResizable
-    [validateResize]='validate'
-    [enableGhostResize]="true"
-    [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
-    (resizeEnd)="onResizeEnd($event)"
-    [opened]='window'
-    #drawer
-    mode="side"
-    [ngStyle]='Styles'>
-    <br>
+        mwlResizable
+        [validateResize]='validate'
+        [enableGhostResize]="true"
+        (resizeEnd)="onResizeEnd($event)"
+        [opened]='window'
+        #drawer
+        mode="side"
+        [ngStyle]='Styles'>
+
+        <!-- resize sidebar icon -->
+        <button
+            mwlResizeHandle
+            [resizeEdges]="{ bottom: false, right: true, top: false, left: false }"
+            id="resize"
+            >
+            <span>
+                <svg class="bi bi-grip-horizontal" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                </svg>
+            </span>
+        </button>
+
         <ul class="nav nav-pills nav-fill mb-3">
-            <div class="container row justify-content-center">
+            <!-- tabs menu -->
+            <div class="container row justify-content-center" style="background-color: rgba(255, 255, 255, 1); padding-right: 0;">
                 <button mat-button class="nav-item active col-auto" data-toggle="pill" routerLink = 'home'>Home</button>
                 <button mat-button class="nav-item col-auto" data-toggle="pill" routerLink = 'mytrip'>My trip</button>
 
                 <app-searchbutton
                   *ngFor='let item of openTabs, let i = index'
-                  [searchTab] = 'item'>
+                  [searchTab]='item'>
                 </app-searchbutton>
 
-
-
                 <button mat-button class="nav-item col-1" data-toggle="pill" (click)='newTab()'>+</button>
+
+                <!-- hide sidebar -->
+                <button id='closeToggle' class="close-nav nav-link col-1 offset-11 align-self-end" type="button" mat-button (click)="window = !window">
+                    <span>
+                        <svg class="bi bi-arrow-bar-left" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M5.854 4.646a.5.5 0 0 0-.708 0l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L3.207 8l2.647-2.646a.5.5 0 0 0 0-.708z"/>
+                            <path fill-rule="evenodd" d="M10 8a.5.5 0 0 0-.5-.5H3a.5.5 0 0 0 0 1h6.5A.5.5 0 0 0 10 8zm2.5 6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 1 0v11a.5.5 0 0 1-.5.5z"/>
+                        </svg>
+                    </span>
+                </button>
             </div>
-            <br>
 
-            <!-- hide sidebar -->
-            <button id='closeToggle' class="close-nav nav-link" type="button" mat-button (click)="window = !window">
-                <span>
-                    <svg class="bi bi-arrow-bar-left" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M5.854 4.646a.5.5 0 0 0-.708 0l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L3.207 8l2.647-2.646a.5.5 0 0 0 0-.708z"/>
-                        <path fill-rule="evenodd" d="M10 8a.5.5 0 0 0-.5-.5H3a.5.5 0 0 0 0 1h6.5A.5.5 0 0 0 10 8zm2.5 6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 1 0v11a.5.5 0 0 1-.5.5z"/>
-                    </svg>
-                </span>
-            </button>
-
-            <!-- resize sidebar icon -->
-            <button mat-button id="resize">
-                <span>
-                    <svg class="bi bi-grip-horizontal" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                    </svg>
-                </span>
-            </button>
-
-            <div class="container-fluid" style="width: 100%; height: 500px; padding: 0;">
+            <div class="container-fluid" style="width: 100%; height: 500px; padding: 0; padding-top: 1%; padding-right: 1%;">
                 <router-outlet style="width: 100%;"></router-outlet>
             </div>
         </ul>
