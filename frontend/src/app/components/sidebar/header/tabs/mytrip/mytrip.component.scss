@@ -1,3 +1,20 @@
 button:focus {
     outline: none;
 }
+
+#lineBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#hrBtn {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background: black;
+}
+
+#addIcon {
+    transform: scale(0.7);
+}

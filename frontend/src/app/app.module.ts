@@ -36,7 +36,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule, MatDateRangeInput } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -67,7 +67,8 @@ import { MytripComponent } from './components/sidebar/header/tabs/mytrip/mytrip.
 import { CountrySelectorComponent } from './components/registration-process/country-selector/country-selector.component';
 import { CountryList } from 'country-list';
 import { SearchComponent } from './components/sidebar/header/tabs/searchresults/search/search.component';
-import { SearchbuttonComponent } from './components/sidebar/header/tabs/searchresults/searchbutton/searchbutton.component'
+import { SearchbuttonComponent } from './components/sidebar/header/tabs/searchresults/searchbutton/searchbutton.component';
+import { TripmodalComponent } from './components/tripmodal/tripmodal.component'
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { SearchbuttonComponent } from './components/sidebar/header/tabs/searchre
     CountrySelectorComponent,
     SearchComponent,
     SearchbuttonComponent,
+    TripmodalComponent,
   ],
   imports: [
     BrowserModule,

@@ -44,7 +44,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     'top': '1%',
     'left': '1%',
     'height': '95%',
-    'overflow-x':'hidden',
+    'max-height': '95%',
+    'overflow':'hidden',
     'padding': '0',
     'width': `${window.innerWidth >= 500? window.innerWidth*this.width : window.innerWidth}px`,
   }

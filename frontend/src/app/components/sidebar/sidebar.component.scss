@@ -13,8 +13,9 @@
   bottom: 0;
   padding: 0;
   width: 2%;
+  min-width: 15px;
   max-width: 25px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.1);
   cursor: col-resize;
 }
 
@@ -25,11 +26,6 @@ mwlResizable {
 .btn {
   cursor: pointer;
 }
-
-// .close-tab{
-//   padding: 0px;
-//   width: 5px;
-// }
 
 button:focus {
   outline: none;
