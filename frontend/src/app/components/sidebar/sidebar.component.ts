@@ -53,7 +53,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   // about sidebar tabs
   private openTabsSub: Subscription
   openTabs: Array<tab>
-  
+
   raised= 'mat-raised-button'
 
   constructor(private FriendlistService: FriendlistService,
@@ -61,7 +61,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
               ) {}
 
   ngOnInit(): void {
-    this.openTabsSub = this.SearchService.searchTabs.subscribe(x => {
+    this.openTabsSub = this.SearchService.searchTab.subscribe(x => {
       this.openTabs = x
     })
   }
@@ -113,9 +113,9 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.windowSub.unsubscribe()
     this.openTabsSub.unsubscribe()
   }
-  newTab(){
-    this.SearchService.newTab()
-  }
+  // newTab(){
+  //   this.SearchService.newTab()
+  // }
 
 }
 
