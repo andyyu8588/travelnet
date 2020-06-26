@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { tab } from './tab.model';
 import { SearchService } from 'src/app/services/search.service';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
@@ -54,11 +55,23 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   private openTabsSub: Subscription
   openTabs: Array<tab>
   
-  raised= 'mat-raised-button'
+  tabs : any[] = ['home', 'mytrip', 'search']
+
+  selectedTab(): string {
+    if (this.Router.url.substr(0, 7) == '/search') {
+      return '/search'
+    } else {
+      return this.Router.url
+    }
+  }
 
   constructor(private FriendlistService: FriendlistService,
-              private SearchService: SearchService
-              ) {}
+              private SearchService: SearchService,
+              private Router: Router
+              )
+  {
+
+  }
 
   ngOnInit(): void {
     this.openTabsSub = this.SearchService.searchTabs.subscribe(x => {
