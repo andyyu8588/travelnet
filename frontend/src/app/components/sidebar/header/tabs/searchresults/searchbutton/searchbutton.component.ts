@@ -16,7 +16,7 @@ export class SearchbuttonComponent implements OnInit {
   }
 
   deleteTab(Tab){
-    this.SearchService.deleteTab(Tab)
+    // this.SearchService.deleteTab(Tab)
   }
 
 }
