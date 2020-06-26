@@ -1,23 +1,19 @@
 #openToggle {
   z-index: 2;
   position: fixed;
-  top: 5%;
+  top: 3%;
   left: 2%;
 }
-
-// #closeToggle {
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-// }
 
 #resize {
   z-index: 2;
   position: absolute;
-  right: -1px;
+  right: 0px;
   top: 0;
   bottom: 0;
   padding: 0;
+  width: 2%;
+  max-width: 25px;
   background-color: rgba(255, 255, 255, 0.8);
   cursor: col-resize;
 }
@@ -30,22 +26,10 @@ mwlResizable {
   cursor: pointer;
 }
 
-.icon-bar {
-  width: 22px;
-  height: 2px;
-  background: black;
-  margin: 4px;
-  position: relative;
-}
-
-header-navbar{
-  width: 100%;
-}
-
-.close-tab{
-  padding: 0px;
-  width: 5px;
-}
+// .close-tab{
+//   padding: 0px;
+//   width: 5px;
+// }
 
 button:focus {
   outline: none;

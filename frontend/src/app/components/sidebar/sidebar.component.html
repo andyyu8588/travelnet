@@ -37,9 +37,9 @@
             </span>
         </button>
 
-        <ul class="nav nav-pills nav-fill mb-3">
+        <ul class="nav nav-pills nav-fill mb-3" style="margin: 0;">
             <!-- tabs menu -->
-            <div class="container row " style="background-color: rgba(255, 255, 255, 1); padding-right: 0; margin-right: 0;">
+            <div class="container row " style="background-color: rgba(255, 255, 255, 1); padding-right: 0; margin: 0; min-width: 100%;">
                 
                 <button mat-button *ngIf='selectedTab() != "/home"' class="nav-link col" routerLink='home'>Home</button>
                 <button mat-raised-button *ngIf='selectedTab() == "/home"' class="nav-link col" routerLink='home'>Home</button>
@@ -59,7 +59,7 @@
                 -->
                 
                 <!-- hide sidebar -->
-                <button mat-button color='warn' id='closeToggle' class="close-nav nav-link" type="button" (click)="window = !window">
+                <button mat-button color='warn' id='closeToggle' class="close-nav nav-link offset-11" type="button" (click)="window = !window">
                     <span>
                         <svg class="bi bi-arrow-bar-left" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M5.854 4.646a.5.5 0 0 0-.708 0l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L3.207 8l2.647-2.646a.5.5 0 0 0 0-.708z"/>
@@ -68,9 +68,8 @@
                     </span>
                 </button>
             </div>
-
             <!-- sidebar content -->
-            <div class="container-fluid" style="width: 100%; height: 500px; padding: 0; padding-top: 1%; padding-left: 0; margin-right: 20px;">
+            <div class="container-fluid" style="width: 100%; height: 500px; padding: 0; padding-top: 1%; padding-left: 0; margin-right: 2%;">
                 <router-outlet style="width: 100%;"></router-outlet>
             </div>
         </ul>

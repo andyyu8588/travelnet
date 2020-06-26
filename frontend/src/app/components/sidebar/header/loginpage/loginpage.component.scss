@@ -17,7 +17,7 @@ input.ng-invalid.ng-touched {
     color: black;
     text-align: center;
     height: 1.5em;
-    opacity: .7;
+    opacity: 1;
     &:before {
       content: '';
       // use the linear-gradient for the fading effect
@@ -39,6 +39,6 @@ input.ng-invalid.ng-touched {
       line-height: 1.5em;
       // this is really the only tricky part, you need to specify the background color of the container element...
       color: #818078;
-      background-color: #fcfcfa;
+      background-color: rgba($color: #ffffff, $alpha: 0.9);
     }
   }
