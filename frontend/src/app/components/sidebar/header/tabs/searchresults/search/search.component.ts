@@ -9,15 +9,14 @@ import { search } from './search.model'
 export class SearchComponent implements OnInit {
 
   searchResult : string
-  @Input() search: search
+  @Input() result: search
   constructor (private searchservice: SearchService) {
   }
 
 
 
   ngOnInit(): void {
-    // console.log(this.search)
-    this.searchResult = this.searchservice.getSearchResult(this.search)
+    this.searchResult = this.searchservice.getSearchResult(this.result)
   }
 
 }
