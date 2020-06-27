@@ -68,7 +68,8 @@ import { CountryList } from 'country-list';
 import { SearchComponent } from './components/tabs/searchresults/search/search.component';
 import { TripmodalComponent } from './components/tripmodal/tripmodal.component'
 import { VenueComponent } from './components/venue/venue.component';
-import { SearchBarComponent } from './components/search-bar/search-bar.component'
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { ListObjectPipe } from './pipes/list-object.pipe'
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     TripmodalComponent,
     VenueComponent,
     SearchBarComponent,
+    ListObjectPipe,
   ],
   imports: [
     BrowserModule,
