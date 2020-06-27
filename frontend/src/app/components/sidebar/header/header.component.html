@@ -48,7 +48,7 @@
     <!-- <a class='btn btn-primary' routerLink='register' style="margin-right: 1%;">Register<span class='sr-only'></span></a> -->
     <a *ngIf='!sessionState' class='btn btn-primary' routerLink='login'>Login<span class='sr-only'></span></a>
 
-  <li *ngIf='sessionState' class="nav-item topIcon">
+  <div *ngIf='sessionState' class="nav-item topIcon">
     <div  id='icon' class="dropdown">
       <img class='img-thumbnail dropdown-toggle' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [src]="link" alt="Settings">
       <div class="dropdown-menu dropdown-menu-right ">
@@ -56,5 +56,5 @@
         <app-logout class="dropdown-item"></app-logout>
       </div>
     </div>
-  </li>
+  </div>
 
