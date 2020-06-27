@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
-import { SocketService } from '../../../../services/chatsystem/socket.service';
+import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../../../../services/session.service'
+import { SessionService } from 'src/app/services/session.service'
 
 @Component({
   selector: 'app-logout',

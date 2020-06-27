@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/services/search.service';
-import { tab } from '../../../tab.model'
+import { tab } from 'src/app/components/tabs/tab.model'
 
 @Component({
   selector: 'app-searchresults',

@@ -1,10 +1,10 @@
 import { Router } from '@angular/router';
-import { tab } from './tab.model';
+import { tab } from '../tabs/tab.model';
 import { SearchService } from 'src/app/services/search.service';
-import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
+import { ResizeEvent } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { trigger, state, style, animate, transition, } from '@angular/animations'
 @Component({
   selector: 'app-sidebar',

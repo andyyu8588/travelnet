@@ -1,6 +1,6 @@
-import { TripmodalComponent } from './../../../../tripmodal/tripmodal.component';
+import { TripmodalComponent } from 'src/app/components/tripmodal/tripmodal.component';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mytrip',

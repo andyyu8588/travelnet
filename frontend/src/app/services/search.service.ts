@@ -1,13 +1,11 @@
 import { MapService } from 'src/app/services/map/map.service';
-import { tab } from './../components/sidebar/tab.model';
-import { search } from '../components/sidebar/header/tabs/searchresults/search/search.model';
+import { tab } from 'src/app/components/tabs/tab.model';
+import { search } from 'src/app/components/tabs/searchresults/search/search.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';
-import { SocketService } from './chatsystem/socket.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { resolve } from 'dns';
+import { Injectable, OnDestroy } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'

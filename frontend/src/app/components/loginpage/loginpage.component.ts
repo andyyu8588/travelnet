@@ -1,7 +1,7 @@
-import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { SocketService } from '../../../../services/chatsystem/socket.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SessionService } from '../../../../services/session.service'
+import { SessionService } from 'src/app/services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 
 export class loginComponent {
     modal = null
-    constructor(private modalService:NgbModal, private SessionService:SessionService) {
+    constructor(private modalService:NgbModal ) {
       this.openModal()
     }
 

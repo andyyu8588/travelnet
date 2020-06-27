@@ -1,6 +1,5 @@
-import { HttpService } from './../../../../../services/http.service';
+import { HttpService } from 'src/app/services/http.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClient } from '@angular/common/http';
 import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
@@ -21,7 +20,7 @@ export class PropretyComponent implements OnInit {
   invalidOld: boolean
   model: NgbDateStruct;
 
-  constructor(private socketService: SocketService,
+  constructor(
     private httpService: HttpService) { }
 
   ngOnInit(): void {
@@ -44,7 +43,7 @@ export class PropretyComponent implements OnInit {
       this.changeForm = new FormGroup({
         'newPropretyValue': new FormControl(this.propretyValue, [Validators.required])
       })
-    }    
+    }
   }
 
   // changing between form and h3 with old proprety
@@ -68,7 +67,7 @@ export class PropretyComponent implements OnInit {
       } else if (this.proprety == 'birthdate') {
         requestedChange.newProprety = moment(requestedChange.newProprety)
       }
-      
+
       this.httpService.post('/user/edit', requestedChange).then((res) => {
         console.log(res)
         window.location.reload()
@@ -77,6 +76,6 @@ export class PropretyComponent implements OnInit {
       })
     } else {
       this.invalid = true
-    }    
+    }
   }
 }

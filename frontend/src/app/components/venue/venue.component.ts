@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FoursquareService } from 'src/app/services/map/foursquare.service';
 import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
-import { tab } from '../sidebar/tab.model';
+import { tab } from '../tabs/tab.model';
 
 @Component({
   selector: 'app-venue',
