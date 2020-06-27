@@ -61,13 +61,11 @@ import { MatTreeModule } from '@angular/material/tree';
 import { RegistrationProcessComponent } from './components/registration-process/registration-process.component';
 import { SearchresultsComponent } from './components/sidebar/header/tabs/searchresults/searchresults.component';
 import { HomeComponent } from './components/sidebar/header/tabs/home/home.component';
-import { DiscoverComponent } from './components/sidebar/header/tabs/discover/discover.component';
 import { MyaccountComponent } from './components/sidebar/header/tabs/myaccount/myaccount.component';
 import { MytripComponent } from './components/sidebar/header/tabs/mytrip/mytrip.component';
 import { CountrySelectorComponent } from './components/registration-process/country-selector/country-selector.component';
 import { CountryList } from 'country-list';
 import { SearchComponent } from './components/sidebar/header/tabs/searchresults/search/search.component';
-import { SearchbuttonComponent } from './components/sidebar/header/tabs/searchresults/searchbutton/searchbutton.component';
 import { TripmodalComponent } from './components/tripmodal/tripmodal.component'
 import { VenueComponent } from './components/venue/venue.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component'
@@ -92,12 +90,10 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     RegistrationProcessComponent,
     SearchresultsComponent,
     HomeComponent,
-    DiscoverComponent,
     MyaccountComponent,
     MytripComponent,
     CountrySelectorComponent,
     SearchComponent,
-    SearchbuttonComponent,
     TripmodalComponent,
     VenueComponent,
     SearchBarComponent,

@@ -53,7 +53,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('drawer') drawer
 
   // about sidebar tabs
-  private openTabsSub: Subscription
+  private openTabSub: Subscription
   openTab: tab
 
   tabs : any[] = ['home', 'mytrip', 'search']
@@ -75,7 +75,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.openTabsSub = this.SearchService.searchTab.subscribe(x => {
+    this.openTabSub = this.SearchService.searchTab.subscribe(x => {
       this.openTab = x
     })
   }
@@ -124,7 +124,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.windowSub.unsubscribe()
-    this.openTabsSub.unsubscribe()
+    this.openTabSub.unsubscribe()
   }
   // newTab(){
   //   this.SearchService.newTab()

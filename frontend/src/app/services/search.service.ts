@@ -18,7 +18,7 @@ export class SearchService implements OnDestroy {
   // private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
   // public searchTabs: Observable<any> = this._searchTabs.asObservable()
 
-  private search: tab = {query: null, path: 'search/', content : []}
+  private search: tab = {query: null, path: 'search/', content : [], prePath:null}
   private _searchTab: BehaviorSubject<any> = new BehaviorSubject(this.search)
   public searchTab : Observable<any> = this._searchTab.asObservable()
 
@@ -104,7 +104,7 @@ export class SearchService implements OnDestroy {
       .then(result => {
         if (!result[0].response.warning){
         result[0].response.groups[0].items.forEach( venue =>{
-          // console.log(venue)
+          console.log(venue)
           this.returnSearch.push(
             {
             'type':'venue',
@@ -127,12 +127,14 @@ export class SearchService implements OnDestroy {
           }
       }
       this.search = (
-        {query: query,
+        {
+        query: query,
+        prePath: 'search/',
         path: 'search/' + query,
         content: this.returnSearch
       }
       )
-      console.log(this.search)
+      // console.log(this.search)
       resolve(this._searchTab.next(this.search))
       })
       .catch(err => {
@@ -154,9 +156,15 @@ export class SearchService implements OnDestroy {
     this._searchResults.next([])
   }
   updatePath(path){
+    this.search.prePath = this.search.path
     this.search.path = path
     this._searchTab.next(this.search)
-    console.log(this._searchTab)
+  }
+  goBack(){
+    this.search.path = this.search.prePath
+    this.search.prePath = 'search/'
+    this._searchTab.next(this.search)
+    console.log(this.search)
   }
 
 
