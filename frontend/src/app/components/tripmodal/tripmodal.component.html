@@ -1,0 +1,27 @@
+<mat-card class="container-fluid">
+    <mat-card-title> New Trip </mat-card-title>
+    <hr>
+    <mat-card-content class="container-fluid">
+        <form>
+            <mat-form-field class="example-full-width">
+                <mat-label>Trip Name</mat-label>
+                <input matInput placeholder="Ex. Simon va a Prague">
+              </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker" >
+                    <input matStartDate placeholder="Start date">
+                    <input matEndDate placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </form>
+
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button>Cancel</button>
+        <button mat-button color='primary'>Save</button>
+    </mat-card-actions>
+</mat-card>

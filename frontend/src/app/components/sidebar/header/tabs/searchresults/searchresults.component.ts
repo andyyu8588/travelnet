@@ -24,6 +24,4 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.returnTab.unsubscribe()
   }
-
-
 }

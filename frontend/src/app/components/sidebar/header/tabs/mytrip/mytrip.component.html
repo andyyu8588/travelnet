@@ -1,26 +1,48 @@
-<div class="">
-
-    <mat-card>
-        <mat-card-content>
-            <div class="container-fluid row align-items-center">
-                <h1 class="col align-items-center" style="margin: 0;">New Trip</h1>
-                <button mat-mini-fab class="col-auto align-self-end">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div>
-        </mat-card-content>
-    </mat-card>
-    <br>
-    <mat-card class="">
-        <mat-card-title class="">Trip 1</mat-card-title>
-        <mat-card-header class="">header</mat-card-header>
-        <mat-card-content class="">
-            mat-card
-        </mat-card-content>
-        <mat-card-actions class="">
-            <button mat-button>
-                save
+<div style="position: relative;">
+  <div class="container" style="background-color: rgba(255, 200, 200, 1); padding: 1em;">
+        <div class="row justify-content-center">
+            <button mat-mini-fab class="col-auto align-self-center" (click)='openModal()'>
+                <mat-icon>add</mat-icon>
             </button>
-        </mat-card-actions>
-    </mat-card>
+        </div>
+    </div>
+    <br>
+    <div class="" style="max-height: 100%; overflow-y: auto;">
+        <div class="container-fluid" *ngFor='let trip of trips, let i = index' >
+            <mat-card >
+                <mat-card-title class="">{{ trip }}</mat-card-title>
+                <mat-card-content class="">
+                    <mat-accordion>
+                        <mat-expansion-panel >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Self aware panel
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                description
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <p>I'm visible because I am open</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                    <div id="lineBtn">
+                        <hr id="hrBtn">
+                        <button mat-mini-fab id="addIcon">
+                            <mat-icon id='addIcon'>add</mat-icon>
+                        </button>
+                        <hr id="hrBtn">
+                    </div>
+                </mat-card-content>
+                <mat-card-actions class="">
+                    <button mat-button color='warn'>
+                        delete
+                    </button>
+                    <button mat-button color='primary'>
+                        complete!
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+            <br>    
+        </div>
+    </div>
 </div>

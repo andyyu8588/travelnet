@@ -36,7 +36,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule, MatDateRangeInput } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -68,6 +68,7 @@ import { CountrySelectorComponent } from './components/registration-process/coun
 import { CountryList } from 'country-list';
 import { SearchComponent } from './components/sidebar/header/tabs/searchresults/search/search.component';
 import { SearchbuttonComponent } from './components/sidebar/header/tabs/searchresults/searchbutton/searchbutton.component';
+import { TripmodalComponent } from './components/tripmodal/tripmodal.component'
 import { VenueComponent } from './components/venue/venue.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component'
 
@@ -97,6 +98,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     CountrySelectorComponent,
     SearchComponent,
     SearchbuttonComponent,
+    TripmodalComponent,
     VenueComponent,
     SearchBarComponent,
   ],
