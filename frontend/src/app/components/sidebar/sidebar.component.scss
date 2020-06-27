@@ -12,10 +12,11 @@
   top: 0;
   bottom: 0;
   padding: 0;
+  margin: 0;
   width: 2%;
   min-width: 15px;
-  max-width: 25px;
-  background-color: rgba(255, 255, 255, 0.1);
+  // max-width: 25px;
+  background-color: rgba(255, 255, 255, 0.9);
   cursor: col-resize;
 }
 
