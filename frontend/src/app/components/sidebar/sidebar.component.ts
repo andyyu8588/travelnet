@@ -59,7 +59,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   tabs : any[] = ['home', 'mytrip', 'search']
 
   selectedTab(): string {
-    if (this.Router.url.substr(0, 14) == '/search') {
+    if (this.Router.url.substr(0, 7) == '/search') {
       return '/search'
     } else {
       return this.Router.url
