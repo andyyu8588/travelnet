@@ -71,8 +71,25 @@ router.post('/edit', (req, res, next) => {
   })
 })
 
+router.post('/encounter', (req, res, next) => {
+  User.findOneAndUpdate({username: req.body.username}, {$push: {encounters: req.body.encounter}}, (err, result) => {
+    if (err) {
+      res.status(500).json({
+        message: err
+      })
+    } else if (result) {
+      res.status(201).json({
+        message: `Success! Encounters updated!`
+      })
+    } else {
+      res.status(500).json({
+        message: 'monkas'
+      })
+    }
+  })
+})
+
 router.post('/profilepicture', upload, (req, res, next) => {
-  console.log(req)
   const url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename 
     User.findOneAndUpdate({username: req.body.username}, {profilepicture: url}, (err, result) => {
       if (err) {
