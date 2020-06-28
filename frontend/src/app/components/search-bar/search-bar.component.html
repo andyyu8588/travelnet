@@ -1,5 +1,5 @@
 <!-- search bar -->
-<div class="container-fluid">
+<div class="container-fluid" style="background-color: rgba(255, 255, 255, 0.9);">
   <form (submit)='onSubmit(search.value)' class='form row' style="width: 100%;">
     <mat-form-field class="input col" appearance="standard">
       <input matInput #search 
@@ -14,7 +14,7 @@
     </mat-form-field>
     <mat-form-field class="col-auto align-self-center">
       <mat-label>Filter</mat-label>
-      <mat-select>
+      <mat-select [value]='select'>
         <mat-option value="all">All</mat-option>
         <mat-option value="venues">Venues</mat-option>
         <mat-option value="users">Users</mat-option>
@@ -22,7 +22,5 @@
     </mat-form-field>
   </form>
 </div>
-
-
 
 <router-outlet></router-outlet>
