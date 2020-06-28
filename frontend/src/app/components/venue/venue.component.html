@@ -1,6 +1,22 @@
 <mat-card class="container" *ngIf="content">
+  <mat-card-title>
+    <div class="row">
+      <button mat-button (click)='goBack()' *ngIf="this.openTab.prePath" class="col-auto" matTooltip="back">
+        <mat-icon class="">
+          keyboard_backspace
+        </mat-icon>
+      </button>
+
+      <span class="col md-auto">{{ content.name }}</span>
+      
+      <button mat-button class="col-auto align-self-end" matTooltip="add to trip">
+        <mat-icon >
+          playlist_add
+        </mat-icon>
+      </button>
+    </div>
+  </mat-card-title>
   <mat-card-content class="">
-    <button mat-button (click)='goBack()' *ngIf="this.openTab.prePath">Back</button>
     <div >
       <ul >
         <li *ngFor='let pair of content | keyvalue'>

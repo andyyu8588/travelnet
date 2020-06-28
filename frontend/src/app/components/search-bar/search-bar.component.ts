@@ -1,9 +1,10 @@
-import { Component, OnInit, Renderer2, OnDestroy,ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, OnDestroy,ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { tab } from 'src/app/components/tabs/tab.model';
 import { Subscription } from 'rxjs';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-search-bar',
@@ -11,23 +12,28 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
+  loading: boolean = false
+  private child: HTMLParagraphElement
+
+  openTab: tab
+  private returnTab: Subscription
+  @ViewChild('searchResultsContainer') div: ElementRef
+  
+  select: string = 'all'
 
   constructor(
     private map: MapService,
     private Renderer : Renderer2,
     private router : Router,
     private SearchService: SearchService
-  ) { }
-  loading: boolean = false
-  private child: HTMLParagraphElement
-  openTab: tab
-  private returnTab: Subscription
-  @ViewChild('searchResultsContainer') div: ElementRef
+  ) {
+  
+  }
 
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
-  }
 
+  }
 
   onSubmit(data: string) {
 
