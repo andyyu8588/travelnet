@@ -68,7 +68,7 @@ export class PropretyComponent implements OnInit {
         requestedChange.newProprety = moment(requestedChange.newProprety)
       }
 
-      this.httpService.post('/user/edit', requestedChange).then((res) => {
+      this.httpService.patch('/user/edit', requestedChange).then((res) => {
         console.log(res)
         window.location.reload()
       }).catch((err) => {

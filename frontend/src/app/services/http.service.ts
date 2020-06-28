@@ -73,4 +73,20 @@ export class HttpService {
       })
     })
   }
+
+  patch(route: string, params: any) {
+    let serverRoute = this.serverURL + route
+    return new Promise((resolve, reject) => {
+      this.http.patch<any>(serverRoute, {
+        headers: {
+          authorization: localStorage.getItem('token') ? localStorage.getItem('token').toString() : 'monkas'
+        },
+        params
+      }).subscribe((res) => {
+        resolve(res)
+      }, (err) => {
+        reject(err)
+      })
+    })
+  }
 }
