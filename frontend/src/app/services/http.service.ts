@@ -34,7 +34,7 @@ export class HttpService {
     return new Promise((resolve, reject) => {
       this.http.get<any>(serverRoute, {
         headers: {
-          authorization: localStorage.getItem('token') ? localStorage.getItem('token').toString() : 'monkas'
+          authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas'
         },
         params
       }).subscribe((res) => {

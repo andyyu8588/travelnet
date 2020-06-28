@@ -13,7 +13,7 @@ export class TripService {
   public trips: Observable<tripModel[]> = this._trips.asObservable()
 
   constructor(private HttpService: HttpService) {
-    this.HttpService.get(environment.travelnet.getUserInfo, {})
+    this.HttpService.get('/user', {})
     .then((response: any) => {
       this._trips.next(response.user.trips)
     })

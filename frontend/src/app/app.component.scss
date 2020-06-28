@@ -32,6 +32,10 @@
     height: auto;
 }
 
+button:focus {
+    outline: none;
+}
+
 router-outlet {
     // position: absolute;
     z-index: 2;
