@@ -1,3 +1,6 @@
+import { tripModel } from './trip.model';
+import { Subscription } from 'rxjs';
+import { TripService } from './../../../services/trip.service';
 import { TripmodalComponent } from 'src/app/components/tripmodal/tripmodal.component';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,11 +16,21 @@ export class MytripComponent implements OnInit, OnDestroy {
   dialogRef
 
   panelOpenState = false;
-  trips: any[] = ['berlin', 'washington', 'china', 'wassp']
 
-  constructor(private MatDialog: MatDialog) { }
+  private _tripSub: Subscription
+  trips: tripModel[] = []
+
+  private dialogref_sub: Subscription
+
+  constructor(private MatDialog: MatDialog,
+              private TripService: TripService) { 
+
+  }
 
   ngOnInit(): void {
+    this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
+      this.trips = trips
+    })
   }
 
   openModal() {
@@ -25,11 +38,13 @@ export class MytripComponent implements OnInit, OnDestroy {
       width: '800px',
     });
 
-    this.dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    this.dialogref_sub = this.dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
     })
   }
 
   ngOnDestroy() {
+    this._tripSub.unsubscribe()
+    this.dialogref_sub.unsubscribe()
   }
 }

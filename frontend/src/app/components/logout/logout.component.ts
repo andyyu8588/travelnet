@@ -1,6 +1,7 @@
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { SocketService } from 'src/app/services/chatsystem/socket.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service'
 
 @Component({
@@ -8,13 +9,14 @@ import { SessionService } from 'src/app/services/session.service'
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.scss']
 })
-export class LogoutComponent implements OnInit {
+export class LogoutComponent implements OnInit, OnDestroy {
   sessionState:boolean
+  private sessionSate_sub: Subscription
 
   constructor(private SessionService:SessionService,
               private SocketService: SocketService,
               private router: Router) {
-      let x = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
+      this.sessionSate_sub = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
   }
 
   ngOnInit(): void {
@@ -48,5 +50,9 @@ export class LogoutComponent implements OnInit {
     }).catch((err) => {
       console.log(err)
     })
+  }
+
+  ngOnDestroy() {
+    this.sessionSate_sub.unsubscribe()
   }
 }

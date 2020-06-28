@@ -1,7 +1,6 @@
 import { MapService } from 'src/app/services/map/map.service';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/services/search.service';
-import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { Router } from '@angular/router';
 import { Component, Output, EventEmitter, ViewChild, ElementRef, Renderer2, OnDestroy, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service'
@@ -26,13 +25,14 @@ export class HeaderComponent implements OnDestroy, OnInit{
     private mapCenterSub: Subscription
     mapCenter: string
 
+    private sessionState_sub: Subscription
+
     constructor(private sessionService:SessionService,
-                private SocketService: SocketService,
                 private Renderer : Renderer2,
                 private SearchService: SearchService,
                 private map: MapService,
                 private router: Router) {
-        this.sessionService.sessionState.subscribe((username) => {
+        this.sessionState_sub = this.sessionService.sessionState.subscribe((username) => {
             this.sessionState = username
             if (username) {
                 this.username = sessionStorage.getItem('username')
@@ -80,6 +80,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
 
     ngOnDestroy() {
         this.mapCenterSub.unsubscribe()
+        this.sessionState_sub.unsubscribe()
     }
 }
 

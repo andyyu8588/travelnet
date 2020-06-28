@@ -8,24 +8,33 @@ const UserSchema = mongoose.Schema({
     lastname: String,
     birthdate: Date,
     gender: String,
-    profilepicture: String,
-    encounters: Array,
-    rooms: Array,
-    socketIds: Array,
-    isActive: Boolean, // active vs online
-    log: {
-        in: Array,
-        out: Array
+    profilepicture: {type: String, default: ''},
+    encounters: {type: Array, default: []},
+    rooms: {type: Array, default: []},
+    socketIds: {type: Array, default: []},
+    isActive: {type: Boolean, default: true}, // active vs online
+    log: { 
+        type:{
+            in: Array,
+            out: Array
+        },
+        default: {
+            in: [new Date().toISOString()],
+            out: []
+        }
     },
-    trips: [{
-        date: String,
-        name: String,
-        venues: [{
-            time: Date,
+    trips: {
+        type: [{
+            date: String,
             name: String,
-            price: Number
-        }]
-    }]
+            venues: [{
+                time: Date,
+                name: String,
+                price: Number
+            }]
+        }],
+        default: []
+    }
 })
 
 module.exports = mongoose.model('User', UserSchema)

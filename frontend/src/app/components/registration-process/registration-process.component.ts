@@ -32,10 +32,10 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   })
   @ViewChild('progressUpdate') progressUpdate: Observable<progressUpdateData> = this._progressUpdate.asObservable()
 
-  clickLocation: Subscription
+  private clickLocation: Subscription
+  private stepper_sub: Subscription
 
   constructor(private _formBuilder: FormBuilder,
-              private Router: Router,
               private MapService: MapService) { }
 
   ngOnInit(): void {
@@ -55,7 +55,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
         coordinates: [x.lng, x.lat]
       })
     })
-    this.stepper.selectionChange.subscribe(x => {
+    this.stepper_sub = this.stepper.selectionChange.subscribe(x => {
       if (x.selectedIndex != 0) {
         this.editable = false
         this.MapService.showMarker(x.selectedIndex)
@@ -73,6 +73,8 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnDestroy() {
     // this.Router.navigate(['/'])
+    this.clickLocation.unsubscribe()
+    this.stepper_sub.unsubscribe()
   }
 
 }

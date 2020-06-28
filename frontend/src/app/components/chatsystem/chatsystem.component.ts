@@ -1,18 +1,21 @@
+import { Subscription } from 'rxjs';
 import { SessionService } from './../../services/session.service';
 import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
-import { Component, OnInit } from '@angular/core';
-import { Subscriber } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-chatsystem',
   templateUrl: './chatsystem.component.html',
   styleUrls: ['./chatsystem.component.scss']
 })
-export class ChatsystemComponent implements OnInit {
+export class ChatsystemComponent implements OnInit, OnDestroy {
 
   sessionState: boolean
   user = sessionStorage.getItem('username')
   openChatWidgets: any
+
+  private openChatWidgets_sub: Subscription
+  private sessionState_sub: Subscription
 
   constructor(
     private FriendlistService: FriendlistService,
@@ -20,10 +23,12 @@ export class ChatsystemComponent implements OnInit {
     
     this.SessionService.session()
 
-    let openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => {
+    this.openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => {
       this.openChatWidgets = x
     })
-    let y = this.SessionService.sessionState.subscribe(x => { this.sessionState = x })
+    this.sessionState_sub = this.SessionService.sessionState.subscribe(x => {
+      this.sessionState = x
+    })
   }
 
   ngOnInit() {
@@ -32,5 +37,10 @@ export class ChatsystemComponent implements OnInit {
 
   refreshRoom(roomId: string) {
     this.FriendlistService.selectChatwidget(roomId)
+  }
+
+  ngOnDestroy() {
+    this.openChatWidgets_sub.unsubscribe()
+    this.sessionState_sub.unsubscribe()
   }
 }

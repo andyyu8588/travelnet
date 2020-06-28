@@ -34,7 +34,7 @@ import { trigger, state, style, animate, transition, } from '@angular/animations
 })
 export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   // about sidebar
-  windowSub: Subscription
+  private windowSub: Subscription
   window: boolean = window.innerWidth > 500? true : false
   width: number = 0.35
   Styles = {

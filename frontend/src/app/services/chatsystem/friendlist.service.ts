@@ -140,9 +140,6 @@ export class FriendlistService {
     })
   }
 
-  ngOnDestroy() {
-    this.SocketService.remove('notification')
-  }
 
   // user interacted with chatwidget
   // mark as read in angular
@@ -173,5 +170,9 @@ export class FriendlistService {
       }
     }
     this._windowSize.next(width)
+  }
+  
+  ngOnDestroy() {
+    this.SocketService.remove('notification')
   }
 }

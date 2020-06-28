@@ -44,9 +44,10 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDes
 
   myControl: FormControl = new FormControl()
   removable: boolean = true
-  searched: Subscription
+  private searched: Subscription
 
-  clickLocationSub: Subscription
+  private clickLocation_sub: Subscription
+  private openstreetmap_sub: Subscription
 
   constructor(private OpenstreetmapService: OpenstreetmapService,
               private MapService: MapService,
@@ -59,7 +60,7 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDes
       this.timeout = setTimeout(() => {
         this.isLoading = true
         this._autoSuggest.next([{}])
-        this.OpenstreetmapService.citySearch(x.toString()).subscribe(response => {
+        this.openstreetmap_sub = this.OpenstreetmapService.citySearch(x.toString()).subscribe(response => {
           this.isLoading = false
           let searchResults: Array<{[key: string]: any}> = []
           response.features.forEach(element => {
@@ -88,7 +89,7 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDes
   }
 
   ngAfterContentInit() {
-    this.clickLocationSub = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
+    this.clickLocation_sub = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
       if (this.progressUpdate && this.target == this.progressUpdate) {
         if (x.lng != null) {
           this.Http.get<any>(
@@ -202,6 +203,7 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDes
 
   ngOnDestroy() {
     this.searched.unsubscribe()
-    this.clickLocationSub.unsubscribe()
+    this.clickLocation_sub.unsubscribe()
+    this.openstreetmap_sub.unsubscribe()
   }
 }
