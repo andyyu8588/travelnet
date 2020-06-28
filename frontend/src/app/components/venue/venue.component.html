@@ -8,7 +8,7 @@
       </button>
 
       <span class="col md-auto">{{ content.name }}</span>
-      
+
       <button mat-button class="col-auto align-self-end" matTooltip="add to trip">
         <mat-icon >
           playlist_add
@@ -17,12 +17,55 @@
     </div>
   </mat-card-title>
   <mat-card-content class="">
-    <div >
-      <ul >
-        <li *ngFor='let pair of content | keyvalue'>
+
+
+    <mat-grid-list cols="4" rowHeight="1:1">
+
+      <mat-grid-tile id='imgTile'colspan="2" rowspan="3" >
+        <img id='img' src="{{ content.bestPhoto.prefix + 'original' + content.bestPhoto.suffix}}" alt="Photo">
+        <!-- need button for additional pictures -->
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="2" rowspan="3" class="container">
+        <div>
+          <!-- get page info -->
+          <div class="div">{{content | null:['page','pageInfo','description']}}</div>
+          <!-- each categories -->
+          <div class="div">
+            <span *ngFor="let category of content.categories">
+                {{category.name | null}}
+            </span>
+          </div>
+
+          <!-- need for each for attributes -->
+          <div class="div" *ngFor="let attribute of content.attributes | keyvalue | null">
+            {{attribute.name +'|'+ attribute.summary +'|'+ attribute.type}}
+          </div>
+
+          <!-- need rating -->
+          <div class="div">
+            {{content.rating | null}}
+          </div>
+          <!-- need price -->
+      </div>
+      </mat-grid-tile>
+
+
+
+
+
+
+
+
+
+      <mat-grid-tile colspan="4" >3</mat-grid-tile>
+    </mat-grid-list>
+     <!-- need tips -->
+      <!-- <ul > -->
+        <!-- <li *ngFor='let pair of content | keyvalue'>
           {{ pair.key }}: {{ pair.value }}
-        </li>
-      </ul>
-    </div>
+        </li> -->
+      <!-- </ul> -->
+
   </mat-card-content>
 </mat-card>
