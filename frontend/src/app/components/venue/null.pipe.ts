@@ -5,16 +5,23 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class NullPipe implements PipeTransform {
 
-  transform(value: any, parent: any = true): any {
-    if (!parent){
+  transform(value: any, parent:any=false ): any {
+    if (!parent.length){
+      console.log('parent is empty')
       return value
+    }
+    else if(!parent){
+      console.log('this never happens')
+      return "no results found"
     }
     else{
       if (value[parent[0]]){
-        return this.transform(value[parent[0]], parent.shift())
+        console.log('parent is not empty')
+        return this.transform(value[parent.shift()], parent)
       }
       else{
-        return "no result found"
+        console.log('we fucked up')
+        return "no results found"
       }
     }
   }

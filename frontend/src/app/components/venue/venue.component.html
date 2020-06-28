@@ -33,18 +33,18 @@
           <!-- each categories -->
           <div class="div">
             <span *ngFor="let category of content.categories">
-                {{category.name | null}}
+                {{category | null:['name']}}
             </span>
           </div>
 
           <!-- need for each for attributes -->
-          <div class="div" *ngFor="let attribute of content.attributes | keyvalue | null">
-            {{attribute.name +'|'+ attribute.summary +'|'+ attribute.type}}
+          <div class="div" *ngFor="let attribute of content.attributes | keyvalue">
+            {{attribute|null:['name'] +'|'+ attribute|null:['summary'] +'|'+ attribute|null:['type']}}
           </div>
 
           <!-- need rating -->
           <div class="div">
-            {{content.rating | null}}
+            {{content | null:['rating']}}
           </div>
           <!-- need price -->
       </div>
