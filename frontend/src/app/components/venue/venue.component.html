@@ -1,7 +1,7 @@
 <mat-card class="container" *ngIf="content">
   <mat-card-title>
     <div class="row">
-      <button mat-button (click)='goBack()' *ngIf="true" class="col-auto" matTooltip="back">
+      <button mat-button (click)='goBack()' *ngIf="this.openTab.prePath" class="col-auto" matTooltip="back">
         <mat-icon class="">
           keyboard_backspace
         </mat-icon>
