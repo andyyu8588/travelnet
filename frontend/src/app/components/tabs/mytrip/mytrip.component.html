@@ -8,7 +8,7 @@
     </div>
     <br>
     <div class="" style="max-height: 100%; overflow-y: auto;">
-        <div *ngIf='!trips.length' class="container-fluid row rounded align--items-center" style="background-color: rgba(255, 255, 255, 1); min-height: 100px;">
+        <div *ngIf='!trips' class="container-fluid row rounded align--items-center" style="background-color: rgba(255, 255, 255, 1); min-height: 100px;">
             &nbsp;<h2 class="align-self-center">No trips Yet...</h2>
         </div>
         <div class="container-fluid" *ngFor='let trip of trips, let i = index' >

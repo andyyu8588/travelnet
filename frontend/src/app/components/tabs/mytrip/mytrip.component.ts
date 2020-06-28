@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { TripService } from './../../../services/trip.service';
 import { TripmodalComponent } from 'src/app/components/tripmodal/tripmodal.component';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mytrip',
@@ -11,20 +11,22 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./mytrip.component.scss']
 })
 export class MytripComponent implements OnInit, OnDestroy {
-  @Input() name: String = "Sample Trip"
-  @Input() places: Array<any> = []
-  dialogRef
+  // @Input() name: String = "Sample Trip"
+  // @Input() places: Array<any> = []
 
-  panelOpenState = false;
+  name: string
+  start: any
+  end: any
+
+  dialogRef: MatDialogRef<any>
 
   private _tripSub: Subscription
-  trips: tripModel[] = []
+  trips: tripModel[] = null
 
   private dialogref_sub: Subscription
 
   constructor(private MatDialog: MatDialog,
               private TripService: TripService) { 
-
   }
 
   ngOnInit(): void {
@@ -36,6 +38,11 @@ export class MytripComponent implements OnInit, OnDestroy {
   openModal() {
     this.dialogRef = this.MatDialog.open(TripmodalComponent, {
       width: '800px',
+      data: {
+        name: this.name,
+        start: this.start,
+        end: this.end
+      }
     });
 
     this.dialogref_sub = this.dialogRef.afterClosed().subscribe(result => {
@@ -45,6 +52,5 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._tripSub.unsubscribe()
-    this.dialogref_sub.unsubscribe()
   }
 }

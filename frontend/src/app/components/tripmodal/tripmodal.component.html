@@ -2,17 +2,18 @@
     <mat-card-title mat-dialog-title> New Trip </mat-card-title>
     <hr>
     <mat-card-content mat-dialog-content class="container-fluid">
-        <form>
+        <form [formGroup]='modalForm'>
             <mat-form-field class="example-full-width">
                 <mat-label>Trip Name</mat-label>
-                <input matInput placeholder="Ex. Simon va a Prague">
+                <input matInput formControlName='name' placeholder="Ex. Simon va a Prague" [(ngModel)]="data.name">
+                <small *ngIf='this.modalForm.get("name").touched && !this.modalForm.get("name").valid' class="text-danger">please enter a name</small>
               </mat-form-field>
             <br>
             <mat-form-field >
                 <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [rangePicker]="picker" >
-                    <input matStartDate placeholder="Start date">
-                    <input matEndDate placeholder="End date">
+                <mat-date-range-input [rangePicker]="picker" formGroupName='dateRange'>
+                    <input matStartDate placeholder="Start date" formControlName='start' [(ngModel)]="data.start">
+                    <input matEndDate placeholder="End date" formControlName='end' [(ngModel)]="data.end">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
@@ -21,7 +22,8 @@
 
     </mat-card-content>
     <mat-card-actions mat-dialog-actions>
-        <button mat-button>Cancel</button>
-        <button mat-button color='primary'>Save</button>
+        <button mat-button (click)='onCancel()'>Cancel</button>
+        <button mat-button *ngIf='!isLoading' color='primary' (click)='onSubmit(data)'>Save</button>
+        <button mat-button *ngIf='isLoading'><mat-spinner [diameter]='50'></mat-spinner></button>
     </mat-card-actions>
 </mat-card>
