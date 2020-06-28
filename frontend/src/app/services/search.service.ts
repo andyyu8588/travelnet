@@ -102,7 +102,6 @@ export class SearchService implements OnDestroy {
       .then(result => {
         if (!result[0].response.warning){
         result[0].response.groups[0].items.forEach( venue =>{
-          console.log(venue)
           this.returnSearch.push(
             {
             'type':'venue',
