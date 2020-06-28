@@ -1,0 +1,416 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20200629.054041.8916.0.001.json",
+    "dumpEventTime": "2020-06-29T05:40:41Z",
+    "dumpEventTimeStamp": "1593376841915",
+    "processId": 8916,
+    "cwd": "C:\\Users\\foubroker\\Documents\\GitHub\\soundcloudrapper\\frontend",
+    "commandLine": [
+      "node",
+      "C:\\Users\\foubroker\\AppData\\Roaming\\npm\\\\node_modules\\@angular\\cli\\bin\\ng",
+      "serve"
+    ],
+    "nodejsVersion": "v12.14.1",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.14.1",
+      "v8": "7.7.299.13-node.16",
+      "uv": "1.33.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.40.0",
+      "napi": "5",
+      "llhttp": "2.0.1",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.14.1/node-v12.14.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.14.1/node-v12.14.1.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.14.1/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.17763",
+    "osVersion": "Windows 10 Home",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx  ",
+        "speed": 1996,
+        "user": 1304968,
+        "nice": 0,
+        "sys": 750796,
+        "idle": 7363875,
+        "irq": 103578
+      },
+      {
+        "model": "AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx  ",
+        "speed": 1996,
+        "user": 782656,
+        "nice": 0,
+        "sys": 371718,
+        "idle": 8265046,
+        "irq": 14546
+      },
+      {
+        "model": "AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx  ",
+        "speed": 1996,
+        "user": 1164250,
+        "nice": 0,
+        "sys": 426218,
+        "idle": 7828953,
+        "irq": 5593
+      },
+      {
+        "model": "AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx  ",
+        "speed": 1996,
+        "user": 1137437,
+        "nice": 0,
+        "sys": 311140,
+        "idle": 7970843,
+        "irq": 4078
+      },
+      {
+        "model": "AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx  ",
+        "speed": 1996,
+        "user": 2046515,
+        "nice": 0,
+        "sys": 486171,
+        "idle": 6886734,
+        "irq": 6250
+      },
+      {
+        "model": "AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx  ",
+        "speed": 1996,
+        "user": 885640,
+        "nice": 0,
+        "sys": 328234,
+        "idle": 8205531,
+        "irq": 3890
+      },
+      {
+        "model": "AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx  ",
+        "speed": 1996,
+        "user": 1498468,
+        "nice": 0,
+        "sys": 558531,
+        "idle": 7362406,
+        "irq": 6562
+      },
+      {
+        "model": "AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx  ",
+        "speed": 1996,
+        "user": 827468,
+        "nice": 0,
+        "sys": 291640,
+        "idle": 8300296,
+        "irq": 13875
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "90:32:4b:b0:13:d9",
+        "address": "fe80::2479:1056:75d3:cf04",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 20
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "90:32:4b:b0:13:d9",
+        "address": "192.168.0.177",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "DESKTOP-11QGC2B"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff61e1e1759",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+10873"
+    },
+    {
+      "pc": "0x00007ff61e1e5b7c",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+28316"
+    },
+    {
+      "pc": "0x00007ff61e1e4b38",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+24152"
+    },
+    {
+      "pc": "0x00007ff61e2d433b",
+      "symbol": "v8::base::CPU::has_sse+37723"
+    },
+    {
+      "pc": "0x00007ff61ead8c5e",
+      "symbol": "v8::Isolate::ReportExternalAllocationLimitReached+94"
+    },
+    {
+      "pc": "0x00007ff61eac0ca1",
+      "symbol": "v8::SharedArrayBuffer::Externalize+833"
+    },
+    {
+      "pc": "0x00007ff61e98e56c",
+      "symbol": "v8::internal::Heap::EphemeronKeyWriteBarrierFromCode+1436"
+    },
+    {
+      "pc": "0x00007ff61e999910",
+      "symbol": "v8::internal::Heap::ProtectUnprotectedMemoryChunks+1312"
+    },
+    {
+      "pc": "0x00007ff61e996444",
+      "symbol": "v8::internal::Heap::PageFlagsAreConsistent+3204"
+    },
+    {
+      "pc": "0x00007ff61e98bcd3",
+      "symbol": "v8::internal::Heap::CollectGarbage+1283"
+    },
+    {
+      "pc": "0x00007ff61e98a4a4",
+      "symbol": "v8::internal::Heap::AddRetainedMap+2356"
+    },
+    {
+      "pc": "0x00007ff61e9ab775",
+      "symbol": "v8::internal::Factory::NewFillerObject+53"
+    },
+    {
+      "pc": "0x00007ff61e717a49",
+      "symbol": "v8::internal::interpreter::JumpTableTargetOffsets::iterator::operator=+4057"
+    },
+    {
+      "pc": "0x00007ff61ef0463d",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+567949"
+    },
+    {
+      "pc": "0x000002aee9e38a6f",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2183430144,
+    "totalCommittedMemory": 2183430144,
+    "usedMemory": 2095450664,
+    "availableMemory": 46701504,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261872,
+        "used": 32296,
+        "available": 229576
+      },
+      "new_space": {
+        "memorySize": 33554432,
+        "committedMemory": 33554432,
+        "capacity": 16759808,
+        "used": 1461560,
+        "available": 15298248
+      },
+      "old_space": {
+        "memorySize": 1911402496,
+        "committedMemory": 1911402496,
+        "capacity": 1871249560,
+        "used": 1871220840,
+        "available": 28720
+      },
+      "code_space": {
+        "memorySize": 10387456,
+        "committedMemory": 10387456,
+        "capacity": 8991264,
+        "used": 8991264,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 17305600,
+        "committedMemory": 17305600,
+        "capacity": 3899920,
+        "used": 3899920,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 209895424,
+        "committedMemory": 209895424,
+        "capacity": 209294384,
+        "used": 209294384,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 622592,
+        "committedMemory": 622592,
+        "capacity": 550400,
+        "used": 550400,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 16759808,
+        "used": 0,
+        "available": 16759808
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 516.421,
+    "kernelCpuSeconds": 27.312,
+    "cpuConsumptionPercent": 6.34313,
+    "maxRss": 2203406336,
+    "pageFaults": {
+      "IORequired": 2004772,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 8477,
+      "writes": 39
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "=C:": "C:\\Users\\foubroker\\Documents\\GitHub\\soundcloudrapper\\frontend",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "APPDATA": "C:\\Users\\foubroker\\AppData\\Roaming",
+    "BROWSERSLIST_IGNORE_OLD_DATA": "1",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "DESKTOP-11QGC2B",
+    "ComSpec": "C:\\WINDOWS\\system32\\cmd.exe",
+    "dp0": "C:\\Users\\foubroker\\AppData\\Roaming\\npm\\",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\foubroker",
+    "LOCALAPPDATA": "C:\\Users\\foubroker\\AppData\\Local",
+    "LOGONSERVER": "\\\\DESKTOP-11QGC2B",
+    "NUMBER_OF_PROCESSORS": "8",
+    "OneDrive": "C:\\Users\\foubroker\\OneDrive",
+    "OneDriveConsumer": "C:\\Users\\foubroker\\OneDrive",
+    "OnlineServices": "Online Services",
+    "ORIGINAL_XDG_CURRENT_DESKTOP": "undefined",
+    "OS": "Windows_NT",
+    "Path": "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;E:\\Druide\\Antidote 9\\Application\\Bin64\\;E:\\Druide\\Antidote 9\\Application\\Bin32\\;C:\\Program Files (x86)\\Druide\\Antidote 9\\Application\\Bin64\\;C:\\Program Files (x86)\\Druide\\Antidote 9\\Application\\Bin32\\;C:\\Program Files (x86)\\Calibre2\\;C:\\Program Files\\nodejs\\;C:\\Program Files\\MongoDB\\Server\\4.2\\bin;C:\\Users\\foubroker\\node_modules\\nodemon\\bin;C:\\Program Files\\dotnet\\;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\;\"C:\\Program Files\\Git\\cmd;C:\\Program Files\\MongoDB\\Server\\4.2\\bin\";C:\\Users\\foubroker\\AppData\\Local\\Programs\\Python\\Python37-32\\Scripts\\;C:\\Users\\foubroker\\AppData\\Local\\Programs\\Python\\Python37-32\\;C:\\Users\\foubroker\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\foubroker\\AppData\\Local\\atom\\bin;C:\\Users\\foubroker\\AppData\\Local\\GitHubDesktop\\bin;C:\\Users\\foubroker\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\foubroker\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\foubroker\\AppData\\Roaming\\npm",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JSE;.WSF;.WSH;.MSC",
+    "platformcode": "KV",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "AMD64 Family 23 Model 17 Stepping 0, AuthenticAMD",
+    "PROCESSOR_LEVEL": "23",
+    "PROCESSOR_REVISION": "1100",
+    "ProgramData": "C:\\ProgramData",
+    "ProgramFiles": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "$P$G",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "RegionCode": "NA",
+    "SESSIONNAME": "Console",
+    "SystemDrive": "C:",
+    "SystemRoot": "C:\\WINDOWS",
+    "TEMP": "C:\\Users\\FOUBRO~1\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\FOUBRO~1\\AppData\\Local\\Temp",
+    "USERDOMAIN": "DESKTOP-11QGC2B",
+    "USERDOMAIN_ROAMINGPROFILE": "DESKTOP-11QGC2B",
+    "USERNAME": "foubroker",
+    "USERPROFILE": "C:\\Users\\foubroker",
+    "WEBPACK_DEV_SERVER": "true",
+    "windir": "C:\\WINDOWS",
+    "TERM_PROGRAM": "vscode",
+    "TERM_PROGRAM_VERSION": "1.46.1",
+    "LANG": "en_GB.UTF-8",
+    "COLORTERM": "truecolor",
+    "VSCODE_GIT_IPC_HANDLE": "\\\\.\\pipe\\vscode-git-929a22da39-sock",
+    "GIT_ASKPASS": "c:\\Users\\foubroker\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\extensions\\git\\dist\\askpass.sh",
+    "VSCODE_GIT_ASKPASS_NODE": "C:\\Users\\foubroker\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+    "VSCODE_GIT_ASKPASS_MAIN": "c:\\Users\\foubroker\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\extensions\\git\\dist\\askpass-main.js",
+    "_prog": "node"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "C:\\WINDOWS\\System32\\sechost.dll",
+    "C:\\WINDOWS\\System32\\USER32.dll",
+    "C:\\WINDOWS\\System32\\win32u.dll",
+    "C:\\WINDOWS\\System32\\GDI32.dll",
+    "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "C:\\WINDOWS\\System32\\msvcp_win.dll",
+    "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "C:\\WINDOWS\\System32\\MSASN1.dll",
+    "C:\\WINDOWS\\System32\\bcrypt.dll",
+    "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\WINDOWS\\System32\\profapi.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "C:\\WINDOWS\\SYSTEM32\\winmmbase.dll",
+    "C:\\WINDOWS\\System32\\cfgmgr32.dll",
+    "C:\\WINDOWS\\System32\\IMM32.DLL",
+    "C:\\WINDOWS\\System32\\powrprof.dll",
+    "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.DLL",
+    "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+    "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "C:\\WINDOWS\\System32\\combase.dll",
+    "C:\\WINDOWS\\system32\\mswsock.dll",
+    "C:\\WINDOWS\\System32\\kernel.appcore.dll",
+    "C:\\WINDOWS\\System32\\NSI.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+    "C:\\WINDOWS\\system32\\napinsp.dll",
+    "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "C:\\WINDOWS\\System32\\winrnr.dll",
+    "C:\\WINDOWS\\system32\\NLAapi.dll",
+    "C:\\WINDOWS\\system32\\wshbth.dll",
+    "C:\\Windows\\System32\\rasadhlp.dll",
+    "C:\\WINDOWS\\System32\\fwpuclnt.dll"
+  ]
+}

@@ -1,17 +1,43 @@
-import { Url } from "url"
-
 export class selectedVenueModel {
   public id: string
   public name: string
-  public contact: [string]
-  public location: [any]
-  public categories: []
+  public contact: {
+    formattedPhone: string;
+    phone: string
+  }
+  public location: {
+    address: string;
+    cc: string;
+    city: string;
+    country: string;
+    formattedAddress: [string];
+    labeledLatLngs: [{
+      label: string;
+      lat: number;
+      lng: string;
+    }]
+    lat:number;
+    lng:number;
+    state:string
+  }
+  public categories: [{
+    id:string;
+    name: string;
+    pluralName: string;
+    shortName: string
+  }]
   public verified: boolean
   public stats: object
   public url: string
   public hours: object
   public popular: object
-  public menu: string
+  public menu: {
+    anchor: string;
+    label: string;
+    mobileUrl: string;
+    type: string;
+    url: string
+  }
   public price: object
   public rating: number
   public hereNow: object
@@ -19,7 +45,36 @@ export class selectedVenueModel {
   public description: string
   public createdAt: number
   public mayor: string
-  public tips: object
+  public tips: {
+    count: number;
+    items: [{
+      agreeCount: number;
+      canonicalUrl: string;
+      createdAt: number;
+      disagreeCount: number;
+      id: string;
+      lang: string;
+      likes:{
+        count: number;
+        groups:[]
+        summary: string;
+      }
+      logView: boolean;
+      text: string;
+      todo:{count: number}
+      type: string;
+      user:{
+        firstName: string;
+        id: string;
+        lastName: string;
+        photo:{
+          prefix: string;
+          suffix: string
+        }
+      }
+    }
+    ]
+  }
   public listed: object
   public beenHere: number
   public shortUrl: string
@@ -27,9 +82,44 @@ export class selectedVenueModel {
   public photos: object
   public like: number
   public disilike: number
+  public hasMenu: boolean
   public phrases: []
-  public attributes: object
+  public attributes: {
+    groups: [{
+      count: number;
+      items: [{
+        displayName: string;
+        displayValue: string
+      }];
+      name: string;
+      summary: string;
+      type: string;
+    }]
+  }
   //roles
-  public page:any
-  public bestPhoto:Object
+  public page:{
+    pageInfo: {
+      banner: string;
+      description: string
+      links: {}
+    }
+    user:{
+      bio: string
+      id: string;
+      firstName: string;
+      lists:{}
+      photo:{}
+      tip:{}
+
+    }
+  }
+  public bestPhoto: {
+    createdAt: number;
+    height: number;
+    id: string;
+    prefix: string;
+    suffix: string;
+    visibility: string;
+    width: number
+  }
 }

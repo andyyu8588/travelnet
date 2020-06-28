@@ -69,7 +69,8 @@ import { SearchComponent } from './components/tabs/searchresults/search/search.c
 import { TripmodalComponent } from './components/tripmodal/tripmodal.component'
 import { VenueComponent } from './components/venue/venue.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { ListObjectPipe } from './pipes/list-object.pipe'
+import { ListObjectPipe } from './pipes/list-object.pipe';
+import { NullPipe } from './components/venue/null.pipe'
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { ListObjectPipe } from './pipes/list-object.pipe'
     VenueComponent,
     SearchBarComponent,
     ListObjectPipe,
+    NullPipe,
   ],
   imports: [
     BrowserModule,
