@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl=true",
+    "startTest": "ng serve --ssl=true --prod=false",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

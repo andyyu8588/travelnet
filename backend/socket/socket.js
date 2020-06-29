@@ -177,10 +177,12 @@ module.exports = (io) => {
         // handle user login
         // expects object data with strings email, password
         socket.on('login', (data, ack) => {
-            User.findOneAndUpdate({$or: [{email: data.email}, {username: data.email}]}, 
-            {$push: {'log.in': currentTime}},
+            console.log(data)
+            User.findOneAndUpdate({$or: [{'email': data.email}, {'username': data.email}]}, 
+            {$push: {'log[in]': currentTime}},
             (err, doc, res) => {
                 if (err) {
+                    console.log('user', err)
                     ack({err: err})
                 }
                 else if (doc) {
@@ -197,6 +199,7 @@ module.exports = (io) => {
                         }
                     })
                     .catch((err) => {
+                        console.log('pass')
                         ack({err: err})
                     })        
                 }

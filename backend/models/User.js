@@ -14,7 +14,7 @@ const UserSchema = mongoose.Schema({
     socketIds: {type: Array, default: []},
     isActive: {type: Boolean, default: true}, // active vs online
     log: { 
-        type:{
+        type: {
             in: Array,
             out: Array
         },
