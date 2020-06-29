@@ -47,39 +47,70 @@ export class selectedVenueModel {
   public mayor: string
   public tips: {
     count: number;
-    items: [{
-      agreeCount: number;
-      canonicalUrl: string;
-      createdAt: number;
-      disagreeCount: number;
-      id: string;
-      lang: string;
-      likes:{
-        count: number;
-        groups:[]
-        summary: string;
-      }
-      logView: boolean;
-      text: string;
-      todo:{count: number}
-      type: string;
-      user:{
-        firstName: string;
+    groups:{
+      items: [{
+        agreeCount: number;
+        canonicalUrl: string;
+        createdAt: number;
+        disagreeCount: number;
         id: string;
-        lastName: string;
-        photo:{
-          prefix: string;
-          suffix: string
+        lang: string;
+        likes:{
+          count: number;
+          groups:[]
+          summary: string;
+        }
+        logView: boolean;
+        text: string;
+        todo:{count: number}
+        type: string;
+        user:{
+          firstName: string;
+          id: string;
+          lastName: string;
+          photo:{
+            prefix: string;
+            suffix: string
+          }
         }
       }
+      ]
     }
-    ]
   }
   public listed: object
   public beenHere: number
   public shortUrl: string
   public canonicalUrl: string
-  public photos: object
+  public photos: {
+    count: number;
+    groups: [{
+      type: string;
+      name: string;
+      count: number;
+      items: [{
+        id: string;
+        createdAt: number;
+        height: number;
+        width:number;
+        prefix: string;
+        suffix: string;
+        user:{
+          id: number;
+          firstName: string;
+          lastName: string;
+          photo: object
+        }
+        visibility: string
+        source: {
+          name: string;
+          url: string;
+        }
+
+      }]
+
+    }
+    ]
+  }
   public like: number
   public disilike: number
   public hasMenu: boolean
