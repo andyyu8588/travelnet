@@ -83,7 +83,7 @@ export class TripmodalComponent implements OnInit {
           end: data.end
         },
       })
-      this.HttpService.post('/edit', {
+      this.HttpService.patch('user/edit', {
         username: localStorage.getItem('username'),
         proprety: 'trips',
         newProprety: this.trips
