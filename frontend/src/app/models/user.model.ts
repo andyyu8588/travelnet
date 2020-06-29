@@ -1,3 +1,4 @@
+import { tripModel } from './../components/tabs/mytrip/trip.model';
 export class userModel {
     email: String
     username: String
@@ -15,13 +16,5 @@ export class userModel {
         in: Array<any>,
         out: Array<any>
     }
-    trips: Array<{
-        date: String,
-        name: String,
-        venues: Array<{
-            time: Date,
-            name: String,
-            price: Number
-        }>
-    }>
+    trips: Array<tripModel>
 }

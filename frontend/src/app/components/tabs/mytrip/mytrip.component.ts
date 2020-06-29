@@ -20,6 +20,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   dialogRef: MatDialogRef<any>
 
+  // all trips of user
   private _tripSub: Subscription
   trips: tripModel[] = null
 
@@ -31,7 +32,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
-      this.trips = trips
+      // this.trips = trips
     })
   }
 
@@ -45,8 +46,10 @@ export class MytripComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.dialogref_sub = this.dialogRef.afterClosed().subscribe(result => {
+    this.dialogref_sub = this.dialogRef.afterClosed().subscribe((result: tripModel)=> {
       console.log(result);
+      this.trips.push(result)
+      this.TripService.update(this.trips)
     })
   }
 

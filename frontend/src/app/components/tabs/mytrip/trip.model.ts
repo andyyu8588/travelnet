@@ -1,9 +1,9 @@
 export class tripModel {
-    date: String
+    date: any
     name: String
-    venues: [{
-        time: Date,
+    venues?: [{
+        time?: Date,
         name: String,
-        price: Number
+        price?: Number
     }]
 }
