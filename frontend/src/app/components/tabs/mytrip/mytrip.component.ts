@@ -22,7 +22,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   // all trips of user
   private _tripSub: Subscription
-  trips: tripModel[] = null
+  trips: tripModel[] = []
 
   private dialogref_sub: Subscription
 
@@ -32,7 +32,8 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
-      // this.trips = trips
+      console.log(trips)
+      this.trips = trips
     })
   }
 

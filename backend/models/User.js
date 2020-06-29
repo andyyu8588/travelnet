@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { any } = require('underscore')
 
 const UserSchema = mongoose.Schema({
     email: String,
@@ -25,7 +26,10 @@ const UserSchema = mongoose.Schema({
     },
     trips: {
         type: [{
-            date: String,
+            date: {
+                start: Date,
+                end: Date
+            },
             name: String,
             venues: [{
                 time: Date,

@@ -13,7 +13,9 @@
         </div>
         <div class="container-fluid" *ngFor='let trip of trips, let i = index' >
             <mat-card >
-                <mat-card-title class="">{{ trip }}</mat-card-title>
+                <mat-card-title class="">{{ trip.name }}</mat-card-title>
+                <mat-card-header class="">{{ trip.date.start | date }} - {{ trip.date.end | date }} </mat-card-header>
+                <br>
                 <mat-card-content class="">
                     <mat-accordion>
                         <mat-expansion-panel >
