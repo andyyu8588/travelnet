@@ -39,8 +39,8 @@ export class VenueComponent implements OnInit,OnDestroy {
   }
   goBack(){
     console.log(this.content)
-    // this.SearchService.goBack()
-    // this.router.navigate([this.openTab.path])
+    this.SearchService.goBack()
+    this.router.navigate([this.openTab.path])
   }
 
   ngOnDestroy() {
