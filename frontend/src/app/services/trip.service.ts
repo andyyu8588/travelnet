@@ -19,7 +19,9 @@ export class TripService {
       [key: string]: any
       user: userModel[]
     }) => {
-      this._trips.next(response.user[0].trips)
+      if (response.user) {
+        this._trips.next(response.user[0].trips)
+      }
     })
     .catch(err => {
       console.log(err)

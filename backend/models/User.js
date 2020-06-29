@@ -38,6 +38,14 @@ const UserSchema = mongoose.Schema({
             }]
         }],
         default: []
+    },
+    history: {
+        type: Array,
+        default: []
+    },
+    wishlist: {
+        type: Array,
+        default: []
     }
 })
 

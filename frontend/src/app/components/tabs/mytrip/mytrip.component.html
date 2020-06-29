@@ -18,17 +18,20 @@
                 <br>
                 <mat-card-content class="">
                     <mat-accordion>
-                        <mat-expansion-panel >
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Self aware panel
-                            </mat-panel-title>
-                            <mat-panel-description>
-                                description
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <p>I'm visible because I am open</p>
-                        </mat-expansion-panel>
+                        <div *ngFor='let venue of trip.venues'>
+                            <mat-expansion-panel >
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{ venue }}
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        description
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <p>I'm visible because I am open</p>
+                            </mat-expansion-panel>
+                        </div>
+
                     </mat-accordion>
                     <div id="lineBtn">
                         <hr id="hrBtn">

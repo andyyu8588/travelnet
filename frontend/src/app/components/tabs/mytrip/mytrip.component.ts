@@ -47,8 +47,11 @@ export class MytripComponent implements OnInit, OnDestroy {
     });
 
     this.dialogref_sub = this.dialogRef.afterClosed().subscribe((result: tripModel)=> {
-      this.trips.push(result)
-      this.TripService.update(this.trips)
+      console.log(result)
+      if (result) {
+        this.trips.push(result)
+        this.TripService.update(this.trips)
+      }
     })
   }
 
