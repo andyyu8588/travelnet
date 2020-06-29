@@ -21,4 +21,27 @@ export class TripService {
       console.log(err)
     })
   }
+
+  // modifies trips of user
+  modify(triparr: tripModel[]): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.HttpService.patch('user/edit', {
+        username: localStorage.getItem('username'),
+        proprety: 'trips',
+        newProprety: triparr
+      })
+      .then((response: {[key: string]: any}) => {
+        this._trips.next(triparr)
+        resolve(response)
+      })
+      .catch(err => {
+        reject(err)
+      })
+    })
+  }
+
+  //localy update trips of user (when modification is already done)
+  update(triparr: tripModel[]) {
+    this._trips.next(triparr)
+  }
 }

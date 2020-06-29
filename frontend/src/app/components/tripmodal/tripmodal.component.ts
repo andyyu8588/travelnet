@@ -1,3 +1,4 @@
+import { tripModel } from './../tabs/mytrip/trip.model';
 import { userModel } from './../../models/user.model';
 import { HttpService } from 'src/app/services/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -16,6 +17,8 @@ export class TripmodalComponent implements OnInit {
   modalForm: FormGroup
   isLoading: boolean = false
   nameErr: boolean = false
+
+  trips: tripModel[]
 
   constructor(
     public dialogRef: MatDialogRef<TripmodalComponent>,
@@ -38,33 +41,71 @@ export class TripmodalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  checkName(control: FormControl): Promise<any> {
+  checkName(control: {[key: string]: any}): Promise<string | null> {
     return new Promise((resolve, reject) => {
       this.HttpService.get('/user', {})
       .then((response: {
         [key: string]: any
-        user: userModel
+        user: userModel[]
       }) => {
-        let trips = response.user.trips
-        for (let x = 0; x < trips.length; x++) {
-          console.log(trips[x].name, control.value)
-          if(trips[x].name == control.value) {
-            resolve({err: 'name already exists'})
-            break
+        let trips: tripModel[] = response.user[0].trips? response.user[0].trips : null
+        if (trips) {
+          this.trips = trips
+          for (let x = 0; x < trips.length; x++) {
+            if(trips[x].name == control.value) {
+              resolve('name already exists')
+              break
+            }
           }
+          resolve(null)
+        } else {
+          resolve(null)
         }
-        resolve(null)
       })
       .catch(err => {
-        resolve({err: err})      
+        console.log('err', err)
+        reject(err.message)      
       })
     })
   }
 
   onSubmit(data: any) {
     this.isLoading = true
-    
-
+    let valid = this.checkName({value: data.name})
+    if (typeof(valid) == 'string') {
+      this.isLoading = false
+    } else {
+      console.log('passed')
+      this.trips.push({
+        name: data.name,
+        date: {
+          start: data.start,
+          end: data.end
+        },
+      })
+      this.HttpService.patch('user/edit', {
+        username: localStorage.getItem('username'),
+        proprety: 'trips',
+        newProprety: this.trips
+      })
+      .then((response: any) => {
+        if (response.message) {
+          this.dialogRef.close({
+            date: {
+              start: data.start,
+              end: data.end
+            },
+            name: data.name
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        this.isLoading = false
+      })
+    }
   }
 
   onCancel() {
