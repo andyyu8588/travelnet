@@ -10,7 +10,7 @@ import { MapService } from 'src/app/services/map/map.service';
   templateUrl: './searchresults.component.html',
   styleUrls: ['./searchresults.component.scss']
 })
-export class SearchresultsComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class SearchresultsComponent implements OnInit, OnDestroy {
   url :string = null
   openTab: tab
 
@@ -28,9 +28,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy, AfterViewCheck
     this.url = this.router.url.replace('/search/','')
     this.SearchService.newSeach(this.url, this.map.getCenter())
   }
-  ngAfterViewChecked(){
 
-  }
 
   ngOnDestroy(){
     this.returnTab.unsubscribe()

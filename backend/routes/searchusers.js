@@ -15,10 +15,6 @@ router.get('', (req, res, next) => {
             "$firstname",
             " ",
             "$lastname",
-            ",",
-            "$username",
-            ",",
-            "$email",
           ]
         },
       }
@@ -31,6 +27,7 @@ router.get('', (req, res, next) => {
         }
       }
     }
+    
   ])
   .exec((err,result) => {
     if (err) {

@@ -116,7 +116,14 @@ export class SearchService implements OnDestroy {
         if (sessionStorage.getItem('username'))
           if (result[1].users){
             result[1].users.forEach(user=>{
-              this.returnSearch.push({'type' : 'user', 'name' : user.name})
+              this.returnSearch.push(
+                {
+                  'type' : 'user',
+                  'name' : user.name,
+                  'id' : user.username
+
+
+                  })
             })
           }
           else{
@@ -131,7 +138,7 @@ export class SearchService implements OnDestroy {
         content: this.returnSearch
       }
       )
-      // console.log(this.search)
+      console.log(this.search)
       resolve(this._searchTab.next(this.search))
       })
       .catch(err => {
