@@ -70,17 +70,6 @@ export class SearchService implements OnDestroy {
     return await Promise.all([this.foursquareSearchVenues(query, latLng), this.userSearch(query)])
   }
 
-  // creates new tab
-  // newTab(){
-  //   console.log('new tab clicked')
-  //   this.openTabs.push(
-  //     { query : 'newTab',
-  //       path : 'searchresults/',
-  //       content: null
-  //     }
-  //   )
-  //   this._searchTabs.next(this.openTabs)
-  // }
   formatDetails(query: string){
     return new Promise<any>((resolve,reject)=>{
       this.foursquareService.getDetails(query)
