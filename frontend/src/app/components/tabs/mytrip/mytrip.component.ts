@@ -1,4 +1,4 @@
-import { tripModel } from './trip.model';
+import { tripModel } from '../../../models/trip.model';
 import { Subscription } from 'rxjs';
 import { TripService } from './../../../services/trip.service';
 import { TripmodalComponent } from 'src/app/components/tripmodal/tripmodal.component';

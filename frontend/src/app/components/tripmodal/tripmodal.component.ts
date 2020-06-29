@@ -1,4 +1,4 @@
-import { tripModel } from './../tabs/mytrip/trip.model';
+import { tripModel } from '../../models/trip.model';
 import { userModel } from './../../models/user.model';
 import { HttpService } from 'src/app/services/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';

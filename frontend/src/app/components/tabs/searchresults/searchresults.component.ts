@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/services/search.service';
-import { tab } from 'src/app/components/tabs/tab.model'
+import { tab } from 'src/app/models/tab.model'
 import { Router } from '@angular/router';
 import { MapService } from 'src/app/services/map/map.service';
 

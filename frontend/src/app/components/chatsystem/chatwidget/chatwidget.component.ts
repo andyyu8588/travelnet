@@ -3,7 +3,7 @@ import { SessionService } from '../../../services/session.service';
 import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { Component, OnInit, Renderer2, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
 import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
-import { RoomWidget } from '../friendlist/friend/Room_Widget.model'
+import { RoomWidget } from '../../../models/Room_Widget.model'
 
 @Component({
   selector: 'app-chatwidget',

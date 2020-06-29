@@ -1,6 +1,6 @@
 import { SessionService } from '../../../../services/session.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { RoomWidget } from './Room_Widget.model';
+import { RoomWidget } from '../../../../models/Room_Widget.model';
 import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
 
 @Component({

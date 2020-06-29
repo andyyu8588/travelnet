@@ -1,6 +1,6 @@
 import { MapService } from 'src/app/services/map/map.service';
-import { tab } from 'src/app/components/tabs/tab.model';
-import { search } from 'src/app/components/tabs/searchresults/search/search.model';
+import { tab } from 'src/app/models/tab.model';
+import { search } from 'src/app/models/search.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';

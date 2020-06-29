@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
-import { tab } from '../tabs/tab.model';
-import { selectedVenueModel } from './selectedVenue.model';
+import { tab } from '../../models/tab.model';
+import { selectedVenueModel } from '../../models/selectedVenue.model';
 
 @Component({
   selector: 'app-venue',

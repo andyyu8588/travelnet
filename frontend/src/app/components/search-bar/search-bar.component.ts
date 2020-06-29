@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer2, OnDestroy,ViewChild, ElementRef, AfterVie
 import { MapService } from 'src/app/services/map/map.service';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
-import { tab } from 'src/app/components/tabs/tab.model';
+import { tab } from 'src/app/models/tab.model';
 import { Subscription } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 

@@ -1,5 +1,5 @@
 import { userModel } from './../models/user.model';
-import { tripModel } from './../components/tabs/mytrip/trip.model';
+import { tripModel } from '../models/trip.model';
 import { environment } from './../../environments/environment.prod';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpService } from './http.service';

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { tab } from '../tabs/tab.model';
+import { tab } from '../../models/tab.model';
 import { SearchService } from 'src/app/services/search.service';
 import { ResizeEvent } from 'angular-resizable-element';
 import { Subscription } from 'rxjs';
