@@ -3,7 +3,9 @@
   class='modal-body'
   id='form'
   (ngSubmit)="onSubmit()"
-  [formGroup]='registrationForm'>
+  #form
+  [formGroup]='registrationForm'
+  *ngIf='!sessionState'>
     <h1 class='modal-title'>Registration</h1>
     <hr>
     <!-- Name -->
@@ -121,5 +123,7 @@
         <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
       </mat-checkbox>
     </div>
+    <br>
+    <!-- submit -->
+    <button mat-raised-button color='primary'>Register</button>
   </form>
-  <button (click)='onSubmit()' class="btn btn-primary">Register</button>

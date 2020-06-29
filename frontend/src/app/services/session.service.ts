@@ -8,19 +8,11 @@ import { BehaviorSubject, Observable} from 'rxjs'
 
 export class SessionService {
 
-  // observable for register vs login
-  private _currentFeature: BehaviorSubject<string> = new BehaviorSubject(null)
-  public currentFeature: Observable<string> = this._currentFeature.asObservable()
-
   // observable for login state
   private _sessionState: BehaviorSubject<boolean> = new BehaviorSubject(false)
   public sessionState: Observable<boolean> = this._sessionState.asObservable()
 
   constructor(private SocketService: SocketService) { }
-
-  changeFeature() {
-    this._currentFeature.next(null)
-  }
 
   getRoomName(roomName: string) {
     if (roomName.replace(`${sessionStorage.getItem('username')},`, "").includes(roomName)) {

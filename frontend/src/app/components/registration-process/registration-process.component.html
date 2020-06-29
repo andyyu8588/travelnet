@@ -1,35 +1,38 @@
-  <mat-horizontal-stepper linear #stepper>
-    <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="false">
-        <!-- <ng-template matStepLabel>Create Your Account</ng-template> -->
-        <app-registrationpage #registration [stepper]='stepper'></app-registrationpage>
-        <div>
-            <!-- <button mat-button matStepperNext class="btn btn-primary" (click)='registerClicked()'>Register</button> -->
-        </div>
-    </mat-step>
-    <mat-step [stepControl]="secondFormGroup" label="Tell Us Where You've Been" [optional]="true">
-      <!-- <ng-template matStepLabel>Tell Us Where You've Been</ng-template> -->
-      <!-- <form [formGroup]="secondFormGroup">
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                 required>
-        </mat-form-field>
-        <div> -->
-          <!-- <button mat-button matStepperPrevious>Back</button> -->
-        <!-- </div>
-      </form> -->
-      <app-country-selector [progressUpdate]='stepper._getFocusIndex()' [target]='1'></app-country-selector>
+<div class="container-fluid" style="height: 100%; padding: 1%; background-color: white;" *ngIf='sessionState'>
+  <h2>You are already registered</h2>
+</div>
+<mat-horizontal-stepper linear #stepper [hidden]='sessionState'>
+  <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="false">
+      <!-- <ng-template matStepLabel>Create Your Account</ng-template> -->
+      <app-registrationpage #registration [stepper]='stepper'></app-registrationpage>
       <div>
-        <button mat-button matStepperNext>Next</button>
+          <!-- <button mat-button matStepperNext class="btn btn-primary" (click)='registerClicked()'>Register</button> -->
       </div>
-    </mat-step>
-    <mat-step label='Where Do You Want To Go' [optional]="true">
-      <!-- <ng-template matStepLabel>Where Do You Want To Go</ng-template> -->
-      <!-- <p>You are now done.</p> -->
-      <app-country-selector [progressUpdate]='stepper._getFocusIndex()' [target]='2'></app-country-selector>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button routerLink='/myaccount' >Done</button>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Tell Us Where You've Been" [optional]="true">
+    <!-- <ng-template matStepLabel>Tell Us Where You've Been</ng-template> -->
+    <!-- <form [formGroup]="secondFormGroup">
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                required>
+      </mat-form-field>
+      <div> -->
+        <!-- <button mat-button matStepperPrevious>Back</button> -->
+      <!-- </div>
+    </form> -->
+    <app-country-selector [progressUpdate]='stepper._getFocusIndex()' [target]='1'></app-country-selector>
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label='Where Do You Want To Go' [optional]="true">
+    <!-- <ng-template matStepLabel>Where Do You Want To Go</ng-template> -->
+    <!-- <p>You are now done.</p> -->
+    <app-country-selector [progressUpdate]='stepper._getFocusIndex()' [target]='2'></app-country-selector>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button routerLink='/myaccount' >Done</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -1,10 +1,11 @@
+import { Subscription } from 'rxjs';
 import { MatHorizontalStepper } from '@angular/material/stepper';
 import { SocketService } from '../../../services/chatsystem/socket.service';
-import { Component, OnDestroy, OnInit, Input} from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, ViewChild} from '@angular/core';
 import { SessionService } from '../../../services/session.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators, Form } from '@angular/forms'
 import * as moment from 'moment';
 
 
@@ -33,11 +34,14 @@ export class registrationComponent {
 })
 
 export class RegistrationComponent implements OnDestroy, OnInit {
+  sessionState_sub: Subscription
+  sessionState: Boolean
   registrationForm:FormGroup;
   hide = true;
   hide1 = true;
   currentTime = new Date().toISOString()
   @Input() stepper: MatHorizontalStepper
+  @ViewChild('form') form
 
   constructor(private SocketService: SocketService,
               private sessionService:SessionService,
@@ -61,6 +65,10 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'checkbox': new FormControl(null, [Validators.required]),
       'gender':new FormControl(null, [Validators.required]),
+    })
+
+    this.sessionState_sub = this.sessionService.sessionState.subscribe((state: boolean) => {
+      this.sessionState = state
     })
   }
 
@@ -130,45 +138,6 @@ export class RegistrationComponent implements OnDestroy, OnInit {
     }
   }
 
-  onSubmit()  {
-    if (this.isOld()) {
-      if (this.registrationForm.valid && !(sessionStorage.getItem('username'))) {
-        let data = {
-          firstName:this.registrationForm.get('name.firstName').value,
-          lastName:this.registrationForm.get('name.lastName').value,
-          email:this.registrationForm.get('email').value,
-          username:this.registrationForm.get('username').value,
-          password:this.registrationForm.get('passwords.password').value,
-          gender:this.registrationForm.get('gender').value,
-          birthdate:this.registrationForm.get('birthDate').value
-
-        }
-        this.SocketService.emit('createUser',data, (res) => {
-          if (res.err) {
-            console.log(res.err)
-          }
-          else if (res.user) {
-            sessionStorage.setItem('username', res.user.username)
-            localStorage.setItem('token', res.token)
-            localStorage.setItem('username', res.user.username)
-            this.sessionService.session()
-            this.modalService.dismissAll()
-            this.stepper.next()
-            console.log(`user created: ${sessionStorage.getItem('username')}`)
-          } else {
-            console.log("an error occured")
-          }
-        })
-      } 
-      else {
-        console.log('nothing')
-      }
-    }
-    else {
-      alert('your registration cannot be processed')
-    }
-  }
-
   forbiddenUsernames(control: FormControl): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.SocketService.emit('searchUser', [control.value], (res) => {
@@ -181,8 +150,48 @@ export class RegistrationComponent implements OnDestroy, OnInit {
     })
   }
 
+  onSubmit()  {
+    // check age
+    if (this.isOld()) {
+      // check form validity && if logged in
+      if (this.registrationForm.valid && !(sessionStorage.getItem('username'))) {
+        let data = {
+          firstName:this.registrationForm.get('name.firstName').value,
+          lastName:this.registrationForm.get('name.lastName').value,
+          email:this.registrationForm.get('email').value,
+          username:this.registrationForm.get('username').value,
+          password:this.registrationForm.get('passwords.password').value,
+          gender:this.registrationForm.get('gender').value,
+          birthdate:this.registrationForm.get('birthDate').value
+        }
+        this.SocketService.emit('createUser',data, (res) => {
+          // error in backend
+          if (res.err) {
+            alert(`an error occured ${res.err}`)
+          }
+          // successfull
+          else if (res.user) {
+            sessionStorage.setItem('username', res.user.username)
+            localStorage.setItem('token', res.token)
+            localStorage.setItem('username', res.user.username)
+            this.sessionService.session()
+            this.modalService.dismissAll()
+            this.stepper.next()
+            console.log(`user created: ${sessionStorage.getItem('username')}`)
+          }
+        })
+      } 
+    }
+    // not old enough
+    else {
+      alert('You must be at least 13 years old to register')
+      window.location.reload()
+    }
+  }
+
   ngOnDestroy(){
     // this.router.navigate(['/'])
+    this.sessionState_sub.unsubscribe()
   }
 
 }
