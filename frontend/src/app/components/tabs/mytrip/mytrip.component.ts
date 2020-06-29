@@ -1,9 +1,11 @@
+import { SessionService } from 'src/app/services/session.service';
 import { tripModel } from '../../../models/trip.model';
 import { Subscription } from 'rxjs';
 import { TripService } from './../../../services/trip.service';
 import { TripmodalComponent } from 'src/app/components/tripmodal/tripmodal.component';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { stat } from 'fs';
 
 @Component({
   selector: 'app-mytrip',
@@ -11,8 +13,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./mytrip.component.scss']
 })
 export class MytripComponent implements OnInit, OnDestroy {
-  // @Input() name: String = "Sample Trip"
-  // @Input() places: Array<any> = []
+  sessionState_sub: Subscription
+  sessionState: boolean
 
   name: string
   start: any
@@ -27,12 +29,16 @@ export class MytripComponent implements OnInit, OnDestroy {
   private dialogref_sub: Subscription
 
   constructor(private MatDialog: MatDialog,
-              private TripService: TripService) { 
+              private TripService: TripService,
+              private SessionService: SessionService) { 
   }
 
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.trips = trips
+    })
+    this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
+      this.sessionState = state
     })
   }
 
@@ -67,5 +73,6 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._tripSub.unsubscribe()
+    this.sessionState_sub.unsubscribe()
   }
 }

@@ -1,7 +1,4 @@
-<div class="container-fluid" style="height: 100%; padding: 1%; background-color: white;" *ngIf='sessionState'>
-  <h2>You are already registered</h2>
-</div>
-<mat-horizontal-stepper linear #stepper [hidden]='sessionState'>
+<mat-horizontal-stepper linear #stepper>
   <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="false">
       <!-- <ng-template matStepLabel>Create Your Account</ng-template> -->
       <app-registrationpage #registration [stepper]='stepper'></app-registrationpage>

@@ -13,6 +13,8 @@ import { resolve } from 'dns';
   styleUrls: ['./tripmodal.component.scss']
 })
 export class TripmodalComponent implements OnInit {
+
+  minDate: Date = new Date()
   
   modalForm: FormGroup
   isLoading: boolean = false

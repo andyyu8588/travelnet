@@ -16,13 +16,18 @@
       </button>
     </div>
   </mat-card-title>
+
   <mat-card-content class="">
-
-
     <mat-grid-list cols="4" rowHeight="1:1">
 
       <mat-grid-tile id='imgTile'colspan="2" rowspan="3" >
-        <img id='img' src="{{ content.bestPhoto.prefix + 'original' + content.bestPhoto.suffix}}" alt="Photo">
+        <ngb-carousel *ngIf="content.photos">
+          <ng-template ngbSlide *ngFor='let photo of content.photos.groups[0].items, let i = index'>
+            <div class="picsum-img-wrapper">
+              <img class="d-block w-100" src="{{photo|null:['prefix']}}original{{photo|null:['suffix']}}" alt="slide {{i}}">
+            </div>
+          </ng-template>
+        </ngb-carousel>
         <!-- need button for additional pictures -->
       </mat-grid-tile>
 
@@ -54,10 +59,10 @@
       </mat-grid-tile>
 
       <mat-grid-tile colspan="4" >
-          <!-- other images -->
+          <!-- other images
             <div *ngFor="let photo of content.photos.groups[0].items">
               <img id='img' src="{{photo|null:['prefix']}}original{{photo|null:['suffix']}}" alt="Photo">
-            </div>
+            </div> -->
       </mat-grid-tile>
 
 

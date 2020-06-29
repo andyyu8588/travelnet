@@ -6,13 +6,13 @@
             <mat-form-field class="example-full-width">
                 <mat-label>Trip Name</mat-label>
                 <input matInput formControlName='name' placeholder="Ex. Simon va a Prague" [(ngModel)]="data.name">
-                <small *ngIf='this.modalForm.get("name").touched && !this.modalForm.get("name").valid' class="text-danger">{{ modalForm.get('name').errors }}</small>
+                <small *ngIf='this.modalForm.get("name").touched && !this.modalForm.get("name").valid' class="text-danger">please create a name</small>
               </mat-form-field>
             <br>
             <mat-form-field >
                 <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [rangePicker]="picker" formGroupName='dateRange'>
-                    <input matStartDate placeholder="Start date" formControlName='start' [(ngModel)]="data.start">
+                <mat-date-range-input [rangePicker]="picker" formGroupName='dateRange' [min]='minDate'>
+                    <input matStartDate placeholder="Start date" formControlName='start' [(ngModel)]="data.start" >
                     <input matEndDate placeholder="End date" formControlName='end' [(ngModel)]="data.end">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

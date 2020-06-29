@@ -39,9 +39,8 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   registrationForm:FormGroup;
   hide = true;
   hide1 = true;
-  currentTime = new Date().toISOString()
+  currentTime: string = new Date().toISOString()
   @Input() stepper: MatHorizontalStepper
-  @ViewChild('form') form
 
   constructor(private SocketService: SocketService,
               private sessionService:SessionService,

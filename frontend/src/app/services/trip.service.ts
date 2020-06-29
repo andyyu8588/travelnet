@@ -1,30 +1,38 @@
+import { SessionService } from 'src/app/services/session.service';
 import { userModel } from './../models/user.model';
 import { tripModel } from '../models/trip.model';
-import { environment } from './../../environments/environment.prod';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { HttpService } from './http.service';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TripService {
+export class TripService implements OnDestroy {
+  private sessionState_sub: Subscription
+  sessionState: boolean = this.SessionService.session()
 
   private _trips: BehaviorSubject<tripModel[]> = new BehaviorSubject([])
   public trips: Observable<tripModel[]> = this._trips.asObservable()
 
-  constructor(private HttpService: HttpService) {
-    this.HttpService.get('/user', {})
-    .then((response: {
-      [key: string]: any
-      user: userModel[]
-    }) => {
-      if (response.user) {
-        this._trips.next(response.user[0].trips)
+  constructor(private HttpService: HttpService,
+              private SessionService: SessionService) {
+    this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
+      if (state && this.sessionState != state) {
+        this.sessionState = state
+        this.HttpService.get('/user', {})
+        .then((response: {
+          [key: string]: any
+          user: userModel[]
+        }) => {
+          if (response.user) {
+            this._trips.next(response.user[0].trips)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
       }
-    })
-    .catch(err => {
-      console.log(err)
     })
   }
 
@@ -49,5 +57,9 @@ export class TripService {
   //localy update trips of user (when modification is already done)
   update(triparr: tripModel[]) {
     this._trips.next(triparr)
+  }
+
+  ngOnDestroy() {
+    this.sessionState_sub.unsubscribe()
   }
 }

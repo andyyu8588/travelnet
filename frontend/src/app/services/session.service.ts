@@ -22,11 +22,13 @@ export class SessionService {
     }
   }
 
-  session(): any {
+  session(): boolean {
     if (sessionStorage.getItem('username')) {
       this._sessionState.next(true)
+      return true
     } else {
       this._sessionState.next(false)
+      return false
     }
   }  
 }
