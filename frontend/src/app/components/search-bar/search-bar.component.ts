@@ -18,7 +18,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   openTab: tab
   private returnTab: Subscription
   @ViewChild('searchResultsContainer') div: ElementRef
-  
+
   select: string = 'all'
 
   constructor(
@@ -27,19 +27,17 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     private router : Router,
     private SearchService: SearchService
   ) {
-  
+
   }
 
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
-
   }
 
   onSubmit(data: string) {
 
     this.SearchService.newSeach(data, this.map.getCenter()).then(()=>{
     this.router.navigate([this.openTab.path])
-    console.log(this.openTab.content)
     })
     // this.openTabs.forEach(element => {
     //   if (element.query == data.toLowerCase()){

@@ -116,7 +116,7 @@ export class SearchService implements OnDestroy {
         if (sessionStorage.getItem('username'))
           if (result[1].users){
             result[1].users.forEach(user=>{
-              this.returnSearch.push({'type' : 'User', 'name' : user.name})
+              this.returnSearch.push({'type' : 'user', 'name' : user.name})
             })
           }
           else{

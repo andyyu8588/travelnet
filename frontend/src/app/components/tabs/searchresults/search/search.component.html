@@ -1,4 +1,4 @@
-<button type="button" class="btn" (click)='navigate()'>
+<button type="button" class="btn" (click)='navigate()' *ngIf="searchResult.name == 'venue'">
   <mat-card>
 
     <mat-card-header>
@@ -14,6 +14,17 @@
         {{searchResult.reasons}}
       </p>
     </mat-card-content>
+
+  </mat-card>
+</button>
+
+<button type="button" class="btn" (click)='navigate()' *ngIf="searchResult.name == 'user'">
+  <mat-card>
+
+    <mat-card-header>
+      <mat-card-title>{{searchResult.name}}</mat-card-title>
+    </mat-card-header>
+
 
   </mat-card>
 </button>

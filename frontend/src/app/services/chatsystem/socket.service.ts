@@ -9,10 +9,10 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class SocketService {
   private socket: any
   room: any
-  // readonly uri: string = 'https://travelnet.herokuapp.com'
-  readonly uri: string = 'http://localhost:3000'
+  readonly uri: string = 'https://travelnet.herokuapp.com'
+  // readonly uri: string = 'http://localhost:3000'
 
-  constructor() { 
+  constructor() {
     this.socket = io(this.uri)
   }
 
@@ -23,7 +23,7 @@ export class SocketService {
       })
     })
   }
-  
+
   emitO(eventName: string, data: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!this.socket) {
@@ -32,7 +32,7 @@ export class SocketService {
         this.socket.emit(eventName, data, (ack) => {
           resolve(ack)
       })
-      } 
+      }
     })
   }
 
@@ -56,7 +56,7 @@ export class SocketService {
   //disconnects and reconnects to backend
   close() {
     this.socket.close()
-  } 
+  }
 
   //permanent disconnection from backend
   disconnect() {
