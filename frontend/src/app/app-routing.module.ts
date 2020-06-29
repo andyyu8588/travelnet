@@ -10,6 +10,7 @@ import { MyaccountComponent } from './components/myaccount/myaccount.component';
 import { SearchresultsComponent } from './components/tabs/searchresults/searchresults.component';
 import { VenueComponent } from './components/venue/venue.component'
 import { SearchBarComponent } from './components/search-bar/search-bar.component'
+import { UserprofileComponent } from './components/userprofile/userprofile.component'
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationProcessComponent},
@@ -20,6 +21,9 @@ const routes: Routes = [
   {path: 'search', component: SearchBarComponent, children: [
     {path: 'venue', component: VenueComponent, children: [
       {path: ':query', component: VenueComponent},
+    ]},
+    {path: 'user', component: UserprofileComponent, children: [
+      {path: ':query', component: UserprofileComponent},
     ]},
     {path: ':query', component: SearchresultsComponent},
   ]},

@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchResult = this.result
-    this.pathID = '/search/venue/'+ this.result.Id
+    this.pathID = '/search/'+ this.result.type + '/' + this.result.Id
   }
   navigate(){
     this.searchservice.updatePath(this.pathID)
