@@ -25,7 +25,7 @@ export class TripService {
   // modifies trips of user
   modify(triparr: tripModel[]): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.HttpService.patch('/edit', {
+      this.HttpService.post('/edit', {
         username: localStorage.getItem('username'),
         proprety: 'trips',
         newProprety: triparr

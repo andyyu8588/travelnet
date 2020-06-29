@@ -51,7 +51,7 @@ router.get('', jwtMiddleware, (req, res, next) => {
     })
 })
 
-router.patch('/edit', (req, res, next) => {
+router.post('/edit', (req, res, next) => {
   let tempProprety = {}
   tempProprety[req.body.proprety] = req.body.newProprety
   User.findOneAndUpdate({username: req.body.username}, {$set: tempProprety}, (err, doc, result) => {        
