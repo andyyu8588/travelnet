@@ -9,8 +9,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class SocketService {
   private socket: any
   room: any
-  readonly uri: string = 'https://travelnet.herokuapp.com'
-  // readonly uri: string = 'http://localhost:3000'
+  // readonly uri: string = 'https://travelnet.herokuapp.com'
+  readonly uri: string = 'http://localhost:3000'
 
   constructor() {
     this.socket = io(this.uri)

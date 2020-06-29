@@ -1,4 +1,4 @@
-import { RoomWidget } from '../../components/chatsystem/friendlist/friend/Room_Widget.model'
+import { RoomWidget } from '../../models/Room_Widget.model'
 import { SocketService } from './socket.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';

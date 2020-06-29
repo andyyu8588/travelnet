@@ -1,8 +1,9 @@
+import { SessionService } from 'src/app/services/session.service';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { MapService, clickLocationCoordinates } from './../../services/map/map.service';
 import { Router } from '@angular/router';
 import { RegistrationComponent } from './registrationpage/registrationpage.component';
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatHorizontalStepper } from '@angular/material/stepper';
 import { MatSelectChange } from '@angular/material/select';
@@ -19,11 +20,14 @@ export interface progressUpdateData {
   styleUrls: ['./registration-process.component.scss']
 })
 export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDestroy {
+  sessionState_sub: Subscription
+  sessionState: Boolean
+
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   @ViewChild('stepper') stepper: MatHorizontalStepper
   @ViewChild('step1') step1: any
-  editable: boolean = true
+  editable: Boolean = true
   @ViewChild('registration') registration: RegistrationComponent
 
   private _progressUpdate: BehaviorSubject<progressUpdateData> = new BehaviorSubject({
@@ -36,7 +40,8 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   private stepper_sub: Subscription
 
   constructor(private _formBuilder: FormBuilder,
-              private MapService: MapService) { }
+              private MapService: MapService,
+              private  SessionService: SessionService) { }
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -45,6 +50,9 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ''
     });
+    this.sessionState_sub = this.SessionService.sessionState.subscribe((state: Boolean) => {
+      this.sessionState = state
+    })
   } 
 
   ngAfterViewInit() {
@@ -75,6 +83,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     // this.Router.navigate(['/'])
     this.clickLocation.unsubscribe()
     this.stepper_sub.unsubscribe()
+    this.sessionState_sub.unsubscribe()
   }
 
 }

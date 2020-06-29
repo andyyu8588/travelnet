@@ -1,4 +1,4 @@
-import { tripModel } from './../tabs/mytrip/trip.model';
+import { tripModel } from '../../models/trip.model';
 import { userModel } from './../../models/user.model';
 import { HttpService } from 'src/app/services/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -75,18 +75,17 @@ export class TripmodalComponent implements OnInit {
     if (typeof(valid) == 'string') {
       this.isLoading = false
     } else {
-      console.log('passed')
       this.trips.push({
-        name: data.name,
         date: {
           start: data.start,
           end: data.end
         },
+        name: data.name,
       })
-      this.HttpService.patch('user/edit', {
-        username: localStorage.getItem('username'),
-        proprety: 'trips',
-        newProprety: this.trips
+      this.HttpService.patch('/user/edit', {
+        'username': localStorage.getItem('username'),
+        'proprety': 'trips',
+        'newProprety': this.trips
       })
       .then((response: any) => {
         if (response.message) {

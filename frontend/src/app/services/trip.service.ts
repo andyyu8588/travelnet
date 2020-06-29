@@ -1,4 +1,5 @@
-import { tripModel } from './../components/tabs/mytrip/trip.model';
+import { userModel } from './../models/user.model';
+import { tripModel } from '../models/trip.model';
 import { environment } from './../../environments/environment.prod';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpService } from './http.service';
@@ -14,8 +15,11 @@ export class TripService {
 
   constructor(private HttpService: HttpService) {
     this.HttpService.get('/user', {})
-    .then((response: any) => {
-      this._trips.next(response.user.trips)
+    .then((response: {
+      [key: string]: any
+      user: userModel[]
+    }) => {
+      this._trips.next(response.user[0].trips)
     })
     .catch(err => {
       console.log(err)
@@ -25,7 +29,7 @@ export class TripService {
   // modifies trips of user
   modify(triparr: tripModel[]): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.HttpService.patch('user/edit', {
+      this.HttpService.patch('/user/edit', {
         username: localStorage.getItem('username'),
         proprety: 'trips',
         newProprety: triparr

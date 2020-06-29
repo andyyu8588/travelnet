@@ -70,7 +70,7 @@ import { TripmodalComponent } from './components/tripmodal/tripmodal.component'
 import { VenueComponent } from './components/venue/venue.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { ListObjectPipe } from './pipes/list-object.pipe';
-import { NullPipe } from './components/venue/null.pipe';
+import { NullPipe } from './pipes/null.pipe';
 import { UserprofileComponent } from './components/userprofile/userprofile.component'
 
 @NgModule({

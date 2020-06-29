@@ -52,18 +52,23 @@ router.get('', jwtMiddleware, (req, res, next) => {
 })
 
 router.patch('/edit', (req, res, next) => {
+  let key = req.body.params.proprety
+  let val = req.body.params.newProprety
   let tempProprety = {}
-  tempProprety[req.body.proprety] = req.body.newProprety
-  User.findOneAndUpdate({username: req.body.username}, {$set: tempProprety}, (err, doc, result) => {        
+  tempProprety[key] = val
+  console.log(tempProprety)
+  User.findOneAndUpdate({username: req.body.params.username}, {$set: tempProprety}, (err, doc, result) => {        
     if (err) {
+      console.log(err)
       res.status(500).json({
         message: err
       })
     } else if (doc) {
+      console.log(doc)
       res.status(200).json({
         message: `Success! ${req.body.proprety} changed to ${req.body.newProprety}`
       })
-    } else {
+    } else if (result) {
       res.status(500).json({
         message: 'monkas'
       })

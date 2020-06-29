@@ -1,4 +1,4 @@
-import { tripModel } from './../components/tabs/mytrip/trip.model';
+import { tripModel } from './trip.model';
 export class userModel {
     email: String
     username: String
