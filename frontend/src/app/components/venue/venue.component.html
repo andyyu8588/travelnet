@@ -29,43 +29,47 @@
       <mat-grid-tile colspan="2" rowspan="3" class="container">
         <div>
           <!-- get page info -->
-          <div class="div">{{content | null:['page','pageInfo','description']}}</div>
+          <div class="div">
+            <p>description: {{content | null:['page','pageInfo','description']}}</p>
+          </div>
           <!-- each categories -->
           <div class="div">
-            <span *ngFor="let category of content.categories">
-                {{category | null:['name']}}
-            </span>
+            <p>category: <span *ngFor="let category of content.categories">{{category | null:['name']}}</span></p>
           </div>
 
           <!-- need for each for attributes -->
-          <div class="div" *ngFor="let attribute of content.attributes | keyvalue">
-            {{attribute|null:['name'] +'|'+ attribute|null:['summary'] +'|'+ attribute|null:['type']}}
+          <p>attributes:</p>
+          <div class="div" *ngFor="let attribute of content.attributes.groups">
+             {{attribute|null:['type']}} | {{attribute|null:['name']}} | {{attribute|null:['summary']}}
           </div>
 
-          <!-- need rating -->
+
+          <!--rating -->
+          <br>
           <div class="div">
-            {{content | null:['rating']}}
+            <p>rating: {{content | null:['rating']}}</p>
           </div>
           <!-- need price -->
       </div>
       </mat-grid-tile>
 
+      <mat-grid-tile colspan="4" >
+          <!-- other images -->
+            <div *ngFor="let photo of content.photos.groups[0].items">
+              <img id='img' src="{{photo|null:['prefix']}}original{{photo|null:['suffix']}}" alt="Photo">
+            </div>
+      </mat-grid-tile>
 
 
-
-
-
-
-
-
-      <mat-grid-tile colspan="4" >3</mat-grid-tile>
+      <mat-grid-tile colspan="4" >
+          <!-- need tips -->
+          <div *ngFor="let item of content.tips.groups[0].items">
+            <div>{{item|null:['user','firstName']}} {{item|null:['user','lastName']}} : {{item.text}}</div>
+          </div>
+      </mat-grid-tile>
     </mat-grid-list>
-     <!-- need tips -->
-      <!-- <ul > -->
-        <!-- <li *ngFor='let pair of content | keyvalue'>
-          {{ pair.key }}: {{ pair.value }}
-        </li> -->
-      <!-- </ul> -->
+
+
 
   </mat-card-content>
 </mat-card>
