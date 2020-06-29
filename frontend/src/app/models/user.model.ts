@@ -17,4 +17,6 @@ export class userModel {
         out: Array<any>
     }
     trips: Array<tripModel>
+    history: Array<tripModel>
+    wishlist: Array<any>
 }

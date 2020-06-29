@@ -32,6 +32,9 @@ export class AppComponent implements DoCheck, OnInit, OnDestroy {
         SessionService.session()
       } else if (data.err){
         console.log(data.err)
+        localStorage.clear()
+        sessionStorage.clear()
+        SessionService.session()
       }
     })
     : {}
