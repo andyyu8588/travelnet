@@ -1,5 +1,5 @@
 <div style="position: relative;">
-  <div class="container" style="background-color: rgba(255, 200, 200, 1); padding: 1em;">
+    <div class="container" style="background-color: rgba(255, 200, 200, 1); padding: 1em;">
         <div class="row justify-content-center">
             <button mat-mini-fab class="col-auto align-self-center" (click)='openModal()'>
                 <mat-icon>add</mat-icon>
@@ -39,7 +39,7 @@
                     </div>
                 </mat-card-content>
                 <mat-card-actions class="">
-                    <button mat-button color='warn'>
+                    <button mat-button color='warn' (click)='onDelete(trip.name, i)'>
                         delete
                     </button>
                     <button mat-button color='primary'>

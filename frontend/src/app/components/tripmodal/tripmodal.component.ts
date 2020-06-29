@@ -75,7 +75,6 @@ export class TripmodalComponent implements OnInit {
     if (typeof(valid) == 'string') {
       this.isLoading = false
     } else {
-      console.log('passed')
       this.trips.push({
         date: {
           start: data.start,

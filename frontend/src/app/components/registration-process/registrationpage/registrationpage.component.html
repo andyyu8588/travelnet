@@ -39,6 +39,7 @@
         placeholder="Enter a password"
         formControlName='password'
         [type]="hide ? 'password' : 'text'">
+        <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordLength()">your password should be between 5-15 characters</small>
         <button mat-button
         type='button'
         mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
@@ -47,11 +48,12 @@
       </mat-form-field>
       <!-- confirm password -->
       <mat-form-field appearance="outline" class='form-group col-6'>
-        <mat-label for='password'>confirm your password</mat-label>
+        <mat-label for='password'>Confirm your password</mat-label>
         <input matInput
         placeholder="confirm your password"
         formControlName='confirmPassword'
         [type]="hide1 ? 'password' : 'text'">
+        <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordValidity">your passwords do not match</small>
         <button
         type="button"
         mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
@@ -60,8 +62,6 @@
         </button>
       </mat-form-field>
     </div>
-    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordValidity">your passwords do not match</small>
-    <small id="passwordHelpBlock" class="text-danger" *ngIf="checkPasswordLength()">your password should be between 5-15 characters</small>
     <!-- email -->
     <mat-form-field appearance="outline" class='form-group' id="email">
       <mat-label for='email'>Email Address</mat-label>
@@ -75,9 +75,18 @@
     <div class="form-inline">
       <div class="form-group">
         <div class="input-group">
-          <label for="calendar">Birthdate:</label>
-          &nbsp; &nbsp;
-          <input 
+          <mat-form-field id="calendar" appearance="outline">
+            <mat-label>Birthdate</mat-label>
+            <input 
+              matInput
+              [matDatepicker]="picker"
+              [max]='currentTime'
+              formControlName="birthDate"
+              class="align-self-center">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker startView="multi-year"></mat-datepicker>
+          </mat-form-field>
+          <!-- <input 
             id="calendar"
             class="form-control"
             [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2020, month: 1, day: 1}"
@@ -92,12 +101,12 @@
             class="btn btn-outline-secondary calendar input-group-append rounded-0"
             (click)="d.toggle()" type="button">
             <mat-icon>calendar_today</mat-icon>
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
-    <br>
     <!-- Gender -->
+    <mat-label class="">Gender  </mat-label>
     <mat-radio-group aria-label="Select an option" class="row"
     formControlName="gender">
       <mat-radio-button value="Male" class='col-4'>Male</mat-radio-button>
@@ -112,6 +121,5 @@
         <label class='form-check-label' for='terms'>I have read and understand the terms & conditions of this agreement</label>
       </mat-checkbox>
     </div>
-    <!-- <button mat-button matStepperNext  type='submit' id='submit' class='btn btn-primary' aria-required='true'>Register</button> -->
   </form>
-  <!-- <button (click)='onSubmit()' class="btn btn-primary">onSubmit</button> -->
+  <button (click)='onSubmit()' class="btn btn-primary">Register</button>

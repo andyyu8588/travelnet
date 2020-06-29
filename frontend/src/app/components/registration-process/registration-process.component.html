@@ -1,9 +1,9 @@
   <mat-horizontal-stepper linear #stepper>
     <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="false">
         <!-- <ng-template matStepLabel>Create Your Account</ng-template> -->
-        <app-registrationpage #registration></app-registrationpage>
+        <app-registrationpage #registration [stepper]='stepper'></app-registrationpage>
         <div>
-            <button mat-button matStepperNext class="btn btn-primary" (click)='registerClicked()'>Register</button>
+            <!-- <button mat-button matStepperNext class="btn btn-primary" (click)='registerClicked()'>Register</button> -->
         </div>
     </mat-step>
     <mat-step [stepControl]="secondFormGroup" label="Tell Us Where You've Been" [optional]="true">

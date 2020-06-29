@@ -2,7 +2,7 @@ import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { MapService, clickLocationCoordinates } from './../../services/map/map.service';
 import { Router } from '@angular/router';
 import { RegistrationComponent } from './registrationpage/registrationpage.component';
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatHorizontalStepper } from '@angular/material/stepper';
 import { MatSelectChange } from '@angular/material/select';

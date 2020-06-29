@@ -32,7 +32,6 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
-      console.log(trips)
       this.trips = trips
     })
   }
@@ -48,10 +47,19 @@ export class MytripComponent implements OnInit, OnDestroy {
     });
 
     this.dialogref_sub = this.dialogRef.afterClosed().subscribe((result: tripModel)=> {
-      console.log(result);
       this.trips.push(result)
       this.TripService.update(this.trips)
     })
+  }
+
+  // confirm action
+  onDelete(name: string, index: number) {
+    if (confirm(`are you sure you want to delete ${name}?`)) {
+      this.trips.splice(index, 1)
+      this.TripService.modify(this.trips)
+    } else {
+
+    }
   }
 
   ngOnDestroy() {
