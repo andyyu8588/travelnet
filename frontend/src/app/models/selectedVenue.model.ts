@@ -1,4 +1,5 @@
 export class selectedVenueModel {
+  [key: string]: any
   public id: string
   public name: string
   public contact: {

@@ -13,7 +13,10 @@ import { selectedVenueModel } from '../../models/selectedVenue.model';
 export class VenueComponent implements OnInit,OnDestroy {
   url :string = null
   content: selectedVenueModel = null
+  rating: number = null
+  ratingColor: any = null
   displayContent: Array<{[key: string]: any}> = []
+  windowHeight: number = window.innerHeight
 
   private openTabSub: Subscription
   openTab:tab
@@ -30,13 +33,14 @@ export class VenueComponent implements OnInit,OnDestroy {
     this.url = this.router.url.replace('/search/venue/','')
     this.SearchService.formatDetails(this.url).then(result=>{
       this.content = result.response.venue
-      console.log(this.content)
+      if (this.content.rating && this.content.ratingColor) {
+        console.log(this.content.rating, `#${this.content.ratingColor}`)
+        this.rating = this.content.rating
+        this.ratingColor = `#${this.content.ratingColor}`
+      }
     })
-
-
-
-
   }
+
   goBack(){
     console.log(this.content)
     this.SearchService.goBack()
