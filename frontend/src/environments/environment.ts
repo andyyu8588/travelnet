@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  travelnetURL: 'https://travelnet.herokuapp.com',
+  travelnetURL: 'http://localhost:3000',
 
   mapbox: {
     token: 'pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ',
@@ -31,9 +31,9 @@ export const environment = {
   },
 
   travelnet: {
-    getUserInfo: 'https://travelnet.herokuapp.com/user',
-    getProfile: 'https://travelnet.herokuapp.com/profile',
-    searchUsers:'https://travelnet.herokuapp.com/searchusers',
+    getUserInfo: 'http://localhost:3000/user',
+    getProfile: 'http://localhost:3000/profile',
+    searchUsers:'http://localhost:3000/searchusers',
   },
 
 
