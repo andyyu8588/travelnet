@@ -26,7 +26,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
     this.url = this.router.url.replace('/search/','')
-    this.SearchService.newSeach(this.url, this.map.getCenter())
+    this.SearchService.enterSearch(this.url,this.SearchService.mainSearch(this.url,this.map.getCenter(),0))
   }
 
 

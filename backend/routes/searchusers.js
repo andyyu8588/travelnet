@@ -13,18 +13,7 @@ module.exports = router
 router.get('/', (req, res) => {
   if(req.query.user){
     const regex = new RegExp(escapeRegex(req.query.user), 'gi');
-    User.find({
-      $or : [
-        {firstname: regex},
-        {lastname: regex},
-        {username: regex}
-      ]
-      
-    },(err)=>{
-      if(err){
-        console.log(err)
-      }
-    })
+    User.find({username: regex})
     .exec((err,result) => {
       if (err) {
         res.status(500).json({
@@ -44,26 +33,3 @@ router.get('/', (req, res) => {
   }
 })
 
-
-// User.aggregate([
-//   {
-//     $project: {
-//       "name": {
-//         $concat: [
-//           "$firstname",
-//           " ",
-//           "$lastname",
-//         ]
-//       },
-//     }
-//   },
-//   {
-//     $match: {
-//       "name": {
-//         $regex: `.*${query}.*`,
-//         $options: "i"
-//       }
-//     }
-//   }
-  
-// ])

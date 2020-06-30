@@ -19,7 +19,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   private returnTab: Subscription
   @ViewChild('searchResultsContainer') div: ElementRef
 
-  select: string = 'all'
+  select: number = 0
 
   constructor(
     private map: MapService,
@@ -35,25 +35,18 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(data: string) {
-
-    this.SearchService.newSeach(data, this.map.getCenter()).then(()=>{
+    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.map.getCenter(),this.select)).then(()=>{
     this.router.navigate([this.openTab.path])
     })
-    // this.openTabs.forEach(element => {
-    //   if (element.query == data.toLowerCase()){
-    //     console.log(element.content)
-    //     this.searches = element.content
-    //   }
-    // });
   }
+
 
   onKey(data: string) {
     if (data === "") {
         this.loading = false
     } else {
         this.loading = true
-        // this.SearchService.foursquareSearch(data,this.map.getCenter())
-        this.SearchService.mainSearch(data, this.map.getCenter())
+        this.SearchService.mainSearch(data, this.map.getCenter(), this.select)
         .then((finalData) => {
             this.loading = false
             this.Renderer.removeChild(this.div, this.child)

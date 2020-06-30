@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { not } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class SearchService implements OnDestroy {
 
 
 
-  private returnSearch: Array<search> = []
+  private returnSearch: Array<any> = []
   private _searchResults: BehaviorSubject<any> = new BehaviorSubject(this.returnSearch)
   public searchResults: Observable<any> = this._searchResults.asObservable()
 
@@ -34,42 +35,50 @@ export class SearchService implements OnDestroy {
               private MapService: MapService) {
   }
 
-
-  foursquareSearchVenues(query: string, latLng: string): Promise<any> {
+//looks for venues in the area
+  foursquareSearchVenues(query: string, latLng: string, filter: number): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.foursquareService.searchVenues(query, latLng)
-      .subscribe((result) => {
-        resolve(result)
-      }, (err) => {
-        reject(err)
-      })
-    })
-  }
+      if(filter == 0 || filter == 1){
+        this.foursquareService.searchVenues(query, latLng)
+        .subscribe((result) => {
+          resolve(result)
+        }, (err) => {
+          reject(err)
+        })
+      }
+      else{
+        resolve(false)
+      }
+    }
+  )}
 
-  userSearch(value: string): Promise<any> {
+//gets user info with username input, connection to database
+  userSearch(query: string, filter: number): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.HttpClient.get<any>(environment.travelnet.searchUsers,
-        {
-          headers: {
-            authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas',
-          },
-          params: {
-            user: value
+      if(filter == 0 || filter == 2){
+        this.HttpClient.get<any>(environment.travelnet.searchUsers,
+          {
+            headers: {
+              authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas',
+            },
+            params: {
+              user: query
+            }
           }
-        }
-      )
-      .subscribe((response) => {
-        resolve(response)
-      }, (err) => {
-        reject(err)
-      })
-    })
-  }
+        )
+        .subscribe((result) => {
+          resolve(result)
+        }, (err) =>{
+          reject(err)
+        })
+      }
+      else{
+        resolve(false)
+      }
+    }
+  )}
 
-  async mainSearch(query: string, latLng: string): Promise<any> {
-    return await Promise.all([this.foursquareSearchVenues(query, latLng), this.userSearch(query)])
-  }
-
+//gets venue data with id in the query
   formatDetails(query: string){
     return new Promise<any>((resolve,reject)=>{
       this.foursquareService.getDetails(query)
@@ -81,50 +90,60 @@ export class SearchService implements OnDestroy {
     })
   }
 
-  //user makes new search in a tab
-  newSeach(query: string, latLng:string) {
+//combines both user and venue search
+  async mainSearch(query: string, latLng: string, filter: number): Promise<any> {
+    return await Promise.all([this.foursquareSearchVenues(query, latLng, filter), this.userSearch(query, filter)])
+  }
+
+
+//user makes new search in a tab
+  enterSearch(query: string, searchType:any) {
     return new Promise((resolve,reject)=>{
-      this.search.content= []
-      this._searchTab.next(this.search)
-      // this._searchTabs.next(this.openTabs)
-      this.mainSearch(query, latLng)
+      this.resetSearchContent()
+      console.log()
+      searchType
       .then(result => {
-        if (!result[0].response.warning){
-        result[0].response.groups[0].items.forEach( venue =>{
-          this.returnSearch.push(
-            {
-            'type':'venue',
-            'name' : venue.venue.name,
-            'address' : venue.venue.location,
-            'formattedAddress' : venue.venue.formattedAddress,
-            'category' : (venue.venue.categories)[0].name,
-            'reasons' : (venue.reasons.items)[0].summary,
-            'Id' : venue.venue.id,
-          })
-        })
-        if (sessionStorage.getItem('username'))
-          if (result[1].users){
+          if(true && !result[0].response.warning){
+            result[0].response.groups[0].items.forEach(venue =>{
+              this.search.content.push(
+                {
+                'type':'venue',
+                'name' : venue.venue.name,
+                'address' : venue.venue.location,
+                'formattedAddress' : venue.venue.formattedAddress,
+                'category' : (venue.venue.categories)[0].name,
+                'reasons' : (venue.reasons.items)[0].summary,
+                'Id' : venue.venue.id,
+              })
+            })
+        }
+        if (sessionStorage.getItem('username')){
+          if (true && result[1].users){
             result[1].users.forEach(user=>{
-              this.returnSearch.push(
+              this.search.content.push(
                 {
                   'type' : 'user',
-                  'name' : user.name,
-                  'id' : user.username
-
-
+                  'firstname' : user.firstname,
+                  'lastname': user.lastname,
+                  'username' : user.username,
+                  'profilepicture': user.profilepicture,
+                  'email': user.email,
+                  'encounters':user.encounters,
+                  'history': user.history,
+                  'wishlist': user.wishlist
                   })
             })
           }
-          else{
-            this.returnSearch.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
-          }
-      }
+        }
+        else{
+          this.search.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
+        }
       this.search = (
         {
         query: query,
         prePath: 'search/',
         path: 'search/' + query,
-        content: this.returnSearch
+        content: this.search.content
       }
       )
       console.log(this.search)
@@ -144,9 +163,9 @@ export class SearchService implements OnDestroy {
       return ('User: ' + search.name)
     }
   }
-  resetSearch(){
-    this.returnSearch = []
-    this._searchResults.next([])
+  resetSearchContent(){
+    this.search.content= []
+    this._searchTab.next(this.search)
   }
   updatePath(path){
     this.search.prePath = this.search.path
@@ -160,17 +179,6 @@ export class SearchService implements OnDestroy {
     console.log(this.search)
   }
 
-
-  // getTabIndex(Tab:any){
-  //   return this.openTabs.indexOf(Tab)
-  // }
-
-
-  // deleteTab(Tab:any){
-  //   // console.log('tab at index '+this.openTabs.indexOf(Tab)+ ' was deleted')
-  //   this.openTabs.splice(this.openTabs.indexOf(Tab),1)
-  //   this._searchTabs.next(this.openTabs)
-  // }
 
   ngOnDestroy() {
     this.mapCenterSub.unsubscribe()
