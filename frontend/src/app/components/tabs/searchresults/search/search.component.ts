@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { MapService } from 'src/app/services/map/map.service';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
 @Component({
@@ -6,21 +7,22 @@ import { Router } from '@angular/router';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   pathID: string
   searchResult : any
   @Input() select: any
   @Input() result: any
   constructor (
     private searchservice: SearchService,
-    private router : Router,) {
+    private router : Router,
+    private MapService: MapService) {
   }
-
-
 
   ngOnInit(): void {
     this.searchResult = this.result
     this.pathID = '/search/'+ this.result.type + '/' + this.result.Id
+
+
   }
   navigate(){
     this.searchservice.updatePath(this.pathID)
@@ -28,4 +30,11 @@ export class SearchComponent implements OnInit {
 
   }
 
+  showLocation() {
+    this.MapService.addMarker(this.result.location)
+  }
+
+  ngOnDestroy() {
+    this.MapService.venueOnDestroy()
+  }
 }

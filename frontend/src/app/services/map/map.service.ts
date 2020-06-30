@@ -40,6 +40,7 @@ export interface clickLocationCoordinates {
 })
 export class MapService {
   map: Mapboxgl.Map
+  venueLocation: Mapboxgl.marker
 
   private _clickLocation: BehaviorSubject<clickLocationCoordinates> = new BehaviorSubject({
     lat: null,
@@ -96,6 +97,14 @@ export class MapService {
       'layout': layout,
       'paint': paint
     })
+  }
+
+  addMarker(location: {[key: string]: any}) {
+    let coord: number[] = [location.lng, location.lat]
+    this.venueLocation = new Mapboxgl.Marker()
+    .setLngLat(coord)
+    .addTo(this.map);
+    this.map.flyTo({ 'center': coord, 'zoom': 8, 'speed': 0.8, 'curve': 1, 'essential': true });
   }
 
   getCenter(): string {
@@ -193,6 +202,12 @@ export class MapService {
           break 
         }
       }
+    }
+  }
+
+  venueOnDestroy() {
+    if (this.venueLocation) {
+      this.venueLocation.remove()
     }
   }
 }

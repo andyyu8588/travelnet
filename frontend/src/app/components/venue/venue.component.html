@@ -7,18 +7,32 @@
         </mat-icon>
       </button>
       <span class="col-auto md-auto">
-        <button mat-flat-button color='primary' class="align-self-start">
+        <button mat-flat-button color='primary' class="align-self-start" matTooltip='{{content.categories[0].name}}' matTooltipPosition='above'>
           <span style="padding: auto; display:inline-block;"><img src="{{content.categories[0].icon.prefix}}32{{content.categories[0].icon.suffix}}" alt=""></span>
         </button>
       </span>
-      <span class="col md-auto align-self-center">{{ content.name }}</span>
-      <span class="col md-auto" *ngIf='content.verified'><mat-icon><mat-icon>verified_user</mat-icon></mat-icon></span>
+      <span class="col-auto md-auto align-self-center">{{ content.name }}&nbsp;<span *ngIf='content.verified' matTooltip="Verified Venue" matTooltipPosition='above'><mat-icon mat-icon-button style="vertical-align: middle;" color='primary'>verified_user</mat-icon></span></span>
+      
+      <span class="col justify-content-end">
+        <button mat-icon-button matTooltip="share" matTooltipPosition='above' color='accent'>
+          <mat-icon>
+            share
+          </mat-icon>
+        </button>
+        <button *ngIf="(content.location)? true:false" mat-icon-button matTooltip="show on map" matTooltipPosition='above' color='primary' (click)='showOnMap(content.location)'>
+          <mat-icon>
+            map
+          </mat-icon>
+        </button>
 
-      <button mat-button class="col-auto align-self-end" matTooltip="add to trip">
-        <mat-icon >
-          playlist_add
-        </mat-icon>
-      </button>
+        <button mat-icon-button matTooltip="add to trip" matTooltipPosition='above' >
+          <mat-icon>
+            playlist_add
+          </mat-icon>
+        </button>
+        
+      </span>
+       
     </div>
   </mat-card-title>
 

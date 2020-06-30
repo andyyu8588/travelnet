@@ -43,7 +43,11 @@ export class SearchService implements OnDestroy {
   )}
 
 //gets user info with username input, connection to database
+<<<<<<< HEAD
   userSearch(query: string): Promise<any> {
+=======
+  userSearch(query: string, filter?: number): Promise<any> {
+>>>>>>> edb02b083c8e9fd6ac1519ec65ae20a944e2aa50
     return new Promise((resolve, reject) => {
       this.HttpClient.get<any>(environment.travelnet.searchUsers,
         {

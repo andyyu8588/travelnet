@@ -1,3 +1,4 @@
+import { MapService } from 'src/app/services/map/map.service';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -23,7 +24,8 @@ export class VenueComponent implements OnInit,OnDestroy {
   openTab:tab
   constructor(
     private router: Router,
-    private SearchService: SearchService
+    private SearchService: SearchService,
+    private MapService: MapService
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,15 @@ export class VenueComponent implements OnInit,OnDestroy {
     this.SearchService.goBack()
     this.router.navigate([this.openTab.path])
   }
+  
+  // check if is object
+  isObject(val: any): boolean {
+    if (typeof(val) == 'object') {
+      return true
+    } else {
+      return false
+    }
+  }
 
   // for ngIf, filter keys in user reviews
   reviewKeys(key: string): boolean {
@@ -58,17 +69,13 @@ export class VenueComponent implements OnInit,OnDestroy {
     }
   }
 
-  // check if is object
-  isObject(val: any): boolean {
-    if (typeof(val) == 'object') {
-      return true
-    } else {
-      return false
-    }
+  showOnMap(location: {[key: string]: any}) {
+    this.MapService.addMarker(location)
   }
 
   ngOnDestroy() {
     this.openTabSub.unsubscribe()
+    this.MapService.venueOnDestroy()
   }
 
 }
