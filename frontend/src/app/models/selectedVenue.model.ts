@@ -22,6 +22,10 @@ export class selectedVenueModel {
     state:string
   }
   public categories: [{
+    icon: {
+      prefix: string
+      suffix: string
+    }
     id:string;
     name: string;
     pluralName: string;

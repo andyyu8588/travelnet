@@ -6,8 +6,13 @@
           keyboard_backspace
         </mat-icon>
       </button>
-
-      <span class="col md-auto">{{ content.name }}</span>
+      <span class="col-auto md-auto">
+        <button mat-flat-button color='primary' class="align-self-start">
+          <span style="padding: auto; display:inline-block;"><img src="{{content.categories[0].icon.prefix}}32{{content.categories[0].icon.suffix}}" alt=""></span>
+        </button>
+      </span>
+      <span class="col md-auto align-self-center">{{ content.name }}</span>
+      <span class="col md-auto" *ngIf='content.verified'><mat-icon><mat-icon>verified_user</mat-icon></mat-icon></span>
 
       <button mat-button class="col-auto align-self-end" matTooltip="add to trip">
         <mat-icon >
@@ -73,9 +78,12 @@
         <!-- need tips -->
         <div class='container col' class="align-self-start d-inline">
           <br>
-          <h3><b>Reviews</b></h3>
-          <div class="row d-inline" *ngFor="let item of content.tips.groups[0].items"  >
-            <div class=""><b>{{item|null:['user','firstName']}} {{item|null:['user','lastName']}}</b>: {{item.text}}</div>
+          <h3 style="margin-bottom: 0;"><b>Reviews</b></h3>
+          <div class="row d-inline" *ngFor="let item of content.tips.groups[0].items">
+            <div>
+              <span><b>{{ item.user.firstName }} {{ item.user.lastName }}: </b></span>
+              <span>{{ item.text }}</span>
+            </div>
             <hr>
           </div>
         </div>
