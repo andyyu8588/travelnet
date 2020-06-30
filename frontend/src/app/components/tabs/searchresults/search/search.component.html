@@ -19,9 +19,17 @@
   <mat-card>
 
     <mat-card-header>
-      <mat-card-title>{{searchResult.name}}</mat-card-title>
+      <mat-card-title>{{searchResult.firstname}} {{searchResult.lastname}}</mat-card-title>
     </mat-card-header>
-
+    <mat-card-content class="container">
+      <div>{{searchResult.username}}</div>
+      <div>
+        <p *ngFor="let item of searchResult.history">{{item}}</p>
+      </div>
+      <div>
+        <p *ngFor="let item of searchResult.wishlist">{{item}}</p>
+      </div>
+    </mat-card-content>
 
   </mat-card>
 </button>
