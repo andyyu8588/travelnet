@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
-import { search } from '../../../../models/search.model'
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-search',
@@ -10,6 +9,7 @@ import { Router } from '@angular/router';
 export class SearchComponent implements OnInit {
   pathID: string
   searchResult : any
+  @Input() select: any
   @Input() result: any
   constructor (
     private searchservice: SearchService,

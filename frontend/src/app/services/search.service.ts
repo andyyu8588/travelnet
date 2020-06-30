@@ -1,23 +1,18 @@
 import { MapService } from 'src/app/services/map/map.service';
 import { tab } from 'src/app/models/tab.model';
-import { search } from 'src/app/models/search.model';
+import { venueModel } from 'src/app/models/venue.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { not } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService implements OnDestroy {
 
-  // private openTabs: Array<tab> = []
-  // private _searchTabs: BehaviorSubject<any> = new BehaviorSubject(this.openTabs)
-  // public searchTabs: Observable<any> = this._searchTabs.asObservable()
-
-  private search: tab = {query: null, path: 'search/', content : [], prePath:null}
+  private search: tab = {query: null, path: 'search/', content : {'users':[], 'venues':[]}, prePath:null}
   private _searchTab: BehaviorSubject<any> = new BehaviorSubject(this.search)
   public searchTab : Observable<any> = this._searchTab.asObservable()
 
@@ -36,45 +31,35 @@ export class SearchService implements OnDestroy {
   }
 
 //looks for venues in the area
-  foursquareSearchVenues(query: string, latLng: string, filter: number): Promise<any> {
+  foursquareSearchVenues(query: string, latLng: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      if(filter == 0 || filter == 1){
-        this.foursquareService.searchVenues(query, latLng)
-        .subscribe((result) => {
-          resolve(result)
-        }, (err) => {
-          reject(err)
-        })
-      }
-      else{
-        resolve(false)
-      }
+      this.foursquareService.searchVenues(query, latLng)
+      .subscribe((result) => {
+        resolve(result)
+      }, (err) => {
+        reject(err)
+      })
     }
   )}
 
 //gets user info with username input, connection to database
-  userSearch(query: string, filter: number): Promise<any> {
+  userSearch(query: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      if(filter == 0 || filter == 2){
-        this.HttpClient.get<any>(environment.travelnet.searchUsers,
-          {
-            headers: {
-              authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas',
-            },
-            params: {
-              user: query
-            }
+      this.HttpClient.get<any>(environment.travelnet.searchUsers,
+        {
+          headers: {
+            authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas',
+          },
+          params: {
+            user: query
           }
-        )
-        .subscribe((result) => {
-          resolve(result)
-        }, (err) =>{
-          reject(err)
-        })
-      }
-      else{
-        resolve(false)
-      }
+        }
+      )
+      .subscribe((result) => {
+        resolve(result)
+      }, (err) =>{
+        reject(err)
+      })
     }
   )}
 
@@ -91,8 +76,8 @@ export class SearchService implements OnDestroy {
   }
 
 //combines both user and venue search
-  async mainSearch(query: string, latLng: string, filter: number): Promise<any> {
-    return await Promise.all([this.foursquareSearchVenues(query, latLng, filter), this.userSearch(query, filter)])
+  async mainSearch(query: string, latLng: string): Promise<any> {
+    return await Promise.all([this.foursquareSearchVenues(query, latLng), this.userSearch(query)])
   }
 
 
@@ -100,41 +85,19 @@ export class SearchService implements OnDestroy {
   enterSearch(query: string, searchType:any) {
     return new Promise((resolve,reject)=>{
       this.resetSearchContent()
-      console.log()
       searchType
       .then(result => {
           if(true && !result[0].response.warning){
             result[0].response.groups[0].items.forEach(venue =>{
-              this.search.content.push(
-                {
-                'type':'venue',
-                'name' : venue.venue.name,
-                'address' : venue.venue.location,
-                'formattedAddress' : venue.venue.formattedAddress,
-                'category' : (venue.venue.categories)[0].name,
-                'reasons' : (venue.reasons.items)[0].summary,
-                'Id' : venue.venue.id,
-              })
+              this.search.content.venues.push(venue)
             })
         }
         if (sessionStorage.getItem('username')){
           if (true && result[1].users){
             result[1].users.forEach(user=>{
-              this.search.content.push(
-                {
-                  'type' : 'user',
-                  'firstname' : user.firstname,
-                  'lastname': user.lastname,
-                  'username' : user.username,
-                  'profilepicture': user.profilepicture,
-                  'email': user.email,
-                  'encounters':user.encounters,
-                  'history': user.history,
-                  'wishlist': user.wishlist
-                  })
-            })
-          }
-        }
+              this.search.content.users.push(user)
+          })
+        }}
         else{
           this.search.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
         }
@@ -164,7 +127,7 @@ export class SearchService implements OnDestroy {
     }
   }
   resetSearchContent(){
-    this.search.content= []
+    this.search.content= {venues:[],users:[]}
     this._searchTab.next(this.search)
   }
   updatePath(path){

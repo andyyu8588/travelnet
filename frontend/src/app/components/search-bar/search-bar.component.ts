@@ -35,7 +35,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(data: string) {
-    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.map.getCenter(),this.select)).then(()=>{
+    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.map.getCenter())).then(()=>{
     this.router.navigate([this.openTab.path])
     })
   }
@@ -46,7 +46,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
         this.loading = false
     } else {
         this.loading = true
-        this.SearchService.mainSearch(data, this.map.getCenter(), this.select)
+        this.SearchService.mainSearch(data, this.map.getCenter())
         .then((finalData) => {
             this.loading = false
             this.Renderer.removeChild(this.div, this.child)

@@ -20,3 +20,11 @@ export class venueModel {//will probably be changed with premium
     public photos: any
     public likes: any
 }
+/*  'type':'venue',
+    'name' : venue.venue.name,
+    'address' : venue.venue.location,
+    'formattedAddress' : venue.venue.formattedAddress,
+    'category' : (venue.venue.categories)[0].name,
+    'reasons' : (venue.reasons.items)[0].summary,
+    'Id' : venue.venue.id,
+    */
