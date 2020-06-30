@@ -6,8 +6,13 @@
           keyboard_backspace
         </mat-icon>
       </button>
-
-      <span class="col md-auto">{{ content.name }}</span>
+      <span class="col-auto md-auto">
+        <button mat-flat-button color='primary' class="align-self-start">
+          <span style="padding: auto; display:inline-block;"><img src="{{content.categories[0].icon.prefix}}32{{content.categories[0].icon.suffix}}" alt=""></span>
+        </button>
+      </span>
+      <span class="col md-auto align-self-center">{{ content.name }}</span>
+      <span class="col md-auto" *ngIf='content.verified'><mat-icon><mat-icon>verified_user</mat-icon></mat-icon></span>
 
       <button mat-button class="col-auto align-self-end" matTooltip="add to trip">
         <mat-icon >
@@ -18,21 +23,21 @@
   </mat-card-title>
 
   <mat-card-content class="">
-    <mat-grid-list cols="4" rowHeight="1:1">
 
-      <mat-grid-tile id='imgTile'colspan="2" rowspan="3" >
+    <mat-grid-list cols="4" rowHeight='{{windowHeight*.1}}'>
+      <mat-grid-tile id='imgTile'colspan="2" rowspan="4" >
         <ngb-carousel *ngIf="content.photos">
           <ng-template ngbSlide *ngFor='let photo of content.photos.groups[0].items, let i = index'>
             <div class="picsum-img-wrapper">
-              <img class="d-block w-100" src="{{photo|null:['prefix']}}original{{photo|null:['suffix']}}" alt="slide {{i}}">
+              <img class="d-inline-flex w-100" src="{{photo|null:['prefix']}}original{{photo|null:['suffix']}}" alt="slide {{i}}">
             </div>
           </ng-template>
         </ngb-carousel>
         <!-- need button for additional pictures -->
       </mat-grid-tile>
 
-      <mat-grid-tile colspan="2" rowspan="3" class="container">
-        <div>
+      <mat-grid-tile colspan="2" rowspan="3" >
+        <div class="container-fluid">
           <!-- get page info -->
           <div class="div">
             <p>description: {{content | null:['page','pageInfo','description']}}</p>
@@ -48,30 +53,42 @@
              {{attribute|null:['type']}} | {{attribute|null:['name']}} | {{attribute|null:['summary']}}
           </div>
 
-
-          <!--rating -->
-          <br>
-          <div class="div">
-            <p>rating: {{content | null:['rating']}}</p>
-          </div>
           <!-- need price -->
       </div>
       </mat-grid-tile>
+      
+      <!--rating -->
+      <mat-grid-tile colspan="4" rowspan='1' class="border border-primary">
+        <div class="container row">
+          <mat-label class="col-auto align-self-center">Rating: <b>{{ rating | null}}</b></mat-label>
+          &nbsp;
+          <ngb-rating [(rate)]='rating' [readonly]="true" [max]="10">
+            <ng-template #t let-fill="fill">
+              <span class="star" [class.full]="fill === 100" >
+                <span class="half" [style.width.%]="fill" [style.color]='ratingColor'>&hearts;</span>&hearts;
+              </span>
+            </ng-template>
+          </ngb-rating>
 
-      <mat-grid-tile colspan="4" >
-          <!-- other images
-            <div *ngFor="let photo of content.photos.groups[0].items">
-              <img id='img' src="{{photo|null:['prefix']}}original{{photo|null:['suffix']}}" alt="Photo">
-            </div> -->
+        </div>
+
       </mat-grid-tile>
 
-
-      <mat-grid-tile colspan="4" >
-          <!-- need tips -->
-          <div *ngFor="let item of content.tips.groups[0].items">
-            <div>{{item|null:['user','firstName']}} {{item|null:['user','lastName']}} : {{item.text}}</div>
+      <mat-grid-tile colspan="4" rowspan=5 >
+        <!-- need tips -->
+        <div class='container col' class="align-self-start d-inline">
+          <br>
+          <h3 style="margin-bottom: 0;"><b>Reviews</b></h3>
+          <div class="row d-inline" *ngFor="let item of content.tips.groups[0].items">
+            <div>
+              <span><b>{{ item.user.firstName }} {{ item.user.lastName }}: </b></span>
+              <span>{{ item.text }}</span>
+            </div>
+            <hr>
           </div>
+        </div>
       </mat-grid-tile>
+
     </mat-grid-list>
 
 

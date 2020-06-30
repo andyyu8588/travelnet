@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "d:\\bhay python\\travelnetAI\\Scripts\\python.exe"
+    "python.pythonPath": "d:\\bhay python\\travelnetAI\\Scripts\\python.exe",
+    "emmet.triggerExpansionOnTab": true
 }

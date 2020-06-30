@@ -1,4 +1,5 @@
 export class selectedVenueModel {
+  [key: string]: any
   public id: string
   public name: string
   public contact: {
@@ -21,6 +22,10 @@ export class selectedVenueModel {
     state:string
   }
   public categories: [{
+    icon: {
+      prefix: string
+      suffix: string
+    }
     id:string;
     name: string;
     pluralName: string;
