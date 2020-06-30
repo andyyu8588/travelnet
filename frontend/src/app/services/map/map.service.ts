@@ -206,7 +206,9 @@ export class MapService {
   }
 
   venueOnDestroy() {
-    this.venueLocation.remove()
+    if (this.venueLocation) {
+      this.venueLocation.remove()
+    }
   }
 }
 

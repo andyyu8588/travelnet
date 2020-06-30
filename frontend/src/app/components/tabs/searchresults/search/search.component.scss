@@ -1,6 +1,8 @@
 mat-card{
   display: flex;
 }
-button{
-  min-width: -webkit-fill-available;
+ 
+mat-card-header:hover, #description:hover, mat-icon:hover {
+  cursor: pointer;
 }
+

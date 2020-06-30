@@ -1,36 +1,44 @@
-<button type="button" class="btn" (click)='navigate()' *ngIf="searchResult.type == 'venue'">
-  <mat-card>
+<mat-card *ngIf="searchResult.type == 'venue'">
 
-    <mat-card-header>
-      <mat-card-title>{{searchResult.name}}</mat-card-title>
-      <mat-card-subtitle>{{searchResult.category}}</mat-card-subtitle>
-    </mat-card-header>
+  <mat-card-header (click)='navigate()' >
+    <mat-card-title>{{searchResult.name}}</mat-card-title>
+    <mat-card-subtitle>{{searchResult.category}}</mat-card-subtitle>
+  </mat-card-header>
 
-    <mat-card-content class="container">
-      <span *ngFor='let item of searchResult.address.formattedAddress'>
-        {{ item }}
-      </span>
-      <button mat-mini-fab><mat-icon> location_on</mat-icon></button>
-    </mat-card-content>
+  <mat-card-content class="container col">
+        <span id="description" class="row justify-content-end" (click)='navigate()' >
+          <span *ngFor='let item of searchResult.address.formattedAddress'>
+            {{ item }},&nbsp; 
+          </span>
+        </span>
+        <hr>
+        <span class="row justify-content-end">
+          <mat-icon mat-icon-button matTooltip="share" matTooltipPosition='above' color='accent' class="col-auto md-auto">share</mat-icon>
+          &nbsp;
+          <mat-icon mat-icon-button matTooltip="show on map" matTooltipPosition='above' color='primary' class="col-auto md-auto">map</mat-icon>
+          &nbsp;
+          <mat-icon mat-icon-button matTooltip="add to trip" matTooltipPosition='above' class="col-auto md-auto">playlist_add</mat-icon>
+          &nbsp;
+        </span>
 
-  </mat-card>
-</button>
+  </mat-card-content>
 
-<button type="button" class="btn" (click)='navigate()' *ngIf="searchResult.type == 'user'">
-  <mat-card>
+</mat-card>
 
-    <mat-card-header>
-      <mat-card-title>{{searchResult.firstname}} {{searchResult.lastname}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="container">
-      <div>{{searchResult.username}}</div>
-      <div>
-        <p *ngFor="let item of searchResult.history">{{item}}</p>
-      </div>
-      <div>
-        <p *ngFor="let item of searchResult.wishlist">{{item}}</p>
-      </div>
-    </mat-card-content>
+<mat-card (click)='navigate()' *ngIf="searchResult.type == 'user'">
 
-  </mat-card>
-</button>
+  <mat-card-header>
+    <mat-card-title>{{searchResult.firstname}} {{searchResult.lastname}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container">
+    <div>{{searchResult.username}}</div>
+    <div>
+      <p *ngFor="let item of searchResult.history">{{item}}</p>
+    </div>
+    <div>
+      <p *ngFor="let item of searchResult.wishlist">{{item}}</p>
+    </div>
+  </mat-card-content>
+
+</mat-card>
+<br>
