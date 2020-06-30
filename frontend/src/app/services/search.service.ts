@@ -53,7 +53,7 @@ export class SearchService implements OnDestroy {
   )}
 
 //gets user info with username input, connection to database
-  userSearch(query: string, filter: number): Promise<any> {
+  userSearch(query: string, filter?: number): Promise<any> {
     return new Promise((resolve, reject) => {
       if(filter == 0 || filter == 2){
         this.HttpClient.get<any>(environment.travelnet.searchUsers,
@@ -91,7 +91,7 @@ export class SearchService implements OnDestroy {
   }
 
 //combines both user and venue search
-  async mainSearch(query: string, latLng: string, filter: number): Promise<any> {
+  async mainSearch(query: string, latLng: string, filter?: number): Promise<any> {
     return await Promise.all([this.foursquareSearchVenues(query, latLng, filter), this.userSearch(query, filter)])
   }
 
