@@ -8,7 +8,9 @@ export class userModel {
     birthdate: Date
     gender: String
     profilepicture: String
-    encounters: Array<string>
+    friends: Array<string>
+    friendsAdded: Array<string>
+    friendsReceived: Array<string>
     rooms:  Array<any>
     socketIds: Array<any>
     isActive:  Boolean

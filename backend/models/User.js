@@ -10,7 +10,9 @@ const UserSchema = mongoose.Schema({
     birthdate: Date,
     gender: String,
     profilepicture: {type: String, default: ''},
-    encounters: {type: Array, default: []},
+    friends: {type: Array, default: []},
+    friendsAdded: {type: Array, default: []},
+    friendsReceived: {type: Array, default: []},
     rooms: {type: Array, default: []},
     socketIds: {type: Array, default: []},
     isActive: {type: Boolean, default: true}, // active vs online
