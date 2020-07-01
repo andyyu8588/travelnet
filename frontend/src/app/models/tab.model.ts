@@ -3,9 +3,13 @@ export class tab {
     query: string
     path: string
     prePath:string
-    content: Object[]
+    content: {
+      'venues': any;
+      'users': any;
 
-    constructor(query: string, path: string, content = [], prePath: string) {
+    }
+
+    constructor(query: string, path: string, content = {}, prePath: string) {
         query = this.query
         path = this.path
         content = this.content

@@ -65,13 +65,14 @@ import { MyaccountComponent } from './components/myaccount/myaccount.component';
 import { MytripComponent } from './components/tabs/mytrip/mytrip.component';
 import { CountrySelectorComponent } from './components/registration-process/country-selector/country-selector.component';
 import { CountryList } from 'country-list';
-import { SearchComponent } from './components/tabs/searchresults/search/search.component';
+import { VenueButtonComponent } from './components/tabs/searchresults/VenueButton/VenueButton.component';
 import { TripmodalComponent } from './components/tripmodal/tripmodal.component'
 import { VenueComponent } from './components/venue/venue.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { ListObjectPipe } from './pipes/list-object.pipe';
 import { NullPipe } from './pipes/null.pipe';
-import { UserprofileComponent } from './components/userprofile/userprofile.component'
+import { UserprofileComponent } from './components/userprofile/userprofile.component';
+import { UserbuttonComponent } from './components/tabs/searchresults/userbutton/userbutton.component'
 
 @NgModule({
   declarations: [
@@ -96,13 +97,14 @@ import { UserprofileComponent } from './components/userprofile/userprofile.compo
     MyaccountComponent,
     MytripComponent,
     CountrySelectorComponent,
-    SearchComponent,
+    VenueButtonComponent,
     TripmodalComponent,
     VenueComponent,
     SearchBarComponent,
     ListObjectPipe,
     NullPipe,
     UserprofileComponent,
+    UserbuttonComponent,
   ],
   imports: [
     BrowserModule,

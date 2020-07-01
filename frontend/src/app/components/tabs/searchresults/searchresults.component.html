@@ -1,7 +1,15 @@
 <div *ngIf="openTab.content" >
-  <div id  *ngFor="let result of openTab.content">
-    <app-search [result]="result">
-    </app-search>
+
+  <div *ngIf="checkFilter(1)">
+    <div *ngFor="let result of openTab.content.venues">
+      <app-venueButton [result]="result">
+      </app-venueButton>
+    </div>
+  </div>
+  <div *ngIf="checkFilter(2)">
+    <div *ngFor="let result of openTab.content.users">
+      <app-userbutton [result]="result">
+      </app-userbutton>
+  </div>
   </div>
 </div>
-
