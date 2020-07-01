@@ -14,10 +14,10 @@
     </mat-form-field>
     <mat-form-field class="col-auto align-self-center">
       <mat-label>Filter</mat-label>
-      <mat-select [value]='select' (selectionChange)='changeFilter($event)'>
-        <mat-option value=0>All</mat-option>
-        <mat-option value=1>Venues</mat-option>
-        <mat-option value=2>Users</mat-option>
+      <mat-select [(ngModel)]='defaultFilter' [ngModelOptions]="{standalone: true}" (selectionChange)='changeFilter($event)'>
+        <mat-option value='All'>All</mat-option>
+        <mat-option value='Venues'>Venues</mat-option>
+        <mat-option value='Users'>Users</mat-option>
       </mat-select>
     </mat-form-field>
   </form>
