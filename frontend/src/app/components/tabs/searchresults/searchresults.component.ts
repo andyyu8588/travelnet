@@ -33,6 +33,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     this.SearchService.enterSearch(this.url,this.SearchService.mainSearch(this.url,this.map.getCenter()))
   }
   checkFilter(type: number){
+    // console.log(this.filterNumber)
     if (this.filterNumber === 0 || type === this.filterNumber){
       return true
     }
