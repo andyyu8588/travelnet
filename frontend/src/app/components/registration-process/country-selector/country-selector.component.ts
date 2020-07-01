@@ -1,10 +1,8 @@
-import { element } from 'protractor';
 import { clickLocationCoordinates } from './../../../services/map/map.service';
-import { progressUpdateData } from './../registration-process.component';
 import { environment } from './../../../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from 'src/app/services/map/map.service';
-import { overwrite, getCode } from 'country-list';
+import { getCode } from 'country-list';
 import { OpenstreetmapService } from './../../../services/map/openstreetmap.service';
 import { Observable, Subscription, BehaviorSubject, concat } from 'rxjs';
 import { FormControl } from '@angular/forms';

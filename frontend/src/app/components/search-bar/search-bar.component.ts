@@ -19,7 +19,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   private returnTab: Subscription
   @ViewChild('searchResultsContainer') div: ElementRef
 
-  defaultFilter: any = 'All'
+  defaultFilter: any = 0
 
   constructor(
     private map: MapService,
@@ -40,7 +40,8 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     })
   }
 
-  changeFilter(filter){
+  changeFilter(filter:{response:string, value:string}){
+    console.log(filter)
     this.SearchService.changeFilter(parseInt(filter.value))
   }
 
