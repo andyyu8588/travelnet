@@ -16,18 +16,19 @@ export class SearchService implements OnDestroy {
   private _searchTab: BehaviorSubject<any> = new BehaviorSubject(this.search)
   public searchTab : Observable<any> = this._searchTab.asObservable()
 
+  private filter: number = 0
+  private _filterNumber: BehaviorSubject<any> = new BehaviorSubject(this.filter)
+  public filterNumber : Observable<any> = this._filterNumber.asObservable()
 
-
-  private returnSearch: Array<any> = []
-  private _searchResults: BehaviorSubject<any> = new BehaviorSubject(this.returnSearch)
-  public searchResults: Observable<any> = this._searchResults.asObservable()
+  // private returnSearch: Array<any> = []
+  // private _searchResults: BehaviorSubject<any> = new BehaviorSubject(this.returnSearch)
+  // public searchResults: Observable<any> = this._searchResults.asObservable()
 
   private mapCenterSub: Subscription
   mapCenter: string
 
   constructor(private HttpClient: HttpClient,
-              private foursquareService: FoursquareService,
-              private MapService: MapService) {
+              private foursquareService: FoursquareService) {
   }
 
 //looks for venues in the area
@@ -43,11 +44,7 @@ export class SearchService implements OnDestroy {
   )}
 
 //gets user info with username input, connection to database
-<<<<<<< HEAD
   userSearch(query: string): Promise<any> {
-=======
-  userSearch(query: string, filter?: number): Promise<any> {
->>>>>>> edb02b083c8e9fd6ac1519ec65ae20a944e2aa50
     return new Promise((resolve, reject) => {
       this.HttpClient.get<any>(environment.travelnet.searchUsers,
         {
@@ -145,12 +142,15 @@ export class SearchService implements OnDestroy {
     this._searchTab.next(this.search)
     console.log(this.search)
   }
+  changeFilter(filter: number){
+    this._filterNumber.next(filter)
+  }
 
 
   ngOnDestroy() {
     this.mapCenterSub.unsubscribe()
-    this._searchResults.next([])
-    this._searchResults.unsubscribe()
+    // this._searchResults.next([])
+    // this._searchResults.unsubscribe()
     this._searchTab.unsubscribe()
   }
 }

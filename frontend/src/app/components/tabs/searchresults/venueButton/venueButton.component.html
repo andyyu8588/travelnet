@@ -1,0 +1,34 @@
+<button type="button" class="btn" (click)='navigate()' *ngIf="searchResult.venue">
+  <mat-card>
+
+    <mat-card-header>
+      <mat-card-title>{{searchResult|null:['venue','name']}}</mat-card-title>
+      <mat-card-subtitle>
+        <div *ngFor="let item of (searchResult|null: ['venue','categories'])">
+          {{item.name}}
+        </div>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="container col">
+      <p>
+        {{searchResult|null:['venue','location','address']}}
+      </p>
+
+      <hr>
+      <span class="row justify-content-end">
+        <mat-icon mat-icon-button matTooltip="share" matTooltipPosition='above' color='accent' class="col-auto md-auto">share</mat-icon>
+        &nbsp;
+        <mat-icon mat-icon-button matTooltip="show on map" matTooltipPosition='above' color='primary' class="col-auto md-auto">map</mat-icon>
+        &nbsp;
+        <mat-icon mat-icon-button matTooltip="add to trip" matTooltipPosition='above' class="col-auto md-auto">playlist_add</mat-icon>
+        &nbsp;
+      </span>
+    </mat-card-content>
+  </mat-card>
+</button>
+
+
+
+
+

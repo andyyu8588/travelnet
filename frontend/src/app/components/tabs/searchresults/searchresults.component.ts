@@ -13,9 +13,11 @@ import { MapService } from 'src/app/services/map/map.service';
 export class SearchresultsComponent implements OnInit, OnDestroy {
   url :string = null
   openTab: tab
+  filterNumber: number
   @Input() select: number
 
   private returnTab: Subscription
+  private filter: Subscription
   constructor(
     private map: MapService,
     private SearchService: SearchService,
@@ -26,15 +28,22 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
+    this.filter = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
     this.url = this.router.url.replace('/search/','')
     this.SearchService.enterSearch(this.url,this.SearchService.mainSearch(this.url,this.map.getCenter()))
   }
-  click(){
-    console.log(this.select)
+  checkFilter(type: number){
+    if (this.filterNumber === 0 || type === this.filterNumber){
+      return true
+    }
+    else{
+      return false
+    }
   }
 
 
   ngOnDestroy(){
+    this.filter.unsubscribe()
     this.returnTab.unsubscribe()
   }
 }

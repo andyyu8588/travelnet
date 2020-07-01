@@ -3,11 +3,11 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  selector: 'app-venueButton',
+  templateUrl: './venueButton.component.html',
+  styleUrls: ['./venueButton.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class VenueButtonComponent implements OnInit, OnDestroy {
   pathID: string
   searchResult : any
   @Input() select: any
@@ -30,11 +30,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   }
 
-  showLocation() {
-    this.MapService.addMarker(this.result.location)
-  }
+  // showLocation() {
+  //   this.MapService.addMarker(this.result.location)
+  // }
 
   ngOnDestroy() {
-    this.MapService.venueOnDestroy()
+    // this.MapService.venueOnDestroy()
   }
 }

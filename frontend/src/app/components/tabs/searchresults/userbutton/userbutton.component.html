@@ -1,0 +1,17 @@
+<button type="button" class="btn" (click)='navigate()' *ngIf="searchResult.username">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{searchResult|null:['firstname']}} {{searchResult|null:['lastname']}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="container">
+      <div>{{searchResult|null: ['username']}}</div>
+      <div>
+        <!-- dunno why these dont work -->
+        <!-- <p *ngFor="let item of searchResult|null:['history']">{{item}}</p> -->
+      </div>
+      <div>
+        <!-- <p *ngFor="let item of searchResult|null:['whishlist']">{{item}}</p> -->
+      </div>
+    </mat-card-content>
+  </mat-card>
+</button>

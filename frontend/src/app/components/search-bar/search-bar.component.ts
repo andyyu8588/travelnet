@@ -39,6 +39,9 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.router.navigate([this.openTab.path])
     })
   }
+  changeFilter(filter){
+    this.SearchService.changeFilter(parseInt(filter.value))
+  }
 
 
   onKey(data: string) {

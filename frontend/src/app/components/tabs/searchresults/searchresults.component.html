@@ -1,16 +1,15 @@
 <div *ngIf="openTab.content" >
 
-  <div *ngIf="select===1">
+  <div *ngIf="checkFilter(1)">
     <div *ngFor="let result of openTab.content.venues">
-      <app-search [result]="result">
-      </app-search>
+      <app-venueButton [result]="result">
+      </app-venueButton>
     </div>
   </div>
-  <div *ngIf="select===0">
+  <div *ngIf="checkFilter(2)">
     <div *ngFor="let result of openTab.content.users">
-      <app-search [result]="result">
-      </app-search>
+      <app-userbutton [result]="result">
+      </app-userbutton>
   </div>
   </div>
 </div>
-<button (click)='click()'></button>
