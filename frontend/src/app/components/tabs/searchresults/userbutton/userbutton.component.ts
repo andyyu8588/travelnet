@@ -19,9 +19,10 @@ export class UserbuttonComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchResult = this.result
-    this.pathID = '/search/'+ this.result.type + '/' + this.result.Id
+    this.pathID = '/search/user/' + this.result.username
   }
   navigate(){
+    console.log(this.result)
     this.searchservice.updatePath(this.pathID)
     this.router.navigate([this.pathID])
 
