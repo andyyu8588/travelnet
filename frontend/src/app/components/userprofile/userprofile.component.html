@@ -1,1 +1,13 @@
-<p>userprofile works!</p>
+<mat-card class="container" >
+  <mat-card-title>
+    <div class="row">
+      <button mat-button (click)='goBack()' *ngIf="this.openTab.prePath" class="col-auto" matTooltip="back">
+        <mat-icon class="">
+          keyboard_backspace
+        </mat-icon>
+      </button>
+  </div>
+
+  </mat-card-title>
+</mat-card>
+
