@@ -54,3 +54,13 @@
         </div>
     </div>
 </div>
+
+<mat-grid-list *ngIf='!sessionState' cols='4' >
+    <mat-grid-tile colspan='4'>
+        <div class="container-fluid row justify-content-center rounded" style="background-color: rgba(255, 255, 255, 0.9); margin: 10%; padding: 5%;">
+            <button mat-flat-button color='accent' style="align-content: center;" routerLink='/login'>
+                <p style="margin: 0;">You must have an Account to Create a Trip</p>
+            </button>   
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>

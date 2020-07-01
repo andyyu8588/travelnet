@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import * as io from "socket.io-client/dist/socket.io";
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -9,8 +10,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class SocketService {
   private socket: any
   room: any
-  // readonly uri: string = 'https://travelnet.herokuapp.com'
-  readonly uri: string = 'http://localhost:3000'
+  readonly uri: string = environment.production? 'https://travelnet.herokuapp.com':'http://localhost:3000'
 
   constructor() {
     this.socket = io(this.uri)
