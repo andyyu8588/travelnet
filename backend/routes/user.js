@@ -76,8 +76,8 @@ router.patch('/edit', (req, res, next) => {
   })
 })
 
-router.post('/encounter', (req, res, next) => {
-  User.findOneAndUpdate({username: req.body.username}, {$push: {encounters: req.body.encounter}}, (err, result) => {
+router.post('/add', (req, res, next) => {
+  User.findOneAndUpdate({username: req.body.username}, {$push: {friendsAdded: req.body.added}}, (err, result) => {
     if (err) {
       res.status(500).json({
         message: err
