@@ -20,7 +20,7 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchResult = this.result
-    this.pathID = '/search/'+ this.result.type + '/' + this.result.Id
+    this.pathID = '/search/venue/' + this.result.venue.id
 
 
   }
