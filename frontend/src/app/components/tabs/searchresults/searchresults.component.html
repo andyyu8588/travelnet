@@ -1,3 +1,4 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
 <div *ngIf="openTab.content" >
   <div *ngIf="checkFilter(1)">
     <div *ngFor="let result of openTab.content.venues">

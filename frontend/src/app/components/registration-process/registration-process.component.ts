@@ -1,3 +1,4 @@
+import { CountrySelectorComponent } from './country-selector/country-selector.component';
 import { SessionService } from 'src/app/services/session.service';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { MapService, clickLocationCoordinates } from './../../services/map/map.service';
@@ -25,6 +26,9 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   secondFormGroup: FormGroup;
   @ViewChild('stepper') stepper: MatHorizontalStepper
   @ViewChild('step1') step1: any
+  @ViewChild('selector1') selector1: CountrySelectorComponent
+  @ViewChild('selector2') selector2: CountrySelectorComponent
+
   editable: Boolean = true
   @ViewChild('registration') registration: RegistrationComponent
 
@@ -37,9 +41,13 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   private clickLocation: Subscription
   private stepper_sub: Subscription
 
+  isSaving: boolean = false
+  isDone: boolean = false
+
   constructor(private _formBuilder: FormBuilder,
               private MapService: MapService,
-              private  SessionService: SessionService) { }
+              private  SessionService: SessionService,
+              private Router: Router) { }
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -64,6 +72,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     this.stepper_sub = this.stepper.selectionChange.subscribe(x => {
       if (x.selectedIndex != 0) {
         this.editable = false
+        this.isDone = false
         this.MapService.showMarker(x.selectedIndex)
       }
     })
@@ -75,6 +84,22 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
 
   onClear(target: number) {
 
+  }
+
+  savePreferences() {
+    this.isSaving = true
+    Promise.all([this.selector1.onSumbit(), this.selector2.onSumbit()])
+    .then((responses: any[]) => {
+      this.isDone = true
+    })
+    .catch((err: any[]) => {
+      alert(err[0])
+      // window.location.reload()
+    })
+    .finally(() => {
+      this.isSaving = false
+    }) 
+    
   }
 
   ngOnDestroy() {

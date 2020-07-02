@@ -11,7 +11,7 @@
 <!-- <img *ngIf='!citySearchComponent.myControl.dirty' src="https://img.icons8.com/bubbles/100/000000/geography.png" class="img" style="margin-left: 25%;">
 <small *ngIf='!citySearchComponent.myControl.dirty'><a href="https://icons8.com/icon/113643/geography">Geography icon by Icons8</a></small> -->
 
-<div id="mainList" #mainlist [hidden]='Place.places.length == 0? true:false' *ngFor="let Place of allPlaces, let i = index">
+<div id="mainList" #mainlist [hidden]="Place.places.length == 0? true:false" *ngFor="let Place of allPlaces, let i = index">
     <button mat-raised-button  class="mat-chip-list-stacked" aria-orientation="vertical">
         {{ Place.continent }}
     </button>
@@ -25,7 +25,8 @@
     </mat-chip-list>
     <hr>
 </div>
+<br>
 <div class="row-auto">
-    <button mat-button *ngIf='true' class="btn-danger" (click)='onClear()'>Clear</button>
+    <button mat-button *ngIf='true' color='warn' (click)='onClear()'>Clear</button>
 </div>
 <br>

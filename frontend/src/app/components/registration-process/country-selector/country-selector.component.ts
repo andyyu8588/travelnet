@@ -1,3 +1,4 @@
+import { HttpService } from './../../../services/http.service';
 import { CitySearchComponent } from './../../city-search/city-search.component';
 import { clickLocationCoordinates } from './../../../services/map/map.service';
 import { environment } from './../../../../environments/environment.prod';
@@ -34,13 +35,12 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
     {code:'AN', continent: 'Antarctica', places: []}
   ];
   removable: boolean = true
-  private searched: Subscription
 
   private clickLocation_sub: Subscription
-  private openstreetmap_sub: Subscription
 
   constructor(private MapService: MapService,
-              private Http: HttpClient) { 
+              private Http: HttpClient,
+              private HttpService: HttpService) { 
   }
   
   ngOnInit() {
@@ -118,7 +118,6 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
         
         // show location on map
         content.name = this.removeMiddle(content.name, 1)    
-        console.log(content)
         this.MapService.showMarker(this.target, content)
       }
 
@@ -163,10 +162,26 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
     this.MapService.removeMarker('', null, true)
   }
 
+  // send data to backend
+  onSumbit(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.HttpService.patch('/user/edit', {
+        username: localStorage.getItem('username').toString(),
+        proprety: (this.target == 1)? 'history':'wishlist',
+        newProprety: this.allPlaces
+      })
+      .then((response) => {
+        resolve(response)
+      })
+      .catch(err => {
+        reject(err)
+      })
+    })
+
+  }
+
   ngOnDestroy() {
-    this.searched.unsubscribe()
     this.clickLocation_sub.unsubscribe()
-    this.openstreetmap_sub.unsubscribe()
     this.optionClick_sub.unsubscribe()
   }
 }
