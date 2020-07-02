@@ -9,3 +9,7 @@ mat-chip-list{
 hr {
     margin-top: 0;
 }
+
+button:focus {
+    outline: none;
+}

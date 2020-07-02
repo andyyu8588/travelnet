@@ -1,13 +1,11 @@
+import { CitySearchComponent } from './../../city-search/city-search.component';
 import { clickLocationCoordinates } from './../../../services/map/map.service';
 import { environment } from './../../../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from 'src/app/services/map/map.service';
 import { getCode } from 'country-list';
-import { OpenstreetmapService } from './../../../services/map/openstreetmap.service';
-import { Observable, Subscription, BehaviorSubject, concat } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { Component, OnInit, Output, Input, OnDestroy, AfterContentInit } from '@angular/core';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, OnDestroy, AfterContentInit, ViewChild, AfterViewInit } from '@angular/core';
 import * as CountriesList from 'countries-list'
 
 export interface VisitedPlaces {
@@ -21,11 +19,11 @@ export interface VisitedPlaces {
   templateUrl: './country-selector.component.html',
   styleUrls: ['./country-selector.component.scss']
 })
-export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDestroy {
+export class CountrySelectorComponent implements OnInit, AfterContentInit, AfterViewInit ,OnDestroy {
+  @ViewChild('citySearch') citySearchComponent: CitySearchComponent
+  optionClick_sub: Subscription
   @Input() progressUpdate: any
   @Input() target: number
-  timeout: any
-  value = ''
   allPlaces: VisitedPlaces[] = [
     {code:'NA', continent: 'North-America', places: []},
     {code:'SA', continent: 'South-America', places: []},
@@ -35,57 +33,21 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDes
     {code:'OC', continent: 'Oceania', places: []},
     {code:'AN', continent: 'Antarctica', places: []}
   ];
-  _autoSuggest: BehaviorSubject<Array<{[key: string]: any}>> = new BehaviorSubject([])
-  autoSuggestCountries: Observable<Array<{[key: string]: any}>> = this._autoSuggest.asObservable()
-  isLoading: boolean = false
-
-  myControl: FormControl = new FormControl()
   removable: boolean = true
   private searched: Subscription
 
   private clickLocation_sub: Subscription
   private openstreetmap_sub: Subscription
 
-  constructor(private OpenstreetmapService: OpenstreetmapService,
-              private MapService: MapService,
+  constructor(private MapService: MapService,
               private Http: HttpClient) { 
   }
   
   ngOnInit() {
-    this.searched = this.myControl.valueChanges.subscribe(x => {
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        this.isLoading = true
-        this._autoSuggest.next([{}])
-        this.openstreetmap_sub = this.OpenstreetmapService.citySearch(x.toString()).subscribe(response => {
-          this.isLoading = false
-          let searchResults: Array<{[key: string]: any}> = []
-          response.features.forEach(element => {
-            let name = this.removeMiddle(element.properties.display_name, 2)
-            searchResults.push({name: name, content: element})
-          });
-          // searchResults.sort((a, b) => {
-          //   if (a.content.properties.importance - b.content.properties.importance > 0) {
-          //     return -1
-          //   }
-          //   else if (a.content.properties.importance - b.content.properties.importance < 0) {
-          //     return 1
-          //   }
-          //   else {
-          //     return 0
-          //   }
-          // })
-          this._autoSuggest.next(searchResults)
-        }, (err) => {
-          this.isLoading = false
-          console.log(err)
-        })
-      }, 400)
-    })
-    
   }
 
   ngAfterContentInit() {
+    // display city where user clicked
     this.clickLocation_sub = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
       if (this.progressUpdate && this.target == this.progressUpdate) {
         if (x.lng != null) {
@@ -134,6 +96,35 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDes
     })
   }
 
+  ngAfterViewInit() {
+    this.optionClick_sub = this.citySearchComponent.clickedOption.subscribe(content => {
+      if (content.name) {
+        // displays chip and clear search input
+        let chip = this.removeMiddle(content.name, 1)
+        let countryName = ((content.name.split(', '))[content.name.split(', ').length - 1]).substring(1)
+        let code = getCode(countryName)
+        this.getKey(code)
+        .then((value: any) => {
+          let continent = value.continent
+          this.allPlaces.forEach((element) => {
+            if (element.code === continent && !element.places.includes(chip)) {
+              element.places.push(chip)
+            }
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        
+        // show location on map
+        content.name = this.removeMiddle(content.name, 1)    
+        console.log(content)
+        this.MapService.showMarker(this.target, content)
+      }
+
+    })
+  }
+
   // filters city name string
   removeMiddle(string: string, keep: number): string {
     let arr: string[] = string.split(',')
@@ -142,32 +133,6 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDes
       nothing = nothing.concat(', ', arr[x])
     }
     return nothing.concat(', ', arr[arr.length - 1])
-  }
-
-  // displays chip and clear search input
-  onSelected(event: MatAutocompleteSelectedEvent) {
-    let chip = this.removeMiddle(event.option.value, 1)
-    let countryName = ((event.option.value.split(', '))[event.option.value.split(', ').length - 1]).substring(1)
-    let code = getCode(countryName)
-    this.getKey(code)
-      .then((value: any) => {
-        let continent = value.continent
-        this.allPlaces.forEach((element) => {
-          if (element.code === continent && !element.places.includes(chip)) {
-            element.places.push(chip)
-          }
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    this.value = ''
-  }
-
-  passData(content: any) {
-    content.name = this.removeMiddle(content.name, 1)    
-    console.log(content)
-    this.MapService.showMarker(this.target, content)
   }
 
   // search Countrieslist countries 
@@ -202,5 +167,6 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit ,OnDes
     this.searched.unsubscribe()
     this.clickLocation_sub.unsubscribe()
     this.openstreetmap_sub.unsubscribe()
+    this.optionClick_sub.unsubscribe()
   }
 }

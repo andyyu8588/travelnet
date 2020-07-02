@@ -6,8 +6,6 @@ import { RegistrationComponent } from './registrationpage/registrationpage.compo
 import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatHorizontalStepper } from '@angular/material/stepper';
-import { MatSelectChange } from '@angular/material/select';
-import { SelectionChange } from '@angular/cdk/collections';
 
 export interface progressUpdateData {
   target: number
@@ -56,7 +54,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   } 
 
   ngAfterViewInit() {
-    this.step1.stepControl = this.registration.registrationForm
+    // this.step1.stepControl = this.registration.registrationForm
     this.clickLocation = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
       this._progressUpdate.next({
         target: this.stepper._getFocusIndex(),

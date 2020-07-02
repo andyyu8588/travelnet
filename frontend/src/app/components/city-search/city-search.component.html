@@ -1,0 +1,18 @@
+<mat-form-field class="example-full-width" class="col">
+    <mat-label>Search Locations</mat-label>
+    <input type='text' 
+    matInput
+    placeholder="Ex. Berlin"
+    [matAutocomplete]="auto"
+    [formControl]="myControl"
+    [(ngModel)]='value'>
+    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+    </button>
+    <mat-autocomplete #auto='matAutocomplete' >
+        <mat-spinner *ngIf='isLoading' style="margin:0 auto;"></mat-spinner>
+        <mat-option *ngFor='let country of autoSuggested | async' [value]='country.name' (click)='onOptionClick(country)'>
+            <span>{{ country.name }}</span>
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
