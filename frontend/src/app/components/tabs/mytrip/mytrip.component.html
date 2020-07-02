@@ -30,16 +30,17 @@
                                 </mat-expansion-panel-header>
                                 <p>I'm visible because I am open</p>
                             </mat-expansion-panel>
+                            <div id="lineBtn">
+                                <hr id="hrBtn">
+                                <button mat-mini-fab id="addIcon">
+                                    <mat-icon id='addIcon'>add_location</mat-icon>
+                                </button>
+                                <hr id="hrBtn">
+                            </div>
                         </div>
 
                     </mat-accordion>
-                    <div id="lineBtn">
-                        <hr id="hrBtn">
-                        <button mat-mini-fab id="addIcon">
-                            <mat-icon id='addIcon'>add_location</mat-icon>
-                        </button>
-                        <hr id="hrBtn">
-                    </div>
+              
                 </mat-card-content>
                 <mat-card-actions class="">
                     <button mat-button color='warn' (click)='onDelete(trip.name, i)'>

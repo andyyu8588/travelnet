@@ -1,9 +1,9 @@
 export class tripModel {
     date: any
     name: String
-    venues?: [{
+    venues?: Array<{
         time?: Date,
         name: String,
         price?: Number
-    }]
+    }>
 }
