@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { tab } from '../../models/tab.model';
 import { Subscription } from 'rxjs';
+import { userModel } from 'src/app/models/user.model';
 
 
 @Component({
@@ -14,9 +15,11 @@ import { Subscription } from 'rxjs';
 export class UserprofileComponent implements OnInit, OnDestroy {
   url :string = null
   private openTabSub: Subscription
-  openTab:tab
+  content: userModel = null
+  openTab: tab
   username: string
   windowHeight: number = window.innerHeight
+
 
   constructor(
     private SearchService: SearchService,
@@ -29,7 +32,7 @@ export class UserprofileComponent implements OnInit, OnDestroy {
       this.openTab = x
     })
     this.url = this.router.url.replace('/search/user/','')
-
+    this.searchUser(this.url).then(result => this.content = result.users[0])
   }
 
 
@@ -38,8 +41,9 @@ export class UserprofileComponent implements OnInit, OnDestroy {
     this.router.navigate([this.openTab.path])
   }
   searchUser(username: string){
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<any>((resolve) => {
       this.SearchService.userSearch(username).then(result=>{
+      console.log(result)
       resolve(result)
       })
     }
