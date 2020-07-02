@@ -1,1 +1,42 @@
-<p>userprofile works!</p>
+<mat-card class="container"  *ngIf="content">
+  <mat-card-title>
+    <div class="row">
+      <button mat-button (click)='goBack()' *ngIf="this.openTab.prePath" class="col-auto" matTooltip="back">
+        <mat-icon class="">
+          keyboard_backspace
+        </mat-icon>
+      </button>
+      <!-- option to add as friend -->
+      <button mat-raised-button (click)="onAdd()">
+        Add friend!
+      </button>
+    </div>
+  <!-- User profile -->
+  <!-- view name -->
+  <div>{{content|null:['firstname']}} {{content|null:['lastname']}}</div>
+  <!-- view username -->
+  <div>{{content|null:['username']}}</div>
+  <!-- view profile pic -->
+  <a href="{{content|null:['profilepicture']}}" class="img"></a>
+  <!-- view friends -->
+  </mat-card-title>
+
+  <mat-card-content>
+    <!-- view photos -->
+    <!-- view posts/blogs,albums -->
+    <!-- view trips -->
+    <div>
+      <div *ngFor="let item of content|null:['trips']">
+        {{item}}
+      </div>
+    </div>
+    <!-- view history -->
+    <div>
+      <!-- <p *ngFor="let item of searchResult|null:['history']">{{item}}</p> -->
+    </div>
+    <!-- view wishlist -->
+    <div>
+      <!-- <p *ngFor="let item of searchResult|null:['whishlist']">{{item}}</p> -->
+    </div>
+  </mat-card-content>
+</mat-card>

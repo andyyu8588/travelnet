@@ -45,11 +45,10 @@ export class VenueComponent implements OnInit,OnDestroy {
   }
 
   goBack(){
-    console.log(this.content)
     this.SearchService.goBack()
     this.router.navigate([this.openTab.path])
   }
-  
+
   // check if is object
   isObject(val: any): boolean {
     if (typeof(val) == 'object') {
