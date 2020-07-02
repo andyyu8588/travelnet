@@ -12,7 +12,7 @@
         </button>
       </span>
       <span class="col-auto md-auto align-self-center">{{ content.name }}&nbsp;<span *ngIf='content.verified' matTooltip="Verified Venue" matTooltipPosition='above'><mat-icon mat-icon-button style="vertical-align: middle;" color='primary'>verified_user</mat-icon></span></span>
-      
+
       <span class="col justify-content-end">
         <button mat-icon-button matTooltip="share" matTooltipPosition='above' color='accent'>
           <mat-icon>
@@ -30,9 +30,9 @@
             playlist_add
           </mat-icon>
         </button>
-        
+
       </span>
-       
+
     </div>
   </mat-card-title>
 
@@ -64,13 +64,13 @@
           <!-- need for each for attributes -->
           <p>attributes:</p>
           <div class="div" *ngFor="let attribute of content.attributes.groups">
-             {{attribute|null:['type']}} | {{attribute|null:['name']}} | {{attribute|null:['summary']}}
+             <span>{{attribute|null:['name']}} </span><span *ngIf="(attribute|null:['name'])!==(attribute|null:['summary'])"> | {{attribute|null:['summary']}}</span>
           </div>
 
           <!-- need price -->
       </div>
       </mat-grid-tile>
-      
+
       <!--rating -->
       <mat-grid-tile colspan="4" rowspan='1' class="border border-primary">
         <div class="container row">

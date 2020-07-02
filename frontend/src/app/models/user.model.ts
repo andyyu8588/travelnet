@@ -14,7 +14,7 @@ export class userModel {
     rooms:  Array<any>
     socketIds: Array<any>
     isActive:  Boolean
-    log: { 
+    log: {
         in: Array<any>,
         out: Array<any>
     }

@@ -1,7 +1,13 @@
 mat-card{
   display: flex;
 }
- 
+.btn{
+  width: 100%;
+}
+.inline{
+  text-align: left;
+}
+
 mat-card-header:hover, #description:hover, mat-icon:hover {
   cursor: pointer;
 }
