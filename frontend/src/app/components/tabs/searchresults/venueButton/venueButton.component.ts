@@ -1,4 +1,3 @@
-import { MapService } from 'src/app/services/map/map.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
@@ -14,9 +13,8 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
   @Input() result: any
   constructor (
     private searchservice: SearchService,
-    private router : Router,
-    private MapService: MapService) {
-  }
+    private router : Router
+  ) {}
 
   ngOnInit(): void {
     this.searchResult = this.result
