@@ -42,12 +42,44 @@ const UserSchema = mongoose.Schema({
         default: []
     },
     history: {
-        type: Array,
-        default: []
+        type: [
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array}
+        ],
+        default: [
+            {code:'NA', continent: 'North-America', places: []},
+            {code:'SA', continent: 'South-America', places: []},
+            {code:'EU', continent: 'Europe', places: []},
+            {code:'AS', continent: 'Asia', places: []},
+            {code:'AF', continent: 'Africa', places: []},
+            {code:'OC', continent: 'Oceania', places: []},
+            {code:'AN', continent: 'Antarctica', places: []}
+        ]
     },
     wishlist: {
-        type: Array,
-        default: []
+        type: [
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array},
+            {code: String, continent: String, places: Array}
+          ],
+        default: [
+            {code:'NA', continent: 'North-America', places: []},
+            {code:'SA', continent: 'South-America', places: []},
+            {code:'EU', continent: 'Europe', places: []},
+            {code:'AS', continent: 'Asia', places: []},
+            {code:'AF', continent: 'Africa', places: []},
+            {code:'OC', continent: 'Oceania', places: []},
+            {code:'AN', continent: 'Antarctica', places: []}
+        ]
     }
 })
 

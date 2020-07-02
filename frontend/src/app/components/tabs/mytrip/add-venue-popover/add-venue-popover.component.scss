@@ -2,7 +2,6 @@ button:focus {
     outline: none;
 }
 
-::ng-deep .mat-form-field-wrapper {
-    margin: 0;
-    padding: 0;
+::ng-deep .mat-tab-body-content {
+    padding: 1%;
 }

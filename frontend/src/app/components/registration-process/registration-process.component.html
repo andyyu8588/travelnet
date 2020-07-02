@@ -1,35 +1,22 @@
 <mat-horizontal-stepper linear #stepper>
   <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="false">
-      <!-- <ng-template matStepLabel>Create Your Account</ng-template> -->
       <app-registrationpage #registration [stepper]='stepper'></app-registrationpage>
       <div>
-          <!-- <button mat-button matStepperNext class="btn btn-primary" (click)='registerClicked()'>Register</button> -->
       </div>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup" label="Tell Us Where You've Been" [optional]="true">
-    <!-- <ng-template matStepLabel>Tell Us Where You've Been</ng-template> -->
-    <!-- <form [formGroup]="secondFormGroup">
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                required>
-      </mat-form-field>
-      <div> -->
-        <!-- <button mat-button matStepperPrevious>Back</button> -->
-      <!-- </div>
-    </form> -->
-    <app-country-selector [progressUpdate]='stepper._getFocusIndex()' [target]='1'></app-country-selector>
+    <app-country-selector #selector1 [progressUpdate]='stepper._getFocusIndex()' [target]='1'></app-country-selector>
     <div>
-      <button mat-button matStepperNext>Next</button>
+      <button mat-stroked-button matStepperNext color='primary'>Next</button>
     </div>
   </mat-step>
   <mat-step label='Where Do You Want To Go' [optional]="true">
-    <!-- <ng-template matStepLabel>Where Do You Want To Go</ng-template> -->
-    <!-- <p>You are now done.</p> -->
-    <app-country-selector [progressUpdate]='stepper._getFocusIndex()' [target]='2'></app-country-selector>
+    <app-country-selector #selector2 [progressUpdate]='stepper._getFocusIndex()' [target]='2'></app-country-selector>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button routerLink='/myaccount' >Done</button>
+      <button mat-raised-button color='primary' (click)='savePreferences()'>Save</button>
+      <button mat-button *ngIf='isSaving'><mat-spinner diameter='32'></mat-spinner></button>
+      <button mat-button *ngIf='isDone' class="text-success">Preferences Saved!</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

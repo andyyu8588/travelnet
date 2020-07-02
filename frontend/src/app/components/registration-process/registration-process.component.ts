@@ -1,3 +1,4 @@
+import { CountrySelectorComponent } from './country-selector/country-selector.component';
 import { SessionService } from 'src/app/services/session.service';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { MapService, clickLocationCoordinates } from './../../services/map/map.service';
@@ -6,8 +7,6 @@ import { RegistrationComponent } from './registrationpage/registrationpage.compo
 import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatHorizontalStepper } from '@angular/material/stepper';
-import { MatSelectChange } from '@angular/material/select';
-import { SelectionChange } from '@angular/cdk/collections';
 
 export interface progressUpdateData {
   target: number
@@ -27,6 +26,9 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   secondFormGroup: FormGroup;
   @ViewChild('stepper') stepper: MatHorizontalStepper
   @ViewChild('step1') step1: any
+  @ViewChild('selector1') selector1: CountrySelectorComponent
+  @ViewChild('selector2') selector2: CountrySelectorComponent
+
   editable: Boolean = true
   @ViewChild('registration') registration: RegistrationComponent
 
@@ -39,9 +41,13 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   private clickLocation: Subscription
   private stepper_sub: Subscription
 
+  isSaving: boolean = false
+  isDone: boolean = false
+
   constructor(private _formBuilder: FormBuilder,
               private MapService: MapService,
-              private  SessionService: SessionService) { }
+              private  SessionService: SessionService,
+              private Router: Router) { }
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -56,7 +62,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   } 
 
   ngAfterViewInit() {
-    this.step1.stepControl = this.registration.registrationForm
+    // this.step1.stepControl = this.registration.registrationForm
     this.clickLocation = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
       this._progressUpdate.next({
         target: this.stepper._getFocusIndex(),
@@ -66,6 +72,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     this.stepper_sub = this.stepper.selectionChange.subscribe(x => {
       if (x.selectedIndex != 0) {
         this.editable = false
+        this.isDone = false
         this.MapService.showMarker(x.selectedIndex)
       }
     })
@@ -77,6 +84,22 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
 
   onClear(target: number) {
 
+  }
+
+  savePreferences() {
+    this.isSaving = true
+    Promise.all([this.selector1.onSumbit(), this.selector2.onSumbit()])
+    .then((responses: any[]) => {
+      this.isDone = true
+    })
+    .catch((err: any[]) => {
+      alert(err[0])
+      // window.location.reload()
+    })
+    .finally(() => {
+      this.isSaving = false
+    }) 
+    
   }
 
   ngOnDestroy() {
