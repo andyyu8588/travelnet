@@ -2,10 +2,9 @@ import { SessionService } from 'src/app/services/session.service';
 import { tripModel } from '../../../models/trip.model';
 import { Subscription } from 'rxjs';
 import { TripService } from './../../../services/trip.service';
-import { TripmodalComponent } from 'src/app/components/tripmodal/tripmodal.component';
+import { TripmodalComponent } from 'src/app/components/tabs/mytrip/tripmodal/tripmodal.component';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { stat } from 'fs';
 
 @Component({
   selector: 'app-mytrip',

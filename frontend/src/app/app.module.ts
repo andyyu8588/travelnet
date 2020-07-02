@@ -66,13 +66,14 @@ import { MytripComponent } from './components/tabs/mytrip/mytrip.component';
 import { CountrySelectorComponent } from './components/registration-process/country-selector/country-selector.component';
 import { CountryList } from 'country-list';
 import { VenueButtonComponent } from './components/tabs/searchresults/VenueButton/VenueButton.component';
-import { TripmodalComponent } from './components/tripmodal/tripmodal.component'
+import { TripmodalComponent } from './components/tabs/mytrip/tripmodal/tripmodal.component'
 import { VenueComponent } from './components/venue/venue.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { ListObjectPipe } from './pipes/list-object.pipe';
 import { NullPipe } from './pipes/null.pipe';
 import { UserprofileComponent } from './components/userprofile/userprofile.component';
-import { UserbuttonComponent } from './components/tabs/searchresults/userbutton/userbutton.component'
+import { UserbuttonComponent } from './components/tabs/searchresults/userbutton/userbutton.component';
+import { AddVenuePopoverComponent } from './components/tabs/mytrip/add-venue-popover/add-venue-popover.component'
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { UserbuttonComponent } from './components/tabs/searchresults/userbutton/
     NullPipe,
     UserprofileComponent,
     UserbuttonComponent,
+    AddVenuePopoverComponent,
   ],
   imports: [
     BrowserModule,

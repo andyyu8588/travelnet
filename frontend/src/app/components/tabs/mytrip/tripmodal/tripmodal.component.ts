@@ -1,12 +1,9 @@
-import { tripModel } from '../../models/trip.model';
-import { userModel } from './../../models/user.model';
 import { HttpService } from 'src/app/services/http.service';
+import { tripModel } from '../../../../models/trip.model';
+import { userModel } from './../../../../models/user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { promise } from 'protractor';
-import { resolve } from 'dns';
-
 @Component({
   selector: 'app-tripmodal',
   templateUrl: './tripmodal.component.html',
