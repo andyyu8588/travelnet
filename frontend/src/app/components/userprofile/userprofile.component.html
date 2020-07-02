@@ -6,11 +6,20 @@
           keyboard_backspace
         </mat-icon>
       </button>
-      <!-- option to add as friend -->
-      <button mat-raised-button (click)="onAdd()">
-        Add friend!
-      </button>
+      <!-- option to follow -->
+      <div *ngIf="!this.content.followers.includes(this.selfUsername)">
+        <button mat-raised-button (click)="onFollow()">
+          Follow
+        </button>
+      </div>
+      <!-- already following -->
+      <div *ngIf="this.content.followers.includes(this.selfUsername)">
+        <button mat-raised-button (click)="onUnfollow()">
+          Unfollow
+        </button>
+      </div>
     </div>
+    
   <!-- User profile -->
   <!-- view name -->
   <div>{{content|null:['firstname']}} {{content|null:['lastname']}}</div>

@@ -6,6 +6,23 @@
     <mat-card-content class="container">
       <div>{{searchResult|null: ['username']}}</div>
       <div>
+        <!-- option to follow -->
+      
+        <div *ngIf="!result.followers.includes(this.selfUsername)" class="follow">
+          <button mat-raised-button (click)="onFollow()">
+            Follow
+          </button>
+        </div>
+      
+        <!-- already following -->
+      
+        <div *ngIf="result.followers.includes(this.selfUsername)" class="follow">
+          <button mat-raised-button (click)="onUnfollow()">
+            Unfollow
+          </button>
+        </div>
+      </div>
+      <div>
         <!-- dunno why these dont work -->
         <!-- <p *ngFor="let item of searchResult|null:['history']">{{item}}</p> -->
       </div>
@@ -15,3 +32,4 @@
     </mat-card-content>
   </mat-card>
 </button>
+

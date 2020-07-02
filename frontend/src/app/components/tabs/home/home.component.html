@@ -1,1 +1,14 @@
-<p>home works!</p>
+
+<div *ngIf="user">
+    <div *ngIf="user.followers.length != 0">
+        <p>Followers</p>
+        <div *ngFor="let username of user.followers">
+            <button mat-raised-button (click)="getProfile(username)">
+                {{ username }}
+            </button>
+        </div>
+    </div>
+    <div *ngIf="user.followers.length == 0">
+        <p>No Followers :(</p>
+    </div>
+</div>

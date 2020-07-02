@@ -8,8 +8,8 @@ export class userModel {
     birthdate: Date
     gender: String
     profilepicture: String
-    friends: Array<string>
-    friendsAdded: Array<string>
+    followers: Array<string>
+    following: Array<string>
     friendsReceived: Array<string>
     rooms:  Array<any>
     socketIds: Array<any>
