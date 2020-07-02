@@ -1,9 +1,9 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
 import { tripModel } from '../../../models/trip.model';
 import { Subscription } from 'rxjs';
 import { TripService } from './../../../services/trip.service';
 import { TripmodalComponent } from 'src/app/components/tabs/mytrip/tripmodal/tripmodal.component';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -12,7 +12,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./mytrip.component.scss']
 })
 export class MytripComponent implements OnInit, OnDestroy {
-  sessionState_sub: Subscription
+  private sessionState_sub: Subscription
   sessionState: boolean
 
   name: string

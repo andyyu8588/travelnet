@@ -1,5 +1,5 @@
-import { Mapboxgl } from 'mapbox-gl';
 import { HttpClientModule } from '@angular/common/http';
+import { Mapboxgl } from 'mapbox-gl';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

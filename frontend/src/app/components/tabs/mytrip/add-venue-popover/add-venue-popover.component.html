@@ -1,13 +1,23 @@
-<form>
-    <mat-form-field appearance='outline'>
-        <mat-label>Custom Venue</mat-label>
-        <input matInput type="text" >
-    </mat-form-field>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Add Venue</mat-card-title>
+    </mat-card-header>
     <br>
-    <b class="justify-content-center">or</b>
-    <br>
-    <mat-form-field appearance='outline'>
-        <mat-label>Search in Database</mat-label>
-        <input matInput type="text" >
-    </mat-form-field>
-</form>
+    <mat-card-content>
+        <form>
+            <mat-form-field appearance='outline'>
+                <mat-label>Custom Venue</mat-label>
+                <input matInput type="text" >
+            </mat-form-field>
+            <hr>
+            <mat-form-field appearance='outline'>
+                <mat-label>Search in Database</mat-label>
+                <input matInput type="text" >
+            </mat-form-field>
+        </form> 
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-flat-button matTooltip='add custom Venue'>Add</button>
+        <button mat-raised-button color='primary'>Search</button>
+    </mat-card-actions>
+</mat-card>

@@ -1,4 +1,4 @@
-<div style="position: relative; height: 100%;" *ngIf='sessionState'>
+<div style="position: relative;" *ngIf='sessionState'>
     <div class="container" style="background-color: rgba(255, 200, 200, 1); padding: 1em;">
         <div class="row justify-content-center">
             <button mat-mini-fab class="col-auto align-self-center" (click)='openModal()'>
@@ -11,7 +11,7 @@
         <div *ngIf='!trips' class="container-fluid row rounded align--items-center" style="background-color: rgba(255, 255, 255, 1); min-height: 100px;">
             &nbsp;<h2 class="align-self-center">No trips Yet...</h2>
         </div>
-        <div class="container-fluid" *ngFor='let trip of trips, let i = index' >
+        <div class="container-fluid" style="min-height: 750px;" *ngFor='let trip of trips, let i = index' >
             <mat-card >
                 <mat-card-title class="">{{ trip.name }}</mat-card-title>
                 <mat-card-header class="">{{ trip.date.start | date }} - {{ trip.date.end | date }} </mat-card-header>

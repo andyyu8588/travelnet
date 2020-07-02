@@ -34,7 +34,7 @@ export class registrationComponent {
 })
 
 export class RegistrationComponent implements OnDestroy, OnInit {
-  sessionState_sub: Subscription
+  private sessionState_sub: Subscription
   sessionState: Boolean
   registrationForm:FormGroup;
   hide = true;

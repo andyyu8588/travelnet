@@ -20,7 +20,7 @@ export interface progressUpdateData {
   styleUrls: ['./registration-process.component.scss']
 })
 export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDestroy {
-  sessionState_sub: Subscription
+  private sessionState_sub: Subscription
   sessionState: Boolean
 
   firstFormGroup: FormGroup;
