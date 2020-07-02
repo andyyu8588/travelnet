@@ -9,7 +9,6 @@ import { FormControl } from '@angular/forms';
 import { Component, OnInit, Output, Input, OnDestroy, AfterContentInit } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import * as CountriesList from 'countries-list'
-import * as CountriesConverter from 'i18n-iso-countries'
 
 export interface VisitedPlaces {
   code: string;

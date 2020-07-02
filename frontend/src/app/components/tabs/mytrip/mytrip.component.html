@@ -1,4 +1,4 @@
-<div style="position: relative;" *ngIf='sessionState'>
+<div style="position: relative; height: 100%;" *ngIf='sessionState'>
     <div class="container" style="background-color: rgba(255, 200, 200, 1); padding: 1em;">
         <div class="row justify-content-center">
             <button mat-mini-fab class="col-auto align-self-center" (click)='openModal()'>
@@ -30,9 +30,10 @@
                                 </mat-expansion-panel-header>
                                 <p>I'm visible because I am open</p>
                             </mat-expansion-panel>
+                            <ng-template #popcontent><app-add-venue-popover></app-add-venue-popover></ng-template>
                             <div id="lineBtn">
                                 <hr id="hrBtn">
-                                <button mat-mini-fab id="addIcon">
+                                <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false">
                                     <mat-icon id='addIcon'>add_location</mat-icon>
                                 </button>
                                 <hr id="hrBtn">
