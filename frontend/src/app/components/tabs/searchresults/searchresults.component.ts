@@ -14,6 +14,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   url :string = null
   openTab: tab
   filterNumber: number
+  loading: boolean = true
   @Input() select: number
 
   private returnTab: Subscription
@@ -30,7 +31,9 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
     this.filter = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
     this.url = this.router.url.replace('/search/','')
-    this.SearchService.enterSearch(this.url,this.SearchService.mainSearch(this.url,this.map.getCenter()))
+    this.SearchService.enterSearch(this.url,this.SearchService.mainSearch(this.url,this.map.getCenter())).then(()=>{
+      this.loading = false
+    })
   }
   checkFilter(type: number){
     // console.log(this.filterNumber)
@@ -41,8 +44,6 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
       return false
     }
   }
-
-
   ngOnDestroy(){
     this.filter.unsubscribe()
     this.returnTab.unsubscribe()
