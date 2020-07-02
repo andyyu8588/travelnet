@@ -10,7 +10,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class SocketService {
   private socket: any
   room: any
-  readonly uri: string = environment.production? 'https://travelnet.herokuapp.com':'http://localhost:3000'
+  readonly uri: string = environment.travelnetURL
 
   constructor() {
     this.socket = io(this.uri)

@@ -18,3 +18,7 @@ button:focus {
 #addIcon {
     transform: scale(0.9);
 }
+
+::ng-deep .popover {
+    min-width: 400px;
+}

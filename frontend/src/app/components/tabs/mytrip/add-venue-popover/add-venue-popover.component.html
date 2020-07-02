@@ -1,11 +1,12 @@
-<mat-card>
+<!-- <mat-card>
     <mat-card-header>
         <mat-card-title>Add Venue</mat-card-title>
     </mat-card-header>
     <br>
     <mat-card-content>
+
         <form>
-            <mat-form-field appearance='outline'>
+            <mat-form-field appearance='outline' style="margin: 0; padding: 0;">
                 <mat-label>Custom Venue</mat-label>
                 <input matInput type="text" >
             </mat-form-field>
@@ -20,4 +21,13 @@
         <button mat-flat-button matTooltip='add custom Venue'>Add</button>
         <button mat-raised-button color='primary'>Search</button>
     </mat-card-actions>
-</mat-card>
+</mat-card> -->
+
+<mat-tab-group dynamicHeight mat-align-tabs="center">
+    <mat-tab label="Search" matTooltip='Search Venue in Database'>
+    
+    </mat-tab>
+    <mat-tab label="Custom" matTooltip='Add a Custom Venue'>
+        
+    </mat-tab>
+</mat-tab-group>
