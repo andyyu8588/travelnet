@@ -18,6 +18,7 @@ export class UserprofileComponent implements OnInit, OnDestroy {
   content: userModel = null
   openTab: tab
   username: string
+  selfUsername: string
   windowHeight: number = window.innerHeight
 
 
@@ -33,13 +34,15 @@ export class UserprofileComponent implements OnInit, OnDestroy {
     })
     this.url = this.router.url.replace('/search/user/','')
     this.searchUser(this.url).then(result => this.content = result.users[0])
+    this.username = this.router.url.substr(13)
+    this.selfUsername = localStorage.getItem('username')
   }
-
 
   goBack(){
     this.SearchService.goBack()
     this.router.navigate([this.openTab.path])
   }
+
   searchUser(username: string){
     return new Promise<any>((resolve) => {
       this.SearchService.userSearch(username).then(result=>{
@@ -53,12 +56,29 @@ export class UserprofileComponent implements OnInit, OnDestroy {
     this.openTabSub.unsubscribe()
   }
 
-  onAdd() {
-    this.HttpService.post('/user/add', {
+  // follow button
+  onFollow() {
+    // update database
+    this.HttpService.post('/user/follow', {
       username: localStorage.getItem('username'),
-      added: this.username
+      followed: this.username
     }).then((res) => {
-      console.log(res)
+      // add the follower in current content
+      this.content.followers.push(this.selfUsername)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  // unfollow button
+  onUnfollow() {
+    // update database
+    this.HttpService.post('/user/unfollow', {
+      username: localStorage.getItem('username'),
+      unfollowed: this.username
+    }).then((res) => {
+      // remove the follower from current content
+      this.content.followers.splice(this.content.followers.indexOf(this.selfUsername), 1)
     }).catch((err) => {
       console.log(err)
     })

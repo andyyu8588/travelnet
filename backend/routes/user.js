@@ -76,15 +76,57 @@ router.patch('/edit', (req, res, next) => {
   })
 })
 
-router.post('/add', (req, res, next) => {
-  User.findOneAndUpdate({username: req.body.username}, {$push: {friendsAdded: req.body.added}}, (err, result) => {
+router.post('/follow', (req, res, next) => {
+  User.findOneAndUpdate({username: req.body.username}, {$push: {following: req.body.followed}}, (err, result) => {
     if (err) {
       res.status(500).json({
         message: err
       })
     } else if (result) {
-      res.status(201).json({
-        message: `Success! Encounters updated!`
+      User.findOneAndUpdate({username: req.body.followed}, {$push: {followers: req.body.username}}, (err, result) => {
+        if (err) {
+          res.status(500).json({
+            message: err
+          })
+        } else if (result) {
+          res.status(201).json({
+            message: `Success!`
+          })
+        } else {
+          res.status(500).json({
+            message: 'monkas'
+          })
+        }
+      })
+    } else {
+      res.status(500).json({
+        message: 'monkas'
+      })
+    }
+  })
+})
+
+router.post('/unfollow', (req, res, next) => {
+  User.findOneAndUpdate({username: req.body.username}, {$pull: {following: req.body.unfollowed}}, (err, result) => {
+    if (err) {
+      res.status(500).json({
+        message: err
+      })
+    } else if (result) {
+      User.findOneAndUpdate({username: req.body.unfollowed}, {$pull: {followers: req.body.username}}, (err, result) => {
+        if (err) {
+          res.status(500).json({
+            message: err
+          })
+        } else if (result) {
+          res.status(201).json({
+            message: `Success!`
+          })
+        } else {
+          res.status(500).json({
+            message: 'monkas'
+          })
+        }
       })
     } else {
       res.status(500).json({
