@@ -22,6 +22,8 @@ export interface VisitedPlaces {
 })
 export class CountrySelectorComponent implements OnInit, AfterContentInit, AfterViewInit ,OnDestroy {
   @ViewChild('citySearch') citySearchComponent: CitySearchComponent
+  citySearchAppearance: string = 'standard'
+  citySearchPlaceholder: string = 'Search for Locations'
   optionClick_sub: Subscription
   @Input() progressUpdate: any
   @Input() target: number

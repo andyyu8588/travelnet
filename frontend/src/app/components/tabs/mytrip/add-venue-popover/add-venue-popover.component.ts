@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-venue-popover.component.scss']
 })
 export class AddVenuePopoverComponent implements OnInit {
+  citySearchAppearance: string = 'outline'
+  citySearchPlaceholder: string = 'Search for a City'
 
   constructor() { }
 

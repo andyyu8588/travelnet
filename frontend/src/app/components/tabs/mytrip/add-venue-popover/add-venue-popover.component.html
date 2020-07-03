@@ -29,10 +29,11 @@
                         <mat-label>Venue Name</mat-label>
                         <input matInput type="text">
                     </mat-form-field>
-                    <mat-form-field appearance='outline' style="display: inline-block">
+                    <!-- <mat-form-field appearance='outline' style="display: inline-block">
                         <mat-label>City</mat-label>
                         <input matInput type='text' autocomplete="country">
-                    </mat-form-field>
+                    </mat-form-field> -->
+                    <app-city-search [appearance]='citySearchAppearance' [placheholder]='citySearchPlaceholder'></app-city-search>
                     <mat-form-field appearance='outline' style="display: inline-block">
                         <mat-label>Adress</mat-label>
                         <input matInput type='text' autocomplete="street-address">

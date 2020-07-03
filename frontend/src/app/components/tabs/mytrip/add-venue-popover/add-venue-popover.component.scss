@@ -5,3 +5,7 @@ button:focus {
 ::ng-deep .mat-tab-body-content {
     padding: 1%;
 }
+
+::ng-deep app-city-search {
+    padding-left: 0;
+}

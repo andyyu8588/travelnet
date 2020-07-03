@@ -1,8 +1,6 @@
 <mat-horizontal-stepper linear #stepper>
   <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="false">
       <app-registrationpage #registration [stepper]='stepper'></app-registrationpage>
-      <div>
-      </div>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup" label="Tell Us Where You've Been" [optional]="true">
     <app-country-selector #selector1 [progressUpdate]='stepper._getFocusIndex()' [target]='1'></app-country-selector>

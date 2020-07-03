@@ -9,6 +9,10 @@ import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
   styleUrls: ['./city-search.component.scss']
 })
 export class CitySearchComponent implements OnInit, OnDestroy {
+  @Input() appearance: string
+  @Input() placheholder: string
+
+  
   // search input variables
   myControl: FormControl = new FormControl()
   value: string = ''
