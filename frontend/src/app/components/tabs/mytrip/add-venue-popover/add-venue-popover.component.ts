@@ -1,7 +1,7 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CitySearchComponent } from './../../../city-search/city-search.component';
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Input } from '@angular/core';
 
 @Component({
   selector: 'app-add-venue-popover',
@@ -9,6 +9,10 @@ import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular
   styleUrls: ['./add-venue-popover.component.scss']
 })
 export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestroy {
+  // passed by mytrip
+  @Input() tripIndex: number
+  @Input() dayIndex: number
+
   @ViewChild('citySearch') CitySearchComponent: CitySearchComponent
   private selectedOption_sub: Subscription
   citySearchAppearance: string = 'outline'

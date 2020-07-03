@@ -12,11 +12,15 @@ export class TripService implements OnDestroy {
   private sessionState_sub: Subscription
   sessionState: boolean = this.SessionService.session()
 
+  // venue query from mytrip add venue
+  searchedVenue: string = ''
+
   private _trips: BehaviorSubject<tripModel[]> = new BehaviorSubject([])
   public trips: Observable<tripModel[]> = this._trips.asObservable()
 
   constructor(private HttpService: HttpService,
               private SessionService: SessionService) {
+    // check if user is logged in and retrieve trip data
     this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
       if (state && this.sessionState != state) {
         this.sessionState = state
@@ -34,6 +38,11 @@ export class TripService implements OnDestroy {
         })
       }
     })
+  }
+
+  // when user searches a venue from mytrip -> add venue
+  changeQuery(query: string) {
+    this.searchedVenue = query
   }
 
   // modifies trips of user
