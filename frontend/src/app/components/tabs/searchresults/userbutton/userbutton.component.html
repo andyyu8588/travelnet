@@ -1,21 +1,20 @@
 <button type="button" class="btn" (click)='navigate()' *ngIf="searchResult.username">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>{{searchResult|null:['firstname']}} {{searchResult|null:['lastname']}}</mat-card-title>
+      <mat-card-title>{{searchResult|null: ['username']}}</mat-card-title>
     </mat-card-header>
     <mat-card-content class="container">
-      <div>{{searchResult|null: ['username']}}</div>
       <div>
         <!-- option to follow -->
-      
+
         <div *ngIf="!result.followers.includes(this.selfUsername)" class="follow">
           <button mat-raised-button (click)="onFollow()">
             Follow
           </button>
         </div>
-      
+
         <!-- already following -->
-      
+
         <div *ngIf="result.followers.includes(this.selfUsername)" class="follow">
           <button mat-raised-button (click)="onUnfollow()">
             Unfollow
