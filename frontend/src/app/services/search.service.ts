@@ -83,7 +83,7 @@ export class SearchService implements OnDestroy {
 
 
 //user makes new search in a tab
-  enterSearch(query: string, searchType:any) {
+  enterSearch(query: string, searchType:any, latLng: string) {
     return new Promise((resolve,reject)=>{
       this.resetSearchContent()
       searchType
@@ -105,12 +105,12 @@ export class SearchService implements OnDestroy {
       this.search = (
         {
         query: query,
+        latLng: latLng,
         prePath: 'search/',
-        path: 'search/' + query,
+        path: 'search/' + query +'&'+latLng,
         content: this.search.content
       }
       )
-      console.log(this.search)
       resolve(this._searchTab.next(this.search))
       })
       .catch(err => {

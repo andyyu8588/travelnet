@@ -11,7 +11,9 @@ import { MapService } from 'src/app/services/map/map.service';
   styleUrls: ['./searchresults.component.scss']
 })
 export class SearchresultsComponent implements OnInit, OnDestroy {
-  url :string = null
+  url : string = null
+  urlQuery : string = null
+  urlLatLng: string = null
   openTab: tab
   filterNumber: number
   loading: boolean = true
@@ -31,7 +33,9 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
     this.filter = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
     this.url = this.router.url.replace('/search/','')
-    this.SearchService.enterSearch(this.url,this.SearchService.mainSearch(this.url,this.map.getCenter())).then(()=>{
+    this.urlQuery = this.url.split("&")[0]
+    this.urlLatLng = this.url.split("&")[1]
+    this.SearchService.enterSearch(this.urlQuery,this.SearchService.mainSearch(this.urlQuery,this.urlLatLng),this.urlLatLng).then(()=>{
       this.loading = false
     })
   }

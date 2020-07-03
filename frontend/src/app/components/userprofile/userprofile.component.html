@@ -39,11 +39,13 @@
     </div>
     <!-- view history -->
     <div>
-      <p *ngFor="let item of content|null:['history']">{{item}}</p>
+      <p>history: </p>
+      <p *ngFor="let item of content.history">{{ (item|null:['continent']) + (item|null:['places'])  }}</p>
     </div>
     <!-- view wishlist -->
     <div>
-      <p *ngFor="let item of content|null:['whishlist']">{{item}}</p>
+      <p>wishlist: </p>
+      <p *ngFor="let item of content.wishlist">{{  item|null:['places']  }}</p>
     </div>
   </mat-card-content>
 </mat-card>

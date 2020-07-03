@@ -18,13 +18,9 @@ const routes: Routes = [
   {path: 'mytrip', component: MytripComponent},
   {path: 'myaccount', component: MyaccountComponent},
   {path: 'search', component: SearchBarComponent, children: [
-    {path: 'venue', component: VenueComponent, children: [
-      {path: ':query', component: VenueComponent},
-    ]},
-    {path: 'user', component: UserprofileComponent, children: [
-      {path: ':query', component: UserprofileComponent},
-    ]},
-    {path: ':query', component: SearchresultsComponent},
+    {path: 'venue/:query', component: VenueComponent},
+    {path: 'user/:query', component: UserprofileComponent},
+    {path: ':query&:latlng', component: SearchresultsComponent},
   ]},
 ];
 

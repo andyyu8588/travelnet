@@ -37,7 +37,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
 
   onSubmit(data: string) {
-    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.map.getCenter())).then(()=>{
+    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.map.getCenter()),this.map.getCenter()).then(()=>{
     this.router.navigate([this.openTab.path])
     })
   }
