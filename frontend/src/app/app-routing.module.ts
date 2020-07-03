@@ -2,7 +2,6 @@ import { RegistrationProcessComponent } from './components/registration-process/
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { loginComponent, LoginComponent } from './components/loginpage/loginpage.component';
-import { registrationComponent} from './components/registration-process/registrationpage/registrationpage.component'
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/tabs/home/home.component';
 import { MytripComponent } from './components/tabs/mytrip/mytrip.component';
