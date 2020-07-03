@@ -1,9 +1,16 @@
 export class tripModel {
-    date: any
     name: String
-    venues?: Array<{
+    dateRange: {
+        [key: string]: any
+        start: Date
+        end: Date
+    }
+    schedule?: Array<{
         time?: Date,
-        name: String,
-        price?: Number
+        venues: Array<{
+            hour?: any
+            venueName: String
+            price?: Number
+        }>
     }>
 }

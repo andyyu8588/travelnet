@@ -23,7 +23,8 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   // all trips of user
   private _tripSub: Subscription
-  trips: tripModel[] = [{date: 'main date', name: 'the trip' , venues: [{name: 'aa'}, {name: 'bb'}]}]
+  trips: any[] = [] 
+  // = [{name: 'lit', dateRange: {start: 'ss', end:'dd'}, schedule: [{venues: [{venueName: 'dd'}]}]}]
 
   private dialogref_sub: Subscription
 

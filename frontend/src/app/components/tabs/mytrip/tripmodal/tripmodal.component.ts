@@ -68,18 +68,21 @@ export class TripmodalComponent implements OnInit {
     })
   }
 
-  onSubmit(data: any) {
+  onSubmit(data: {
+    [key:string]: any
+    start: Date
+    end: Date}) {
     this.isLoading = true
     let valid = this.checkName({value: data.name})
     if (typeof(valid) == 'string') {
       this.isLoading = false
     } else {
       this.trips.push({
-        date: {
+        name: data.name,
+        dateRange: {
           start: data.start,
           end: data.end
-        },
-        name: data.name,
+        }
       })
       this.HttpService.patch('/user/edit', {
         'username': localStorage.getItem('username'),
@@ -89,7 +92,7 @@ export class TripmodalComponent implements OnInit {
       .then((response: any) => {
         if (response.message) {
           this.dialogRef.close({
-            date: {
+            dateRange: {
               start: data.start,
               end: data.end
             },

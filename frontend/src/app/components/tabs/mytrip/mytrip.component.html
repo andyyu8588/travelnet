@@ -14,23 +14,30 @@
         <div class="container-fluid" style="min-height: 750px;" *ngFor='let trip of trips, let i = index' >
             <mat-card >
                 <mat-card-title class="">{{ trip.name }}</mat-card-title>
-                <mat-card-header class="">{{ trip.date.start | date }} - {{ trip.date.end | date }} </mat-card-header>
+                <mat-card-header class="">{{ trip.dateRange.start | date }} - {{ trip.dateRange.end | date }} </mat-card-header>
                 <br>
                 <mat-card-content class="">
                     <mat-accordion>
-                        <div *ngFor='let venue of trip.venues'>
+                        <div *ngFor='let day of trip.schedule, let j = index'>
                             <mat-expansion-panel >
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        {{ venue }}
+                                        day {{ j+1 }}
                                     </mat-panel-title>
                                     <mat-panel-description>
                                         description
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
-                                <p>I'm visible because I am open</p>
+                                <!-- <table mat-table dataSource='{{day.venues}}'>
+                                    <ng-container matColumnDef="venueName">
+                                        <th mat-header-cell *matHeaderCellDef> Venue Name </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="['venueName']"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: 'venueName';"></tr>
+                                </table> -->
                             </mat-expansion-panel>
-                            <ng-template #popcontent><app-add-venue-popover></app-add-venue-popover></ng-template>
+                            <ng-template #popcontent><app-add-venue-popover [tripIndex]='i' [dayIndex]='j'></app-add-venue-popover></ng-template>
                             <div id="lineBtn">
                                 <hr id="hrBtn">
                                 <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false">
