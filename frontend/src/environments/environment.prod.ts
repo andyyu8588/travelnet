@@ -15,6 +15,7 @@ export const environment = {
     venuesSearch: 'https://api.foursquare.com/v2/venues/search',
     venuesExplore: 'https://api.foursquare.com/v2/venues/explore',
     venueDetails: 'https://api.foursquare.com/v2/venues',
+    userAuth: 'https://foursquare.com/oauth2/authenticate'
 
   },
 

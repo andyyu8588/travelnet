@@ -38,6 +38,14 @@ export class FoursquareService {
           }
     })
   }
+  userAuth(){
+    let url = environment.foursquare.userAuth+
+    '?client_id='+environment.foursquare.clientId+
+    '&response_type='+'code'+
+    '&redirect_uri='+'http://localhost:4200/'
+    console.log(url)
+    window.location.replace(url)
+  }
 
 
 }

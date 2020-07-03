@@ -7,7 +7,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, Form } from '@angular/forms'
 import * as moment from 'moment';
-
+import { FoursquareService } from 'src/app/services/map/foursquare.service';
 
 @Component({
     selector: 'app-registration',
@@ -17,7 +17,10 @@ import * as moment from 'moment';
 
 export class registrationComponent {
     modal:any
-    constructor(private modalService:NgbModal, private SessionService:SessionService) {
+    constructor(
+      private modalService:NgbModal,
+      private SessionService:SessionService,
+      ) {
       this.openModal()
     }
     openModal() {
@@ -45,10 +48,13 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   constructor(private SocketService: SocketService,
               private sessionService:SessionService,
               private modalService:NgbModal,
-              private router:Router,) {
+              private router:Router,
+              private FoursquareService: FoursquareService
+              ) {}
 
+  userAuth(){
+      this.FoursquareService.userAuth()
   }
-
   ngOnInit(){
     this.registrationForm = new FormGroup({
       'name': new FormGroup({
@@ -179,7 +185,7 @@ export class RegistrationComponent implements OnDestroy, OnInit {
             console.log(`user created: ${sessionStorage.getItem('username')}`)
           }
         })
-      } 
+      }
     }
     // not old enough
     else {

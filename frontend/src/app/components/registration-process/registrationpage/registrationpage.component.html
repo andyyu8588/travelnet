@@ -1,3 +1,6 @@
+  <button (click)="userAuth()">Authenticate</button>
+
+
   <form
   ngbAutofocus
   class='modal-body'
@@ -79,7 +82,7 @@
         <div class="input-group">
           <mat-form-field id="calendar" appearance="outline">
             <mat-label>Birthdate</mat-label>
-            <input 
+            <input
               matInput
               [matDatepicker]="picker"
               [max]='currentTime'
@@ -88,7 +91,7 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker startView="multi-year"></mat-datepicker>
           </mat-form-field>
-          <!-- <input 
+          <!-- <input
             id="calendar"
             class="form-control"
             [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2020, month: 1, day: 1}"
@@ -96,7 +99,7 @@
             formControlName="birthDate"
             name="dp"
             [(ngModel)]="model"
-            ngbDatepicker 
+            ngbDatepicker
             #d="ngbDatepicker">
           <button
             id='calendarSelector'
