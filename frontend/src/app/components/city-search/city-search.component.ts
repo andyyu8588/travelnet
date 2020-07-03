@@ -69,7 +69,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   // when option is clicked
   onOptionClick(country: {[key: string]: any}) {
     this._clickedOption.next(country)
-    this.value = ''
+    // this.value = ''
   }
 
   ngOnDestroy() {

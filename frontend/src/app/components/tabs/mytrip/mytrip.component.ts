@@ -14,7 +14,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class MytripComponent implements OnInit, OnDestroy {
   private sessionState_sub: Subscription
   sessionState: boolean
-
+  false: boolean = false
   name: string
   start: any
   end: any

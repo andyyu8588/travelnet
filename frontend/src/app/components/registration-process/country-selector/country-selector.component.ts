@@ -121,6 +121,9 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
         // show location on map
         content.name = this.removeMiddle(content.name, 1)    
         this.MapService.showMarker(this.target, content)
+
+        // clear input value
+        this.citySearchComponent.value = ''
       }
 
     })

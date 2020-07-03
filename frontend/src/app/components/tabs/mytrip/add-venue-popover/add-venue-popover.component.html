@@ -4,49 +4,51 @@
     </mat-card-header>
     <br>
     <mat-card-content>
-        <form>
             <mat-tab-group dynamicHeight mat-align-tabs="center">
                 <!-- Search Venue -->
                 <mat-tab>
-                    <ng-template mat-tab-label>
-                        <label matTooltip="Search Venue in Database">Search</label>
-                    </ng-template>
-                    <br>
-                    <mat-form-field appearance='outline' style="margin: 0; padding: 0;">
-                        <mat-label>Search Venue</mat-label>
-                        <input matInput type="text" >
-                    </mat-form-field>
-                    <br>
-                    <button mat-raised-button color='primary'>Search</button>
+                    <form>
+                        <ng-template mat-tab-label>
+                            <label matTooltip="Search Venue in Database">Search</label>
+                        </ng-template>
+                        <br>
+                        <mat-form-field appearance='outline' style="margin: 0; padding: 0;">
+                            <mat-label>Search Venue</mat-label>
+                            <input matInput type="text" >
+                        </mat-form-field>
+                        <br>
+                        <button mat-raised-button color='primary'>Search</button>
+                    </form>
                 </mat-tab>
                 <!-- Custom Venue -->
                 <mat-tab>
-                    <ng-template mat-tab-label>
-                        <label matTooltip="Add Custom Venue">Custom</label>
-                    </ng-template>
-                    <br>
-                    <mat-form-field appearance='outline'>
-                        <mat-label>Venue Name</mat-label>
-                        <input matInput type="text">
-                    </mat-form-field>
-                    <!-- <mat-form-field appearance='outline' style="display: inline-block">
-                        <mat-label>City</mat-label>
-                        <input matInput type='text' autocomplete="country">
-                    </mat-form-field> -->
-                    <app-city-search [appearance]='citySearchAppearance' [placheholder]='citySearchPlaceholder'></app-city-search>
-                    <mat-form-field appearance='outline' style="display: inline-block">
-                        <mat-label>Adress</mat-label>
-                        <input matInput type='text' autocomplete="street-address">
-                    </mat-form-field>
-                    <mat-form-field appearance='outline'>
-                        <mat-label>Price</mat-label>
-                        <input matInput type='number'>
-                    </mat-form-field>
-                    <br>
-                    <button mat-raised-button matTooltip='add custom Venue' color='primary'>Add</button>
+                    <form [formGroup]='customVenueForm'>
+                        <ng-template mat-tab-label>
+                            <label matTooltip="Add Custom Venue">Custom</label>
+                        </ng-template>
+                        <br>
+                        <mat-form-field appearance='outline'>
+                            <mat-label>Venue Name</mat-label>
+                            <input matInput type="text" autocomplete="off" formControlName='name'>
+                        </mat-form-field>
+                        <!-- <mat-form-field appearance='outline' style="display: inline-block">
+                            <mat-label>City</mat-label>
+                            <input matInput type='text' autocomplete="country">
+                        </mat-form-field> -->
+                        <app-city-search #citySearch [appearance]='citySearchAppearance' [placheholder]='citySearchPlaceholder'></app-city-search>
+                        <mat-form-field appearance='outline' style="display: inline-block">
+                            <mat-label>Adress</mat-label>
+                            <input matInput type='text' autocomplete="street-address">
+                        </mat-form-field>
+                        <mat-form-field appearance='outline'>
+                            <mat-label>Price</mat-label>
+                            <input matInput type='number'>
+                        </mat-form-field>
+                        <br>
+                        <button mat-raised-button matTooltip='add custom Venue' color='primary'>Add</button>
+                    </form> 
                 </mat-tab>
             </mat-tab-group>
-        </form> 
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>
