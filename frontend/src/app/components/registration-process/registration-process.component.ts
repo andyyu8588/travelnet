@@ -91,6 +91,9 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     Promise.all([this.selector1.onSumbit(), this.selector2.onSumbit()])
     .then((responses: any[]) => {
       this.isDone = true
+      setTimeout(() => {
+        this.Router.navigate(['/home'])
+      }, 500)
     })
     .catch((err: any[]) => {
       alert(err[0])
