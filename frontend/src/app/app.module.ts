@@ -15,7 +15,6 @@ import { FriendComponent } from './components/chatsystem/friendlist/friend/frien
 import { MapComponent } from './components/map/map.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
-import { registrationComponent } from './components/registration-process/registrationpage/registrationpage.component';
 import { loginComponent } from './components/loginpage/loginpage.component';
 import { ChatsystemComponent } from './components/chatsystem/chatsystem.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -87,7 +86,6 @@ import { CitySearchComponent } from './components/city-search/city-search.compon
     HeaderComponent,
     FriendComponent,
     MapComponent,
-    registrationComponent,
     loginComponent,
     ChatsystemComponent,
     SidebarComponent,

@@ -9,25 +9,6 @@ import { FormControl, FormGroup, Validators, Form } from '@angular/forms'
 import * as moment from 'moment';
 import { FoursquareService } from 'src/app/services/map/foursquare.service';
 
-@Component({
-    selector: 'app-registration',
-    templateUrl:'./registration.component.html',
-    styleUrls: ['./registrationpage.component.scss'],
-})
-
-export class registrationComponent {
-    modal:any
-    constructor(
-      private modalService:NgbModal,
-      private SessionService:SessionService,
-      ) {
-      this.openModal()
-    }
-    openModal() {
-        this.modal = this.modalService.open(RegistrationComponent,{})
-    }
-}
-
 
 @Component({
     selector: 'app-registrationpage',
@@ -52,15 +33,12 @@ export class RegistrationComponent implements OnDestroy, OnInit {
               private FoursquareService: FoursquareService
               ) {}
 
-  userAuth(){
-      this.FoursquareService.userAuth()
-  }
   ngOnInit(){
     this.registrationForm = new FormGroup({
-      'name': new FormGroup({
-        'firstName': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
-        'lastName': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
-      },),
+      // 'name': new FormGroup({
+      //   'firstName': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
+      //   'lastName': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
+      // },),
       'passwords': new FormGroup({
         'password': new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(15)]),
         'confirmPassword': new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(15)]),
@@ -161,8 +139,8 @@ export class RegistrationComponent implements OnDestroy, OnInit {
       // check form validity && if logged in
       if (this.registrationForm.valid && !(sessionStorage.getItem('username'))) {
         let data = {
-          firstName:this.registrationForm.get('name.firstName').value,
-          lastName:this.registrationForm.get('name.lastName').value,
+          // firstName:this.registrationForm.get('name.firstName').value,
+          // lastName:this.registrationForm.get('name.lastName').value,
           email:this.registrationForm.get('email').value,
           username:this.registrationForm.get('username').value,
           password:this.registrationForm.get('passwords.password').value,

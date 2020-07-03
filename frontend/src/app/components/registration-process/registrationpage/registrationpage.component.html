@@ -1,7 +1,4 @@
-  <button (click)="userAuth()">Authenticate</button>
-
-
-  <form
+<form
   ngbAutofocus
   class='modal-body'
   id='form'
@@ -12,22 +9,22 @@
     <h1 class='modal-title'>Registration</h1>
     <hr>
     <!-- Name -->
-    <div formGroupName='name' class="row">
+    <!-- <div formGroupName='name' class="row"> -->
       <!-- first Name -->
-      <mat-form-field appearance="outline" class='form-group col-6'>
+      <!-- <mat-form-field appearance="outline" class='form-group col-6'>
         <mat-label for='First Name'>First Name</mat-label>
         <input matInput
         placeholder="Enter your first name"
         formControlName='firstName'>
-      </mat-form-field>
+      </mat-form-field> -->
       <!-- Last Name -->
-      <mat-form-field appearance="outline" class='form-group col-6'>
+      <!-- <mat-form-field appearance="outline" class='form-group col-6'>
         <mat-label for='password'>Last Name</mat-label>
         <input matInput
         placeholder="Enter your last name"
         formControlName='lastName'>
       </mat-form-field>
-    </div>
+    </div> -->
     <!-- username -->
     <mat-form-field appearance="outline" class='form-group' id="username">
       <mat-label for='username'>Username</mat-label>
@@ -111,7 +108,7 @@
       </div>
     </div>
     <!-- Gender -->
-    <mat-label class="">Gender  </mat-label>
+    <mat-label class="">Gender</mat-label>
     <mat-radio-group aria-label="Select an option" class="row"
     formControlName="gender">
       <mat-radio-button value="Male" class='col-4'>Male</mat-radio-button>

@@ -3,8 +3,6 @@ export class userModel {
     email: String
     username: String
     password: String
-    firstname: String
-    lastname: String
     birthdate: Date
     gender: String
     profilepicture: String
