@@ -1,7 +1,7 @@
 import { MapService } from 'src/app/services/map/map.service';
 import { tab } from 'src/app/models/tab.model';
 import { venueModel } from 'src/app/models/venue.model';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';
 import { HttpClient } from '@angular/common/http';
@@ -24,8 +24,6 @@ export class SearchService implements OnDestroy {
   // private _searchResults: BehaviorSubject<any> = new BehaviorSubject(this.returnSearch)
   // public searchResults: Observable<any> = this._searchResults.asObservable()
 
-  private mapCenterSub: Subscription
-  mapCenter: string
 
   constructor(private HttpClient: HttpClient,
               private foursquareService: FoursquareService) {
@@ -148,9 +146,6 @@ export class SearchService implements OnDestroy {
 
 
   ngOnDestroy() {
-    this.mapCenterSub.unsubscribe()
-    // this._searchResults.next([])
-    // this._searchResults.unsubscribe()
     this._searchTab.unsubscribe()
   }
 }

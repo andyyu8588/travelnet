@@ -3,6 +3,7 @@ import { SocketService } from 'src/app/services/chatsystem/socket.service';
 import { SessionService } from './services/session.service';
 import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core';
 import { FriendlistService } from './services/chatsystem/friendlist.service';
+import { MapService } from './services/map/map.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ export class AppComponent implements DoCheck, OnInit, OnDestroy {
   constructor(
     private FriendlistService: FriendlistService,
     private SessionService: SessionService,
-    private SocketService: SocketService){
+    private SocketService: SocketService,
+    private MapService: MapService){
 
     // check if logged in from other tab (if LocalStorage exist)
     localStorage.getItem('username')?
@@ -60,6 +62,7 @@ export class AppComponent implements DoCheck, OnInit, OnDestroy {
   resizeWindow(){
     this.windowHeight = window.innerHeight
     this.FriendlistService.resizeWindow(window.innerWidth)
+    this.MapService.getFakeCenter()
   }
 
   ngOnDestroy() {

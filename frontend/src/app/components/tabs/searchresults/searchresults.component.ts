@@ -17,10 +17,12 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   openTab: tab
   filterNumber: number
   loading: boolean = true
+  fakeCenter : any = null
   @Input() select: number
 
   private returnTab: Subscription
   private filter: Subscription
+  private _fakeCenter: Subscription
   constructor(
     private map: MapService,
     private SearchService: SearchService,
@@ -32,6 +34,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
     this.filter = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
+    this._fakeCenter = this.SearchService.searchTab.subscribe((center)=> this.fakeCenter = center)
     this.url = this.router.url.replace('/search/','')
     this.urlQuery = this.url.split("&")[0]
     this.urlLatLng = this.url.split("&")[1]
@@ -51,5 +54,6 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.filter.unsubscribe()
     this.returnTab.unsubscribe()
+    this.fakeCenter.unsubscribe()
   }
 }

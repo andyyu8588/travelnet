@@ -17,7 +17,9 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   private child: HTMLParagraphElement
 
   openTab: tab
+  fakeCenter: any = null
   private returnTab: Subscription
+  private _fakeCenter: Subscription
   @ViewChild('searchResultsContainer') div: ElementRef
 
   defaultFilter: any = 0
@@ -33,11 +35,14 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
+    this._fakeCenter = this.map.center.subscribe((center)=> this.fakeCenter = center)
+    this.map.getFakeCenter(5)
   }
 
 
   onSubmit(data: string) {
-    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.map.getCenter()),this.map.getCenter()).then(()=>{
+    console.log(this.fakeCenter)
+    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.fakeCenter),this.fakeCenter).then(()=>{
     this.router.navigate([this.openTab.path])
     })
   }
@@ -68,6 +73,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.returnTab.unsubscribe()
+    this._fakeCenter.unsubscribe()
   }
 
 
