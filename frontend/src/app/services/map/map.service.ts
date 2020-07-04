@@ -1,6 +1,6 @@
 import { VisitedPlaces } from './../../components/registration-process/country-selector/country-selector.component';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Injectable, OnInit, Input } from '@angular/core';
+import { Injectable, OnInit, Input, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SearchService } from 'src/app/services/search.service'
 import * as Mapboxgl from 'mapbox-gl'
@@ -38,7 +38,11 @@ export interface clickLocationCoordinates {
 @Injectable({
   providedIn: 'root'
 })
-export class MapService {
+export class MapService implements OnDestroy{
+  private mapCenter: string = null
+  private _center: BehaviorSubject<any> = new BehaviorSubject(this.mapCenter)
+  public center : Observable<any> = this._center.asObservable()
+
   map: Mapboxgl.Map
   venueLocation: Mapboxgl.marker
 
@@ -62,6 +66,8 @@ export class MapService {
       zoom: 2, // starting zoom
       failIfMajorPerformanceCaveat:true, //map creation will fail
       //if the performance of Mapbox GL JS
+      pitchWithRotate: false,
+      dragRotate:false,
     });
     // this._clickLocation = new BehaviorSubject(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
     // this.clickLocation = this._clickLocation.asObservable()
@@ -77,7 +83,18 @@ export class MapService {
         })
       })
     })
+    this.map.on('touchend',()=>{
+      this.getFakeCenter()
+    })
+    this.map.on('zoomend',()=>{
+      this.getFakeCenter()
+    })
+    this.map.on('dragend',()=>{
+      this.getFakeCenter()
+    })
+
   }
+
 
   addGeoJsonSource(id: string, type: string, content: featureGEOJSONModel[]) {
     this.map.addSource(id, {
@@ -105,6 +122,22 @@ export class MapService {
     .setLngLat(coord)
     .addTo(this.map);
     this.map.flyTo({ 'center': coord, 'zoom': 8, 'speed': 0.8, 'curve': 1, 'essential': true });
+  }
+  //gets middle point between sidebar and right side of screen
+  getFakeCenter(right:number = 710){
+    let centerPoints: any
+    if (right === -1){
+      centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.center)[0], window.innerHeight/2])
+
+    }
+    else if(right <= 710){
+      centerPoints = this.map.unproject([window.innerWidth/2 + 710, window.innerHeight/2])
+    }
+    else{
+      centerPoints = this.map.unproject([window.innerWidth/2 + right, window.innerHeight/2])
+    }
+    centerPoints = [centerPoints.lat, centerPoints.lng].toString()
+    this._center.next(centerPoints)
   }
 
   getCenter(): string {
@@ -156,7 +189,7 @@ export class MapService {
           }
         });
 
-      } 
+      }
     }
     if (!this.map.getLayer('points') && this.map.getSource('points')) {
       this.map.addLayer({
@@ -199,7 +232,7 @@ export class MapService {
               'features': this.Places[target - 1]
             }
           )
-          break 
+          break
         }
       }
     }
@@ -209,6 +242,10 @@ export class MapService {
     if (this.venueLocation) {
       this.venueLocation.remove()
     }
+  }
+  ngOnDestroy() {
+    this._center.unsubscribe()
+
   }
 }
 

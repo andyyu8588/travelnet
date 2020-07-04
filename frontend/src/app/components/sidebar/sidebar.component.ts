@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { trigger, state, style, animate, transition, } from '@angular/animations'
+import { MapService } from 'src/app/services/map/map.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -68,7 +69,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private FriendlistService: FriendlistService,
               private SearchService: SearchService,
-              private Router: Router
+              private Router: Router,
+              private MapService: MapService
               )
   {
   }
@@ -107,8 +109,9 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     return true;
   }
 
-  onResizeEnd(event: any): void {
+  onResizeEnd(event: {edges:any,rectangle:{bottom: number, height: number, left: number, right:number, scrollLeft: number, scrollTop: number, top: number, width: number}}): void {
     this.Styles.width = `${event.rectangle.width}px`
+    this.MapService.getFakeCenter(event.rectangle.right)
   }
 
   searchFriend() {
