@@ -21,4 +21,5 @@ button:focus {
 
 ::ng-deep .popover {
     min-width: 400px;
+    z-index: 2006 !important;
 }

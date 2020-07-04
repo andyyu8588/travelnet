@@ -22,7 +22,7 @@ export class TripService implements OnDestroy {
               private SessionService: SessionService) {
     // check if user is logged in and retrieve trip data
     this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
-      if (state && this.sessionState != state) {
+      if (state) {
         this.sessionState = state
         this.HttpService.get('/user', {})
         .then((response: {
@@ -46,7 +46,7 @@ export class TripService implements OnDestroy {
   }
 
   // modifies trips of user
-  modify(triparr: tripModel[]): Promise<any> {
+  modifyBackend(triparr: tripModel[]): Promise<any> {
     return new Promise((resolve, reject) => {
       this.HttpService.patch('/user/edit', {
         username: localStorage.getItem('username'),
@@ -64,7 +64,7 @@ export class TripService implements OnDestroy {
   }
 
   //localy update trips of user (when modification is already done)
-  update(triparr: tripModel[]) {
+  updateLocal(triparr: tripModel[]) {
     this._trips.next(triparr)
   }
 

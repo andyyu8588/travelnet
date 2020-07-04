@@ -77,13 +77,9 @@ export class TripmodalComponent implements OnInit {
     if (typeof(valid) == 'string') {
       this.isLoading = false
     } else {
-      this.trips.push({
-        name: data.name,
-        dateRange: {
-          start: data.start,
-          end: data.end
-        }
-      })
+      this.trips.push(
+        new tripModel(data.start, data.end, data.name)
+      )
       this.HttpService.patch('/user/edit', {
         'username': localStorage.getItem('username'),
         'proprety': 'trips',
@@ -91,13 +87,9 @@ export class TripmodalComponent implements OnInit {
       })
       .then((response: any) => {
         if (response.message) {
-          this.dialogRef.close({
-            dateRange: {
-              start: data.start,
-              end: data.end
-            },
-            name: data.name
-          })
+          this.dialogRef.close(
+            new tripModel(data.start, data.end, data.name)
+          )
         }
       })
       .catch(err => {

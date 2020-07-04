@@ -27,15 +27,21 @@ const UserSchema = mongoose.Schema({
     },
     trips: {
         type: [{
-            date: {
+            dateRange: {
                 start: Date,
-                end: Date
+                end: Date,
+                length: Number
             },
             name: String,
-            venues: [{
-                time: Date,
-                name: String,
-                price: Number
+            schedule: [{
+                day: Date,
+                venues: [{
+                    hour: Date,
+                    venueName: String,
+                    venueCity: String,
+                    venueAddress: String,
+                    price: Number
+                }],
             }]
         }],
         default: []

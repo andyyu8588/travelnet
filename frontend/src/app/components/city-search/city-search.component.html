@@ -5,7 +5,8 @@
     placeholder="Ex. Berlin"
     [matAutocomplete]="auto"
     [formControl]="myControl"
-    [(ngModel)]='value'>
+    [(ngModel)]='value'
+    autocomplete="off">
     <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
         <mat-icon>close</mat-icon>
     </button>

@@ -1,6 +1,6 @@
     <mat-card>
     <mat-card-header>
-        <mat-card-title>Add Venue</mat-card-title>
+        <mat-card-title>Add Venue for Day {{dayIndex + 1}}</mat-card-title>
     </mat-card-header>
     <br>
     <mat-card-content>
@@ -22,7 +22,10 @@
                 </mat-tab>
                 <!-- Custom Venue -->
                 <mat-tab>
-                    <form [formGroup]='customVenueForm'>
+                    <form 
+                        #customFom
+                        [formGroup]='customVenueForm'
+                        (ngSubmit)='onSubmitCustom()'>
                         <ng-template mat-tab-label >
                             <label style="margin: 0;">Custom</label>
                             &nbsp;
@@ -35,13 +38,14 @@
                             <small class="text-danger" *ngIf="!customVenueForm.get('name').valid && customVenueForm.get('name').touched">Name must be between 1 and 20 characters</small>
                         </mat-form-field>
                         <app-city-search #citySearch [appearance]='citySearchAppearance' [placheholder]='citySearchPlaceholder'></app-city-search>
-                        <mat-form-field appearance='outline' style="display: inline-block">
+                        <mat-form-field appearance='outline'>
                             <mat-label>Street Address</mat-label>
-                            <input matInput type='text' autocomplete="street-address">
+                            <input matInput type='text' autocomplete="street-address" formControlName='address'>
                         </mat-form-field>
+                        <br>
                         <mat-form-field appearance='outline'>
                             <mat-label>Price</mat-label>
-                            <input matInput type='number'>
+                            <input matInput type='number' formControlName='price'>
                         </mat-form-field>
                         <br>
                         <button mat-raised-button matTooltip='add custom Venue' color='primary'>Add</button>

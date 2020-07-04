@@ -16,7 +16,7 @@ export class LogoutComponent implements OnInit, OnDestroy {
   constructor(private SessionService:SessionService,
               private SocketService: SocketService,
               private router: Router) {
-      this.sessionSate_sub = this.SessionService.sessionState.subscribe(x => this.sessionState = x)
+    this.sessionSate_sub = this.SessionService.sessionState.subscribe((x: boolean) => this.sessionState = x)
   }
 
   ngOnInit(): void {
@@ -25,31 +25,16 @@ export class LogoutComponent implements OnInit, OnDestroy {
 
   // logout user
   logout() {
-    let prom = () => {
-      return new Promise((resolve, reject) => {
-        if (sessionStorage.getItem('username')) {
-          this.SocketService.emit('logout', sessionStorage.getItem('username'), (data) => {
-            if (data.res) {
-              localStorage.removeItem('username')
-              sessionStorage.removeItem('username')
-              resolve()
-            } else if (data.err) {
-              reject(data.err)
-            }
-          })
-        } else {
-          reject('wtf')
+    if (sessionStorage.getItem('username')) {
+      this.SocketService.emit('logout', sessionStorage.getItem('username'), (data) => {
+        if (data.res) {
+          this.SessionService.session()
         }
       })
     }
-
-    prom().then(() => {
-      this.SessionService.session()
-      window.location.reload()
-      console.log('session cleared')
-    }).catch((err) => {
-      console.log(err)
-    })
+    localStorage.clear()
+    sessionStorage.clear()
+    window.location.reload()
   }
 
   ngOnDestroy() {

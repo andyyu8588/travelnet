@@ -1,10 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
 import { tripModel } from '../../../models/trip.model';
 import { Subscription } from 'rxjs';
 import { TripService } from './../../../services/trip.service';
 import { TripmodalComponent } from 'src/app/components/tabs/mytrip/tripmodal/tripmodal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import * as moment from 'moment'
+import { numeric } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-mytrip',
@@ -15,18 +18,35 @@ export class MytripComponent implements OnInit, OnDestroy {
   private sessionState_sub: Subscription
   sessionState: boolean
   false: boolean = false
+
+  // data for add trip
   name: string
   start: any
   end: any
+
+  // data for add venue
+  venueName: string
+  venuePrice: number
+  venueCity: string
+  venueAddress: string
+
+  displayedColumns= ['venueName', 'venueAddress', 'price']
 
   dialogRef: MatDialogRef<any>
 
   // all trips of user
   private _tripSub: Subscription
-  trips: any[] = [] 
-  // = [{name: 'lit', dateRange: {start: 'ss', end:'dd'}, schedule: [{venues: [{venueName: 'dd'}]}]}]
+  trips: tripModel[] = [] 
 
-  private dialogref_sub: Subscription
+  // creates array for ngFor
+  arrayOfLength(num: number): Array<any> {
+    return [...Array(num).keys()]
+  }
+
+  // list dates for each day of trip
+  dayIndex(start: Date, index: number): Date {
+    return (moment(start).add(index ,"days").toDate())
+  }
 
   constructor(private MatDialog: MatDialog,
               private TripService: TripService,
@@ -35,14 +55,15 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
-      // this.trips = trips
+      console.log(trips)
+      this.trips = trips
     })
     this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
       this.sessionState = state
     })
   }
 
-  openModal() {
+  openAddTripModal() {
     this.dialogRef = this.MatDialog.open(TripmodalComponent, {
       width: '800px',
       data: {
@@ -52,12 +73,34 @@ export class MytripComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.dialogref_sub = this.dialogRef.afterClosed().subscribe((result: tripModel)=> {
+    this.dialogRef.afterClosed().subscribe((result: tripModel)=> {
       console.log(result)
       if (result) {
         this.trips.push(result)
-        this.TripService.update(this.trips)
+        this.TripService.updateLocal(this.trips)
       }
+    })
+  }
+
+  openAddVenueModal(tripIndex: number, scheduleIndex: number) {
+    this.dialogRef = this.MatDialog.open(AddVenuePopoverComponent, {
+      width: '800px',
+      data: {
+        tripIndex: tripIndex,
+        scheduleIndex: scheduleIndex,
+        venueName: this.venueName,
+        venuePrice: this.venuePrice,
+        venueCity: this.venueCity,
+        venueAddress: this.venueAddress
+      }
+    });
+
+    this.dialogRef.afterClosed().subscribe((result: any)=> {
+      console.log(result)
+      // if (result) {
+      //   this.trips.push(result)
+      //   this.TripService.update(this.trips)
+      // }
     })
   }
 
@@ -65,7 +108,7 @@ export class MytripComponent implements OnInit, OnDestroy {
   onDelete(name: string, index: number) {
     if (confirm(`are you sure you want to delete ${name}?`)) {
       this.trips.splice(index, 1)
-      this.TripService.modify(this.trips)
+      this.TripService.modifyBackend(this.trips)
     } else {
 
     }
