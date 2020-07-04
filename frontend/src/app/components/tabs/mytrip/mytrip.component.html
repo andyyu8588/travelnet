@@ -35,6 +35,12 @@
                                             <mat-cell *matCellDef="let element"> {{element.venueName}} </mat-cell>
                                         </ng-container>
 
+                                        <!-- venueCity -->
+                                        <ng-container matColumnDef="venueCity">
+                                            <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.venueCity}} </mat-cell>
+                                        </ng-container>
+                                        
                                         <!-- venueAddress -->
                                         <ng-container matColumnDef="venueAddress">
                                             <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
@@ -51,7 +57,7 @@
                                         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                                     </table>
                                 </div>
-
+                                <br>
                                 <!-- <ng-template #popcontent ><app-add-venue-popover [tripIndex]='i' [dayIndex]='j' ></app-add-venue-popover></ng-template> -->
                                 <div class="row justify-content-center">
                                     <!-- <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false" class="col-auto align-self-center">
