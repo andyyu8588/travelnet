@@ -1,5 +1,5 @@
 import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component';
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
 import { tripModel } from '../../../models/trip.model';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,8 @@ import { TripmodalComponent } from 'src/app/components/tabs/mytrip/tripmodal/tri
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment'
 import { numeric } from '@rxweb/reactive-form-validators';
+import { MatAccordion } from '@angular/material/expansion';
+import { ContentObserver } from '@angular/cdk/observers';
 
 @Component({
   selector: 'app-mytrip',
@@ -18,6 +20,15 @@ export class MytripComponent implements OnInit, OnDestroy {
   private sessionState_sub: Subscription
   sessionState: boolean
   false: boolean = false
+
+  // trip accordeon
+  @ViewChild(MatAccordion) TripAccordion: MatAccordion
+  // onTripAccClose() {
+  //   this.TripAccordion.closeAll()
+  // }
+  // onTripAccOpen() {
+  //   this.TripAccordion.openAll()
+  // }
 
   // data for add trip
   name: string
@@ -51,6 +62,10 @@ export class MytripComponent implements OnInit, OnDestroy {
     weekday[6] = "Sat";
     let i = d.getDay()
     return weekday[i]
+  }
+
+  ok() {
+    console.log('sa')
   }
 
   constructor(private MatDialog: MatDialog,

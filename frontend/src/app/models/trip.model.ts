@@ -19,8 +19,9 @@ export class tripModel {
             price?: Number
         }>
     }>
+    isPrivate: boolean
 
-    constructor(start: Date, end: Date, name: string) {
+    constructor(start: Date, end: Date, name: string, isPrivate?: boolean) {
         let final = moment(end)
        
         this.name = name
@@ -36,5 +37,6 @@ export class tripModel {
                 venues: []
             })
         }
+        this.isPrivate = isPrivate? isPrivate : false
     }
 }

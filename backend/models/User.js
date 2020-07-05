@@ -42,7 +42,8 @@ const UserSchema = mongoose.Schema({
                     venueAddress: String,
                     price: Number
                 }],
-            }]
+            }],
+            private: Boolean
         }],
         default: []
     },
