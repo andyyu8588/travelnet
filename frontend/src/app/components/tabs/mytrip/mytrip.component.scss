@@ -23,3 +23,8 @@ button:focus {
     min-width: 400px;
     z-index: 2006 !important;
 }
+
+.my-headers-align .mat-expansion-panel-header-title, 
+.my-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}

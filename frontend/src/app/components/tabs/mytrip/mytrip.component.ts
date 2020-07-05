@@ -38,14 +38,19 @@ export class MytripComponent implements OnInit, OnDestroy {
   private _tripSub: Subscription
   trips: tripModel[] = [] 
 
-  // creates array for ngFor
-  arrayOfLength(num: number): Array<any> {
-    return [...Array(num).keys()]
-  }
-
-  // list dates for each day of trip
-  dayIndex(start: Date, index: number): Date {
-    return (moment(start).add(index ,"days").toDate())
+  // display day of date
+  displayDay(date: Date): string {
+    let d = new Date(date)
+    let weekday: string[] = new Array(7);
+    weekday[0] = "Sun";
+    weekday[1] = "Mon";
+    weekday[2] = "Tue";
+    weekday[3] = "Wed";
+    weekday[4] = "Thu";
+    weekday[5] = "Fri";
+    weekday[6] = "Sat";
+    let i = d.getDay()
+    return weekday[i]
   }
 
   constructor(private MatDialog: MatDialog,

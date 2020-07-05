@@ -11,98 +11,118 @@
         <div *ngIf='!trips' class="container-fluid row rounded align--items-center" style="background-color: rgba(255, 255, 255, 1); min-height: 100px;">
             &nbsp;<h2 class="align-self-center">No trips Yet...</h2>
         </div>
-        <div class="container-fluid" style="min-height: 750px;" *ngFor='let trip of trips, let i = index' >
-            <mat-card>
-                <mat-card-title class="">{{ trip.name }}</mat-card-title>
-                <mat-card-header class="">{{ trip.dateRange.start | date }} - {{ trip.dateRange.end | date }} &nbsp; ({{trip.dateRange.length}} days)</mat-card-header>
-                <br>
-                <mat-card-content class="">
-                    <mat-accordion>
-                            <mat-expansion-panel *ngFor='let schedule of trip.schedule, let j = index'>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        day {{ j + 1 }}
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        {{ schedule.day | date }} &nbsp; &mdash; &nbsp; Locations: X &nbsp; &mdash; &nbsp; Price: XX$
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <div class="container-fluid">
-                                    <table mat-table [dataSource]='trip.schedule[j].venues' style="width: 100%;">
-                                        <!-- venueName -->
-                                        <ng-container matColumnDef="venueName">
-                                            <mat-header-cell *matHeaderCellDef> Venue Name </mat-header-cell>
-                                            <mat-cell *matCellDef="let element"> {{element.venueName}} </mat-cell>
-                                        </ng-container>
+        <mat-accordion class="container-fluid" style="min-height: 750px;"  >
+            <mat-expansion-panel *ngFor='let trip of trips, let i = index'>
+                <mat-expansion-panel-header class="my-headers-align">
+                    <mat-panel-title>{{trip.name}}</mat-panel-title>
+                    <mat-panel-description>{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}</mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card>
+                    <mat-card-title>
+                        <div class="row">
+                            <div class="col-auto mr-auto align-self-center">{{ trip.name }}</div>
+                            <div class="col-auto" style="padding-left: 0; padding-right: 0;" matTooltip='share this trip'>
+                                <button mat-button color='primary' style="padding-left: 0; padding-right: 0;">    
+                                    <mat-icon class="">share</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col-auto" style="padding-left: 0; padding-right: 0;" matTooltip='show itinerary on map'>
+                                <button mat-button color='primary' style="padding-left: 0; padding: 0;">    
+                                    <mat-icon> map</mat-icon>
+                                </button>
+                            </div>
+                        </div>               
+                    </mat-card-title>
+                    <mat-card-header class="">{{ trip.dateRange.start | date }} - {{ trip.dateRange.end | date }} &nbsp; ({{trip.dateRange.length}} days)</mat-card-header>
+                    <br>
+                    <mat-card-content class="">
+                        <mat-accordion>
+                                <mat-expansion-panel *ngFor='let schedule of trip.schedule, let j = index'>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            day {{ j + 1 }}
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            {{ displayDay(schedule.day) }} | {{ schedule.day | date }} &nbsp; &mdash; &nbsp; Locations: X &nbsp; &mdash; &nbsp; Price: XX$
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class="container-fluid">
+                                        <table mat-table [dataSource]='trip.schedule[j].venues' style="width: 100%;">
+                                            <!-- venueName -->
+                                            <ng-container matColumnDef="venueName">
+                                                <mat-header-cell *matHeaderCellDef> Venue Name </mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.venueName}} </mat-cell>
+                                            </ng-container>
 
-                                        <!-- venueCity -->
-                                        <ng-container matColumnDef="venueCity">
-                                            <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
-                                            <mat-cell *matCellDef="let element"> {{element.venueCity}} </mat-cell>
-                                        </ng-container>
-                                        
-                                        <!-- venueAddress -->
-                                        <ng-container matColumnDef="venueAddress">
-                                            <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
-                                            <mat-cell *matCellDef="let element"> {{element.venueAddress}} </mat-cell>
-                                        </ng-container>
+                                            <!-- venueCity -->
+                                            <ng-container matColumnDef="venueCity">
+                                                <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.venueCity}} </mat-cell>
+                                            </ng-container>
+                                            
+                                            <!-- venueAddress -->
+                                            <ng-container matColumnDef="venueAddress">
+                                                <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.venueAddress}} </mat-cell>
+                                            </ng-container>
 
-                                        <!-- venuePrice -->
-                                        <ng-container matColumnDef="price">
-                                            <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
-                                            <mat-cell *matCellDef="let element"> {{element.price}}$ </mat-cell>
-                                        </ng-container>
+                                            <!-- venuePrice -->
+                                            <ng-container matColumnDef="price">
+                                                <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.price}}$ </mat-cell>
+                                            </ng-container>
 
-                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                                    </table>
-                                </div>
-                                <br>
-                                <!-- <ng-template #popcontent ><app-add-venue-popover [tripIndex]='i' [dayIndex]='j' ></app-add-venue-popover></ng-template> -->
-                                <div class="row justify-content-center">
-                                    <!-- <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false" class="col-auto align-self-center">
-                                        <mat-icon id='addIcon'>add_location</mat-icon>
-                                    </button> -->
-                                    <button mat-mini-fab id="addIcon" class="col-auto align-self-center" (click)='openAddVenueModal(i, j)' matTooltip='add a venue'>
+                                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <!-- <ng-template #popcontent ><app-add-venue-popover [tripIndex]='i' [dayIndex]='j' ></app-add-venue-popover></ng-template> -->
+                                    <div class="row justify-content-center">
+                                        <!-- <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false" class="col-auto align-self-center">
+                                            <mat-icon id='addIcon'>add_location</mat-icon>
+                                        </button> -->
+                                        <button mat-mini-fab id="addIcon" class="col-auto align-self-center" (click)='openAddVenueModal(i, j)' matTooltip='add a venue'>
+                                            <mat-icon id='addIcon'>add_location</mat-icon>
+                                        </button>
+                                    </div>
+                                </mat-expansion-panel>
+                                <!-- <div id="lineBtn">
+                                    <hr id="hrBtn">
+                                    <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false">
                                         <mat-icon id='addIcon'>add_location</mat-icon>
                                     </button>
-                                </div>
-                            </mat-expansion-panel>
-                            <!-- <div id="lineBtn">
-                                <hr id="hrBtn">
-                                <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false">
-                                    <mat-icon id='addIcon'>add_location</mat-icon>
-                                </button>
-                                <hr id="hrBtn">
-                            </div> -->
-                            <br>
-                            <mat-expansion-panel expanded='true'>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>Trip Overview</mat-panel-title>
-                                    <mat-panel-description>All your stats are here</mat-panel-description>   
-                                </mat-expansion-panel-header>
-                                <div class="row container-fluid">
-                                    <mat-chip-list>
-                                        <mat-chip color="primary" selected>Distance Traveled: avaaf km</mat-chip>
-                                        <mat-chip color="accent" selected>Price: sdsog $</mat-chip>
-                                      </mat-chip-list>
-                                </div>
-                            </mat-expansion-panel>
-                    </mat-accordion>
-                                                
+                                    <hr id="hrBtn">
+                                </div> -->
+                                <br>
+                                <mat-expansion-panel expanded='true'>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>Trip Overview</mat-panel-title>
+                                        <mat-panel-description>All your stats are here</mat-panel-description>   
+                                    </mat-expansion-panel-header>
+                                    <div class="row container-fluid">
+                                        <mat-chip-list>
+                                            <mat-chip color="primary" selected>Distance Traveled: avaaf km</mat-chip>
+                                            <mat-chip color="warn" selected>Places Visited: X</mat-chip>
+                                            <mat-chip color="accent" selected>Price: sdsog $</mat-chip>
+                                        </mat-chip-list>
+                                    </div>
+                                </mat-expansion-panel>
+                        </mat-accordion>
+                                                    
 
-                </mat-card-content>
-                <mat-card-actions class="">
-                    <button mat-button color='warn' (click)='onDelete(trip.name, i)'>
-                        delete
-                    </button>
-                    <button mat-button color='primary'>
-                        complete!
-                    </button>
-                </mat-card-actions>
-            </mat-card>
-            <br>    
-        </div>
+                    </mat-card-content>
+                    <mat-card-actions class="">
+                        <button mat-button color='warn' (click)='onDelete(trip.name, i)'>
+                            delete
+                        </button>
+                        <button mat-button color='primary'>
+                            complete!
+                        </button>
+                    </mat-card-actions>
+                </mat-card>    
+            </mat-expansion-panel>
+        </mat-accordion>
     </div>
 </div>
 
