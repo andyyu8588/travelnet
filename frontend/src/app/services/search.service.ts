@@ -7,10 +7,12 @@ import { FoursquareService } from './map/foursquare.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService implements OnDestroy {
+
 
   private search: tab = {query: null, path: 'search/', content : {'users':[], 'venues':[]}, prePath:null}
   private _searchTab: BehaviorSubject<any> = new BehaviorSubject(this.search)
@@ -117,6 +119,14 @@ export class SearchService implements OnDestroy {
     })
 
   }
+  updateCategories():any{
+    return new Promise((resolve,reject)=>{
+      this.foursquareService.updateCategories().subscribe(x=>{
+        resolve(x)
+      })
+    })
+  }
+
   getSearchResult(search){
     if (search.type == 'venue'){
       return ('venue: ' + search.name)
@@ -143,6 +153,7 @@ export class SearchService implements OnDestroy {
   changeFilter(filter: number){
     this._filterNumber.next(filter)
   }
+
 
 
   ngOnDestroy() {

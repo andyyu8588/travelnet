@@ -14,11 +14,12 @@ export const environment = {
   foursquare: {
     clientId: 'NYZJ324E5GAY2MSQUNYIYLKIDCMX2ETMQREKQXZLW3S5ZYVG',
     clientSecret: 'K51P2Y1T3TMTCU24LOFHDFOAONPGU44ZBNZCGTWCOJESUW4A',
-    v: '20200517',
+    v: '',
     venuesSearch: 'https://api.foursquare.com/v2/venues/search',
     venuesExplore: 'https://api.foursquare.com/v2/venues/explore',
     venueDetails: 'https://api.foursquare.com/v2/venues',
-    userAuth: 'https://foursquare.com/oauth2/authenticate'
+    userAuth: 'https://foursquare.com/oauth2/authenticate',
+    getCategories: 'https://api.foursquare.com/v2/venues/categories',
 
   },
 
@@ -36,9 +37,6 @@ export const environment = {
     getProfile: 'http://localhost:3000/profile',
     searchUsers:'http://localhost:3000/searchusers',
   },
-
-
-
 };
 
 /*

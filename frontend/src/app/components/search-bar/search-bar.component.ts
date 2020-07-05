@@ -16,6 +16,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   loading: boolean = false
   private child: HTMLParagraphElement
 
+  categories: any
   openTab: tab
   fakeCenter: any = null
   private returnTab: Subscription
@@ -37,18 +38,21 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
     this._fakeCenter = this.map.center.subscribe((center)=> this.fakeCenter = center)
     this.map.getFakeCenter(5)
+    this.SearchService.updateCategories().then(x=>{
+      this.categories = x.response.categories
+      console.log(this.categories)
+    })
+
   }
 
 
   onSubmit(data: string) {
-    console.log(this.fakeCenter)
     this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.fakeCenter),this.fakeCenter).then(()=>{
     this.router.navigate([this.openTab.path])
     })
   }
 
   changeFilter(filter:{response:string, value:string}){
-    console.log(filter)
     this.SearchService.changeFilter(parseInt(filter.value))
   }
 
