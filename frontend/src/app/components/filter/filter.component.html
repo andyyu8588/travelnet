@@ -1,0 +1,36 @@
+<!-- <div *ngFor="let category of categories">
+{{category.name}}
+  <div *ngFor="let subcategory of category.categories">
+    {{subcategory.name}}
+  </div>
+</div> -->
+
+<mat-accordion>
+  <mat-expansion-panel hideToggle *ngFor="let category of categories">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+
+
+        <mat-checkbox class="checkbox"
+        [checked]="allComplete"
+        [indeterminate]="someComplete()"
+        (change)="setAll($event.checked)">
+        </mat-checkbox>
+        {{category.name}}
+
+
+      </mat-panel-title>
+
+    </mat-expansion-panel-header>
+      <div class="small">
+        <div *ngFor="let subcategory of category.categories">
+          <mat-checkbox
+          [(ngModel)]="subtask.completed"
+          (ngModelChange)="updateAllComplete()">
+          {{subcategory.name}}</mat-checkbox>
+        </div>
+      </div>
+
+
+  </mat-expansion-panel>
+</mat-accordion>

@@ -73,7 +73,8 @@ import { NullPipe } from './pipes/null.pipe';
 import { UserprofileComponent } from './components/userprofile/userprofile.component';
 import { UserbuttonComponent } from './components/tabs/searchresults/userbutton/userbutton.component';
 import { AddVenuePopoverComponent } from './components/tabs/mytrip/add-venue-popover/add-venue-popover.component';
-import { CitySearchComponent } from './components/city-search/city-search.component'
+import { CitySearchComponent } from './components/city-search/city-search.component';
+import { FilterComponent } from './components/filter/filter.component'
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { CitySearchComponent } from './components/city-search/city-search.compon
     UserbuttonComponent,
     AddVenuePopoverComponent,
     CitySearchComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,

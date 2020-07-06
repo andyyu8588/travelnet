@@ -17,9 +17,7 @@
       <mat-select [(ngModel)]='defaultFilter' [ngModelOptions]="{standalone: true}" (selectionChange)='changeFilter($event)'>
         <mat-option value=0>All</mat-option>
         <mat-option value=1>Venues</mat-option>
-        <mat-option value=2>Users
-        </mat-option>
-        <mat-option *ngFor="let category of categories">{{category|null:['name']}}</mat-option>
+        <mat-option value=2>Users</mat-option>
       </mat-select>
     </mat-form-field>
   </form>

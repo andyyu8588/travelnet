@@ -122,6 +122,12 @@ export class SearchService implements OnDestroy {
   updateCategories():any{
     return new Promise((resolve,reject)=>{
       this.foursquareService.updateCategories().subscribe(x=>{
+        x.response.categories.forEach(cat => {
+          cat["checked"] = true
+          cat.categories.forEach(sub => {
+            sub["checked"] = true
+          });
+        });
         resolve(x)
       })
     })

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { tab } from 'src/app/models/tab.model';
 import { Subscription } from 'rxjs';
-import { MatSelect } from '@angular/material/select';
 import { FoursquareService } from 'src/app/services/map/foursquare.service';
 
 @Component({
@@ -31,8 +30,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     private router : Router,
     private SearchService: SearchService,
     private FoursquareService: FoursquareService
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)

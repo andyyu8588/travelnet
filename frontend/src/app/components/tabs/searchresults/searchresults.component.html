@@ -1,15 +1,22 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
-<div *ngIf="openTab.content" >
-  <div *ngIf="checkFilter(1)">
-    <div *ngFor="let result of openTab.content.venues">
-      <app-venueButton [result]="result">
-      </app-venueButton>
+<div class="container">
+  <div class="row">
+    <div class="col-8"*ngIf="openTab.content" >
+      <div *ngIf="checkFilter(1)">
+        <div *ngFor="let result of openTab.content.venues">
+          <app-venueButton [result]="result">
+          </app-venueButton>
+        </div>
+      </div>
+      <div *ngIf="checkFilter(2)">
+        <div *ngFor="let result of openTab.content.users">
+          <app-userbutton [result]="result">
+          </app-userbutton>
+      </div>
+      </div>
     </div>
-  </div>
-  <div *ngIf="checkFilter(2)">
-    <div *ngFor="let result of openTab.content.users">
-      <app-userbutton [result]="result">
-      </app-userbutton>
-  </div>
+    <div class="col-4">
+      <app-filter></app-filter>
+    </div>
   </div>
 </div>
