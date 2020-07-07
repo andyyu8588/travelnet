@@ -11,13 +11,13 @@ import { MapService } from 'src/app/services/map/map.service';
   styleUrls: ['./searchresults.component.scss']
 })
 export class SearchresultsComponent implements OnInit, OnDestroy {
-  url : string = null
-  urlQuery : string = null
+  url: string = null
+  urlQuery: string = null
   urlLatLng: string = null
   openTab: tab
   filterNumber: number
   loading: boolean = true
-  fakeCenter : any = null
+  fakeCenter: any = null
   @Input() select: number
 
   private returnTab: Subscription
@@ -54,6 +54,6 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.filter.unsubscribe()
     this.returnTab.unsubscribe()
-    this.fakeCenter.unsubscribe()
+    this._fakeCenter.unsubscribe()
   }
 }
