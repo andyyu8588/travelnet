@@ -1,22 +1,22 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
-<div class="container">
-  <div class="row">
-    <div class="col-8"*ngIf="openTab.content" >
+<div *ngIf="loading" class="container-fluid row justify-content-center" style="overflow: hidden; padding-top: 1em;">
+  <mat-spinner class="col-auto"></mat-spinner>
+</div>
+<div class="container-fluid row" style="margin: 0; padding: 0;">
+    <div class="col mr-auto"*ngIf="openTab.content" style="margin-left: 0; padding-left: 0;">
       <div *ngIf="checkFilter(1)">
         <div *ngFor="let result of openTab.content.venues">
-          <app-venueButton [result]="result">
-          </app-venueButton>
+          <app-venueButton [result]="result"></app-venueButton>
+          <br>
         </div>
       </div>
       <div *ngIf="checkFilter(2)">
         <div *ngFor="let result of openTab.content.users">
-          <app-userbutton [result]="result">
-          </app-userbutton>
-      </div>
+          <app-userbutton [result]="result"></app-userbutton>
+          <br>
+        </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col justify-content-end" style="padding-right: 0; margin-right: 0;">
       <app-filter></app-filter>
     </div>
-  </div>
 </div>
