@@ -1,3 +1,4 @@
+import { venueModel } from 'src/app/models/venue.model';
 import * as moment from 'moment'
 import { FormBuilder } from '@angular/forms'
 
@@ -17,7 +18,7 @@ export class tripModel {
             venueCity?: String
             venueAddress?: String
             price?: Number
-        }>
+        } | venueModel>
     }>
     isPrivate: boolean
 

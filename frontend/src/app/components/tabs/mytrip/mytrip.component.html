@@ -45,7 +45,7 @@
                                             day {{ j + 1 }}
                                         </mat-panel-title>
                                         <mat-panel-description>
-                                            {{ displayDay(schedule.day) }} | {{ schedule.day | date }} &nbsp; &mdash; &nbsp; Locations: X &nbsp; &mdash; &nbsp; Price: XX$
+                                            {{ displayDay(schedule.day) }} | {{ schedule.day | date }} &nbsp; &mdash; &nbsp; Locations: {{getTotalVenues(schedule)}} &nbsp; &mdash; &nbsp; Price: {{getTotalPrice(schedule)}}$
                                         </mat-panel-description>
                                     </mat-expansion-panel-header>
                                     <div class="container-fluid">
