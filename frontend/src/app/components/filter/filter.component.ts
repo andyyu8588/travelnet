@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FoursquareService } from 'src/app/services/map/foursquare.service';
 import { SearchService } from 'src/app/services/search.service';
+import {NestedTreeControl} from '@angular/cdk/tree';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {BehaviorSubject, Observable, of as observableOf, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-filter',
@@ -15,7 +18,6 @@ export class FilterComponent implements OnInit {
   allComplete: Array<boolean> = null
   constructor(
     private SearchService: SearchService,
-    private FoursquareService: FoursquareService
   ) { }
 
   ngOnInit(): void {
@@ -23,9 +25,17 @@ export class FilterComponent implements OnInit {
       this.categories = x.response.categories
       console.log(this.categories)
       this.allComplete = new Array(this.categories.length).fill(true)
+      this.dataSource= this.categories
     })
 
   }
+  treeControl = new NestedTreeControl<any>(node => node.categories);
+  dataSource = new MatTreeNestedDataSource<any>();
+  hasChild = (_: number, node: any) => !!node.categories && node.categories.length > 0;
+
+
+
+
 
   updateAllComplete(i) {
     this.allComplete[i] = this.categories[i].categories != null && this.categories[i].categories.every(t => t.completed);
