@@ -74,7 +74,8 @@ import { UserprofileComponent } from './components/userprofile/userprofile.compo
 import { UserbuttonComponent } from './components/tabs/searchresults/userbutton/userbutton.component';
 import { AddVenuePopoverComponent } from './components/tabs/mytrip/add-venue-popover/add-venue-popover.component';
 import { CitySearchComponent } from './components/city-search/city-search.component';
-import { FilterComponent } from './components/filter/filter.component'
+import { FilterComponent } from './components/filter/filter.component';
+import { ScrollToTopComponent } from './components/sidebar/scroll-to-top/scroll-to-top.component'
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { FilterComponent } from './components/filter/filter.component'
     AddVenuePopoverComponent,
     CitySearchComponent,
     FilterComponent,
+    ScrollToTopComponent,
   ],
   imports: [
     BrowserModule,

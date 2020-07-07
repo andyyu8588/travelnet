@@ -1,12 +1,23 @@
 <mat-accordion  disabled *ngIf="categories">
-  <mat-expansion-panel *ngFor="let category of categories; let i = index">
+
+  <div class="container-fluid" style="margin-top: 1%; margin-bottom: 1%;">
+    <mat-chip-list>
+      <mat-chip>
+        wt
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <mat-expansion-panel *ngFor="let category of categories; let i = index" #exp>
     <mat-expansion-panel-header>
       <!-- general category checkbox -->
       <mat-panel-title>
           <mat-checkbox class="checkbox"
           [checked]="allComplete"
           [indeterminate]="someComplete(i)"
-          (change)="setAll(i,$event.checked)">
+          (change)="setAll(i,$event.checked)"
+          (click)='exp.toggle()'>
             {{category.name}}
           </mat-checkbox>
       </mat-panel-title>
@@ -16,11 +27,12 @@
         <div *ngFor="let subcategory of category.categories;">
           <mat-checkbox
           [(ngModel)]="subcategory.completed"
-          (ngModelChange)="updateAllComplete(i)">
-          {{subcategory.name}}</mat-checkbox>
+          (ngModelChange)="updateAllComplete(i)"
+          (click)='exp.toggle()'>
+            {{subcategory.name}}
+          </mat-checkbox>
         </div>
       </div>
-
   </mat-expansion-panel>
 </mat-accordion>
 

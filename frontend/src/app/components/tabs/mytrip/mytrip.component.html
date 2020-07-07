@@ -15,7 +15,7 @@
             <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index'>
                 <mat-expansion-panel-header class="my-headers-align">
                     <mat-panel-title class="align-self-center">{{trip.name}}</mat-panel-title>
-                    <mat-panel-description class="align-self-center" >{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}</mat-panel-description>
+                    <mat-panel-description class="align-self-center" >{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}&nbsp;|&nbsp;{{ trip.dateRange.length }} days</mat-panel-description>
                     <span (click)="pan.toggle()" style="margin-right: 1em;">  
                         <button mat-button (click)='ok()' color='primary' matTooltip='share this trp'>    
                             <mat-icon>share</mat-icon>
@@ -26,13 +26,13 @@
                     </span>
                 </mat-expansion-panel-header>
                 <mat-card>
-                    <mat-card-title>
+                    <!-- <mat-card-title>
                         <div class="row">
                             <div class="col-auto mr-auto align-self-center">{{ trip.name }}</div>
                         </div>               
                     </mat-card-title>
                     <mat-card-header class="">{{ trip.dateRange.start | date }} - {{ trip.dateRange.end | date }} &nbsp; ({{trip.dateRange.length}} days)</mat-card-header>
-                    <br>
+                    <br> -->
                     <mat-card-content class="">
                         <div class="example-action-buttons">
                             <button mat-button (click)="TripAccordion.openAll()">Expand All</button>

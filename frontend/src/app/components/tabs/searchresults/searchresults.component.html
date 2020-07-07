@@ -3,6 +3,7 @@
 </div>
 <div class="container-fluid row" style="margin: 0; padding: 0;">
     <div class="col mr-auto"*ngIf="openTab.content" style="margin-left: 0; padding-left: 0;">
+      <br>
       <div *ngIf="checkFilter(1)">
         <div *ngFor="let result of openTab.content.venues">
           <app-venueButton [result]="result"></app-venueButton>
