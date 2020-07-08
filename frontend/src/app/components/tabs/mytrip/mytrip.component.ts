@@ -33,7 +33,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   // dataSource for mat table
   @ViewChild(MatTable) table: MatTable<any>
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   tableDataSource: MatTableDataSource<tripModel> = new MatTableDataSource([])
 
   // data for add trip
@@ -119,10 +119,13 @@ export class MytripComponent implements OnInit, OnDestroy {
   }
 
   getDataSource(tripIndex: number, dayIndex: number): MatTableDataSource<any> {
+    let source = new MatTableDataSource<any>([])
     if (this.trips[tripIndex].schedule) {
-      return new MatTableDataSource<any>(this.trips[tripIndex].schedule[dayIndex].venues)
+      source.data = this.trips[tripIndex].schedule[dayIndex].venues
+      source.sort = this.sort
+      return source
     } else {
-      return new MatTableDataSource<any>([])
+      return source
     }
   }
 
@@ -135,8 +138,8 @@ export class MytripComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.trips = trips
-      this.tableDataSource.data = trips
-      this.tableDataSource.sort = this.sort;
+      // this.tableDataSource.data = trips
+      // this.tableDataSource.sort = this.sort;
       if (this.table) {
         console.log('oi')
         this.table.renderRows()

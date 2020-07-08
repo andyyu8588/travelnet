@@ -58,7 +58,7 @@
 
                                         <!-- venueCity -->
                                         <ng-container matColumnDef="venueCity">
-                                            <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
                                             <mat-cell *matCellDef="let element"> {{element.venueCity}} </mat-cell>
                                         </ng-container>
                                         
@@ -70,7 +70,7 @@
 
                                         <!-- venuePrice -->
                                         <ng-container matColumnDef="price">
-                                            <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
                                             <mat-cell *matCellDef="let element"> {{element.price}}$ </mat-cell>
                                         </ng-container>
 
