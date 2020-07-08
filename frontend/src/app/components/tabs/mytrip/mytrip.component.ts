@@ -68,6 +68,30 @@ export class MytripComponent implements OnInit, OnDestroy {
     console.log('sa')
   }
 
+  getTotalPrice(arr: {[key: string]: any}): number {
+    if (arr) {
+      console.log(arr)
+      let total: number = 0
+      let venues: any[] = arr.venues? arr.venues: []
+      for (let x = 0; x < venues.length; x++) {
+        venues[x].price? total += venues[x].price : total += 0  
+      }
+      return total
+    } else {
+      return 0
+    }
+  }
+
+  getTotalVenues(arr: {[key: string]: any}): number {
+    if (arr) {
+      console.log(arr)
+      let venues: any[] = arr.venues? arr.venues: []
+      return venues.length
+    } else {
+      return 0
+    }
+  }
+
   constructor(private MatDialog: MatDialog,
               private TripService: TripService,
               private SessionService: SessionService) { 

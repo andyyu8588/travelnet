@@ -11,12 +11,14 @@
       </mat-panel-title>
 
     </mat-expansion-panel-header>
-      <div class="small">
+      <div class="container-fluid small">
         <div *ngFor="let subcategory of category.categories;">
           <mat-checkbox
           [(ngModel)]="subcategory.completed"
-          (ngModelChange)="updateAllComplete(i)">
-          {{subcategory.name}}</mat-checkbox>
+          (ngModelChange)="updateAllComplete(i)"
+          (click)='exp.toggle()'>
+            {{subcategory.name}}
+          </mat-checkbox>
         </div>
       </div>
   </mat-expansion-panel>
