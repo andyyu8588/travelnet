@@ -12,7 +12,7 @@
             &nbsp;<h2 class="align-self-center">No trips Yet...</h2>
         </div>
         <mat-accordion class="container-fluid" style="min-height: 750px;"  >
-            <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index'>
+            <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index, let isFirst = first' [expanded]='isFirst'>
                 <mat-expansion-panel-header class="my-headers-align">
                     <mat-panel-title class="align-self-center">{{trip.name}}</mat-panel-title>
                     <mat-panel-description class="align-self-center" >{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}&nbsp;|&nbsp;{{ trip.dateRange.length }} days</mat-panel-description>
@@ -39,7 +39,7 @@
                             <button mat-button (click)="TripAccordion.closeAll()">Collapse All</button>
                         </div>
                         <mat-accordion #acc multi>
-                            <mat-expansion-panel *ngFor='let schedule of trip.schedule, let j = index'>
+                            <mat-expansion-panel *ngFor='let schedule of trip.schedule; let j = index'>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         day {{ j + 1 }}
