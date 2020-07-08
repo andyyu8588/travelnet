@@ -1,5 +1,5 @@
 import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component';
-import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
 import { tripModel } from '../../../models/trip.model';
 import { Subscription } from 'rxjs';
@@ -7,9 +7,8 @@ import { TripService } from './../../../services/trip.service';
 import { TripmodalComponent } from 'src/app/components/tabs/mytrip/tripmodal/tripmodal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment'
-import { numeric } from '@rxweb/reactive-form-validators';
 import { MatAccordion } from '@angular/material/expansion';
-import { ContentObserver } from '@angular/cdk/observers';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-mytrip',
@@ -29,6 +28,10 @@ export class MytripComponent implements OnInit, OnDestroy {
   // onTripAccOpen() {
   //   this.TripAccordion.openAll()
   // }
+
+  // dataSource for mat table
+  @ViewChild(MatTable) table: MatTable<any>
+  tableDataSource: MatTableDataSource<tripModel> = new MatTableDataSource([])
 
   // data for add trip
   name: string
@@ -68,29 +71,50 @@ export class MytripComponent implements OnInit, OnDestroy {
     console.log('sa')
   }
 
-  getTotalPrice(arr: {[key: string]: any}): number {
-    if (arr) {
-      console.log(arr)
-      let total: number = 0
-      let venues: any[] = arr.venues? arr.venues: []
+  // get price for a day w/ schedule obj
+  getDayPrice(obj: {[key: string]: any}): number {
+    let total: number = 0
+    if (obj) {
+      let venues: any[] = obj.venues? obj.venues : []
       for (let x = 0; x < venues.length; x++) {
         venues[x].price? total += venues[x].price : total += 0  
       }
-      return total
-    } else {
-      return 0
     }
+    return total
+  }
+  
+  // use trip object to get price for all days
+  getTotalPrice(obj: tripModel): number {
+    let total: number = 0
+    if (obj.schedule) {
+      obj.schedule.forEach((element) => {
+        total += this.getDayPrice(element)
+      })
+    }
+    return total 
   }
 
-  getTotalVenues(arr: {[key: string]: any}): number {
-    if (arr) {
-      console.log(arr)
-      let venues: any[] = arr.venues? arr.venues: []
+  // get venues for a day w/ schedule obj
+  getDayVenues(obj: {[key: string]: any}): number {
+    if (obj) {
+      let venues: any[] = obj.venues? obj.venues: []
       return venues.length
     } else {
       return 0
     }
   }
+
+  // use trip object to get venues for all days
+  getTotalVenues(obj: tripModel): number {
+    let total: number = 0
+    if (obj.schedule) {
+      obj.schedule.forEach((element) => {
+        total += this.getDayVenues(element)
+      })
+    }
+    return total
+  }
+
 
   constructor(private MatDialog: MatDialog,
               private TripService: TripService,
@@ -99,8 +123,13 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
-      console.log(trips)
       this.trips = trips
+      this.tableDataSource.data = trips
+      if (this.table) {
+        console.log('oi')
+        this.table.renderRows()
+      }
+      console.log(this.tableDataSource.data)
     })
     this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
       this.sessionState = state
