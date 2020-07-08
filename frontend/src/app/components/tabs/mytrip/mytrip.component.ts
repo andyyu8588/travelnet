@@ -1,3 +1,4 @@
+import { MatSortModule, MatSort } from '@angular/material/sort';
 import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
@@ -32,6 +33,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   // dataSource for mat table
   @ViewChild(MatTable) table: MatTable<any>
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   tableDataSource: MatTableDataSource<tripModel> = new MatTableDataSource([])
 
   // data for add trip
@@ -134,6 +136,7 @@ export class MytripComponent implements OnInit, OnDestroy {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.trips = trips
       this.tableDataSource.data = trips
+      this.tableDataSource.sort = this.sort;
       if (this.table) {
         console.log('oi')
         this.table.renderRows()

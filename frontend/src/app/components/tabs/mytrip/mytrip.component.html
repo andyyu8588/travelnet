@@ -49,10 +49,10 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div class="container-fluid">
-                                    <table mat-table [dataSource]='getDataSource(i, j)' style="width: 100%;">
+                                    <table mat-table [dataSource]='getDataSource(i, j)' style="width: 100%;" matSort>
                                         <!-- venueName -->
                                         <ng-container matColumnDef="venueName">
-                                            <mat-header-cell *matHeaderCellDef> Venue Name </mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Venue Name </mat-header-cell>
                                             <mat-cell *matCellDef="let element">{{element.venueName}}</mat-cell>
                                         </ng-container>
 
