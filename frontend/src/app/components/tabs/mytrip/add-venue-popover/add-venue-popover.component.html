@@ -23,7 +23,7 @@
                 <!-- Custom Venue -->
                 <mat-tab>
                     <form 
-                        #customFom
+                        #customForm
                         [formGroup]='customVenueForm'
                         (ngSubmit)='onSubmitCustom()'>
                         <ng-template mat-tab-label >
@@ -47,8 +47,22 @@
                             <mat-label>Price</mat-label>
                             <input matInput type='number' formControlName='price'>
                         </mat-form-field>
-                        <br>
-                        <button mat-raised-button matTooltip='add custom Venue' color='primary'>Add</button>
+                        <span class="row container-fluid">
+                        <button 
+                            class="col-auto"
+                            mat-raised-button
+                            matTooltip='add custom Venue'
+                            color='primary'
+                            [disabled]='isLoading'>
+                            Add
+                        </button>
+                        &nbsp;
+                        <mat-spinner *ngIf='isLoading' class="col-auto align-self-center" diameter='30' color='primary'></mat-spinner>
+                        </span>
+                        &nbsp;
+                        <span>
+                            <small *ngIf='isLoaded && !isErr' class="text-success">New Venue added Succesfully!</small>
+                        </span>
                     </form> 
                 </mat-tab>
             </mat-tab-group>

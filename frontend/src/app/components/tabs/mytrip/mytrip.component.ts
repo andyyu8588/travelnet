@@ -9,6 +9,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment'
 import { MatAccordion } from '@angular/material/expansion';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-mytrip',
@@ -67,8 +68,8 @@ export class MytripComponent implements OnInit, OnDestroy {
     return weekday[i]
   }
 
-  ok() {
-    console.log('sa')
+  ok(ok) {
+    console.log(ok)
   }
 
   // get price for a day w/ schedule obj
@@ -115,6 +116,14 @@ export class MytripComponent implements OnInit, OnDestroy {
     return total
   }
 
+  getDataSource(tripIndex: number, dayIndex: number): MatTableDataSource<any> {
+    if (this.trips[tripIndex].schedule) {
+      return new MatTableDataSource<any>(this.trips[tripIndex].schedule[dayIndex].venues)
+    } else {
+      return new MatTableDataSource<any>([])
+    }
+  }
+
 
   constructor(private MatDialog: MatDialog,
               private TripService: TripService,
@@ -129,7 +138,6 @@ export class MytripComponent implements OnInit, OnDestroy {
         console.log('oi')
         this.table.renderRows()
       }
-      console.log(this.tableDataSource.data)
     })
     this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
       this.sessionState = state
@@ -169,7 +177,6 @@ export class MytripComponent implements OnInit, OnDestroy {
     });
 
     this.dialogRef.afterClosed().subscribe((result: any)=> {
-      console.log(result)
       // if (result) {
       //   this.trips.push(result)
       //   this.TripService.update(this.trips)
