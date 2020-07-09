@@ -1,3 +1,4 @@
+import { CategoryNode } from './../../models/CategoryNode.model';
 import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, AfterContentInit, AfterContentChecked } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
 import { Router } from '@angular/router';
@@ -15,7 +16,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   loading: boolean = false
   private child: HTMLParagraphElement
 
-  categories: any
+  categories: CategoryNode[]
   openTab: tab
   fakeCenter: any = null
   private returnTab: Subscription
@@ -36,8 +37,9 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
     this._fakeCenter = this.map.center.subscribe((center)=> this.fakeCenter = center)
     this.map.getFakeCenter(5)
-    this.SearchService.updateCategories().then(x=>{
-      this.categories = x.response.categories
+    this.SearchService.updateCategories().then((x: Array<CategoryNode>) => {
+      console.log(x)
+      this.categories = x
       console.log(this.categories)
     })
 

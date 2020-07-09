@@ -68,18 +68,25 @@ export class FilterComponent implements OnInit {
   }
 
   /** returns false if node has unchecked children, and true if all children are checked */
-  childrenChecked(node):boolean{
-    if(node.categories){
+  childrenChecked(node): boolean {
+    if (node.categories) {
       node.categories.forEach(category => {
         if (category.checked) {
-          if(category.categories && category.categories.length > 0)
-          this.childrenChecked(category.categories);
+          if (category.categories && category.categories.length > 0) {
+            this.childrenChecked(category.categories)
+          }
         }
-        else{
+        else {
           return false
         }
-      });
+      })
       return true
+    } else {
+      if (node.checked) {
+        return false
+      } else {
+        return true
+      }
     }
   }
 
