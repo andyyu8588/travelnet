@@ -1,11 +1,10 @@
-import { CategoryNode } from './../../models/CategoryNode.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FoursquareService } from 'src/app/services/map/foursquare.service';
 import { SearchService } from 'src/app/services/search.service';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {BehaviorSubject, Observable, of as observableOf, Subscription} from 'rxjs';
-import { CategoryFlatNode } from 'src/app/models/CategoryNode.model';
+import { CategoryNode, CategoryFlatNode } from 'src/app/models/CategoryNode.model';
 
 @Component({
   selector: 'app-filter',
