@@ -4,9 +4,11 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .mat-expansion-panel-body {
   padding: 0 8px 4px;
 }
+
 .mat-expansion-panel-header {
   padding: 0 4px;
 }
@@ -20,12 +22,18 @@
 .example-tree-invisible {
   display: none;
 }
+
 .example-tree li {
   margin-top: 0;
   margin-bottom: 0;
   list-style-type: none;
 }
-button{
+
+button {
   position: absolute;
   right: 5px;
+}
+
+button:focus {
+  outline: none;
 }

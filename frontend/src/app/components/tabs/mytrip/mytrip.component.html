@@ -17,10 +17,10 @@
                     <mat-panel-title class="align-self-center">{{trip.name}}</mat-panel-title>
                     <mat-panel-description class="align-self-center" >{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}&nbsp;|&nbsp;{{ trip.dateRange.length }} days</mat-panel-description>
                     <span (click)="pan.toggle()" style="margin-right: 1em;">  
-                        <button mat-button (click)='ok()' color='primary' matTooltip='share this trp'>    
+                        <button mat-button (click)='ok($event)' color='primary' matTooltip='share this trp'>    
                             <mat-icon>share</mat-icon>
                         </button>
-                        <button mat-button (click)='ok()' color='accent' matTooltip='show itinerary on map' >    
+                        <button mat-button (click)='ok($event)' color='accent' matTooltip='show itinerary on map' >    
                             <mat-icon>map</mat-icon>
                         </button>
                     </span>

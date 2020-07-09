@@ -39,8 +39,9 @@ export class FilterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.SearchService.updateCategories().then(x=>{
-      x.map(d=>{
+    this.SearchService.updateCategories()
+    .then(x => {
+      x.map(d => {
         d['checked'] = false;
         d['expanded'] = false;
         return d;
@@ -50,53 +51,40 @@ export class FilterComponent implements OnInit {
 
       // this.allComplete = new Array(this.categories.length).fill(true)
     })
-
   }
+
   /** Checks if datasource for material tree has any child groups */
   hasChild = (_: number, node: CategoryNode) => !!node.categories && node.categories.length > 0;
 
-    /** Returns child groups from security group */
-    private _getChildren = (node: CategoryNode) => node.categories;
- 
-    clickedActive(element) {
-      element.checked = !element.checked;
-    }
+  /** Returns child groups from security group */
+  private _getChildren = (node: CategoryNode) => node.categories;
 
-    /** Loops recursively through data finding the amount of checked children */
-    getCheckedAmount(node) {
-      this.count = 0; // resetting count
-      this.loopData(node.categories);
-      return this.count;
-    }
+  clickedActive(element) {
+    element.checked = !element.checked;
+  }
 
-    /** Used by getCheckedAmount() */
-    loopData(node) {
-      node.forEach(d => {
-        if (d.checked) {
-          this.count += 1;
-        }
-        if (d.categories && d.categories.length > 0) {
-          this.loopData(d.categories);
-        }
-      });
-    }
+  /** Loops recursively through data finding the amount of checked children */
+  getCheckedAmount(node) {
+    this.count = 0; // resetting count
+    this.loopData(node.categories);
+    return this.count;
+  }
 
-    changeState(node) {
-      node.expanded = !node.expanded;
-    }
+  /** Used by getCheckedAmount() */
+  loopData(node) {
+    node.forEach(d => {
+      if (d.checked) {
+        this.count += 1;
+      }
+      if (d.categories && d.categories.length > 0) {
+        this.loopData(d.categories);
+      }
+    });
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
+  changeState(node) {
+    node.expanded = !node.expanded;
+  }
 
   // const directParent = ancestors[ancestors.length - 2];
 
