@@ -1,3 +1,4 @@
+import { CategoryNode } from './../../models/CategoryNode.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FoursquareService } from 'src/app/services/map/foursquare.service';
 import { SearchService } from 'src/app/services/search.service';
@@ -5,19 +6,6 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {BehaviorSubject, Observable, of as observableOf, Subscription} from 'rxjs';
 import { CategoryFlatNode } from 'src/app/models/CategoryNode.model';
-
-interface CategoryNode {
-  completed: boolean
-  id: string;
-  name: string;
-  pluralName: string;
-  shortName: string;
-  icon: {
-    prefix: string;
-    suffix: string
-  }
-  categories?: CategoryNode[]
-}
 
 @Component({
   selector: 'app-filter',
@@ -100,18 +88,24 @@ export class FilterComponent implements OnInit {
   }
 
   /** returns false if node has unchecked children, and true if all children are checked */
-  childrenChecked(node):boolean{
-    if(node.categories){
-      node.categories.forEach(category => {
-        if (category.checked) {
-          if(category.categories && category.categories.length > 0)
-          this.childrenChecked(category.categories);
-        }
-        else{
+  childrenChecked(node: CategoryNode): boolean {
+    // console.log(node)
+    if (node.categories) {
+      node.categories.forEach((node: CategoryNode) => {
+        if (node.checked) {
+          if (node.categories) {
+            this.childrenChecked(node)
+          }
+        } else {
           return false
         }
-      });
-      return true
+      })
+    } else {
+      if (node.checked) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 
