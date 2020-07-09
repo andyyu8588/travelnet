@@ -4,6 +4,7 @@ import { SearchService } from 'src/app/services/search.service';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {BehaviorSubject, Observable, of as observableOf, Subscription} from 'rxjs';
+import { CategoryFlatNode } from 'src/app/models/CategoryNode.model';
 
 interface CategoryNode {
   completed: boolean
@@ -63,8 +64,39 @@ export class FilterComponent implements OnInit {
   /**toggle clicks checkmarks */
   clickedActive(element) {
     element.checked = !element.checked;
-    console.log(element)
-    console.log(this.categories)
+  }
+  /**makes all children nodes of a parent node checked when checked, and the opposite if need be */
+  setAll(category) {
+    category.checked = !category.checked;
+    if(category.checked) {
+      this.checkAll(category)
+    }
+    else if (!category.checked){
+      this.uncheckAll(category)
+    }
+  }
+  /** checks all children of a node */
+  checkAll(category){
+    if(category.categories){
+      category.categories.forEach(sub => {
+      sub.checked = true;
+      if(sub.categories && sub.categories.length > 0){
+          this.checkAll(sub.categories)
+        }
+      });
+    }
+
+  }
+  /** unchecks all children of a node */
+  uncheckAll(category){
+    if(category.categories){
+      category.categories.forEach(sub => {
+        sub.checked = false;
+        if(sub.categories && sub.categories.length > 0){
+          this.uncheckAll(sub.categories)
+        }
+      });
+    }
   }
 
   /** returns false if node has unchecked children, and true if all children are checked */

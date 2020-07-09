@@ -24,7 +24,7 @@
         <mat-checkbox class="example-margin"
           [checked]="childrenChecked(node)"
           [indeterminate]="!node.checked && !childrenChecked(node)"
-          (change)="clickedActive(node)">
+          (change)="setAll(node)">
             {{node.name}}
         </mat-checkbox>
       </div>
