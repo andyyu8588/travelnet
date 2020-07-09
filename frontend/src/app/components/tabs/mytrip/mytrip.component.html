@@ -12,7 +12,7 @@
             &nbsp;<h2 class="align-self-center">No trips Yet...</h2>
         </div>
         <mat-accordion class="container-fluid" style="min-height: 750px;"  >
-            <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index'>
+            <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index, let isFirst = first' [expanded]='isFirst'>
                 <mat-expansion-panel-header class="my-headers-align">
                     <mat-panel-title class="align-self-center">{{trip.name}}</mat-panel-title>
                     <mat-panel-description class="align-self-center" >{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}&nbsp;|&nbsp;{{ trip.dateRange.length }} days</mat-panel-description>
@@ -39,7 +39,7 @@
                             <button mat-button (click)="TripAccordion.closeAll()">Collapse All</button>
                         </div>
                         <mat-accordion #acc multi>
-                            <mat-expansion-panel *ngFor='let schedule of trip.schedule, let j = index'>
+                            <mat-expansion-panel *ngFor='let schedule of trip.schedule; let j = index'>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         day {{ j + 1 }}
@@ -49,16 +49,16 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div class="container-fluid">
-                                    <table mat-table [dataSource]='tableDataSource.data[i].schedule[j].venues' style="width: 100%;">
+                                    <table mat-table [dataSource]='getDataSource(i, j)' style="width: 100%;" matSort>
                                         <!-- venueName -->
                                         <ng-container matColumnDef="venueName">
-                                            <mat-header-cell *matHeaderCellDef> Venue Name </mat-header-cell>
-                                            <mat-cell *matCellDef="let element">{{element.venueName}} </mat-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Venue Name </mat-header-cell>
+                                            <mat-cell *matCellDef="let element">{{element.venueName}}</mat-cell>
                                         </ng-container>
 
                                         <!-- venueCity -->
                                         <ng-container matColumnDef="venueCity">
-                                            <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
                                             <mat-cell *matCellDef="let element"> {{element.venueCity}} </mat-cell>
                                         </ng-container>
                                         
@@ -70,7 +70,7 @@
 
                                         <!-- venuePrice -->
                                         <ng-container matColumnDef="price">
-                                            <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
                                             <mat-cell *matCellDef="let element"> {{element.price}}$ </mat-cell>
                                         </ng-container>
 

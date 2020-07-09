@@ -1,3 +1,4 @@
+import { MatSortModule, MatSort } from '@angular/material/sort';
 import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
@@ -9,6 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment'
 import { MatAccordion } from '@angular/material/expansion';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-mytrip',
@@ -31,6 +33,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   // dataSource for mat table
   @ViewChild(MatTable) table: MatTable<any>
+  @ViewChild(MatSort) sort: MatSort;
   tableDataSource: MatTableDataSource<tripModel> = new MatTableDataSource([])
 
   // data for add trip
@@ -67,8 +70,8 @@ export class MytripComponent implements OnInit, OnDestroy {
     return weekday[i]
   }
 
-  ok() {
-    console.log('sa')
+  ok(ok) {
+    console.log(ok)
   }
 
   // get price for a day w/ schedule obj
@@ -115,6 +118,17 @@ export class MytripComponent implements OnInit, OnDestroy {
     return total
   }
 
+  getDataSource(tripIndex: number, dayIndex: number): MatTableDataSource<any> {
+    let source = new MatTableDataSource<any>([])
+    if (this.trips[tripIndex].schedule) {
+      source.data = this.trips[tripIndex].schedule[dayIndex].venues
+      source.sort = this.sort
+      return source
+    } else {
+      return source
+    }
+  }
+
 
   constructor(private MatDialog: MatDialog,
               private TripService: TripService,
@@ -124,12 +138,12 @@ export class MytripComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.trips = trips
-      this.tableDataSource.data = trips
+      // this.tableDataSource.data = trips
+      // this.tableDataSource.sort = this.sort;
       if (this.table) {
         console.log('oi')
         this.table.renderRows()
       }
-      console.log(this.tableDataSource.data)
     })
     this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
       this.sessionState = state
@@ -169,7 +183,6 @@ export class MytripComponent implements OnInit, OnDestroy {
     });
 
     this.dialogRef.afterClosed().subscribe((result: any)=> {
-      console.log(result)
       // if (result) {
       //   this.trips.push(result)
       //   this.TripService.update(this.trips)

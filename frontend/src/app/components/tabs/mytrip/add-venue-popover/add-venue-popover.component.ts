@@ -30,6 +30,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   
   // for component visual
   isLoading: boolean = false
+  isLoaded: boolean
   isErr: boolean = false
 
   constructor(private HttpService: HttpService,
@@ -48,6 +49,8 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngOnInit(): void {
+    this.isLoaded = false
+
     this.trips_sub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.allTrips = trips
     })
@@ -74,25 +77,28 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
 
   // update when user adds custom venue 
   onSubmitCustom() {
-    this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
-      venueName: this.customVenueForm.get('name').value,
-      venueCity: this.CitySearchComponent.value? this.CitySearchComponent.value : '',
-      venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
-      price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0
-    })
-    this.TripService.modifyBackend(this.allTrips)
-    .then((response) => {
-      this.TripService.updateLocal(this.allTrips)
-      setTimeout(() => {
-        this.dialogRef.close()
-      }, 500)
-    })
-    .catch((err) => {
-      this.isErr = true
-    })
-    .finally(() => {
-      this.isLoading = false
-    })
+    if (this.customVenueForm.valid) {
+      this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
+        venueName: this.customVenueForm.get('name').value,
+        venueCity: this.CitySearchComponent.value? this.CitySearchComponent.value : '',
+        venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
+        price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0
+      })
+      this.TripService.modifyBackend(this.allTrips)
+      .then((response) => {
+        this.TripService.updateLocal(this.allTrips)
+        setTimeout(() => {
+          this.dialogRef.close()
+        }, 500)
+      })
+      .catch((err) => {
+        this.isErr = true
+      })
+      .finally(() => {
+        this.isLoading = false
+        this.isLoaded = true
+      })
+    }
   }
 
   ngOnDestroy() {
