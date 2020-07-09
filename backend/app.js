@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const userRoute = require('./routes/user')
@@ -31,6 +32,13 @@ app.use('/user', userRoute)
 app.use('/profile', profileRoute)
 app.use('/searchusers',searchUsersRoute)
 app.use('/trips', tripsRoute)
+
+app.use('/', express.static(path.resolve(__dirname, '..', 'frontend', 'dist', 'frontend')))
+
+app.use((req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'frontend', 'dist', 'frontend', 'index.html'))
+})
+
 
 // set database URL:
 const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
