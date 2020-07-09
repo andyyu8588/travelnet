@@ -123,22 +123,22 @@ export class SearchService implements OnDestroy {
   updateCategories():any{
     return new Promise((resolve,reject)=>{
       this.foursquareService.updateCategories().subscribe(x=>{
-        resolve(x.response.categories)
+        resolve(this.initiateTree(x.response.categories))
       })
     })
   }
-  // initiateTree(data){
-  //   data.forEach(category => {
-  //     if (category['categories'] && category['categories'].length === 0){
-  //       category['completed'] = true
-  //     }
-  //     else if (category['categories'] && category['categories'].length !== 0){
-  //       category['completed'] = true
-  //       return this.initiateTree(category['categories'])
-  //     }
-  //   });
-  //   return data
-  // }
+  initiateTree(data){
+    data.forEach(category => {
+      if (category['categories'] && category['categories'].length === 0){
+        category['checked'] = true
+      }
+      else if (category['categories'] && category['categories'].length !== 0){
+        category['checked'] = true
+        return this.initiateTree(category['categories'])
+      }
+    });
+    return data
+  }
 
 
   getSearchResult(search){

@@ -41,11 +41,11 @@ export class FilterComponent implements OnInit {
   ngOnInit(): void {
     this.SearchService.updateCategories()
     .then(x => {
-      x.map(d => {
-        d['checked'] = false;
-        d['expanded'] = false;
-        return d;
-      })
+      // x.map(d => {
+      //   d['checked'] = true;
+      //   d['expanded'] = false;
+      //   return d;
+      // })
       this.categories = x
       console.log(this.categories)
 
@@ -59,49 +59,28 @@ export class FilterComponent implements OnInit {
   /** Returns child groups from security group */
   private _getChildren = (node: CategoryNode) => node.categories;
 
+
+  /**toggle clicks checkmarks */
   clickedActive(element) {
     element.checked = !element.checked;
+    console.log(element)
+    console.log(this.categories)
   }
 
-  /** Loops recursively through data finding the amount of checked children */
-  getCheckedAmount(node) {
-    this.count = 0; // resetting count
-    this.loopData(node.categories);
-    return this.count;
-  }
-
-  /** Used by getCheckedAmount() */
-  loopData(node) {
-    node.forEach(d => {
-      if (d.checked) {
-        this.count += 1;
-      }
-      if (d.categories && d.categories.length > 0) {
-        this.loopData(d.categories);
-      }
-    });
-  }
-
-  changeState(node) {
-    node.expanded = !node.expanded;
-  }
-
-  // const directParent = ancestors[ancestors.length - 2];
-
-  //returns an array if ordered ancestors for a given node
-  getAncestors(categories, name) {
-    if (typeof categories !== 'undefined') {
-      for (let i = 0; i < categories.length; i++) {
-        if (categories[i].name === name) {
-          return [categories[i]];
+  /** returns false if node has unchecked children, and true if all children are checked */
+  childrenChecked(node):boolean{
+    if(node.categories){
+      node.categories.forEach(category => {
+        if (category.checked) {
+          if(category.categories && category.categories.length > 0)
+          this.childrenChecked(category.categories);
         }
-        const ancestors = this.getAncestors(categories[i].children, name);
-        if (ancestors !== null) {
-          ancestors.unshift(categories[i]);
-          return ancestors;
+        else{
+          return false
         }
-      }
+      });
+      return true
     }
-    return null;
   }
+
 }

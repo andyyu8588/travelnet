@@ -6,9 +6,8 @@
       <button mat-icon-button disabled></button>
       <mat-checkbox
       [checked]="node.checked"
-      (change)="clickedActive(node)"
-      >
-      {{node.name}}
+      (change)="clickedActive(node)">
+        {{node.name}}
       </mat-checkbox>
     </li>
   </mat-tree-node>
@@ -23,8 +22,8 @@
           </mat-icon>
         </button>
         <mat-checkbox class="example-margin"
-          [checked]="node.checked"
-          [indeterminate]="!node.checked && getCheckedAmount(node) > 0"
+          [checked]="childrenChecked(node)"
+          [indeterminate]="!node.checked && !childrenChecked(node)"
           (change)="clickedActive(node)">
             {{node.name}}
         </mat-checkbox>
