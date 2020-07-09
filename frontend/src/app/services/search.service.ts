@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { CategoryNode } from '../models/CategoryNode.model';
 
 
 @Injectable({
@@ -122,16 +123,23 @@ export class SearchService implements OnDestroy {
   updateCategories():any{
     return new Promise((resolve,reject)=>{
       this.foursquareService.updateCategories().subscribe(x=>{
-        x.response.categories.forEach(cat => {
-          cat["completed"] = true
-          cat.categories.forEach(sub => {
-            sub["completed"] = true
-          });
-        });
-        resolve(x)
+        resolve(x.response.categories)
       })
     })
   }
+  // initiateTree(data){
+  //   data.forEach(category => {
+  //     if (category['categories'] && category['categories'].length === 0){
+  //       category['completed'] = true
+  //     }
+  //     else if (category['categories'] && category['categories'].length !== 0){
+  //       category['completed'] = true
+  //       return this.initiateTree(category['categories'])
+  //     }
+  //   });
+  //   return data
+  // }
+
 
   getSearchResult(search){
     if (search.type == 'venue'){

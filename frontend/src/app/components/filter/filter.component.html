@@ -1,36 +1,15 @@
-<!-- <mat-accordion  disabled *ngIf="categories">
-  <mat-expansion-panel *ngFor="let category of categories; let i = index">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <mat-checkbox class="checkbox"
-        [checked]="allComplete"
-        [indeterminate]="someComplete(i)"
-        (change)="setAll(i,$event.checked)">
-        </mat-checkbox>
-        {{category.name}}
-      </mat-panel-title>
-
-    </mat-expansion-panel-header>
-      <div class="container-fluid small">
-        <div *ngFor="let subcategory of category.categories;">
-          <mat-checkbox
-          [(ngModel)]="subcategory.completed"
-          (ngModelChange)="updateAllComplete(i)"
-          (click)='exp.toggle()'>
-            {{subcategory.name}}
-          </mat-checkbox>
-        </div>
-      </div>
-  </mat-expansion-panel>
-</mat-accordion> -->
-
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+<mat-tree [dataSource]="categories" [treeControl]="treeControl"  class="example-tree">
   <!-- This is the tree node template for leaf nodes -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
     <li class="mat-tree-node">
       <!-- use a disabled button to provide padding for tree leaf -->
       <button mat-icon-button disabled></button>
-      {{node.name}}
+        <mat-checkbox
+        [checked]="node.checked"
+        (change)="clickedActive(node)"
+        >
+        {{node.name}}
+        </mat-checkbox>
     </li>
   </mat-tree-node>
   <!-- This is the tree node template for expandable nodes -->
@@ -42,12 +21,15 @@
         <button mat-icon-button matTreeNodeToggle
                 [attr.aria-label]="'toggle ' + node.name">
           <mat-icon class="mat-icon-rtl-mirror">
-            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_left'}}
           </mat-icon>
         </button>
-
-
-        {{node.name}}
+            <mat-checkbox class="example-margin"
+              [checked]="node.checked"
+              [indeterminate]="!node.checked && getCheckedAmount(node) > 0"
+              (change)="clickedActive(node)">
+                {{node.name}}
+            </mat-checkbox>
       </div>
       <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>
@@ -55,6 +37,3 @@
     </li>
   </mat-nested-tree-node>
 </mat-tree>
-
-
-
