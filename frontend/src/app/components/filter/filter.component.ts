@@ -38,11 +38,6 @@ export class FilterComponent implements OnInit {
 
   /** Checks if datasource for material tree has any child groups */
   hasChild = (_: number, node: CategoryNode) => !!node.categories && node.categories.length > 0;
-
-  /** Returns child groups from security group */
-  private _getChildren = (node: CategoryNode) => node.categories;
-
-
   /**toggle clicks checkmarks */
   clickedActive(element) {
     element.checked = !element.checked;
@@ -121,5 +116,31 @@ export class FilterComponent implements OnInit {
       }
     })
     return state
+  }
+  /**solution to current problem: when all children node of a parent node are unclicked, parent seems still to be clicked,
+   * the following code is intentioned to fix this problem, but are not yet applied,
+   * working theory is that on every child unchecked, must check if all children are unchecked, if so, check if
+   * parent is unchecked, if not, must uncheck parent
+   */
+  /**makes parent component of checked children checked */
+  setParentChecked(category:CategoryNode){
+    if(this.initiateChildrenChecker(category.categories)){
+      category.checked = true
+    }
+  }
+  /**find parent node of given child node */
+  findParentNodeofChildNode(childNode:CategoryNode,categories: CategoryNode[]):CategoryNode[]{
+    let parentNode = categories
+    this.categories.forEach(node => {
+      if (parentNode.includes(childNode)){
+        return parentNode
+      }
+      else{
+        if(node.categories && node.categories.length > 0){
+          parentNode = this.findParentNodeofChildNode(node.categories,parentNode)
+        }
+      }
+    })
+    return parentNode
   }
 }
