@@ -22,8 +22,8 @@
           </mat-icon>
         </button>
         <mat-checkbox class="example-margin"
-          [checked]="childrenChecked(node)"
-          [indeterminate]="!node.checked && !childrenChecked(node)"
+          [checked]="node.checked && childrenChecked(node.categories)"
+          [indeterminate]="!node.checked && !childrenChecked(node.categories)"
           (change)="setAll(node)">
             {{node.name}}
         </mat-checkbox>
