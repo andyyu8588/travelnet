@@ -46,9 +46,6 @@ export class FilterComponent implements OnInit {
   /**toggle clicks checkmarks */
   clickedActive(element) {
     element.checked = !element.checked;
-    console.log(this.categories[1].categories)
-    console.log(this.allChildrenChecked((this.categories[1].categories)))
-    console.log(this.atLeastOneChecked(this.categories[1].categories))
   }
   /**makes all children nodes of a parent node checked when checked, and the opposite if need be */
   setAll(category) {
@@ -59,9 +56,6 @@ export class FilterComponent implements OnInit {
     else if (!category.checked){
       this.uncheckAll(category.categories)
     }
-    console.log(this.categories[1].categories)
-    console.log(this.allChildrenChecked((this.categories[1].categories)))
-    console.log(this.atLeastOneChecked(this.categories[1].categories))
   }
   /** checks all children of a node */
   checkAll(categories){
@@ -85,35 +79,45 @@ export class FilterComponent implements OnInit {
     });
   }
 
+  initiateChildrenChecker(categories: CategoryNode[]): boolean{
+    var state = true;
+    state = this.allChildrenChecked(categories, state);
+    return state
+  }
   /** returns false if at least one child is unchecked*/
-  allChildrenChecked(categories: CategoryNode[]): boolean {
-    let state: boolean = true
+  allChildrenChecked(categories: CategoryNode[], state: boolean): boolean {
     categories.forEach((child: CategoryNode) => {
-      if (child.categories.length > 0){
-        this.allChildrenChecked(child.categories)
+      if (!state){
+        return state
       }
-      else{
-        if(!child.checked){
-          state = false
-          return state
-        }
+      else if (state && child.categories && child.categories.length > 0){
+        state = this.allChildrenChecked(child.categories, state)
+      }
+      else if(!child.checked){
+        state = false
+        return state
       }
     })
     return state
   }
+  initiateAtLeastOneChecked(categories: CategoryNode[]): boolean{
+    var state = false;
+    state = this.atLeastOneChecked(categories, state);
+    return state
+  }
 
   /** returns true if at least one child is checked*/
-  atLeastOneChecked(categories: CategoryNode[]): boolean {
-    let state: boolean = false
+  atLeastOneChecked(categories: CategoryNode[], state: boolean): boolean {
     categories.forEach((child: CategoryNode) => {
-      if (child.categories.length > 0){
-        this.atLeastOneChecked(child.categories)
+      if(state){
+        return state
       }
-      else{
-        if(child.checked){
-          state = true
-          return state
-        }
+      else if (!state && child.categories && child.categories.length > 0){
+        state = this.atLeastOneChecked(child.categories, state)
+      }
+      else if(child.checked){
+        state = true
+        return state
       }
     })
     return state
