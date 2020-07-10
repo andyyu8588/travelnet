@@ -85,21 +85,16 @@ export class FilterComponent implements OnInit {
   // if one children unchecked: false
   bigChildren(node: CategoryNode[]): boolean {
     for (let x = 0; x < node.length; x++) {
-      let bol: boolean = this.childrenChecked(node[x].categories)
-      if (bol) {
-
-      } else {
+      if(!this.childrenChecked(node[x].categories)){
         return false
-        
       }
     }
+    return true
   }
 
   /** returns false if node has unchecked children, and true if all children are checked */
   childrenChecked(categories: CategoryNode[]): boolean {
-    // if (node.categories) {
       categories.forEach((node: CategoryNode) => {
-        if (node.checked) {
           if (node.categories && node.categories.length > 0) {
             this.childrenChecked(node.categories)
           }
@@ -109,21 +104,8 @@ export class FilterComponent implements OnInit {
               return false
             }
           }
-        } else {
-          return false
-        }
       })
       return true
-    // }
-    //if it is a leaf
-    //problem: returns value too quickly
-    // else {
-    //   if (node.checked) {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // }
   }
 
 
