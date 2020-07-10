@@ -81,6 +81,20 @@ export class FilterComponent implements OnInit {
     });
   }
 
+  // if all children checked: true
+  // if one children unchecked: false
+  bigChildren(node: CategoryNode[]): boolean {
+    for (let x = 0; x < node.length; x++) {
+      let bol: boolean = this.childrenChecked(node[x].categories)
+      if (bol) {
+
+      } else {
+        return false
+        
+      }
+    }
+  }
+
   /** returns false if node has unchecked children, and true if all children are checked */
   childrenChecked(categories: CategoryNode[]): boolean {
     // if (node.categories) {
