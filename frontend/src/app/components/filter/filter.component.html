@@ -22,7 +22,7 @@
           </mat-icon>
         </button>
         <mat-checkbox class="example-margin"
-          [checked]="node.checked && initiateChildrenChecker(node.categories)"
+          [checked]="initiateChildrenChecker(node.categories)"
           [indeterminate]="!initiateChildrenChecker(node.categories) && initiateAtLeastOneChecked(node.categories)"
           (change)="setAll(node)">
             {{node.name}}

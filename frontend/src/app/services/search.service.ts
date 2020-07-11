@@ -133,7 +133,7 @@ export class SearchService implements OnDestroy {
         category['checked'] = true
       }
       else if (category['categories'] && category['categories'].length !== 0){
-        category['checked'] = true
+        // category['checked'] = true
         return this.initiateTree(category['categories'])
       }
     });

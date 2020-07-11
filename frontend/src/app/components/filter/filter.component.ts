@@ -41,6 +41,7 @@ export class FilterComponent implements OnInit {
   /**toggle clicks checkmarks */
   clickedActive(element) {
     element.checked = !element.checked;
+    console.log(this.categories[1])
   }
   /**makes all children nodes of a parent node checked when checked, and the opposite if need be */
   setAll(category) {
