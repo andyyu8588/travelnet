@@ -1,12 +1,11 @@
 import { CategoryNode } from './../../../models/CategoryNode.model';
 import { FilterComponent } from './../../filter/filter.component';
-import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, Input, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/services/search.service';
 import { tab } from 'src/app/models/tab.model'
 import { Router } from '@angular/router';
 import { MapService } from 'src/app/services/map/map.service';
-import { greaterThanValidatorExtension } from '@rxweb/reactive-form-validators/validators-extension';
 
 @Component({
   selector: 'app-searchresults',
@@ -24,7 +23,6 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
   loading: boolean = true
   fakeCenter: any = null
   @Input() select: number
-
 
   private returnTab_sub: Subscription
   private filter_sub: Subscription
@@ -59,26 +57,46 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit() {
     // subscribe to changes in filter selection
-    this.selectedNodes_sub = this.filter.selectedNodes.subscribe((node: CategoryNode) => {
-      console.log(this.selectedNodes)
-      if (node) {
+    this.selectedNodes_sub = this.filter.selectedNodes.subscribe((nodeName: string) => {
+      this.checkChildNameState = false
+      if (nodeName) {
         for (let x = 0; x < this.selectedNodes.length; x++) {
-          // if finds one
-          if (this.selectedNodes[x] == node) {
-            this.selectedNodes.splice(x, 1)
+          let resp = this.checkChildName(this.selectedNodes[x], nodeName, [x])
+          if (resp.found) {
+            console.log(resp)
             break
           }
-          if (x == (this.selectedNodes.length-1) && this.selectedNodes[x] != node) {
-
-          }
         }
+
       }
     })
   }
 
-  checkChildName(node: CategoryNode): CategoryNode {
-    
-    return
+  // true if  
+  private checkChildNameState: boolean = false
+  private CheckChildIndex: number[] = []
+  checkChildName(selectedNode: CategoryNode, nodeName: string, index: number[]):
+  {
+    [key: string]: any
+    found: boolean
+    index?: number[]
+    nodeObj?: CategoryNode
+  }
+  {
+    if (selectedNode.name == nodeName) {
+      this.checkChildNameState = true
+      this.CheckChildIndex = index
+    } else if (selectedNode.categories.length) {
+      selectedNode.categories.forEach((element: CategoryNode) => {
+        let ind: number[] = index.slice()
+        ind.push(selectedNode.categories.indexOf(element))
+        this.checkChildName(element, nodeName, ind)
+      })
+    } 
+    return {
+      found: this.checkChildNameState,
+      index: this.CheckChildIndex
+    }
   }
 
   checkFilter(type: number){

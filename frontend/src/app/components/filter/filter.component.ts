@@ -21,8 +21,8 @@ export class FilterComponent implements OnInit {
   treeControl = new NestedTreeControl<CategoryNode>(node => node.categories);
   dataSource = new MatTreeNestedDataSource<CategoryNode>();
 
-  private _selectedNodes: BehaviorSubject<CategoryNode> = new BehaviorSubject(null)
-  selectedNodes: Observable<CategoryNode> = this._selectedNodes.asObservable()
+  private _selectedNodes: BehaviorSubject<string> = new BehaviorSubject(null)
+  selectedNodes: Observable<string> = this._selectedNodes.asObservable()
 
   constructor(
     private SearchService: SearchService,
@@ -41,7 +41,7 @@ export class FilterComponent implements OnInit {
   /**toggle checkmark for leafs */
   clickedActive(element: CategoryNode) {
     element.checked = !element.checked;
-    this._selectedNodes.next(element)
+    this._selectedNodes.next(element.name)
   }
 
   /**toggle checkmark for nodes */
@@ -53,7 +53,7 @@ export class FilterComponent implements OnInit {
     else if (allChecked){
       this.uncheckAll(category.categories)
     }
-    this._selectedNodes.next(category)
+    this._selectedNodes.next(category.name)
   }
 
   /** checks all children of a node */
