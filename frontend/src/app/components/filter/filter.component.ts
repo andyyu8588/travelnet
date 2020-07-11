@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FoursquareService } from 'src/app/services/map/foursquare.service';
 import { SearchService } from 'src/app/services/search.service';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
-import {BehaviorSubject, Observable, of as observableOf, Subscription} from 'rxjs';
-import { CategoryNode, CategoryFlatNode } from 'src/app/models/CategoryNode.model';
+import { CategoryNode} from 'src/app/models/CategoryNode.model';
 
 @Component({
   selector: 'app-filter',
@@ -30,9 +28,6 @@ export class FilterComponent implements OnInit {
     this.SearchService.updateCategories()
     .then(x => {
       this.categories = x
-      console.log(this.categories)
-
-      // this.allComplete = new Array(this.categories.length).fill(true)
     })
   }
 
@@ -41,15 +36,14 @@ export class FilterComponent implements OnInit {
   /**toggle clicks checkmarks */
   clickedActive(element) {
     element.checked = !element.checked;
-    console.log(this.categories[1])
   }
   /**makes all children nodes of a parent node checked when checked, and the opposite if need be */
   setAll(category) {
-    category.checked = !category.checked;
-    if(category.checked) {
+    let allChecked = this.initiateChildrenChecker(category.categories)
+    if(!allChecked) {
       this.checkAll(category.categories)
     }
-    else if (!category.checked){
+    else if (allChecked){
       this.uncheckAll(category.categories)
     }
   }
@@ -58,7 +52,6 @@ export class FilterComponent implements OnInit {
       categories.forEach(sub => {
       sub.checked = true;
       if(sub.categories && sub.categories.length > 0){
-        sub.checked = true;
         this.checkAll(sub.categories)
       }
   });
@@ -69,12 +62,11 @@ export class FilterComponent implements OnInit {
       categories.forEach(sub => {
         sub.checked = false;
         if(sub.categories && sub.categories.length > 0){
-          sub.checked = false;
           this.uncheckAll(sub.categories)
         }
     });
   }
-
+  /**initiates allChildrenChecked() */
   initiateChildrenChecker(categories: CategoryNode[]): boolean{
     var state = true;
     state = this.allChildrenChecked(categories, state);
@@ -96,6 +88,7 @@ export class FilterComponent implements OnInit {
     })
     return state
   }
+  /**initiates atLeastOneChecked() */
   initiateAtLeastOneChecked(categories: CategoryNode[]): boolean{
     var state = false;
     state = this.atLeastOneChecked(categories, state);
@@ -117,31 +110,5 @@ export class FilterComponent implements OnInit {
       }
     })
     return state
-  }
-  /**solution to current problem: when all children node of a parent node are unclicked, parent seems still to be clicked,
-   * the following code is intentioned to fix this problem, but are not yet applied,
-   * working theory is that on every child unchecked, must check if all children are unchecked, if so, check if
-   * parent is unchecked, if not, must uncheck parent
-   */
-  /**makes parent component of checked children checked */
-  setParentChecked(category:CategoryNode){
-    if(this.initiateChildrenChecker(category.categories)){
-      category.checked = true
-    }
-  }
-  /**find parent node of given child node */
-  findParentNodeofChildNode(childNode:CategoryNode,categories: CategoryNode[]):CategoryNode[]{
-    let parentNode = categories
-    this.categories.forEach(node => {
-      if (parentNode.includes(childNode)){
-        return parentNode
-      }
-      else{
-        if(node.categories && node.categories.length > 0){
-          parentNode = this.findParentNodeofChildNode(node.categories,parentNode)
-        }
-      }
-    })
-    return parentNode
   }
 }

@@ -36,7 +36,7 @@ import { MapService } from 'src/app/services/map/map.service';
 export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   // about sidebar
   private windowSub: Subscription
-  window: boolean 
+  window: boolean = true
   width: number = 0.35
   Styles = {
     'position': 'fixed',

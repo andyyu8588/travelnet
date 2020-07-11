@@ -38,9 +38,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this._fakeCenter = this.map.center.subscribe((center)=> this.fakeCenter = center)
     this.map.getFakeCenter(5)
     this.SearchService.updateCategories().then((x: Array<CategoryNode>) => {
-      console.log(x)
       this.categories = x
-      console.log(this.categories)
     })
 
   }
