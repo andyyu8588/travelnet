@@ -1,4 +1,4 @@
-import { CategoryNode } from './../../../models/CategoryNode.model';
+import { CategoryNode, DisplayCategoryNode } from './../../../models/CategoryNode.model';
 import { FilterComponent } from './../../filter/filter.component';
 import { Component, OnInit, OnDestroy, AfterViewInit, Input, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -28,7 +28,7 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
   private filter_sub: Subscription
   private fakeCenter_sub: Subscription
   private selectedNodes_sub: Subscription
-  selectedNodes: CategoryNode[]
+  selectedNodes: DisplayCategoryNode[]
   
   constructor(
     private map: MapService,
@@ -39,7 +39,9 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnInit(): void {
     this.SearchService.updateCategories()
     .then((arr: CategoryNode[]) => {
-      this.selectedNodes = arr
+      arr.forEach((el: CategoryNode) => {
+        this.selectedNodes.push(new DisplayCategoryNode(false))
+      })
     })
     this.returnTab_sub = this.SearchService.searchTab.subscribe((tab) => {
       console.log(tab)
@@ -59,11 +61,16 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
     // subscribe to changes in filter selection
     this.selectedNodes_sub = this.filter.selectedNodes.subscribe((nodeName: string) => {
       this.checkChildNameState = false
+      this.NodeObj = null
       if (nodeName) {
         for (let x = 0; x < this.selectedNodes.length; x++) {
-          let resp = this.checkChildName(this.selectedNodes[x], nodeName, [x])
+          let resp = this.checkChildName(this.selectedNodes[x], nodeName, [])
           if (resp.found) {
-            console.log(resp)
+            console.log(resp.index)
+            let container: DisplayCategoryNode = this.selectedNodes[x]
+            for (let y = 0; y < (resp.index.length - 1); y++) {
+
+            }
             break
           }
         }
@@ -75,6 +82,7 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
   // true if  
   private checkChildNameState: boolean = false
   private CheckChildIndex: number[] = []
+  private NodeObj: CategoryNode = null
   checkChildName(selectedNode: CategoryNode, nodeName: string, index: number[]):
   {
     [key: string]: any
@@ -86,6 +94,7 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
     if (selectedNode.name == nodeName) {
       this.checkChildNameState = true
       this.CheckChildIndex = index
+      this.NodeObj = selectedNode
     } else if (selectedNode.categories.length) {
       selectedNode.categories.forEach((element: CategoryNode) => {
         let ind: number[] = index.slice()
@@ -95,7 +104,8 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
     } 
     return {
       found: this.checkChildNameState,
-      index: this.CheckChildIndex
+      index: this.CheckChildIndex,
+      nodeObj: this.NodeObj
     }
   }
 
