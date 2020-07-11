@@ -1,4 +1,4 @@
-import { CategoryNode, DisplayCategoryNode } from './../../../models/CategoryNode.model';
+import { CategoryNode } from './../../../models/CategoryNode.model';
 import { FilterComponent } from './../../filter/filter.component';
 import { Component, OnInit, OnDestroy, AfterViewInit, Input, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -28,7 +28,7 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
   private filter_sub: Subscription
   private fakeCenter_sub: Subscription
   private selectedNodes_sub: Subscription
-  selectedNodes: DisplayCategoryNode[]
+  selectedNodes: CategoryNode[] = []
   
   constructor(
     private map: MapService,
@@ -39,9 +39,7 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnInit(): void {
     this.SearchService.updateCategories()
     .then((arr: CategoryNode[]) => {
-      arr.forEach((el: CategoryNode) => {
-        this.selectedNodes.push(new DisplayCategoryNode(false))
-      })
+      this.selectedNodes = arr
     })
     this.returnTab_sub = this.SearchService.searchTab.subscribe((tab) => {
       console.log(tab)
@@ -67,7 +65,7 @@ export class SearchresultsComponent implements OnInit, AfterViewInit, OnDestroy 
           let resp = this.checkChildName(this.selectedNodes[x], nodeName, [])
           if (resp.found) {
             console.log(resp.index)
-            let container: DisplayCategoryNode = this.selectedNodes[x]
+            let container: CategoryNode = this.selectedNodes[x]
             for (let y = 0; y < (resp.index.length - 1); y++) {
 
             }

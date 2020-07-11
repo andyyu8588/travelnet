@@ -13,7 +13,13 @@ export class foursquareCategory {
 export class CategoryNode {
   categories: CategoryNode[]
   name: string
-  checked: boolean
+  checked?: boolean
+  hidden?: boolean
+
+  // need recursive contructor for hidden property in childs
+  constructor() {
+
+  }
 }
 
 /** Flat to-do item node with expandable and level information */
@@ -23,11 +29,11 @@ export class CategoryFlatNode {
   expandable: boolean;
 }
 
-export class DisplayCategoryNode extends CategoryNode {
-  hidden: boolean
+// export class DisplayCategoryNode extends CategoryNode {
+//   hidden: boolean
 
-  constructor(bool: boolean) {
-    super()
-    this.hidden = bool
-  }
-}
+//   constructor(bool: boolean, obj: {[key: string]: any}) {
+//     super(obj.categories, obj.name)
+//     this.hidden = bool
+//   }
+// }
