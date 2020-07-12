@@ -1,34 +1,38 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import {NestedTreeControl} from '@angular/cdk/tree';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
 import { CategoryNode} from 'src/app/models/CategoryNode.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
-export class FilterComponent implements OnInit {
+export class FilterComponent implements OnInit, OnDestroy {
   completed: boolean
   name: string
-  categories: any = null
   panelOpenState = false
+
+
+  categoriesTree: CategoryNode = null
+  categoriesSet: any
+  private _categoriesTree: Subscription
+  private _categoriesSet: Subscription
+
   allComplete: Array<boolean> = null
   count = 0;
 
   treeControl = new NestedTreeControl<CategoryNode>(node => node.categories);
-  dataSource = new MatTreeNestedDataSource<CategoryNode>();
+
 
   constructor(
     private SearchService: SearchService,
   ) { }
 
   ngOnInit(): void {
-    this.SearchService.updateCategories()
-    .then(x => {
-      this.categories = x
-    })
+    this._categoriesTree= this.SearchService.categoryTree.subscribe((tree)=> this.categoriesTree = tree)
+    this._categoriesSet= this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
   }
 
   /** Checks if datasource for material tree has any child groups */
@@ -36,6 +40,7 @@ export class FilterComponent implements OnInit {
   /**toggle clicks checkmarks */
   clickedActive(element) {
     element.checked = !element.checked;
+    this.modifyIdSet(element)
   }
   /**makes all children nodes of a parent node checked when checked, and the opposite if need be */
   setAll(category) {
@@ -51,6 +56,7 @@ export class FilterComponent implements OnInit {
   checkAll(categories){
       categories.forEach(sub => {
       sub.checked = true;
+      this.modifyIdSet(sub)
       if(sub.categories && sub.categories.length > 0){
         this.checkAll(sub.categories)
       }
@@ -61,6 +67,7 @@ export class FilterComponent implements OnInit {
   uncheckAll(categories){
       categories.forEach(sub => {
         sub.checked = false;
+        this.modifyIdSet(sub)
         if(sub.categories && sub.categories.length > 0){
           this.uncheckAll(sub.categories)
         }
@@ -110,5 +117,18 @@ export class FilterComponent implements OnInit {
       }
     })
     return state
+  }
+  /**accepts leaf node, and either removes it or adds it to the array */
+  modifyIdSet(node: CategoryNode){
+    if(node.checked && !(this.categoriesSet).has(node.id) && node.categories.length === 0){
+      this.categoriesSet.add(node.id)
+    }else if(!node.checked && this.categoriesSet.has(node.id) && node.categories.length === 0){
+      this.categoriesSet.delete(node.id)
+    }
+  }
+  ngOnDestroy(){
+    this.SearchService.updateCategoryTree(this.categoriesTree)
+    this._categoriesTree.unsubscribe()
+    this._categoriesSet.unsubscribe()
   }
 }

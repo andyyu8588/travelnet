@@ -19,7 +19,9 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   loading: boolean = true
   fakeCenter: any = null
   @Input() select: number
+  categoriesSet: any = null
 
+  private _categoriesSet: Subscription
   private returnTab: Subscription
   private filter: Subscription
   private _fakeCenter: Subscription
@@ -33,14 +35,17 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
+    console.log(this.openTab)
     this.filter = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
     this._fakeCenter = this.SearchService.searchTab.subscribe((center)=> this.fakeCenter = center)
+    this._categoriesSet= this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
     this.url = this.router.url.replace('/search/','')
     this.urlQuery = this.url.split("&")[0]
     this.urlLatLng = this.url.split("&")[1]
     this.SearchService.enterSearch(this.urlQuery,this.SearchService.mainSearch(this.urlQuery,this.urlLatLng),this.urlLatLng).then(()=>{
       this.loading = false
     })
+
   }
   checkFilter(type: number){
     // console.log(this.filterNumber)
@@ -51,9 +56,18 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
       return false
     }
   }
+  checkIfChecked(id:string):boolean{
+    if(this.categoriesSet.has(id)){
+      return true
+    }
+    else{
+      return false
+    }
+  }
   ngOnDestroy(){
     this.filter.unsubscribe()
     this.returnTab.unsubscribe()
     this._fakeCenter.unsubscribe()
+    this._categoriesSet.unsubscribe()
   }
 }

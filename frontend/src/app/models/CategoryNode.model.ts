@@ -14,6 +14,7 @@ export class CategoryNode {
  categories: CategoryNode[]
  name: string
  checked: boolean
+ id: string
 }
 
 /** Flat to-do item node with expandable and level information */

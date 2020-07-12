@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { tab } from 'src/app/models/tab.model';
 import { Subscription } from 'rxjs';
-import { FoursquareService } from 'src/app/services/map/foursquare.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -30,7 +29,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     private Renderer : Renderer2,
     private router : Router,
     private SearchService: SearchService,
-    private FoursquareService: FoursquareService
   ) { }
 
   ngOnInit(): void {

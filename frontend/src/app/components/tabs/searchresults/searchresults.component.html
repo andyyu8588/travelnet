@@ -6,8 +6,10 @@
       <br>
       <div *ngIf="checkFilter(1)">
         <div *ngFor="let result of openTab.content.venues">
-          <app-venueButton [result]="result"></app-venueButton>
-          <br>
+          <div *ngIf="categoriesSet && checkIfChecked(result.venue.categories[0].id)">
+            <app-venueButton [result]="result"></app-venueButton>
+            <br>
+          </div>
         </div>
       </div>
       <div *ngIf="checkFilter(2)">

@@ -23,13 +23,23 @@ export class SearchService implements OnDestroy {
   private _filterNumber: BehaviorSubject<any> = new BehaviorSubject(this.filter)
   public filterNumber : Observable<any> = this._filterNumber.asObservable()
 
-  // private returnSearch: Array<any> = []
-  // private _searchResults: BehaviorSubject<any> = new BehaviorSubject(this.returnSearch)
-  // public searchResults: Observable<any> = this._searchResults.asObservable()
+  private categories: CategoryNode = null
+  private _categoryTree: BehaviorSubject<any> = new BehaviorSubject(this.categories)
+  public categoryTree : Observable<any> = this._categoryTree.asObservable()
+
+  private categoriesCollection: any
+  private _categorySet: BehaviorSubject<any> = new BehaviorSubject(this.categoriesCollection)
+  public categorySet : Observable<any> = this._categorySet.asObservable()
+
+
 
 
   constructor(private HttpClient: HttpClient,
               private foursquareService: FoursquareService) {
+      this.updateCategories().then(x => {
+      this._categoryTree.next(x.tree)
+      this._categorySet.next(x.set)
+    })
   }
 
 //looks for venues in the area
@@ -120,24 +130,29 @@ export class SearchService implements OnDestroy {
     })
 
   }
+  //anything category related
   updateCategories():any{
     return new Promise((resolve,reject)=>{
       this.foursquareService.updateCategories().subscribe(x=>{
-        resolve(this.initiateTree(x.response.categories))
+        resolve(this.initiateTree(x.response.categories,new Set()))
       })
     })
   }
-  initiateTree(data){
+  /**makes tree leaves checked and creates array containing category id*/
+  initiateTree(data,categorySet){
     data.forEach(category => {
       if (category['categories'] && category['categories'].length === 0){
         category['checked'] = true
+        categorySet.add(category.id)
       }
       else if (category['categories'] && category['categories'].length !== 0){
-        // category['checked'] = true
-        return this.initiateTree(category['categories'])
+        return this.initiateTree(category['categories'],categorySet)
       }
     });
-    return data
+    return {'tree': data,'set': categorySet}
+  }
+  updateCategoryTree(newData){
+    this._categoryTree.next(newData)
   }
 
 
@@ -168,9 +183,9 @@ export class SearchService implements OnDestroy {
     this._filterNumber.next(filter)
   }
 
-
-
   ngOnDestroy() {
     this._searchTab.unsubscribe()
+    this._categoryTree.unsubscribe()
+    this._filterNumber.unsubscribe()
   }
 }
