@@ -99,10 +99,10 @@ export class SearchService implements OnDestroy {
       this.resetSearchContent()
       searchType
       .then(result => {
-          if(true && !result[0].response.warning){
-            result[0].response.groups[0].items.forEach(venue =>{
-              this.search.content.venues.push(venue)
-            })
+        if(true && !result[0].response.warning){
+          result[0].response.groups[0].items.forEach(venue =>{
+            this.search.content.venues.push(venue)
+          })
         }
         if (sessionStorage.getItem('username')){
           if (true && result[1].users){
@@ -110,36 +110,35 @@ export class SearchService implements OnDestroy {
               this.search.content.users.push(user)
           })
         }}
-        else{
+        else {
           this.search.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
         }
-      this.search = (
-        {
-        query: query,
-        latLng: latLng,
-        prePath: 'search/',
-        path: 'search/' + query +'&'+latLng,
-        content: this.search.content
-      }
-      )
-      resolve(this._searchTab.next(this.search))
+        this.search = ({
+          query: query,
+          latLng: latLng,
+          prePath: 'search/',
+          path: 'search/' + query +'&'+latLng,
+          content: this.search.content
+        })
+        resolve(this._searchTab.next(this.search))
       })
       .catch(err => {
         reject(err)
       })
     })
-
   }
+
   //anything category related
-  updateCategories():any{
+  updateCategories(): Promise<{tree: any, set: any}> {
     return new Promise((resolve,reject)=>{
       this.foursquareService.updateCategories().subscribe(x=>{
         resolve(this.initiateTree(x.response.categories,new Set()))
       })
     })
   }
+
   /**makes tree leaves checked and creates array containing category id*/
-  initiateTree(data,categorySet){
+  initiateTree(data,categorySet): {tree: any, set: any} {
     data.forEach(category => {
       if (category['categories'] && category['categories'].length === 0){
         category['checked'] = true
@@ -151,13 +150,14 @@ export class SearchService implements OnDestroy {
     });
     return {'tree': data,'set': categorySet}
   }
+
   updateCategoryTree(newData){
     this._categoryTree.next(newData)
   }
+
   updateCategorySet(newData){
     this._categorySet.next(newData)
   }
-
 
   getSearchResult(search){
     if (search.type == 'venue'){
@@ -167,21 +167,25 @@ export class SearchService implements OnDestroy {
       return ('User: ' + search.name)
     }
   }
+
   resetSearchContent(){
     this.search.content= {venues:[],users:[]}
     this._searchTab.next(this.search)
   }
+
   updatePath(path){
     this.search.prePath = this.search.path
     this.search.path = path
     this._searchTab.next(this.search)
   }
+
   goBack(){
     this.search.path = this.search.prePath
     this.search.prePath = 'search/'
     this._searchTab.next(this.search)
     console.log(this.search)
   }
+
   changeFilter(filter: number){
     this._filterNumber.next(filter)
   }

@@ -15,7 +15,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   name: string
   panelOpenState = false
 
-
   categoriesTree: CategoryNode = null
   categoriesSet: any
   private _categoriesTree: Subscription
@@ -25,7 +24,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   count = 0;
 
   treeControl = new NestedTreeControl<CategoryNode>(node => node.categories);
-
 
   private _selectedNodes: BehaviorSubject<string> = new BehaviorSubject(null)
   selectedNodes: Observable<string> = this._selectedNodes.asObservable()
@@ -62,7 +60,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   /** checks all children of a node */
-  checkAll(categories){
+  checkAll(categories: CategoryNode[]) {
       categories.forEach(sub => {
       sub.checked = true;
       this.modifyIdSet(sub)
@@ -73,7 +71,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   /** unchecks all children of a node */
-  uncheckAll(categories){
+  uncheckAll(categories: CategoryNode[]) {
       categories.forEach(sub => {
         sub.checked = false;
         this.modifyIdSet(sub)

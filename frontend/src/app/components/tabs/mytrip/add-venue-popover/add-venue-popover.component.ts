@@ -1,6 +1,6 @@
+import { SearchService } from './../../../../services/search.service';
 import { tripModel } from './../../../../models/trip.model';
 import { TripService } from './../../../../services/trip.service';
-import { HttpService } from './../../../../services/http.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -33,7 +33,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   isLoaded: boolean
   isErr: boolean = false
 
-  constructor(private HttpService: HttpService,
+  constructor(private SearchService: SearchService,
               private TripService: TripService,
               public dialogRef: MatDialogRef<AddVenuePopoverComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
@@ -51,9 +51,16 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   ngOnInit(): void {
     this.isLoaded = false
 
+    this.SearchService.updateCategories()
+    .then((response) => {
+      
+    })
+
     this.trips_sub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.allTrips = trips
     })
+
+
 
     this.customVenueForm = new FormGroup({
       'name': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)]),
