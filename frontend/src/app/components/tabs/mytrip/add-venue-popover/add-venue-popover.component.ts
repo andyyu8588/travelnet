@@ -1,3 +1,5 @@
+import { element } from 'protractor';
+import { CategoryNode } from './../../../../models/CategoryNode.model';
 import { SearchService } from './../../../../services/search.service';
 import { tripModel } from './../../../../models/trip.model';
 import { TripService } from './../../../../services/trip.service';
@@ -6,6 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CitySearchComponent } from './../../../city-search/city-search.component';
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Input, Inject } from '@angular/core';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-venue-popover',
@@ -20,6 +23,10 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   // passed by mytrip
   tripIndex: number
   dayIndex: number
+
+  // foursquare venues categories
+  defaultCategory: string = 'All'
+  venueCategories: String[] = []
 
   // for custom add venue
   @ViewChild('citySearch') CitySearchComponent: CitySearchComponent
@@ -51,9 +58,12 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   ngOnInit(): void {
     this.isLoaded = false
 
+    // sets mat select venue category options 
     this.SearchService.updateCategories()
-    .then((response) => {
-      
+    .then((response: {tree: CategoryNode[], set: any}) => {
+      response.tree.forEach((element: CategoryNode) => {
+        this.venueCategories.push(element.name)
+      })
     })
 
     this.trips_sub = this.TripService.trips.subscribe((trips: tripModel[]) => {

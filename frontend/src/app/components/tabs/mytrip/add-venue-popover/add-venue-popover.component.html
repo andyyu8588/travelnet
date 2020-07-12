@@ -16,13 +16,15 @@
                             <mat-label>Search Venue</mat-label>
                             <input matInput type="text" >
                         </mat-form-field>
-                        <br>
-                        <mat-form-field>
-                            <mat-select>
-                                <mat-label>Venue Category</mat-label>
-                                <mat-option></mat-option>
+                        &nbsp;
+                        <mat-form-field appearance='fill'>
+                            <mat-label>Category</mat-label>
+                            <mat-select [(value)]='defaultCategory'>
+                                <mat-option value='All'>All</mat-option>
+                                <mat-option *ngFor='let category of venueCategories' [value]='category'>{{category}}</mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <br>
                         <button mat-raised-button color='primary'>Search</button>
                     </form>
                 </mat-tab>
@@ -43,6 +45,15 @@
                             <input matInput type="text" autocomplete="off" formControlName='name'>
                             <small class="text-danger" *ngIf="!customVenueForm.get('name').valid && customVenueForm.get('name').touched">Name must be between 1 and 20 characters</small>
                         </mat-form-field>
+                        &nbsp;
+                        <mat-form-field appearance='fill'>
+                            <mat-label>Category</mat-label>
+                            <mat-select [(value)]='defaultCategory'>
+                                <mat-option value='All'>All</mat-option>
+                                <mat-option *ngFor='let category of venueCategories' [value]='category'>{{category}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <hr style="margin-top: 0;">
                         <app-city-search #citySearch [appearance]='citySearchAppearance' [placheholder]='citySearchPlaceholder'></app-city-search>
                         <mat-form-field appearance='outline'>
                             <mat-label>Street Address</mat-label>

@@ -1,5 +1,5 @@
 import { CategoryNode } from './../../models/CategoryNode.model';
-import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, AfterContentInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
@@ -35,16 +35,14 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
     this._fakeCenter = this.map.center.subscribe((center)=> this.fakeCenter = center)
     this.map.getFakeCenter(5)
-    this.SearchService.updateCategories().then((x: Array<CategoryNode>) => {
-      this.categories = x
+    this.SearchService.updateCategories().then((x: {set: any, tree: any}) => {
+      this.categories = x.tree
     })
-
   }
-
 
   onSubmit(data: string) {
     this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.fakeCenter),this.fakeCenter).then(()=>{
-    this.router.navigate([this.openTab.path])
+      this.router.navigate([this.openTab.path])
     })
   }
 
@@ -75,6 +73,4 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.returnTab.unsubscribe()
     this._fakeCenter.unsubscribe()
   }
-
-
 }

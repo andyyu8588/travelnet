@@ -12,8 +12,9 @@ export class TripService implements OnDestroy {
   private sessionState_sub: Subscription
   sessionState: boolean = this.SessionService.session()
 
-  // venue query from mytrip add venue
-  searchedVenue: string = ''
+  // query settings from mytrip add venue
+  searchedVenue: string = null
+  searchedCategory: string = null
 
   private _trips: BehaviorSubject<tripModel[]> = new BehaviorSubject([])
   public trips: Observable<tripModel[]> = this._trips.asObservable()

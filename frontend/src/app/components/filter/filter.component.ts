@@ -1,3 +1,4 @@
+import { TripService } from './../../services/trip.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
@@ -30,11 +31,16 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   constructor(
     private SearchService: SearchService,
+    private TripService: TripService
   ) { }
 
   ngOnInit(): void {
     this._categoriesTree= this.SearchService.categoryTree.subscribe((tree)=> this.categoriesTree = tree)
     this._categoriesSet= this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
+
+    if (this.TripService.searchedCategory) {
+      // modify filter settings
+    }
   }
 
   /** Checks if datasource for material tree has any child groups */
@@ -128,6 +134,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     })
     return state
   }
+
   /**accepts leaf node, and either removes it or adds it to the array */
   modifyIdSet(node: CategoryNode){
     if(node.checked && !(this.categoriesSet).has(node.id) && node.categories.length === 0){
@@ -137,6 +144,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     }
     this.SearchService.updateCategorySet(this.categoriesSet)
   }
+
   ngOnDestroy(){
     this.SearchService.updateCategoryTree(this.categoriesTree)
     this._categoriesTree.unsubscribe()

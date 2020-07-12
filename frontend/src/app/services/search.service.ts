@@ -31,18 +31,15 @@ export class SearchService implements OnDestroy {
   private _categorySet: BehaviorSubject<any> = new BehaviorSubject(this.categoriesCollection)
   public categorySet : Observable<any> = this._categorySet.asObservable()
 
-
-
-
   constructor(private HttpClient: HttpClient,
               private foursquareService: FoursquareService) {
-      this.updateCategories().then(x => {
+    this.updateCategories().then(x => {
       this._categoryTree.next(x.tree)
       this._categorySet.next(x.set)
     })
   }
 
-//looks for venues in the area
+  //looks for venues in the area
   foursquareSearchVenues(query: string, latLng: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.foursquareService.searchVenues(query, latLng)
@@ -54,7 +51,7 @@ export class SearchService implements OnDestroy {
     }
   )}
 
-//gets user info with username input, connection to database
+  //gets user info with username input, connection to database
   userSearch(query: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.HttpClient.get<any>(environment.travelnet.searchUsers,
@@ -75,7 +72,7 @@ export class SearchService implements OnDestroy {
     }
   )}
 
-//gets venue data with id in the query
+  //gets venue data with id in the query
   formatDetails(query: string){
     return new Promise<any>((resolve,reject)=>{
       this.foursquareService.getDetails(query)
@@ -87,13 +84,12 @@ export class SearchService implements OnDestroy {
     })
   }
 
-//combines both user and venue search
+  //combines both user and venue search
   async mainSearch(query: string, latLng: string): Promise<any> {
     return await Promise.all([this.foursquareSearchVenues(query, latLng), this.userSearch(query)])
   }
 
-
-//user makes new search in a tab
+  //user makes new search in a tab
   enterSearch(query: string, searchType:any, latLng: string) {
     return new Promise((resolve,reject)=>{
       this.resetSearchContent()
