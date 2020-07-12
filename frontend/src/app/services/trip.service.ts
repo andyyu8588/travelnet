@@ -1,3 +1,4 @@
+import { CategoryNode } from './../models/CategoryNode.model';
 import { SessionService } from 'src/app/services/session.service';
 import { userModel } from './../models/user.model';
 import { tripModel } from '../models/trip.model';
@@ -14,7 +15,7 @@ export class TripService implements OnDestroy {
 
   // query settings from mytrip add venue
   searchedVenue: string = null
-  searchedCategory: string = null
+  searchedCategory: CategoryNode = null
 
   private _trips: BehaviorSubject<tripModel[]> = new BehaviorSubject([])
   public trips: Observable<tripModel[]> = this._trips.asObservable()

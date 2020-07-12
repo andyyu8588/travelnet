@@ -40,6 +40,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     if (this.TripService.searchedCategory) {
       // modify filter settings
+      this.setAll(this.TripService.searchedCategory)
     }
   }
 

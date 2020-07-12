@@ -26,7 +26,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
 
   // foursquare venues categories
   defaultCategory: string = 'All'
-  venueCategories: String[] = []
+  venueCategories: CategoryNode[] = []
 
   // for custom add venue
   @ViewChild('citySearch') CitySearchComponent: CitySearchComponent
@@ -62,7 +62,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     this.SearchService.updateCategories()
     .then((response: {tree: CategoryNode[], set: any}) => {
       response.tree.forEach((element: CategoryNode) => {
-        this.venueCategories.push(element.name)
+        this.venueCategories.push(element)
       })
     })
 

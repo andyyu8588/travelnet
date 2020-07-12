@@ -21,7 +21,7 @@
                             <mat-label>Category</mat-label>
                             <mat-select [(value)]='defaultCategory'>
                                 <mat-option value='All'>All</mat-option>
-                                <mat-option *ngFor='let category of venueCategories' [value]='category'>{{category}}</mat-option>
+                                <mat-option *ngFor='let category of venueCategories' [value]='category.name'>{{category.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <br>
