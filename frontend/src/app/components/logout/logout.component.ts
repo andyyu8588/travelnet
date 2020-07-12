@@ -32,7 +32,7 @@ export class LogoutComponent implements OnInit, OnDestroy {
         }
       })
     }
-    localStorage.clear()
+    localStorage.removeItem('username')
     sessionStorage.clear()
     window.location.reload()
   }
