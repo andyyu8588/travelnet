@@ -154,6 +154,9 @@ export class SearchService implements OnDestroy {
   updateCategoryTree(newData){
     this._categoryTree.next(newData)
   }
+  updateCategorySet(newData){
+    this._categorySet.next(newData)
+  }
 
 
   getSearchResult(search){
@@ -186,6 +189,7 @@ export class SearchService implements OnDestroy {
   ngOnDestroy() {
     this._searchTab.unsubscribe()
     this._categoryTree.unsubscribe()
+    this._categorySet.unsubscribe()
     this._filterNumber.unsubscribe()
   }
 }
