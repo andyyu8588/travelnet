@@ -17,9 +17,9 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   categories: CategoryNode[]
   openTab: tab
-  fakeCenter: any = null
-  private returnTab: Subscription
-  private _fakeCenter: Subscription
+  fakeCenter: number[] = null
+  private returnTab_sub: Subscription
+  private fakeCenter_sub: Subscription
   @ViewChild('searchResultsContainer') div: ElementRef
 
   defaultFilter: any = 0
@@ -32,8 +32,8 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
-    this._fakeCenter = this.MapService.center.subscribe((center)=> this.fakeCenter = center)
+    this.returnTab_sub = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
+    this.fakeCenter_sub = this.MapService.fakeCenter.subscribe((coord: number[])=> this.fakeCenter = coord)
     this.MapService.getFakeCenter(5)
     this.SearchService.updateCategories().then((x: {set: any, tree: any}) => {
       this.categories = x.tree
@@ -41,7 +41,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(data: string) {
-    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.fakeCenter),this.fakeCenter).then(()=>{
+    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.fakeCenter.toString()),this.fakeCenter.toString()).then(()=>{
       this.router.navigate([this.openTab.path])
     })
   }
@@ -55,7 +55,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
       this.loading = false
     } else {
       this.loading = true
-      this.SearchService.mainSearch(data, this.MapService.getCenter())
+      this.SearchService.mainSearch(data, this.MapService.getCenter().toString())
       .then((finalData) => {
         this.loading = false
         this.Renderer.removeChild(this.div, this.child)
@@ -70,7 +70,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.returnTab.unsubscribe()
-    this._fakeCenter.unsubscribe()
+    this.returnTab_sub.unsubscribe()
+    this.fakeCenter_sub.unsubscribe()
   }
 }

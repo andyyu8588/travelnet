@@ -39,9 +39,8 @@ export interface clickLocationCoordinates {
   providedIn: 'root'
 })
 export class MapService implements OnDestroy{
-  private mapCenter: string = null
-  private _center: BehaviorSubject<string> = new BehaviorSubject(this.mapCenter)
-  public center : Observable<string> = this._center.asObservable()
+  private _fakeCenter: BehaviorSubject<number[]> = new BehaviorSubject(null)
+  public fakeCenter : Observable<number[]> = this._fakeCenter.asObservable()
 
   map: Mapboxgl.Map
   venueLocation: Mapboxgl.marker
@@ -127,10 +126,10 @@ export class MapService implements OnDestroy{
   }
 
   /** gets middle point between sidebar and right side of screen */
-  getFakeCenter(right: number = 710) {
+  getFakeCenter(right: number = window.innerWidth? window.innerWidth*.35 : 710) {
     let centerPoints: any
     if (right === -1) {
-      centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.center)[0], window.innerHeight/2])
+      centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.fakeCenter)[0], window.innerHeight/2])
 
     }
     else if (right <= 710) {
@@ -139,12 +138,13 @@ export class MapService implements OnDestroy{
     else {
       centerPoints = this.map.unproject([window.innerWidth/2 + right, window.innerHeight/2])
     }
-    centerPoints = [centerPoints.lat, centerPoints.lng].toString()
-    this._center.next(centerPoints)
+    centerPoints = [centerPoints.lat, centerPoints.lng]
+    this._fakeCenter.next(centerPoints)
   }
 
-  getCenter(): string {
-    return `${this.map.getCenter().lat},${this.map.getCenter().lng}`
+  /** return coordinates at center of screen */
+  getCenter(): number[] {
+    return [this.map.getCenter().lat, this.map.getCenter().lng]
   }
 
   // highlight selected coutries when register
@@ -247,7 +247,7 @@ export class MapService implements OnDestroy{
     }
   }
   ngOnDestroy() {
-    this._center.unsubscribe()
+    this._fakeCenter.unsubscribe()
 
   }
 }

@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   Styles = {
     'position': 'fixed',
     'background-color': 'rgba(255,255,255,0.75)',
-    'min-width': '700px',
+    'min-width': '710px',
     'top': '1%',
     'left': '1%',
     'height': '95%',

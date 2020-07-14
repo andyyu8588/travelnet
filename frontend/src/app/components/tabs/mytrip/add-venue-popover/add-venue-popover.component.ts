@@ -33,7 +33,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   // for database venue search
   searchVenueForm: FormGroup
   mapCenter_sub: Subscription
-  searchUrlCoord: string
+  searchUrlCoord: number[]
 
   // for custom add venue
   @ViewChild('citySearch') CitySearchComponent: CitySearchComponent
@@ -81,7 +81,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     })
 
     // get map center from map service
-    this.mapCenter_sub = this.MapService.center.subscribe((coord: string) => {
+    this.mapCenter_sub = this.MapService.fakeCenter.subscribe((coord: number[]) => {
       this.searchUrlCoord = coord
       console.log(this.searchUrlCoord)
     })
@@ -110,7 +110,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     this.isLoading = true
     if (this.searchVenueForm.valid) {
       let name: string = this.searchVenueForm.get('name').value
-      let coord: string = this.searchUrlCoord? this.searchUrlCoord : '45.5017,73.5673'
+      let coord: string = this.searchUrlCoord? this.searchUrlCoord.toString() : '45.5035,73.5685'
       this.isLoading = false
       this.dialogRef.close()
       this.Router.navigateByUrl('/search/' + name + '&' + coord)

@@ -17,7 +17,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   openTab: tab
   filterNumber: number
   loading: boolean = true
-  fakeCenter: any = null
+  fakeCenter: number[] = null
   @Input() select: number
   categoriesSet: any = null
 
@@ -41,7 +41,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
       this.openTab = tab
     })
     this.filter_sub = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
-    this.fakeCenter_sub = this.SearchService.searchTab.subscribe((center)=> this.fakeCenter = center)
+    this.fakeCenter_sub = this.SearchService.searchTab.subscribe((coord: number[])=> this.fakeCenter = coord)
     this.url = this.router.url.replace('/search/','')
     this.urlQuery = this.url.split("&")[0]
     this.urlLatLng = this.url.split("&")[1]
