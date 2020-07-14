@@ -86,7 +86,24 @@ const UserSchema = mongoose.Schema({
             {code:'OC', continent: 'Oceania', places: []},
             {code:'AN', continent: 'Antarctica', places: []}
         ]
-    }
+    },
+    Albums:[{
+        title: { type: String, required: true },
+        date: { type: String, required: true },
+        description: String,
+        posts:[
+            {
+            date: String,
+            location: String,
+            title: { type: String, required: true },
+            content:[{
+                images: String,
+                text: { type: String, required: true }
+            }]
+
+            }
+        ]
+    }]
 })
 
 module.exports = mongoose.model('User', UserSchema)
