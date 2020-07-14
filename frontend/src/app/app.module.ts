@@ -75,7 +75,8 @@ import { UserbuttonComponent } from './components/tabs/searchresults/userbutton/
 import { AddVenuePopoverComponent } from './components/tabs/mytrip/add-venue-popover/add-venue-popover.component';
 import { CitySearchComponent } from './components/city-search/city-search.component';
 import { FilterComponent } from './components/filter/filter.component';
-import { ScrollToTopComponent } from './components/sidebar/scroll-to-top/scroll-to-top.component'
+import { ScrollToTopComponent } from './components/sidebar/scroll-to-top/scroll-to-top.component';
+import { AddPostComponent } from './components/add-post/add-post.component'
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { ScrollToTopComponent } from './components/sidebar/scroll-to-top/scroll-
     CitySearchComponent,
     FilterComponent,
     ScrollToTopComponent,
+    AddPostComponent,
   ],
   imports: [
     BrowserModule,
