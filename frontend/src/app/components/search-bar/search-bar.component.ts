@@ -25,7 +25,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   defaultFilter: any = 0
 
   constructor(
-    private map: MapService,
+    private MapService: MapService,
     private Renderer : Renderer2,
     private router : Router,
     private SearchService: SearchService,
@@ -33,8 +33,8 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
-    this._fakeCenter = this.map.center.subscribe((center)=> this.fakeCenter = center)
-    this.map.getFakeCenter(5)
+    this._fakeCenter = this.MapService.center.subscribe((center)=> this.fakeCenter = center)
+    this.MapService.getFakeCenter(5)
     this.SearchService.updateCategories().then((x: {set: any, tree: any}) => {
       this.categories = x.tree
     })
@@ -55,7 +55,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
       this.loading = false
     } else {
       this.loading = true
-      this.SearchService.mainSearch(data, this.map.getCenter())
+      this.SearchService.mainSearch(data, this.MapService.getCenter())
       .then((finalData) => {
         this.loading = false
         this.Renderer.removeChild(this.div, this.child)

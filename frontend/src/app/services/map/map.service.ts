@@ -40,8 +40,8 @@ export interface clickLocationCoordinates {
 })
 export class MapService implements OnDestroy{
   private mapCenter: string = null
-  private _center: BehaviorSubject<any> = new BehaviorSubject(this.mapCenter)
-  public center : Observable<any> = this._center.asObservable()
+  private _center: BehaviorSubject<string> = new BehaviorSubject(this.mapCenter)
+  public center : Observable<string> = this._center.asObservable()
 
   map: Mapboxgl.Map
   venueLocation: Mapboxgl.marker
@@ -83,6 +83,8 @@ export class MapService implements OnDestroy{
         })
       })
     })
+
+    // update fake center of map
     this.map.on('touchend',()=>{
       this.getFakeCenter()
     })
@@ -123,17 +125,18 @@ export class MapService implements OnDestroy{
     .addTo(this.map);
     this.map.flyTo({ 'center': coord, 'zoom': 8, 'speed': 0.8, 'curve': 1, 'essential': true });
   }
-  //gets middle point between sidebar and right side of screen
-  getFakeCenter(right:number = 710){
+
+  /** gets middle point between sidebar and right side of screen */
+  getFakeCenter(right: number = 710) {
     let centerPoints: any
-    if (right === -1){
+    if (right === -1) {
       centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.center)[0], window.innerHeight/2])
 
     }
-    else if(right <= 710){
+    else if (right <= 710) {
       centerPoints = this.map.unproject([window.innerWidth/2 + 710, window.innerHeight/2])
     }
-    else{
+    else {
       centerPoints = this.map.unproject([window.innerWidth/2 + right, window.innerHeight/2])
     }
     centerPoints = [centerPoints.lat, centerPoints.lng].toString()
