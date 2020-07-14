@@ -53,7 +53,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
             this.loading = false
         } else {
             this.loading = true
-            this.SearchService.mainSearch(data, this.map.getCenter().toString())
+            this.SearchService.mainSearch(data, this.map.getCenter())
             .then((finalData) => {
                 this.loading = false
                 this.Renderer.removeChild(this.div, this.child)

@@ -1,3 +1,6 @@
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { CustomCoordinates } from './../../models/coordinates';
+import { CitySearchComponent } from './../city-search/city-search.component';
 import { CategoryNode } from './../../models/CategoryNode.model';
 import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
@@ -13,63 +16,62 @@ import { Subscription } from 'rxjs';
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
   loading: boolean = false
-  private child: HTMLParagraphElement
 
   categories: CategoryNode[]
   openTab: tab
-  fakeCenter: number[] = null
+  fakeCenter: CustomCoordinates = null
   private returnTab_sub: Subscription
   private fakeCenter_sub: Subscription
   @ViewChild('searchResultsContainer') div: ElementRef
 
-  defaultFilter: any = 0
+  // forms
+  searchBarForm: FormGroup
+
+  // filters
+  @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
+  defaultFilter: any = '0'
 
   constructor(
     private MapService: MapService,
-    private Renderer : Renderer2,
     private router : Router,
     private SearchService: SearchService,
   ) { }
 
   ngOnInit(): void {
-    this.returnTab_sub = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
-    this.fakeCenter_sub = this.MapService.fakeCenter.subscribe((coord: number[])=> this.fakeCenter = coord)
-    this.MapService.getFakeCenter(5)
+    this.searchBarForm = new FormGroup({
+      'venueName': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)])
+    })
+
+    this.returnTab_sub = this.SearchService.searchTab.subscribe((tab) => {
+      this.openTab = tab
+    })
+
+    this.fakeCenter_sub = this.MapService.fakeCenter.subscribe((coord: CustomCoordinates) => {
+      this.fakeCenter = coord
+    })
+
     this.SearchService.updateCategories().then((x: {set: any, tree: any}) => {
       this.categories = x.tree
     })
   }
 
-  onSubmit(data: string) {
-    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.fakeCenter.toString()),this.fakeCenter.toString()).then(()=>{
-      this.router.navigate([this.openTab.path])
-    })
-  }
-
-  changeFilter(filter:{response:string, value:string}){
-    this.SearchService.changeFilter(parseInt(filter.value))
-  }
-
-  onKey(data: string) {
-    if (data === "") {
-      this.loading = false
-    } else {
-      this.loading = true
-      this.SearchService.mainSearch(data, this.MapService.getCenter().toString())
-      .then((finalData) => {
-        this.loading = false
-        this.Renderer.removeChild(this.div, this.child)
-        this.child = this.Renderer.createElement('p');
-        this.child.innerHTML = finalData[1]
-        this.Renderer.appendChild(this.div.nativeElement, this.child)
+  onSubmit() {
+    if (this.searchBarForm.valid) {
+      this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, this.fakeCenter), this.fakeCenter)
+      .then(() => {
+        this.router.navigate(['search'], {queryParams: {query: this.openTab.query, lng: this.fakeCenter.lng, lat: this.fakeCenter.lat}})
       })
-      .catch((err) => {
-        this.loading = false
-      })
+      .catch(err => {
+        console.log(err)
+      })      
     }
   }
 
-  ngOnDestroy(){
+  changeFilter(filter:{response:string, value:string}) {
+    this.SearchService.changeFilter(parseInt(filter.value))
+  }
+
+  ngOnDestroy() {
     this.returnTab_sub.unsubscribe()
     this.fakeCenter_sub.unsubscribe()
   }

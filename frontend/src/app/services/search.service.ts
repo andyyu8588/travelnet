@@ -1,3 +1,4 @@
+import { CustomCoordinates } from './../models/coordinates';
 import { MapService } from 'src/app/services/map/map.service';
 import { tab } from 'src/app/models/tab.model';
 import { venueModel } from 'src/app/models/venue.model';
@@ -40,9 +41,9 @@ export class SearchService implements OnDestroy {
   }
 
   //looks for venues in the area
-  foursquareSearchVenues(query: string, latLng: string): Promise<any> {
+  foursquareSearchVenues(query: string, latLng: CustomCoordinates): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.foursquareService.searchVenues(query, latLng)
+      this.foursquareService.searchVenues(query, latLng.toStringReorder(2))
       .subscribe((result) => {
         resolve(result)
       }, (err) => {
@@ -85,16 +86,17 @@ export class SearchService implements OnDestroy {
   }
 
   //combines both user and venue search
-  async mainSearch(query: string, latLng: string): Promise<any> {
-    return await Promise.all([this.foursquareSearchVenues(query, latLng), this.userSearch(query)])
+  async mainSearch(query: string, coord: CustomCoordinates): Promise<any[]> {
+    return await Promise.all([this.foursquareSearchVenues(query, coord), this.userSearch(query)])
   }
 
   //user makes new search in a tab
-  enterSearch(query: string, searchType:any, latLng: string) {
+  enterSearch(query: string, searchType: Promise<any>, coord: CustomCoordinates) {
     return new Promise((resolve,reject)=>{
       this.resetSearchContent()
       searchType
       .then(result => {
+        console.log(result)
         if(true && !result[0].response.warning){
           result[0].response.groups[0].items.forEach(venue =>{
             this.search.content.venues.push(venue)
@@ -111,9 +113,7 @@ export class SearchService implements OnDestroy {
         }
         this.search = ({
           query: query,
-          latLng: latLng,
-          prePath: 'search/',
-          path: 'search/' + query +'&'+latLng,
+          coord: coord,
           content: this.search.content
         })
         resolve(this._searchTab.next(this.search))

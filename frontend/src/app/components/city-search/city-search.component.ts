@@ -10,7 +10,7 @@ import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
 })
 export class CitySearchComponent implements OnInit, OnDestroy {
   @Input() appearance: string
-  @Input() placheholder: string
+  @Input() placeholder: string
 
   
   // search input variables

@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class FoursquareService {
   constructor(private http: HttpClient) {}
 
-
-  searchVenues(query: string ,latLng: string){
+  /** takes lat,lng */
+  searchVenues (query: string, latLng: string, near?: string) {
     return this.http
       .get<{[key: string]: any}>(
         environment.foursquare.venuesExplore,
@@ -25,7 +25,8 @@ export class FoursquareService {
           }
     })
   }
-  getDetails(query: string){
+
+  getDetails(query: string) {
     return this.http
       .get<{[key: string]: any}>(
         environment.foursquare.venueDetails+'/'+query,
@@ -39,7 +40,8 @@ export class FoursquareService {
           }
     })
   }
-  userAuth(){
+
+  userAuth() {
     let url = environment.foursquare.userAuth+
     '?client_id='+environment.foursquare.clientId+
     '&response_type='+'code'+
@@ -48,7 +50,7 @@ export class FoursquareService {
     window.location.replace(url)
   }
 
-  updateCategories(){
+  updateCategories() {
     return this.http
       .get<{[key: string]: any}>(
         environment.foursquare.getCategories+'/',
@@ -62,7 +64,8 @@ export class FoursquareService {
           }
     })
   }
-  getCurrentDate():string{
+
+  getCurrentDate(): string {
     let dt = new Date();
     let month: string
     let day: string

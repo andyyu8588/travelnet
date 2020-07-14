@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'search', component: SearchBarComponent, children: [
     {path: 'venue/:query', component: VenueComponent},
     {path: 'user/:query', component: UserprofileComponent},
-    {path: ':query&:latlng', component: SearchresultsComponent},
+    {path: '**', component: SearchresultsComponent},
   ]},
 ];
 

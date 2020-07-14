@@ -1,23 +1,31 @@
 <!-- search bar -->
 <div class="container-fluid" style="background-color: rgba(255, 255, 255, 0.9);">
-  <form (submit)='onSubmit(search.value)' class='form row' style="width: 100%;">
-    <mat-form-field class="input col" appearance="standard">
-      <input matInput #search
-        (keyup)='onKey(search.value)'
-        class='form-control input'
-        type='search'
-        placeholder='ex: restaurant'
-        aria-label='Search'
-        autocomplete='off'>
-      <i fas fa-search aria-hidden="true"></i>
-      <mat-label>Search</mat-label>
-    </mat-form-field>
+  <form [formGroup]='searchBarForm' (ngSubmit)='onSubmit()' class='form row' style="width: 100%;">
+    <span class="col row border mr-auto">
+      <!-- venue name -->
+      <mat-form-field class="input col-auto"  appearance="standard">
+        <mat-label>Search</mat-label>
+        <input matInput #search
+          class='form-control input'
+          type='search'
+          placeholder='Ex: restaurant'
+          aria-label='Search'
+          autocomplete='off'
+          formControlName='venueName'
+          (keydown.enter)='onSubmit()'>
+        <i fas fa-search aria-hidden="true"></i>
+      </mat-form-field>
+      <!-- venue location -->
+      <app-city-search appearance='outline' placeholder='Search Region' class="col align-self-end"></app-city-search>
+      <mat-icon class="col-auto align-self-center" style="padding-left: 0;" color='primary' matTooltip='select a city to search in or drag the area you want to search to the center of the visible map'>info</mat-icon>
+    </span>
+    <!-- filter user|venues -->
     <mat-form-field class="col-auto align-self-center">
       <mat-label>Filter</mat-label>
       <mat-select [(ngModel)]='defaultFilter' [ngModelOptions]="{standalone: true}" (selectionChange)='changeFilter($event)'>
-        <mat-option value=0>All</mat-option>
-        <mat-option value=1>Venues</mat-option>
-        <mat-option value=2>Users</mat-option>
+        <mat-option value='0'>All</mat-option>
+        <mat-option value='1'>Venues</mat-option>
+        <mat-option value='2'>Users</mat-option>
       </mat-select>
     </mat-form-field>
   </form>

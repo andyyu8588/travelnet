@@ -1,3 +1,4 @@
+import { CustomCoordinates } from './../../../../models/coordinates';
 import { environment } from './../../../../../environments/environment.dev';
 import { Router } from '@angular/router';
 import { MapService } from './../../../../services/map/map.service';
@@ -33,7 +34,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   // for database venue search
   searchVenueForm: FormGroup
   mapCenter_sub: Subscription
-  searchUrlCoord: number[]
+  searchUrlCoord: CustomCoordinates
 
   // for custom add venue
   @ViewChild('citySearch') CitySearchComponent: CitySearchComponent
@@ -81,9 +82,8 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     })
 
     // get map center from map service
-    this.mapCenter_sub = this.MapService.fakeCenter.subscribe((coord: number[]) => {
+    this.mapCenter_sub = this.MapService.fakeCenter.subscribe((coord: CustomCoordinates) => {
       this.searchUrlCoord = coord
-      console.log(this.searchUrlCoord)
     })
 
     this.searchVenueForm = new FormGroup({
@@ -110,7 +110,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     this.isLoading = true
     if (this.searchVenueForm.valid) {
       let name: string = this.searchVenueForm.get('name').value
-      let coord: string = this.searchUrlCoord? this.searchUrlCoord.toString() : '45.5035,73.5685'
+      let coord: string = this.searchUrlCoord? this.searchUrlCoord.toStringReorder(2) : '45.5035,73.5685'
       this.isLoading = false
       this.dialogRef.close()
       this.Router.navigateByUrl('/search/' + name + '&' + coord)

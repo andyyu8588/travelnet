@@ -1,5 +1,4 @@
-import { logging } from 'protractor';
-import { VisitedPlaces } from './../../components/registration-process/country-selector/country-selector.component';
+import { CustomCoordinates } from './../../models/coordinates';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable, OnInit, Input, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -40,8 +39,8 @@ export interface clickLocationCoordinates {
   providedIn: 'root'
 })
 export class MapService implements OnDestroy{
-  private _fakeCenter: BehaviorSubject<number[]> = new BehaviorSubject(null)
-  public fakeCenter : Observable<number[]> = this._fakeCenter.asObservable()
+  private _fakeCenter: BehaviorSubject<CustomCoordinates> = new BehaviorSubject(null)
+  public fakeCenter : Observable<CustomCoordinates> = this._fakeCenter.asObservable()
 
   map: Mapboxgl.Map
   venueLocation: Mapboxgl.marker
@@ -73,6 +72,8 @@ export class MapService implements OnDestroy{
     // this.clickLocation = this._clickLocation.asObservable()
 
     this.map.on('load', () => {
+      // init center observable 
+      this.getCenter()
 
       this.map.on('click',(e)=>{
         let lng = e.lngLat.lng
@@ -96,7 +97,6 @@ export class MapService implements OnDestroy{
     })
 
   }
-
 
   addGeoJsonSource(id: string, type: string, content: featureGEOJSONModel[]) {
     this.map.addSource(id, {
@@ -127,28 +127,25 @@ export class MapService implements OnDestroy{
   }
 
   /** gets middle point between sidebar and right side of screen */
-  getFakeCenter(sidebar: number = window.innerWidth? window.innerWidth*.35 : 710) {
+  getFakeCenter(sidebar: number = window.innerWidth*.35) {
     let centerPoints: any
     if (sidebar === -1) {
       centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.fakeCenter)[0], window.innerHeight/2])
     }
-    // else if (sidebar <= 710) {
-    //   centerPoints = this.map.unproject([window.innerWidth/2 + 710, window.innerHeight/2])
-    // }
+    else if (sidebar < 500) {
+      centerPoints = this.map.unproject([window.innerWidth/2, window.innerHeight/2])
+    }
     else {
       centerPoints = this.map.unproject([(window.innerWidth - sidebar)/2 + sidebar, window.innerHeight/2])
     }
-    centerPoints = [centerPoints.lng, centerPoints.lat]
-    this._fakeCenter.next(centerPoints)
-    this.addMarker({
-      lng: centerPoints[0], 
-      lat: centerPoints[1]
-    })
+    this._fakeCenter.next(new CustomCoordinates(centerPoints.lng, centerPoints.lat))
   }
 
-  /** return coordinates at center of screen */
-  getCenter(): number[] {
-    return [this.map.getCenter().lat, this.map.getCenter().lng]
+  /** return coordinates [lng, lat] at center of screen */
+  getCenter(): CustomCoordinates {
+    let lng: number = this.map.getCenter().lng? this.map.getCenter().lng : 73.5673 
+    let lat: number = this.map.getCenter().lat? this.map.getCenter().lat : 45.5017
+    return new CustomCoordinates(lng, lat)
   }
 
   // highlight selected coutries when register
