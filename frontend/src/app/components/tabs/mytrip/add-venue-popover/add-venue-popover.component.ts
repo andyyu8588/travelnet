@@ -1,11 +1,16 @@
+import { environment } from './../../../../../environments/environment.dev';
+import { Router } from '@angular/router';
+import { MapService } from './../../../../services/map/map.service';
+import { CategoryNode } from './../../../../models/CategoryNode.model';
+import { SearchService } from './../../../../services/search.service';
 import { tripModel } from './../../../../models/trip.model';
 import { TripService } from './../../../../services/trip.service';
-import { HttpService } from './../../../../services/http.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CitySearchComponent } from './../../../city-search/city-search.component';
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Input, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Inject } from '@angular/core';
+import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-add-venue-popover',
@@ -21,6 +26,15 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   tripIndex: number
   dayIndex: number
 
+  // foursquare venues categories
+  defaultCategory: string = 'All'
+  venueCategories: CategoryNode[] = []
+
+  // for database venue search
+  searchVenueForm: FormGroup
+  mapCenter_sub: Subscription
+  searchUrlCoord: number[]
+
   // for custom add venue
   @ViewChild('citySearch') CitySearchComponent: CitySearchComponent
   private selectedOption_sub: Subscription
@@ -33,8 +47,10 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   isLoaded: boolean
   isErr: boolean = false
 
-  constructor(private HttpService: HttpService,
+  constructor(private SearchService: SearchService,
               private TripService: TripService,
+              private MapService: MapService,
+              private Router: Router,
               public dialogRef: MatDialogRef<AddVenuePopoverComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
                 tripIndex: number,
@@ -51,8 +67,27 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   ngOnInit(): void {
     this.isLoaded = false
 
+    // sets mat select venue category options 
+    this.SearchService.updateCategories()
+    .then((response: {tree: CategoryNode[], set: any}) => {
+      response.tree.forEach((element: CategoryNode) => {
+        this.venueCategories.push(element)
+      })
+    })
+
+    // gets user trips from trip service
     this.trips_sub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.allTrips = trips
+    })
+
+    // get map center from map service
+    this.mapCenter_sub = this.MapService.fakeCenter.subscribe((coord: number[]) => {
+      this.searchUrlCoord = coord
+      console.log(this.searchUrlCoord)
+    })
+
+    this.searchVenueForm = new FormGroup({
+      'name': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)])
     })
 
     this.customVenueForm = new FormGroup({
@@ -72,7 +107,15 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   onSubmitSearch() {
-
+    this.isLoading = true
+    if (this.searchVenueForm.valid) {
+      let name: string = this.searchVenueForm.get('name').value
+      let coord: string = this.searchUrlCoord? this.searchUrlCoord.toString() : '45.5035,73.5685'
+      this.isLoading = false
+      this.dialogRef.close()
+      this.Router.navigateByUrl('/search/' + name + '&' + coord)
+    }
+    this.isLoading = false
   }
 
   // update when user adds custom venue 
@@ -104,5 +147,6 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   ngOnDestroy() {
     this.selectedOption_sub.unsubscribe()
     this.trips_sub.unsubscribe()
+    this.mapCenter_sub.unsubscribe()
   }
 }

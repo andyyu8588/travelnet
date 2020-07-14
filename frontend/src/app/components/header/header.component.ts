@@ -53,8 +53,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
             this.loading = false
         } else {
             this.loading = true
-            // this.SearchService.foursquareSearch(data,this.map.getCenter())
-            this.SearchService.mainSearch(data, this.map.getCenter())
+            this.SearchService.mainSearch(data, this.map.getCenter().toString())
             .then((finalData) => {
                 this.loading = false
                 this.Renderer.removeChild(this.div, this.child)
@@ -75,7 +74,6 @@ export class HeaderComponent implements OnDestroy, OnInit{
     }
 
     onSubmit(data: string) {
-        // this.SearchService.newSeach(data, this.map.getCenter())
     }
 
     ngOnDestroy() {

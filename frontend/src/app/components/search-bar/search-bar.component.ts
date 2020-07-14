@@ -1,5 +1,5 @@
 import { CategoryNode } from './../../models/CategoryNode.model';
-import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, AfterContentInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
@@ -17,34 +17,32 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   categories: CategoryNode[]
   openTab: tab
-  fakeCenter: any = null
-  private returnTab: Subscription
-  private _fakeCenter: Subscription
+  fakeCenter: number[] = null
+  private returnTab_sub: Subscription
+  private fakeCenter_sub: Subscription
   @ViewChild('searchResultsContainer') div: ElementRef
 
   defaultFilter: any = 0
 
   constructor(
-    private map: MapService,
+    private MapService: MapService,
     private Renderer : Renderer2,
     private router : Router,
     private SearchService: SearchService,
   ) { }
 
   ngOnInit(): void {
-    this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
-    this._fakeCenter = this.map.center.subscribe((center)=> this.fakeCenter = center)
-    this.map.getFakeCenter(5)
-    this.SearchService.updateCategories().then((x: Array<CategoryNode>) => {
-      this.categories = x
+    this.returnTab_sub = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
+    this.fakeCenter_sub = this.MapService.fakeCenter.subscribe((coord: number[])=> this.fakeCenter = coord)
+    this.MapService.getFakeCenter(5)
+    this.SearchService.updateCategories().then((x: {set: any, tree: any}) => {
+      this.categories = x.tree
     })
-
   }
 
-
   onSubmit(data: string) {
-    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.fakeCenter),this.fakeCenter).then(()=>{
-    this.router.navigate([this.openTab.path])
+    this.SearchService.enterSearch(data,this.SearchService.mainSearch(data, this.fakeCenter.toString()),this.fakeCenter.toString()).then(()=>{
+      this.router.navigate([this.openTab.path])
     })
   }
 
@@ -57,7 +55,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
       this.loading = false
     } else {
       this.loading = true
-      this.SearchService.mainSearch(data, this.map.getCenter())
+      this.SearchService.mainSearch(data, this.MapService.getCenter().toString())
       .then((finalData) => {
         this.loading = false
         this.Renderer.removeChild(this.div, this.child)
@@ -72,9 +70,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.returnTab.unsubscribe()
-    this._fakeCenter.unsubscribe()
+    this.returnTab_sub.unsubscribe()
+    this.fakeCenter_sub.unsubscribe()
   }
-
-
 }

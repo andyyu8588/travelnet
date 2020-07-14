@@ -1,3 +1,4 @@
+import { TripService } from './../../services/trip.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
@@ -15,7 +16,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   name: string
   panelOpenState = false
 
-
   categoriesTree: CategoryNode = null
   categoriesSet: any
   private _categoriesTree: Subscription
@@ -26,17 +26,22 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   treeControl = new NestedTreeControl<CategoryNode>(node => node.categories);
 
-
   private _selectedNodes: BehaviorSubject<string> = new BehaviorSubject(null)
   selectedNodes: Observable<string> = this._selectedNodes.asObservable()
 
   constructor(
     private SearchService: SearchService,
+    private TripService: TripService
   ) { }
 
   ngOnInit(): void {
     this._categoriesTree= this.SearchService.categoryTree.subscribe((tree)=> this.categoriesTree = tree)
     this._categoriesSet= this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
+
+    if (this.TripService.searchedCategory) {
+      // modify filter settings
+      this.setAll(this.TripService.searchedCategory)
+    }
   }
 
   /** Checks if datasource for material tree has any child groups */
@@ -62,7 +67,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   /** checks all children of a node */
-  checkAll(categories){
+  checkAll(categories: CategoryNode[]) {
       categories.forEach(sub => {
       sub.checked = true;
       this.modifyIdSet(sub)
@@ -73,7 +78,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   /** unchecks all children of a node */
-  uncheckAll(categories){
+  uncheckAll(categories: CategoryNode[]) {
       categories.forEach(sub => {
         sub.checked = false;
         this.modifyIdSet(sub)
@@ -130,6 +135,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     })
     return state
   }
+
   /**accepts leaf node, and either removes it or adds it to the array */
   modifyIdSet(node: CategoryNode){
     if(node.checked && !(this.categoriesSet).has(node.id) && node.categories.length === 0){
@@ -139,6 +145,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     }
     this.SearchService.updateCategorySet(this.categoriesSet)
   }
+
   ngOnDestroy(){
     this.SearchService.updateCategoryTree(this.categoriesTree)
     this._categoriesTree.unsubscribe()
