@@ -88,17 +88,17 @@ const UserSchema = mongoose.Schema({
         ]
     },
     Albums:[{
-        title: String,
-        date: String,
+        title: { type: String, required: true },
+        date: { type: String, required: true },
         description: String,
         posts:[
             {
             date: String,
             location: String,
-            title: String,
+            title: { type: String, required: true },
             content:[{
                 images: String,
-                text:String,
+                text: { type: String, required: true }
             }]
 
             }

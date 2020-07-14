@@ -1,15 +1,11 @@
 
 <div *ngIf="user">
-    <div *ngIf="user.followers.length != 0">
-        <p>Followers</p>
+        <p>Followers : {{user.followers.length}}</p>
         <div *ngFor="let username of user.followers">
             <button mat-raised-button (click)="getProfile(username)">
                 {{ username }}
             </button>
         </div>
-    </div>
-    <div *ngIf="user.followers.length == 0">
-        <p>No Followers :(</p>
-    </div>
 </div>
 <app-add-post></app-add-post>
+<app-display-posts></app-display-posts>
