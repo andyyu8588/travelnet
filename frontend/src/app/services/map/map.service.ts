@@ -1,3 +1,4 @@
+import { logging } from 'protractor';
 import { VisitedPlaces } from './../../components/registration-process/country-selector/country-selector.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable, OnInit, Input, OnDestroy } from '@angular/core';
@@ -90,7 +91,7 @@ export class MapService implements OnDestroy{
     this.map.on('zoomend',()=>{
       this.getFakeCenter()
     })
-    this.map.on('dragend',()=>{
+    this.map.on('moveend',()=>{
       this.getFakeCenter()
     })
 
@@ -122,24 +123,27 @@ export class MapService implements OnDestroy{
     this.venueLocation = new Mapboxgl.Marker()
     .setLngLat(coord)
     .addTo(this.map);
-    this.map.flyTo({ 'center': coord, 'zoom': 8, 'speed': 0.8, 'curve': 1, 'essential': true });
+    // this.map.flyTo({ 'center': coord, 'zoom': 8, 'speed': 0.8, 'curve': 1, 'essential': true });
   }
 
   /** gets middle point between sidebar and right side of screen */
-  getFakeCenter(right: number = window.innerWidth? window.innerWidth*.35 : 710) {
+  getFakeCenter(sidebar: number = window.innerWidth? window.innerWidth*.35 : 710) {
     let centerPoints: any
-    if (right === -1) {
+    if (sidebar === -1) {
       centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.fakeCenter)[0], window.innerHeight/2])
-
     }
-    else if (right <= 710) {
-      centerPoints = this.map.unproject([window.innerWidth/2 + 710, window.innerHeight/2])
-    }
+    // else if (sidebar <= 710) {
+    //   centerPoints = this.map.unproject([window.innerWidth/2 + 710, window.innerHeight/2])
+    // }
     else {
-      centerPoints = this.map.unproject([window.innerWidth/2 + right, window.innerHeight/2])
+      centerPoints = this.map.unproject([(window.innerWidth - sidebar)/2 + sidebar, window.innerHeight/2])
     }
-    centerPoints = [centerPoints.lat, centerPoints.lng]
+    centerPoints = [centerPoints.lng, centerPoints.lat]
     this._fakeCenter.next(centerPoints)
+    this.addMarker({
+      lng: centerPoints[0], 
+      lat: centerPoints[1]
+    })
   }
 
   /** return coordinates at center of screen */
