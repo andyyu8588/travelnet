@@ -4,7 +4,7 @@
     <span class="col row border mr-auto">
       <!-- venue name -->
       <mat-form-field class="input col-auto"  appearance="standard">
-        <mat-label>Search</mat-label>
+        <mat-label>Search for</mat-label>
         <input matInput #search
           class='form-control input'
           type='search'
@@ -15,8 +15,11 @@
           (keydown.enter)='onSubmit()'>
         <i fas fa-search aria-hidden="true"></i>
       </mat-form-field>
+      &nbsp;
+      <p class="align-self-center">in</p>
+      &nbsp;
       <!-- venue location -->
-      <app-city-search appearance='outline' placeholder='Search Region' class="col align-self-end"></app-city-search>
+      <app-city-search appearance='outline' placeholder='Region' class="col align-self-end"></app-city-search>
       <mat-icon class="col-auto align-self-center" style="padding-left: 0;" color='primary' matTooltip='select a city to search in or drag the area you want to search to the center of the visible map'>info</mat-icon>
     </span>
     <!-- filter user|venues -->
