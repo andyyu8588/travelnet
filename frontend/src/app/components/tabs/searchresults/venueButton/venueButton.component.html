@@ -2,12 +2,12 @@
   <mat-card-header>
     <mat-card-title>{{searchResult|null:['venue','name']}}</mat-card-title>
     <mat-card-subtitle>
-        <p *ngFor="let item of (searchResult|null: ['venue','categories'])" class="inline">{{item.name}}</p>
+      <p *ngFor="let item of (searchResult|null: ['venue','categories'])" class="inline">{{item.name}}</p>
     </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content class="container-fluid col-auto" style="margin-right: 1em;">
-    <p>
+    <p class="d-flex inline">
       {{searchResult|null:['venue','location','address']}}
     </p>
     <hr>

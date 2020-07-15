@@ -32,6 +32,12 @@ export class SearchService implements OnDestroy {
   private _categorySet: BehaviorSubject<any> = new BehaviorSubject(this.categoriesCollection)
   public categorySet : Observable<any> = this._categorySet.asObservable()
 
+  treeValues: {
+    [key: string]: any
+    tree: [],
+    categorySet: Set<any>
+  } = {tree: [], categorySet: new Set()}
+
   constructor(private HttpClient: HttpClient,
               private foursquareService: FoursquareService) {
     this.updateCategories().then(x => {
@@ -129,26 +135,29 @@ export class SearchService implements OnDestroy {
   }
 
   //anything category related
-  updateCategories(): Promise<{tree: any, set: any}> {
+  updateCategories(): Promise<any> {
     return new Promise((resolve,reject)=>{
-      this.foursquareService.updateCategories().subscribe(x=>{
-        resolve(this.initiateTree(x.response.categories,new Set()))
+      this.foursquareService.updateCategories()
+      .subscribe(x=>{
+        console.log(x)
+        this.treeValues.tree = x.response.categories
+        resolve(this.initiateTree(x.response.categories))
       })
     })
   }
 
   /**makes tree leaves checked and creates array containing category id*/
-  initiateTree(data,categorySet): {tree: any, set: any} {
+  initiateTree(data: CategoryNode[]) {
     data.forEach(category => {
-      if (category['categories'] && category['categories'].length === 0){
-        category['checked'] = true
-        categorySet.add(category.id)
+      if (!category.categories || (category.categories.length === 0)){
+        category.checked = true
+        this.treeValues.categorySet.add(category.id)
       }
-      else if (category['categories'] && category['categories'].length !== 0){
-        return this.initiateTree(category['categories'],categorySet)
+      else if (category.categories && category.categories.length !== 0){
+        this.initiateTree(category.categories)
       }
-    });
-    return {'tree': data,'set': categorySet}
+    })
+    // return {'tree': data,'set': categorySet}
   }
 
   updateCategoryTree(newData){

@@ -22,7 +22,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   filterNumber: number
   loading: boolean = null
   @Input() select: number
-  categoriesSet: any = null
+  categoriesSet: Set<any> = null
 
   private _categoriesSet_sub: Subscription
   private returnTab_sub: Subscription
@@ -49,7 +49,11 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
       console.log(this.openTab)
     })
 
-    this._categoriesSet_sub= this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
+    this._categoriesSet_sub= this.SearchService.categorySet.subscribe((set: Set<any>)=> {
+      if (set) {
+        this.categoriesSet = set
+      }
+    })
 
     // if url contains query 
     if (this.queryParams.query) {
