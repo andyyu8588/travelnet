@@ -16,7 +16,7 @@ import { DisplayPostsComponent } from './components/display-posts/display-posts.
 
 const routes: Routes = [
   { path: 'create', component: AddPostComponent },
-  { path: 'edit/:postId', component: DisplayPostsComponent },
+  { path: 'edit/:postId', component:  AddPostComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationProcessComponent },
   { path: 'profile', component: ProfileComponent },

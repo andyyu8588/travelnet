@@ -5,6 +5,7 @@ import { ActivatedRoute, ParamMap } from "@angular/router";
 import { AddPostService } from "src/app/services/add-post.service";
 import { Post } from "src/app/models/post.model";
 import { mimeType } from "./mime-type.validator";
+import { image } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-add-post',
@@ -46,6 +47,7 @@ export class AddPostComponent implements OnInit {
           this.isLoading = false;
           this.post = {
             id: postData._id,
+            author: postData.author,
             title: postData.title,
             content: postData.content,
             imagePath: postData.imagePath
@@ -55,6 +57,7 @@ export class AddPostComponent implements OnInit {
             content: this.post.content,
             image: this.post.imagePath
           });
+          this.imagePreview = this.post.imagePath
         });
       } else {
         this.mode = "create";
@@ -81,17 +84,19 @@ export class AddPostComponent implements OnInit {
     this.isLoading = true;
     if (this.mode === "create") {
       this.postsService.addPost(
-        this.form.value.title,
-        this.form.value.content,
-        this.form.value.image
+        {title: this.form.value.title,
+        author: localStorage.getItem('username'),
+        content: this.form.value.content,
+        imagePath: this.form.value.image}
       );
     } else {
-      this.postsService.updatePost(
-        this.postId,
-        this.form.value.title,
-        this.form.value.content,
-        this.form.value.image
-      );
+      this.postsService.updatePost({
+        id: this.postId,
+        author: localStorage.getItem('username'),
+        title: this.form.value.title,
+        content: this.form.value.content,
+        image: this.form.value.image
+      });
     }
     this.form.reset();
   }

@@ -36,6 +36,7 @@ router.post(
   (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     const post = new Post({
+      author: req.body.author,
       title: req.body.title,
       content: req.body.content,
       imagePath: url + "/images/" + req.file.filename
@@ -61,8 +62,9 @@ router.put(
       const url = req.protocol + "://" + req.get("host");
       imagePath = url + "/images/" + req.file.filename
     }
-    const post = new Post({
+    const post = new Post({      
       _id: req.body.id,
+      author: req.body.author,
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath
