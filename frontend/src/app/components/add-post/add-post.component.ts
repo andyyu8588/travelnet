@@ -69,7 +69,7 @@ export class AddPostComponent implements OnInit {
     this.form.get("image").updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
-      this.imagePreview = reader.result;
+      this.imagePreview = reader.result as string;
     };
     reader.readAsDataURL(file);
   }

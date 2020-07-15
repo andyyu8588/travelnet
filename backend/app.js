@@ -12,6 +12,7 @@ const app = express()
 // body parser
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
+app.use("/images",express.static(path.join("backend/images")))
 
 // send homepage
 app.use((req, res, next) => {

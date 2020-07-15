@@ -1,6 +1,7 @@
+import { Routes, RouterModule } from '@angular/router';
+
 import { RegistrationProcessComponent } from './components/registration-process/registration-process.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
 import { loginComponent, LoginComponent } from './components/loginpage/loginpage.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/tabs/home/home.component';
@@ -10,7 +11,12 @@ import { SearchresultsComponent } from './components/tabs/searchresults/searchre
 import { VenueComponent } from './components/venue/venue.component'
 import { SearchBarComponent } from './components/search-bar/search-bar.component'
 import { UserprofileComponent } from './components/userprofile/userprofile.component'
+import { AddPostComponent } from './components/add-post/add-post.component'
+import { DisplayPostsComponent } from './components/display-posts/display-posts.component'
+
 const routes: Routes = [
+  { path: 'create', component: AddPostComponent },
+  { path: 'edit/:postId', component: DisplayPostsComponent },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationProcessComponent},
   {path: 'profile', component: ProfileComponent},
