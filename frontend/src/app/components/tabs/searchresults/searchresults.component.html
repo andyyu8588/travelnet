@@ -4,6 +4,7 @@
 <div class="container-fluid row" style="margin: 0; padding: 0;">
     <div class="col mr-auto"*ngIf="openTab.content" style="margin-left: 0; padding-left: 0;">
       <br>
+      <!-- display venues -->
       <div *ngIf="checkFilter(1)">
         <div *ngFor="let result of openTab.content.venues">
           <div *ngIf="categoriesSet && checkIfChecked(result.venue.categories[0].id)">
@@ -12,6 +13,7 @@
           </div>
         </div>
       </div>
+      <!-- display users -->
       <div *ngIf="checkFilter(2)">
         <div *ngFor="let result of openTab.content.users">
           <app-userbutton [result]="result"></app-userbutton>

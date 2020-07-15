@@ -47,7 +47,8 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     })
 
     this.fakeCenter_sub = this.MapService.fakeCenter.subscribe((coord: CustomCoordinates) => {
-      this.fakeCenter = coord
+      this.fakeCenter = coord? coord : new CustomCoordinates(73.5673, 45.5017)
+      console.log(this.fakeCenter)
     })
 
     this.SearchService.updateCategories().then((x: {set: any, tree: any}) => {

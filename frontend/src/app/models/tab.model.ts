@@ -2,8 +2,8 @@ export class tab {
     [key: string]: any
     query: string
     content: {
-      'venues': any;
-      'users': any;
+      'venues': any[];
+      'users': any[];
 
     }
 

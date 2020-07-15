@@ -142,6 +142,7 @@ export class MapService implements OnDestroy{
   }
 
   /** return coordinates [lng, lat] at center of screen */
+  // if not found -> montreal
   getCenter(): CustomCoordinates {
     let lng: number = this.map.getCenter().lng? this.map.getCenter().lng : 73.5673 
     let lat: number = this.map.getCenter().lat? this.map.getCenter().lat : 45.5017

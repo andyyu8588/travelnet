@@ -17,17 +17,18 @@ import { DisplayPostsComponent } from './components/display-posts/display-posts.
 const routes: Routes = [
   { path: 'create', component: AddPostComponent },
   { path: 'edit/:postId', component: DisplayPostsComponent },
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegistrationProcessComponent},
-  {path: 'profile', component: ProfileComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'mytrip', component: MytripComponent},
-  {path: 'myaccount', component: MyaccountComponent},
-  {path: 'search', component: SearchBarComponent, children: [
-    {path: 'venue/:query', component: VenueComponent},
-    {path: 'user/:query', component: UserprofileComponent},
-    {path: '**', component: SearchresultsComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegistrationProcessComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'mytrip', component: MytripComponent },
+  { path: 'myaccount', component: MyaccountComponent },
+  { path: 'search', component: SearchBarComponent, children: [
+    { path: 'venue/:query', component: VenueComponent },
+    { path: 'user/:query', component: UserprofileComponent },
+    { path: '**', component: SearchresultsComponent },
   ]},
+  {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
 @NgModule({

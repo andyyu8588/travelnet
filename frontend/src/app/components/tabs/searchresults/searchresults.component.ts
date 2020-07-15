@@ -21,15 +21,12 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   openTab: tab
   filterNumber: number
   loading: boolean = null
-  fakeCenter: number[] = null
   @Input() select: number
   categoriesSet: any = null
 
   private _categoriesSet_sub: Subscription
-  private returnTab: Subscription
   private returnTab_sub: Subscription
   private filter_sub: Subscription
-  private fakeCenter_sub: Subscription
   private url_sub: Subscription
   
   constructor(
@@ -40,17 +37,21 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // search parameters
     this.url_sub = this.ActivatedRoute.queryParams.subscribe((params: {[key: string]: any}) => {
       this.queryParams = params
     })
-    this.returnTab = this.SearchService.searchTab.subscribe((tab)=> this.openTab = tab)
-    this._categoriesSet_sub= this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
-    this.returnTab_sub = this.SearchService.searchTab.subscribe((tab) => {
-      this.openTab = tab
-    })
     this.filter_sub = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
-    this.fakeCenter_sub = this.SearchService.searchTab.subscribe((coord: number[])=> this.fakeCenter = coord)
 
+    // response from http queries
+    this.returnTab_sub = this.SearchService.searchTab.subscribe((tab: tab) => {
+      this.openTab = tab
+      console.log(this.openTab)
+    })
+
+    this._categoriesSet_sub= this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
+
+    // if url contains query 
     if (this.queryParams.query) {
       this.loading = true
       this.SearchService.enterSearch(this.queryParams.query, this.SearchService.mainSearch(this.queryParams.query, new CustomCoordinates(this.queryParams.lng, this.queryParams.lat)), new CustomCoordinates(this.queryParams.lng, this.queryParams.lat))
@@ -60,7 +61,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkFilter(type: number){
+  checkFilter(type: number) {
     // console.log(this.filterNumber)
     if (this.filterNumber === 0 || type === this.filterNumber){
       return true
@@ -70,21 +71,19 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     }
   }
   
-  checkIfChecked(id:string):boolean{
-    if(this.categoriesSet.has(id)){
+  checkIfChecked(id:string): boolean {
+    if (this.categoriesSet.has(id)) {
       return true
     }
-    else{
+    else {
       return false
     }
   }
 
-  ngOnDestroy(){
-    this.returnTab.unsubscribe()
+  ngOnDestroy() {
     this._categoriesSet_sub.unsubscribe()
     this.filter_sub.unsubscribe()
     this.returnTab_sub.unsubscribe()
-    this.fakeCenter_sub.unsubscribe()
     this.url_sub.unsubscribe()
   }
 }

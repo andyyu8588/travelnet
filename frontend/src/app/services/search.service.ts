@@ -17,8 +17,8 @@ export class SearchService implements OnDestroy {
 
 
   private search: tab = {query: null, path: 'search/', content : {'users':[], 'venues':[]}, prePath:null}
-  private _searchTab: BehaviorSubject<any> = new BehaviorSubject(this.search)
-  public searchTab : Observable<any> = this._searchTab.asObservable()
+  private _searchTab: BehaviorSubject<tab> = new BehaviorSubject(this.search)
+  public searchTab : Observable<tab> = this._searchTab.asObservable()
 
   private filter: number = 0
   private _filterNumber: BehaviorSubject<any> = new BehaviorSubject(this.filter)
@@ -97,18 +97,22 @@ export class SearchService implements OnDestroy {
       searchType
       .then(result => {
         console.log(result)
-        if(true && !result[0].response.warning){
+
+        if (result[0].response.totalResults != 0) {
           result[0].response.groups[0].items.forEach(venue =>{
             this.search.content.venues.push(venue)
           })
+        } else {
+          this.search.content.venues = []
         }
-        if (sessionStorage.getItem('username')){
+
+        if (sessionStorage.getItem('username')) {
           if (true && result[1].users){
             result[1].users.forEach(user=>{
               this.search.content.users.push(user)
-          })
-        }}
-        else {
+            })
+          }
+        } else {
           this.search.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
         }
         this.search = ({
