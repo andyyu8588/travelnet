@@ -38,6 +38,8 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.postsSub.unsubscribe();
   }
+  click(post){
+  console.log(post)
+  }
 }
-
 
