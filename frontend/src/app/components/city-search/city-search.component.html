@@ -1,6 +1,7 @@
 <mat-form-field class="example-full-width" style="width: 100%;" [appearance]='appearance'>
     <mat-label>{{ placeholder }}</mat-label>
-    <input type='text' 
+    <input type='text'
+    #searchInput="matInput"
     matInput
     placeholder="Ex. Berlin"
     [matAutocomplete]="auto"
@@ -10,7 +11,8 @@
     <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''" type='button'>
         <mat-icon>close</mat-icon>
     </button>
-    <mat-autocomplete #auto='matAutocomplete' >
+    <small *ngIf='!checkCityValidity() && myControl.touched && !searchInput.focused' class="text-danger">this is not a valid region</small>
+    <mat-autocomplete #auto='matAutocomplete' panelWidth='25%'>
         <mat-spinner *ngIf='isLoading' style="margin:0 auto;"></mat-spinner>
         <mat-option *ngFor='let country of autoSuggested | async' [value]='country.name' (click)='onOptionClick(country)'>
             <span>{{ country.name }}</span>

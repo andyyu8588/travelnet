@@ -2,6 +2,10 @@ mat-icon:hover {
     cursor: pointer;
 }
 
+button:focus {
+    outline: none;
+}
+
 ::ng-deep .mat-tooltip {
     font-size: 1em !important
 }

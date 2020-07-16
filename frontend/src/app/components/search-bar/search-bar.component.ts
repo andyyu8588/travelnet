@@ -2,7 +2,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { CustomCoordinates } from './../../models/coordinates';
 import { CitySearchComponent } from './../city-search/city-search.component';
 import { CategoryNode } from './../../models/CategoryNode.model';
-import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
@@ -15,6 +15,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Output() submission = new EventEmitter<void>()
+  @Input() isChild: boolean = false
   loading: boolean = false
 
   categories: CategoryNode[]
@@ -31,7 +33,8 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
   private clickedOption_sub: Subscription
   clickedOption: {[key: string]: any, name: string, content: {[key: string]: any}} = null
-  defaultFilter: any = '0'
+  defaultFilter: string = '0'
+  defaultCategory: string = 'All'
 
   constructor(
     private MapService: MapService,
@@ -71,10 +74,11 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmit() {
     if (this.searchBarForm.valid) {
+      this.submission.emit()
       let coord: CustomCoordinates = this.clickedOption? new CustomCoordinates(this.clickedOption.content.geometry.coordinates[0], this.clickedOption.content.geometry.coordinates[1]) : this.fakeCenter
       this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, coord), this.fakeCenter)
       .then(() => {
-        this.router.navigate(['search'], {queryParams: {query: this.openTab.query, lng: coord.lng, lat: coord.lat}})
+        this.router.navigate(['search'], {queryParams: {query: this.openTab.query, lng: coord.lng, lat: coord.lat, category: this.defaultCategory}})
       })
       .catch(err => {
         console.log(err)
@@ -82,7 +86,9 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** all|venues|users */
   changeFilter(filter:{response:string, value:string}) {
+    this.defaultFilter = filter.value
     this.SearchService.changeFilter(parseInt(filter.value))
   }
 

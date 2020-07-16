@@ -1,34 +1,39 @@
-<button type="button" class="btn" (click)='navigate()' *ngIf="searchResult.username">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{searchResult|null: ['username']}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="container">
-      <div>
-        <!-- option to follow -->
+<mat-card *ngIf="searchResult.username">
+  <mat-card-header (click)='navigate()' class='mainCard'>
+    <img
+    mat-card-avatar
+    src="data:image/jpeg;base64,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"
+    alt="">
+    <mat-card-title>{{searchResult|null: ['username']}}</mat-card-title>
+    <mat-card-subtitle>User</mat-card-subtitle>
+  </mat-card-header>
 
-        <div *ngIf="!result.followers.includes(this.selfUsername)" class="follow">
-          <button mat-raised-button (click)="onFollow()">
-            Follow
-          </button>
-        </div>
+  <mat-card-content (click)='navigate()' class="container" class='mainCard'>
+    lol
+    <div>
+      <!-- dunno why these dont work -->
+      <!-- <p *ngFor="let item of searchResult|null:['history']">{{item}}</p> -->
+    </div>
+    <div>
+      <!-- <p *ngFor="let item of searchResult|null:['whishlist']">{{item}}</p> -->
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="container">
+    <div class="container">
+      <!-- option to follow -->
+      <div *ngIf="!result.followers.includes(this.selfUsername)">
+        <button mat-raised-button (click)="onFollow()">
+          Follow
+        </button>
+      </div>
 
-        <!-- already following -->
-
-        <div *ngIf="result.followers.includes(this.selfUsername)" class="follow">
-          <button mat-raised-button (click)="onUnfollow()">
-            Unfollow
-          </button>
-        </div>
+      <!-- already following -->
+      <div *ngIf="result.followers.includes(this.selfUsername)">
+        <button mat-raised-button (click)="onUnfollow()">
+          Unfollow
+        </button>
       </div>
-      <div>
-        <!-- dunno why these dont work -->
-        <!-- <p *ngFor="let item of searchResult|null:['history']">{{item}}</p> -->
-      </div>
-      <div>
-        <!-- <p *ngFor="let item of searchResult|null:['whishlist']">{{item}}</p> -->
-      </div>
-    </mat-card-content>
-  </mat-card>
-</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
 

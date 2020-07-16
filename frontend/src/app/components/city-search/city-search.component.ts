@@ -1,6 +1,6 @@
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
 
 @Component({
@@ -14,7 +14,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   @Input() clearOnSearch: boolean
   
   // search input variables
-  myControl: FormControl = new FormControl()
+  myControl: FormControl = new FormControl(null)
   value: string = ''
   timeout
   searched: Subscription
@@ -28,6 +28,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   autoSuggested: Observable<Array<{[key: string]: any}>> = this._autoSuggested.asObservable()
 
   //return clicked option
+  _clickedOptionLocal: {[key: string]: any} = null
   private _clickedOption: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject(null)
   clickedOption: Observable<{[key: string]: any}> = this._clickedOption.asObservable()
 
@@ -36,7 +37,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // search for new cities on input value change
     this.searched = this.myControl.valueChanges.subscribe(x => {
-      this._clickedOption.next(null)
+      this._clickedOptionLocal = null
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
         this.isLoading = true
@@ -57,6 +58,15 @@ export class CitySearchComponent implements OnInit, OnDestroy {
     })
   }
 
+  /** check if input contains valid city */
+  checkCityValidity(): boolean {
+    if (this._clickedOptionLocal || this.value == '') {
+      return true
+    } else {
+      return false
+    }         
+  }
+
   // filters city name string
   removeMiddle(string: string, keep: number): string {
     let arr: string[] = string.split(',')
@@ -69,14 +79,14 @@ export class CitySearchComponent implements OnInit, OnDestroy {
 
   // when option is clicked
   onOptionClick(country: {[key: string]: any}) {
-    console.log(country)
+    this._clickedOptionLocal = country
     this._clickedOption.next(country)
-    // this.value = ''
+    this.clearOnSearch? this.value = '' : null
   }
 
   ngOnDestroy() {
     this.searched.unsubscribe()
-    this.openstreetmap_sub.unsubscribe()
+    this.openstreetmap_sub? this.openstreetmap_sub.unsubscribe() : null
   } 
 
 }

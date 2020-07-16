@@ -1,10 +1,11 @@
-.btn{
-  width: 100%;
-}
 .inline{
   text-align: left;
 }
 
-.follow {
-  z-index: 100;
+.mainCard:hover {
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
 }

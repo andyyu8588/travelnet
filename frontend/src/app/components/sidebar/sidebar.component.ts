@@ -1,3 +1,4 @@
+import { SessionService } from 'src/app/services/session.service';
 import { Router } from '@angular/router';
 import { tab } from '../../models/tab.model';
 import { SearchService } from 'src/app/services/search.service';
@@ -70,7 +71,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private FriendlistService: FriendlistService,
               private SearchService: SearchService,
               private Router: Router,
-              private MapService: MapService
+              private MapService: MapService,
+              private SessionService: SessionService
               )
   {
   }
@@ -100,18 +102,20 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     const maxWidth: number = window.innerWidth * 0.96
     if (
       event.rectangle.width && // if defined
-        event.rectangle.height && // if defined
-          (event.rectangle.width < MIN_DIMENSIONS_PX ||
-            event.rectangle.width > maxWidth)
+      event.rectangle.height && // if defined
+      (event.rectangle.width < MIN_DIMENSIONS_PX ||
+      event.rectangle.width > maxWidth)
     ) {
       return false;
+    } else {
+      return true;      
     }
-    return true;
   }
 
   onResizeEnd(event: {edges:any,rectangle:{bottom: number, height: number, left: number, right:number, scrollLeft: number, scrollTop: number, top: number, width: number}}): void {
     this.Styles.width = `${event.rectangle.width}px`
-    this.MapService.getFakeCenter(event.rectangle.right)
+    this.SessionService.updateSidebarWidth(event.rectangle.width)
+    this.MapService.getFakeCenter()
   }
 
   searchFriend() {
