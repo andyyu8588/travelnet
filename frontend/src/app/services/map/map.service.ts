@@ -127,7 +127,7 @@ export class MapService implements OnDestroy{
   }
 
   /** gets middle point between sidebar and right side of screen */
-  getFakeCenter(sidebar: number = window.innerWidth*.35) {
+  getFakeCenter(sidebar: number = window.innerWidth*.4) {
     let centerPoints: any
     if (sidebar === -1) {
       centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.fakeCenter)[0], window.innerHeight/2])

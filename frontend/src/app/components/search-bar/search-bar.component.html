@@ -20,7 +20,10 @@
       &nbsp;
       <!-- venue location -->
       <app-city-search appearance='outline' placeholder='Region' class="col align-self-end"></app-city-search>
-      <mat-icon class="col-auto align-self-center" style="padding-left: 0;" color='primary' matTooltip='select a city to search in or drag the area you want to search to the center of the visible map'>info</mat-icon>
+      <!-- submit -->
+      <button mat-raised-button class="col-auto align-self-center" color='primary' (click)='onSubmit()' matTooltip='select a city to search in or drag the area you want to search to the center of the visible map' matTooltipShowDelay='800'>
+        <mat-icon>search</mat-icon>
+      </button>
     </span>
     <!-- filter user|venues -->
     <mat-form-field class="col-auto align-self-center">

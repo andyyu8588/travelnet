@@ -167,10 +167,6 @@ export class SearchService implements OnDestroy {
     })
   }
 
-  toggleSetCategory() {
-    
-  }
-
   updateCategoryTree(newData){
     this._categoryTree.next(newData)
   }

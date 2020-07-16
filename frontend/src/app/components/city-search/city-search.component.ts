@@ -11,7 +11,7 @@ import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
 export class CitySearchComponent implements OnInit, OnDestroy {
   @Input() appearance: string
   @Input() placeholder: string
-
+  @Input() clearOnSearch: boolean
   
   // search input variables
   myControl: FormControl = new FormControl()
@@ -28,7 +28,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   autoSuggested: Observable<Array<{[key: string]: any}>> = this._autoSuggested.asObservable()
 
   //return clicked option
-  private _clickedOption: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject({})
+  private _clickedOption: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject(null)
   clickedOption: Observable<{[key: string]: any}> = this._clickedOption.asObservable()
 
   constructor(private OpenstreetmapService: OpenstreetmapService) { }
@@ -36,6 +36,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // search for new cities on input value change
     this.searched = this.myControl.valueChanges.subscribe(x => {
+      this._clickedOption.next(null)
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
         this.isLoading = true
@@ -68,6 +69,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
 
   // when option is clicked
   onOptionClick(country: {[key: string]: any}) {
+    console.log(country)
     this._clickedOption.next(country)
     // this.value = ''
   }

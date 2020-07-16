@@ -7,7 +7,7 @@
     [formControl]="myControl"
     [(ngModel)]='value'
     autocomplete="off">
-    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''" type='button'>
         <mat-icon>close</mat-icon>
     </button>
     <mat-autocomplete #auto='matAutocomplete' >

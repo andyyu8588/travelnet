@@ -2,7 +2,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { CustomCoordinates } from './../../models/coordinates';
 import { CitySearchComponent } from './../city-search/city-search.component';
 import { CategoryNode } from './../../models/CategoryNode.model';
-import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent implements OnInit, OnDestroy {
+export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   loading: boolean = false
 
   categories: CategoryNode[]
@@ -29,6 +29,8 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   // filters
   @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
+  private clickedOption_sub: Subscription
+  clickedOption: {[key: string]: any, name: string, content: {[key: string]: any}} = null
   defaultFilter: any = '0'
 
   constructor(
@@ -48,19 +50,31 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
     this.fakeCenter_sub = this.MapService.fakeCenter.subscribe((coord: CustomCoordinates) => {
       this.fakeCenter = coord? coord : new CustomCoordinates(73.5673, 45.5017)
-      console.log(this.fakeCenter)
     })
 
-    this.SearchService.updateCategories().then((x: {set: any, tree: any}) => {
-      this.categories = x.tree
+    this.SearchService.updateCategories()
+    .then((x: CategoryNode[]) => {
+      this.categories = x
+    })
+  }
+
+  ngAfterViewInit() {
+    // for coordinates of city search
+    this.clickedOption_sub = this.CitySearchComponent.clickedOption.subscribe((city: {[key: string]: any, name: string, content: {[key: string]: any}}) => {
+      if (city) {
+        this.clickedOption = city
+      } else {
+        this.clickedOption = null
+      }
     })
   }
 
   onSubmit() {
     if (this.searchBarForm.valid) {
-      this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, this.fakeCenter), this.fakeCenter)
+      let coord: CustomCoordinates = this.clickedOption? new CustomCoordinates(this.clickedOption.content.geometry.coordinates[0], this.clickedOption.content.geometry.coordinates[1]) : this.fakeCenter
+      this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, coord), this.fakeCenter)
       .then(() => {
-        this.router.navigate(['search'], {queryParams: {query: this.openTab.query, lng: this.fakeCenter.lng, lat: this.fakeCenter.lat}})
+        this.router.navigate(['search'], {queryParams: {query: this.openTab.query, lng: coord.lng, lat: coord.lat}})
       })
       .catch(err => {
         console.log(err)
@@ -75,5 +89,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.returnTab_sub.unsubscribe()
     this.fakeCenter_sub.unsubscribe()
+    this.clickedOption_sub.unsubscribe()
   }
 }

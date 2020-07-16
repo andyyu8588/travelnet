@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   // about sidebar
   private windowSub: Subscription
   window: boolean = true
-  width: number = 0.35
+  width: number = 0.4
   Styles = {
     'position': 'fixed',
     'background-color': 'rgba(255,255,255,0.75)',
