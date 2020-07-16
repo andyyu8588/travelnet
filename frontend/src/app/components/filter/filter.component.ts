@@ -58,9 +58,11 @@ export class FilterComponent implements OnInit, OnDestroy {
   setAll(category: CategoryNode) {
     let allChecked = this.initiateChildrenChecker(category.categories)
     if(!allChecked) {
+      this.SearchService.treeValues.categorySet.has(category.id)? null : this.SearchService.treeValues.categorySet.add(category.id)
       this.checkAll(category.categories)
     }
-    else if (allChecked){
+    else if (allChecked) {
+      this.SearchService.treeValues.categorySet.has(category.id)? this.SearchService.treeValues.categorySet.delete(category.id) : null
       this.uncheckAll(category.categories)
     }
     this.SearchService.updateCategoryTree(this.categoriesTree)
@@ -68,10 +70,14 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   /** checks all children of a node */
   checkAll(categories: CategoryNode[]) {
-      categories.forEach(sub => {
+    categories.forEach((sub: CategoryNode) => {
       sub.checked = true;
-      this.modifyIdSet(sub)
-      if(sub.categories && sub.categories.length > 0){
+      this.SearchService.treeValues.categorySet.has(sub.id)? null : this.SearchService.treeValues.categorySet.add(sub.id)
+
+      this.SearchService.updateCategorySet(this.categoriesSet)
+      // this.modifyIdSet(sub)
+
+      if (sub.categories && sub.categories.length > 0) {
         this.checkAll(sub.categories)
       }
     })
@@ -79,12 +85,14 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   /** unchecks all children of a node */
   uncheckAll(categories: CategoryNode[]) {
-      categories.forEach(sub => {
-        sub.checked = false;
-        this.modifyIdSet(sub)
-        if(sub.categories && sub.categories.length > 0){
-          this.uncheckAll(sub.categories)
-        }
+    categories.forEach((sub: CategoryNode) => {
+      sub.checked = false;
+      this.SearchService.treeValues.categorySet.has(sub.id)? this.SearchService.treeValues.categorySet.delete(sub.id) : null
+
+      // this.modifyIdSet(sub)
+      if(sub.categories && sub.categories.length > 0){
+        this.uncheckAll(sub.categories)
+      }
     });
   }
 
