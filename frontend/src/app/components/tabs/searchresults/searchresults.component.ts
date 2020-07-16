@@ -1,5 +1,7 @@
+import { SearchParams } from './../../../models/searchParams';
+import { FilterComponent } from './../../filter/filter.component';
 import { CategoryNode } from './../../../models/CategoryNode.model';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/services/search.service';
 import { tab } from 'src/app/models/tab.model'
@@ -13,13 +15,7 @@ import { CustomCoordinates } from 'src/app/models/coordinates';
   styleUrls: ['./searchresults.component.scss']
 })
 export class SearchresultsComponent implements OnInit, OnDestroy {
-  queryParams: {
-    [key: string]: any
-    query?: string
-    lng?: number
-    lat?: number
-    category?: string
-  } = null
+  queryParams: SearchParams = null
   openTab: tab
   filterNumber: number
   loading: boolean = null
@@ -40,7 +36,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // search parameters
-    this.url_sub = this.ActivatedRoute.queryParams.subscribe((params: {[key: string]: any}) => {
+    this.url_sub = this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       this.queryParams = params
     })
     this.filter_sub = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)

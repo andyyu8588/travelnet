@@ -1,3 +1,5 @@
+import { SearchParams } from './../../models/searchParams';
+import { ActivatedRoute } from '@angular/router';
 import { TripService } from './../../services/trip.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -21,6 +23,9 @@ export class FilterComponent implements OnInit, OnDestroy {
   private _categoriesTree: Subscription
   private _categoriesSet: Subscription
 
+  // params from url
+  private url_sub: Subscription
+
   allComplete: Array<boolean> = null
   count = 0;
 
@@ -31,7 +36,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   constructor(
     private SearchService: SearchService,
-    private TripService: TripService
+    private TripService: TripService,
+    private ActivatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +48,19 @@ export class FilterComponent implements OnInit, OnDestroy {
       // modify filter settings
       this.setAll(this.TripService.searchedCategory)
     }
+
+    this.url_sub = this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
+      if (params.category) {
+        this.categoriesTree.forEach((child: CategoryNode) => {
+          if (child.name != params.category) {
+            this.uncheckAll(child.categories)
+          } else {
+            this.checkAll(child.categories)
+          }
+        })       
+      }
+
+    })
   }
 
   /** Checks if datasource for material tree has any child groups */
@@ -54,7 +73,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.SearchService.updateCategoryTree(this.categoriesTree)
   }
 
-  /**toggle checkmark for nodes */
+  /**toggle checkmark for nodes && node itself */
   setAll(category: CategoryNode) {
     let allChecked = this.initiateChildrenChecker(category.categories)
     if(!allChecked) {
@@ -68,7 +87,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.SearchService.updateCategoryTree(this.categoriesTree)
   }
 
-  /** checks all children of a node */
+  /** checks all children of a node && node itself */
   checkAll(categories: CategoryNode[]) {
     categories.forEach((sub: CategoryNode) => {
       sub.checked = true;
@@ -158,5 +177,6 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.SearchService.updateCategoryTree(this.categoriesTree)
     this._categoriesTree.unsubscribe()
     this._categoriesSet.unsubscribe()
+    this.url_sub.unsubscribe()
   }
 }
