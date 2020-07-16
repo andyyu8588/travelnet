@@ -1,9 +1,10 @@
-<div *ngIf="loading" class="container-fluid row justify-content-center" style="overflow: hidden; padding-top: 1em;">
-  <mat-spinner class="col-auto"></mat-spinner>
-</div>
 <div class="container-fluid row" style="margin: 0; padding: 0;">
     <div class="col mr-auto"*ngIf="openTab.content" style="margin-left: 0; padding-left: 0;">
       <br>
+      <!-- loading animation -->
+      <div *ngIf="loading" class="container-fluid row justify-content-center" style="overflow: hidden; padding-top: 1em;">
+        <mat-spinner class="col-auto"></mat-spinner>
+      </div>
       <!-- display venues -->
       <div *ngIf="checkFilter(1)">
         <div *ngFor="let result of openTab.content.venues">

@@ -21,28 +21,32 @@ export class SearchService implements OnDestroy {
   public searchTab : Observable<tab> = this._searchTab.asObservable()
 
   private filter: number = 0
-  private _filterNumber: BehaviorSubject<any> = new BehaviorSubject(this.filter)
-  public filterNumber : Observable<any> = this._filterNumber.asObservable()
+  private _filterNumber: BehaviorSubject<number> = new BehaviorSubject(this.filter)
+  public filterNumber : Observable<number> = this._filterNumber.asObservable()
 
-  private categories: CategoryNode = null
-  private _categoryTree: BehaviorSubject<any> = new BehaviorSubject(this.categories)
-  public categoryTree : Observable<any> = this._categoryTree.asObservable()
+  private categories: CategoryNode[] = null
+  private _categoryTree: BehaviorSubject<CategoryNode[]> = new BehaviorSubject(this.categories)
+  public categoryTree : Observable<CategoryNode[]> = this._categoryTree.asObservable()
 
   private categoriesCollection: any
-  private _categorySet: BehaviorSubject<any> = new BehaviorSubject(this.categoriesCollection)
-  public categorySet : Observable<any> = this._categorySet.asObservable()
+  private _categorySet: BehaviorSubject<Set<any>> = new BehaviorSubject(this.categoriesCollection)
+  public categorySet : Observable<Set<any>> = this._categorySet.asObservable()
 
   treeValues: {
     [key: string]: any
     tree: [],
     categorySet: Set<any>
-  } = {tree: [], categorySet: new Set()}
+  } = {
+    tree: [],
+    categorySet: new Set()
+  }
 
   constructor(private HttpClient: HttpClient,
               private foursquareService: FoursquareService) {
-    this.updateCategories().then(x => {
-      this._categoryTree.next(x.tree)
-      this._categorySet.next(x.set)
+    this.updateCategories()
+    .then((x: CategoryNode[]) => {
+      this._categoryTree.next(x)
+      this._categorySet.next(this.treeValues.categorySet)
     })
   }
 
@@ -135,29 +139,36 @@ export class SearchService implements OnDestroy {
   }
 
   //anything category related
-  updateCategories(): Promise<any> {
+  updateCategories(): Promise<CategoryNode[]> {
     return new Promise((resolve,reject)=>{
       this.foursquareService.updateCategories()
       .subscribe(x=>{
         console.log(x)
-        this.treeValues.tree = x.response.categories
-        resolve(this.initiateTree(x.response.categories))
+        this.initiateTree(x.response.categories)
+        resolve(x.response.categories)
+      }, err => {
+        console.log(err)
+        reject(err)
       })
     })
   }
 
   /**makes tree leaves checked and creates array containing category id*/
   initiateTree(data: CategoryNode[]) {
-    data.forEach(category => {
-      if (!category.categories || (category.categories.length === 0)){
+    data.forEach((category: CategoryNode) => {
+      if (category.categories.length === 0) {
         category.checked = true
         this.treeValues.categorySet.add(category.id)
       }
-      else if (category.categories && category.categories.length !== 0){
+      else if (category.categories.length !== 0) {
+        this.treeValues.categorySet.add(category.id)
         this.initiateTree(category.categories)
       }
     })
-    // return {'tree': data,'set': categorySet}
+  }
+
+  toggleSetCategory() {
+    
   }
 
   updateCategoryTree(newData){
