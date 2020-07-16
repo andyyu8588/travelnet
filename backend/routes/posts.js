@@ -36,6 +36,7 @@ router.post(
   (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     const post = new Post({
+      author: req.body.author,
       title: req.body.title,
       content: req.body.content,
       imagePath: url + "/images/" + req.file.filename
@@ -63,14 +64,19 @@ router.put(
     }
     const post = new Post({
       _id: req.body.id,
+      author: req.body.author,
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath
     });
-    console.log(post);
-    Post.updateOne({ _id: req.params.id }, post).then(result => {
-      res.status(200).json({ message: "Update successful!" });
-    });
+    console.log(req.body)
+    try{
+      Post.updateOne({ _id: req.params.id }, post).then(result => {
+        res.status(200).json({ message: "Update successful!" });
+      });
+    } catch (e){
+      print(e)
+    }
   }
 );
 
