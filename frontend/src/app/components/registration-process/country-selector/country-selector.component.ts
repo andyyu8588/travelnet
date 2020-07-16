@@ -100,7 +100,7 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
 
   ngAfterViewInit() {
     this.optionClick_sub = this.citySearchComponent.clickedOption.subscribe(content => {
-      if (content.name) {
+      if (content) {
         // displays chip and clear search input
         let chip = this.removeMiddle(content.name, 1)
         let countryName = ((content.name.split(', '))[content.name.split(', ').length - 1]).substring(1)

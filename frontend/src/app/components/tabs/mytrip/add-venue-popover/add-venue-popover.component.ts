@@ -1,3 +1,4 @@
+import { SearchBarComponent } from './../../../search-bar/search-bar.component';
 import { CustomCoordinates } from './../../../../models/coordinates';
 import { environment } from './../../../../../environments/environment.dev';
 import { Router } from '@angular/router';
@@ -32,6 +33,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   venueCategories: CategoryNode[] = []
 
   // for database venue search
+  @ViewChild(SearchBarComponent) SearchBarComponent: SearchBarComponent
   searchVenueForm: FormGroup
   mapCenter_sub: Subscription
   searchUrlCoord: CustomCoordinates
@@ -70,8 +72,8 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
 
     // sets mat select venue category options 
     this.SearchService.updateCategories()
-    .then((response: {tree: CategoryNode[], set: any}) => {
-      response.tree.forEach((element: CategoryNode) => {
+    .then((response: CategoryNode[]) => {
+      response.forEach((element: CategoryNode) => {
         this.venueCategories.push(element)
       })
     })
@@ -100,7 +102,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   ngAfterViewInit() {
     // selected option from autosuggest
     this.selectedOption_sub = this.CitySearchComponent.clickedOption.subscribe((location) => {
-      if (location.name) {
+      if (location) {
         this.CitySearchComponent.value = location.name
       }
     })
@@ -108,12 +110,10 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
 
   onSubmitSearch() {
     this.isLoading = true
-    if (this.searchVenueForm.valid) {
-      let name: string = this.searchVenueForm.get('name').value
-      let coord: string = this.searchUrlCoord? this.searchUrlCoord.toStringReorder(2) : '45.5035,73.5685'
+    console.log('kiet')
+    if (this.SearchBarComponent.searchBarForm.valid) {
       this.isLoading = false
       this.dialogRef.close()
-      this.Router.navigateByUrl('/search/' + name + '&' + coord)
     }
     this.isLoading = false
   }

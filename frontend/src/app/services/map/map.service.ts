@@ -1,5 +1,6 @@
+import { SessionService } from 'src/app/services/session.service';
 import { CustomCoordinates } from './../../models/coordinates';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Injectable, OnInit, Input, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SearchService } from 'src/app/services/search.service'
@@ -53,8 +54,15 @@ export class MapService implements OnDestroy{
 
   private Places: Array<featureGEOJSONModel[]> = [[],[]]
 
-  constructor() {
+  private sidebarWidth_sub: Subscription
+  sidebarWidth: number
+
+  constructor(private SessionService: SessionService) {
     Mapboxgl.accessToken = environment.mapbox.token
+
+    this.sidebarWidth_sub = this.SessionService.sidebarWidth.subscribe((w: number) => {
+      this.sidebarWidth = w
+    })
   }
 
   buildMap() {
@@ -127,7 +135,7 @@ export class MapService implements OnDestroy{
   }
 
   /** gets middle point between sidebar and right side of screen */
-  getFakeCenter(sidebar: number = window.innerWidth*.4) {
+  getFakeCenter(sidebar: number = this.sidebarWidth) {
     let centerPoints: any
     if (sidebar === -1) {
       centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.fakeCenter)[0], window.innerHeight/2])
@@ -139,6 +147,7 @@ export class MapService implements OnDestroy{
       centerPoints = this.map.unproject([(window.innerWidth - sidebar)/2 + sidebar, window.innerHeight/2])
     }
     this._fakeCenter.next(new CustomCoordinates(centerPoints.lng, centerPoints.lat))
+    // this.addMarker({lng: centerPoints.lng, lat: centerPoints.lat})
   }
 
   /** return coordinates [lng, lat] at center of screen */
@@ -249,8 +258,7 @@ export class MapService implements OnDestroy{
     }
   }
   ngOnDestroy() {
-    this._fakeCenter.unsubscribe()
-
+    this.sidebarWidth_sub.unsubscribe()
   }
 }
 

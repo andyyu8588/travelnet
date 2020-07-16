@@ -4,92 +4,101 @@
     </mat-card-header>
     <br>
     <mat-card-content>
-            <mat-tab-group dynamicHeight mat-align-tabs="center">
-                <!-- Search Venue -->
-                <mat-tab>
-                    <form
-                        [formGroup]='searchVenueForm'
-                        (ngSubmit)='onSubmitSearch()'>
-                        <ng-template mat-tab-label>
-                            <label matTooltip="Search Venue in Database" style="margin: 0;">Search</label>
-                        </ng-template>
-                        <br>
-                        <mat-form-field appearance='outline' style="margin: 0; padding: 0;">
-                            <mat-label>Search Venue</mat-label>
-                            <input formControlName='name' matInput type="text" >
-                            <small class="text-danger" *ngIf="!searchVenueForm.get('name').valid && searchVenueForm.get('name').touched">name must be between 1 and 25 characters</small>
-                        </mat-form-field>
+        <mat-tab-group dynamicHeight mat-align-tabs="center">
+            <!-- Search Venue -->
+            <mat-tab>
+                <!-- <form
+                    [formGroup]='searchVenueForm'
+                    (ngSubmit)='onSubmitSearch()'>
+                    <ng-template mat-tab-label>
+                        <label matTooltip="Search Venue in Database" style="margin: 0;">Search</label>
+                    </ng-template>
+                    <br>
+                    <mat-form-field appearance='outline' style="margin: 0; padding: 0;">
+                        <mat-label>Search Venue</mat-label>
+                        <input formControlName='name' matInput type="text" >
+                        <small class="text-danger" *ngIf="!searchVenueForm.get('name').valid && searchVenueForm.get('name').touched">name must be between 1 and 25 characters</small>
+                    </mat-form-field>
+                    &nbsp;
+                    <mat-form-field appearance='fill'>
+                        <mat-label>Category</mat-label>
+                        <mat-select [(value)]='defaultCategory'>
+                            <mat-option value='All'>All</mat-option>
+                            <mat-option *ngFor='let category of venueCategories' [value]='category.name'>{{category.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <br>
+                    <span class="row container-fluid">
+                        <button mat-raised-button class="col-auto" color='primary' [disabled]='isLoading'>Search</button>
                         &nbsp;
-                        <mat-form-field appearance='fill'>
-                            <mat-label>Category</mat-label>
-                            <mat-select [(value)]='defaultCategory'>
-                                <mat-option value='All'>All</mat-option>
-                                <mat-option *ngFor='let category of venueCategories' [value]='category.name'>{{category.name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <br>
-                        <span class="row container-fluid">
-                            <button mat-raised-button class="col-auto" color='primary' [disabled]='isLoading'>Search</button>
-                            &nbsp;
-                            <mat-spinner *ngIf='isLoading' class="col-auto align-self-center" diameter='30' color='primary'></mat-spinner>                        
-                        </span>
-                    </form>
-                </mat-tab>
-                <!-- Custom Venue -->
-                <mat-tab>
-                    <form 
-                        #customForm
-                        [formGroup]='customVenueForm'
-                        (ngSubmit)='onSubmitCustom()'>
-                        <ng-template mat-tab-label >
-                            <label style="margin: 0;">Custom</label>
-                            &nbsp;
-                            <mat-icon matTooltip="Add Custom Venue">info</mat-icon>
-                        </ng-template>
-                        <br>
-                        <mat-form-field appearance='outline'>
-                            <mat-label>Venue Name*</mat-label>
-                            <input matInput type="text" autocomplete="off" formControlName='name'>
-                            <small class="text-danger" *ngIf="!customVenueForm.get('name').valid && customVenueForm.get('name').touched">Name must be between 1 and 20 characters</small>
-                        </mat-form-field>
+                        <mat-spinner *ngIf='isLoading' class="col-auto align-self-center" diameter='30' color='primary'></mat-spinner>                        
+                    </span>
+                </form> -->
+                <form
+                    (ngSubmit)='onSubmitSearch()'
+                    class="container-fluid">
+                    <ng-template mat-tab-label>
+                        <label matTooltip="Search Venue in Database" style="margin: 0;">Search</label>
+                    </ng-template>
+                    <br>
+                    <app-search-bar isChild='true' style="padding: 0; margin-left: 0; margin-right: 0; width: 100%;" (submission)='onSubmitSearch()'></app-search-bar>
+                </form>
+            </mat-tab>
+            <!-- Custom Venue -->
+            <mat-tab>
+                <form 
+                    #customForm
+                    [formGroup]='customVenueForm'
+                    (ngSubmit)='onSubmitCustom()'>
+                    <ng-template mat-tab-label >
+                        <label style="margin: 0;">Custom</label>
                         &nbsp;
-                        <mat-form-field appearance='fill'>
-                            <mat-label>Category</mat-label>
-                            <mat-select [(value)]='defaultCategory'>
-                                <mat-option value='All'>All</mat-option>
-                                <mat-option *ngFor='let category of venueCategories' [value]='category'>{{category}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <hr style="margin-top: 0;">
-                        <app-city-search #citySearch [appearance]='citySearchAppearance' [placeholder]='citySearchPlaceholder'></app-city-search>
-                        <mat-form-field appearance='outline'>
-                            <mat-label>Street Address</mat-label>
-                            <input matInput type='text' autocomplete="street-address" formControlName='address'>
-                        </mat-form-field>
-                        <br>
-                        <mat-form-field appearance='outline'>
-                            <mat-label>Price</mat-label>
-                            <input matInput type='number' formControlName='price'>
-                        </mat-form-field>
-                        <span class="row container-fluid">
-                        <button 
-                            class="col-auto"
-                            mat-raised-button
-                            matTooltip='add custom Venue'
-                            color='primary'
-                            [disabled]='isLoading'>
-                            Add
-                        </button>
-                        &nbsp;
-                        <mat-spinner *ngIf='isLoading' class="col-auto align-self-center" diameter='30' color='primary'></mat-spinner>
-                        </span>
-                        &nbsp;
-                        <span>
-                            <small *ngIf='isLoaded && !isErr' class="text-success">New Venue added Succesfully!</small>
-                        </span>
-                    </form> 
-                </mat-tab>
-            </mat-tab-group>
+                        <mat-icon matTooltip="Add Custom Venue">info</mat-icon>
+                    </ng-template>
+                    <br>
+                    <mat-form-field appearance='outline'>
+                        <mat-label>Venue Name*</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName='name'>
+                        <small class="text-danger" *ngIf="!customVenueForm.get('name').valid && customVenueForm.get('name').touched">Name must be between 1 and 20 characters</small>
+                    </mat-form-field>
+                    &nbsp;
+                    <mat-form-field appearance='outline'>
+                        <mat-label>Category</mat-label>
+                        <mat-select [(value)]='defaultCategory'>
+                            <mat-option value='All'>All</mat-option>
+                            <mat-option *ngFor='let category of venueCategories' [value]='category'>{{category}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <hr style="margin-top: 0;">
+                    <app-city-search #citySearch [appearance]='citySearchAppearance' [placeholder]='citySearchPlaceholder'></app-city-search>
+                    <mat-form-field appearance='outline'>
+                        <mat-label>Street Address</mat-label>
+                        <input matInput type='text' autocomplete="street-address" formControlName='address'>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance='outline'>
+                        <mat-label>Price</mat-label>
+                        <input matInput type='number' formControlName='price'>
+                    </mat-form-field>
+                    <span class="row container-fluid">
+                    <button 
+                        class="col-auto"
+                        mat-raised-button
+                        matTooltip='add custom Venue'
+                        color='primary'
+                        [disabled]='isLoading'>
+                        Add
+                    </button>
+                    &nbsp;
+                    <mat-spinner *ngIf='isLoading' class="col-auto align-self-center" diameter='30' color='primary'></mat-spinner>
+                    </span>
+                    &nbsp;
+                    <span>
+                        <small *ngIf='isLoaded && !isErr' class="text-success">New Venue added Succesfully!</small>
+                    </span>
+                </form> 
+            </mat-tab>
+        </mat-tab-group>
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>

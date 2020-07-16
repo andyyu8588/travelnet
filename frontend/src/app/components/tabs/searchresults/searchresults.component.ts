@@ -1,3 +1,4 @@
+import { CategoryNode } from './../../../models/CategoryNode.model';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/services/search.service';
@@ -17,6 +18,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     query?: string
     lng?: number
     lat?: number
+    category?: string
   } = null
   openTab: tab
   filterNumber: number
@@ -65,8 +67,8 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** check if state of venues|users filter */ 
   checkFilter(type: number) {
-    // console.log(this.filterNumber)
     if (this.filterNumber === 0 || type === this.filterNumber){
       return true
     }

@@ -12,6 +12,9 @@ export class SessionService {
   private _sessionState: BehaviorSubject<boolean> = new BehaviorSubject(false)
   public sessionState: Observable<boolean> = this._sessionState.asObservable()
 
+  private _sidebarWidth: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth*.4)
+  public sidebarWidth: Observable<number> = this._sidebarWidth.asObservable()
+
   constructor(private SocketService: SocketService) { }
 
   getRoomName(roomName: string) {
@@ -30,5 +33,9 @@ export class SessionService {
       this._sessionState.next(false)
       return false
     }
-  }  
+  }
+  
+  updateSidebarWidth(width: number) {
+    this._sidebarWidth.next(width)
+  }
 }

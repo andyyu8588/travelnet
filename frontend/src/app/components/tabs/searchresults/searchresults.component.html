@@ -5,6 +5,14 @@
       <div *ngIf="loading" class="container-fluid row justify-content-center" style="overflow: hidden; padding-top: 1em;">
         <mat-spinner class="col-auto"></mat-spinner>
       </div>
+      <!-- nothing found -->
+      <mat-card *ngIf="openTab.content.venues.length === 0 && openTab.content.users.length === 0">
+        <mat-card-header>
+          <mat-card-title>
+            Nothing Found...
+          </mat-card-title>
+        </mat-card-header>
+      </mat-card>
       <!-- display venues -->
       <div *ngIf="checkFilter(1)">
         <div *ngFor="let result of openTab.content.venues">
