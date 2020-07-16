@@ -5,13 +5,18 @@
     <mat-card class="">
       <mat-card-header>
         <div mat-card-avatar class=""></div>
-        <mat-card-title>{{ post.title }}</mat-card-title>
+        <mat-card-title>{{ post.author }}</mat-card-title>
         <mat-card-subtitle>Premium User</mat-card-subtitle>
-        <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
-        <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+        <div class='authorButtons'>
+          <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
+          <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+        </div>
       </mat-card-header>
+      <h1>
+        {{ post.title }}
+      </h1>
       <p>
-        {{ post.content }}
+            {{ post.content }}
       </p>
       <img mat-card-image [src]="post.imagePath" [alt]="post.title">
 
