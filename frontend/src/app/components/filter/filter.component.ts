@@ -16,7 +16,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   name: string
   panelOpenState = false
 
-  categoriesTree: CategoryNode = null
+  categoriesTree: CategoryNode[] = null
   categoriesSet: any
   private _categoriesTree: Subscription
   private _categoriesSet: Subscription
