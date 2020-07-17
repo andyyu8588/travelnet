@@ -1,7 +1,5 @@
 import { CustomCoordinates } from './../models/coordinates';
-import { MapService } from 'src/app/services/map/map.service';
 import { tab } from 'src/app/models/tab.model';
-import { venueModel } from 'src/app/models/venue.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FoursquareService } from './map/foursquare.service';
@@ -16,7 +14,7 @@ import { CategoryNode } from '../models/CategoryNode.model';
 export class SearchService implements OnDestroy {
 
 
-  private search: tab = {query: null, path: 'search/', content : {'users':[], 'venues':[]}, prePath:null}
+  private search: tab = {query: null, content : {'users':[], 'venues':[]}}
   private _searchTab: BehaviorSubject<tab> = new BehaviorSubject(this.search)
   public searchTab : Observable<tab> = this._searchTab.asObservable()
 
@@ -126,8 +124,11 @@ export class SearchService implements OnDestroy {
           this.search.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
         }
         this.search = ({
-          query: query,
-          coord: coord,
+          query: {
+            query: query,
+            lng: coord.lng,
+            lat: coord.lat
+          },
           content: this.search.content
         })
         resolve(this._searchTab.next(this.search))

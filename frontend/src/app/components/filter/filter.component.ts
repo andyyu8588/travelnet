@@ -4,7 +4,7 @@ import { TripService } from './../../services/trip.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
-import {NestedTreeControl} from '@angular/cdk/tree';
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { CategoryNode} from 'src/app/models/CategoryNode.model';
 import { Subscription } from 'rxjs';
 
@@ -22,9 +22,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   categoriesSet: any
   private categoriesTree_sub: Subscription
   private categoriesSet_sub: Subscription
-
-  // params from url
-  private url_sub: Subscription
 
   allComplete: Array<boolean> = null
   count = 0;
@@ -45,7 +42,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.categoriesSet_sub = this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
 
     // sets category filter from url params
-    this.url_sub = this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
+    this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       this.SearchService.updateCategories()
       .then((val: CategoryNode[]) => {
         this.categoriesTree = val
@@ -188,6 +185,5 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.SearchService.updateCategoryTree(this.categoriesTree)
     this.categoriesTree_sub.unsubscribe()
     this.categoriesSet_sub.unsubscribe()
-    this.url_sub.unsubscribe()
   }
 }
