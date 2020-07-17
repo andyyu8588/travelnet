@@ -15,7 +15,7 @@ import { CustomCoordinates } from 'src/app/models/coordinates';
   styleUrls: ['./searchresults.component.scss']
 })
 export class SearchresultsComponent implements OnInit, OnDestroy {
-  queryParams: SearchParams = null
+  queryParams: SearchParams = {}
   openTab: tab
   filterNumber: number
   loading: boolean = null
@@ -25,18 +25,16 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   private _categoriesSet_sub: Subscription
   private returnTab_sub: Subscription
   private filter_sub: Subscription
-  private url_sub: Subscription
   
   constructor(
     private map: MapService,
     private SearchService: SearchService,
-    private router: Router,
     private ActivatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     // search parameters
-    this.url_sub = this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
+    this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       this.queryParams = params
     })
     this.filter_sub = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
@@ -44,7 +42,6 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     // response from http queries
     this.returnTab_sub = this.SearchService.searchTab.subscribe((tab: tab) => {
       this.openTab = tab
-      console.log(this.openTab)
     })
 
     this._categoriesSet_sub= this.SearchService.categorySet.subscribe((set: Set<any>)=> {
@@ -86,6 +83,5 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     this._categoriesSet_sub.unsubscribe()
     this.filter_sub.unsubscribe()
     this.returnTab_sub.unsubscribe()
-    this.url_sub.unsubscribe()
   }
 }

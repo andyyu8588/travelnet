@@ -39,8 +39,8 @@
             <button mat-button *ngIf='selectedTab() != "/mytrip"' class="nav-link col" routerLink='mytrip'>My Trip</button>
             <button mat-raised-button *ngIf='selectedTab() == "/mytrip"' class="nav-link col" routerLink='mytrip'>My Trip</button>
 
-            <button mat-button *ngIf='selectedTab() != "/search"' class="nav-link col" [routerLink]="[openTab.path]" >Search</button>
-            <button mat-raised-button *ngIf='selectedTab() == "/search"' class="nav-link col" [routerLink]="[openTab.path]" >Search</button>
+            <button mat-button *ngIf='selectedTab() != "/search"' class="nav-link col" routerLink="search">Search</button>
+            <button mat-raised-button *ngIf='selectedTab() == "/search"' class="nav-link col" routerLink="search">Search</button>
 
             <!-- new tabs feature -->
             <!-- <app-searchbutton

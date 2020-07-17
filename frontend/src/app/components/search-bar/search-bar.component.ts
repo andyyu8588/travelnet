@@ -1,8 +1,8 @@
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomCoordinates } from './../../models/coordinates';
 import { CitySearchComponent } from './../city-search/city-search.component';
 import { CategoryNode } from './../../models/CategoryNode.model';
-import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';

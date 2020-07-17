@@ -2,9 +2,9 @@ import { SearchParams } from './../../models/searchParams';
 import { ActivatedRoute } from '@angular/router';
 import { TripService } from './../../services/trip.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
-import {NestedTreeControl} from '@angular/cdk/tree';
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { CategoryNode} from 'src/app/models/CategoryNode.model';
 import { Subscription } from 'rxjs';
 
@@ -20,11 +20,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   categoriesTree: CategoryNode[] = null
   categoriesSet: any
-  private _categoriesTree: Subscription
-  private _categoriesSet: Subscription
-
-  // params from url
-  private url_sub: Subscription
+  private categoriesTree_sub: Subscription
+  private categoriesSet_sub: Subscription
 
   allComplete: Array<boolean> = null
   count = 0;
@@ -37,30 +34,41 @@ export class FilterComponent implements OnInit, OnDestroy {
   constructor(
     private SearchService: SearchService,
     private TripService: TripService,
-    private ActivatedRoute: ActivatedRoute
+    private ActivatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this._categoriesTree= this.SearchService.categoryTree.subscribe((tree)=> this.categoriesTree = tree)
-    this._categoriesSet= this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
+    this.categoriesTree_sub = this.SearchService.categoryTree.subscribe((tree)=> this.categoriesTree = tree)
+    this.categoriesSet_sub = this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
+
+    // sets category filter from url params
+    this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
+      this.SearchService.updateCategories()
+      .then((val: CategoryNode[]) => {
+        this.categoriesTree = val
+        if (params.category) {
+          if (params.category === 'All') {
+            null
+          } else {
+          this.categoriesTree.forEach((child: CategoryNode) => {
+            if (child.name != params.category) {
+              this.uncheckAll(child.categories)
+            } else {
+              this.checkAll(child.categories)
+            }
+          })              
+          }
+        }        
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }) 
 
     if (this.TripService.searchedCategory) {
       // modify filter settings
       this.setAll(this.TripService.searchedCategory)
     }
-
-    this.url_sub = this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
-      if (params.category) {
-        this.categoriesTree.forEach((child: CategoryNode) => {
-          if (child.name != params.category) {
-            this.uncheckAll(child.categories)
-          } else {
-            this.checkAll(child.categories)
-          }
-        })       
-      }
-
-    })
   }
 
   /** Checks if datasource for material tree has any child groups */
@@ -175,8 +183,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.SearchService.updateCategoryTree(this.categoriesTree)
-    this._categoriesTree.unsubscribe()
-    this._categoriesSet.unsubscribe()
-    this.url_sub.unsubscribe()
+    this.categoriesTree_sub.unsubscribe()
+    this.categoriesSet_sub.unsubscribe()
   }
 }

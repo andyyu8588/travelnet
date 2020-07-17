@@ -12,7 +12,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CitySearchComponent } from './../../../city-search/city-search.component';
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Inject } from '@angular/core';
-import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-add-venue-popover',
