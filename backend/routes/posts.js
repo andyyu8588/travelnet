@@ -45,7 +45,11 @@ router.post(
       res.status(201).json({
         message: "Post added successfully",
         post: {
-          ...createdPost,
+          author: post.author,
+          likes: [],
+          title: post.title,
+          content: post.content,
+          imagePath: post.imagePath,
           id: createdPost._id
         }
       });
@@ -79,6 +83,26 @@ router.put(
     }
   }
 );
+router.put("/like/:id",(req, res, next) => {
+  Post.findById(req.params.id).then(post => {
+    if (post) {
+      if(!post.likes.includes(req.body.username)){
+        post.likes.push(req.body.username)
+      }
+      else{
+        post.likes.pop(req.body.username)
+      }
+      post.save()
+      res.status(200).json({
+        message: "like added/removed" ,
+        likes : post.likes
+      });
+    }
+    else{
+      res.status(404).json({ message: "Post not found!" });
+    }
+  })
+})
 
 router.get("", (req, res, next) => {
   Post.find().then(documents => {
@@ -100,6 +124,7 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", (req, res, next) => {
+  
   Post.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
     res.status(200).json({ message: "Post deleted!" });

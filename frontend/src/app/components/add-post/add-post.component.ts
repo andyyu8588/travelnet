@@ -48,6 +48,7 @@ export class AddPostComponent implements OnInit {
           this.post = {
             id: postData._id,
             author: postData.author,
+            likes: postData.likes,
             title: postData.title,
             content: postData.content,
             imagePath: postData.imagePath

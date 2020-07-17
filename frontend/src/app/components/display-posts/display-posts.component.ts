@@ -18,6 +18,8 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   isLoading = false;
   private postsSub: Subscription;
+  timeoutHandler: number;
+  likeShow = false
 
   constructor(public postsService: AddPostService) {}
 
@@ -38,8 +40,28 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.postsSub.unsubscribe();
   }
-  click(post){
-  console.log(post)
+  like(postId: string){
+    this.postsService.likePost(postId, sessionStorage.getItem('username'))
   }
+
+  public mouseup() {
+    if (this.timeoutHandler) {
+      clearInterval(this.timeoutHandler);
+      this.timeoutHandler = null;
+    }
+  }
+
+  public mousedown() {
+    this.timeoutHandler = setInterval(() => {
+      this.showLikes()
+      console.log(this.likeShow)
+    }, 300);
+  }
+  showLikes(){
+    this.likeShow = !this.likeShow
+  }
+
+
+
 }
 
