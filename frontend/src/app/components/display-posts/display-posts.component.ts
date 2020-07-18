@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { Post } from "src/app/models/post.model";
 import { AddPostService } from "src/app/services/add-post.service";
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-display-posts',
@@ -20,10 +21,19 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   private postsSub: Subscription;
   timeoutHandler: number;
   likeShow = false
+  form: FormGroup;
 
   constructor(public postsService: AddPostService) {}
 
   ngOnInit() {
+    this.form = new FormGroup({
+      comment: new FormControl(null, {
+        validators: []
+      })
+    })
+
+
+
     this.isLoading = true;
     this.postsService.getPosts();
     this.postsSub = this.postsService.getPostUpdateListener()
