@@ -87,23 +87,18 @@ const UserSchema = mongoose.Schema({
             {code:'AN', continent: 'Antarctica', places: []}
         ]
     },
-    Albums:[{
-        title: { type: String, required: true },
+    posts:[
+        {
         date: { type: String, required: true },
-        description: String,
-        posts:[
-            {
-            date: String,
-            location: String,
-            title: { type: String, required: true },
-            content:[{
-                images: String,
-                text: { type: String, required: true }
-            }]
-
-            }
-        ]
-    }]
+        location:{ type: String, required: true},
+        author: { type: String, required: true },
+        likes: { type: [String], default: [] },
+        title: { type: String, required: true },
+        content: { type: String, required: true },
+        imagePath: { type: String, required: true },
+        tags: {type: [String], required: true}
+        }
+    ]
 })
 
 module.exports = mongoose.model('User', UserSchema)

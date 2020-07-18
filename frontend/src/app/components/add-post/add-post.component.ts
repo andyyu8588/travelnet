@@ -48,10 +48,13 @@ export class AddPostComponent implements OnInit {
           this.post = {
             id: postData._id,
             author: postData.author,
+            date: postData.date,
+            location: postData.location,
             likes: postData.likes,
             title: postData.title,
             content: postData.content,
-            imagePath: postData.imagePath
+            imagePath: postData.imagePath,
+            tags: postData.tags,
           };
           this.form.setValue({
             title: this.post.title,
