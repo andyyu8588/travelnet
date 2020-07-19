@@ -1,4 +1,3 @@
-import { CategoryNode } from './../models/CategoryNode.model';
 import { SessionService } from 'src/app/services/session.service';
 import { userModel } from './../models/user.model';
 import { tripModel } from '../models/trip.model';
@@ -15,9 +14,12 @@ export class TripService implements OnDestroy {
 
   // query settings from mytrip add venue
   searchedVenue: string = null
-  searchedCategory: CategoryNode = null
 
-  private _trips: BehaviorSubject<tripModel[]> = new BehaviorSubject([])
+  // indexes of trip from add venue
+  private _tripIndexes: BehaviorSubject<{tripIndex: number|null, dayIndex: number|null}> = new BehaviorSubject({tripIndex: null, dayIndex: null})
+  tripIndexes: Observable<{tripIndex: number|null, dayIndex: number|null}> = this._tripIndexes.asObservable()
+
+  private _trips: BehaviorSubject<tripModel[]> = new BehaviorSubject(null)
   public trips: Observable<tripModel[]> = this._trips.asObservable()
 
   constructor(private HttpService: HttpService,
@@ -42,12 +44,20 @@ export class TripService implements OnDestroy {
     })
   }
 
-  // when user searches a venue from mytrip -> add venue
-  changeQuery(query: string) {
+  /** when user searches/finished searching a venue from mytrip -> add venue */ 
+  changeQuery(query: string | null) {
     this.searchedVenue = query
   }
 
-  // modifies trips of user
+  /** changes index of trip to add venue in */
+  changeIndex(trip: number|null, day: number|null) {
+    this._tripIndexes.next({
+      tripIndex: trip,
+      dayIndex: day
+    })
+  }
+
+  /** modifies trips of user */ 
   modifyBackend(triparr: tripModel[]): Promise<any> {
     return new Promise((resolve, reject) => {
       this.HttpService.patch('/user/edit', {
@@ -65,7 +75,7 @@ export class TripService implements OnDestroy {
     })
   }
 
-  //localy update trips of user (when modification is already done)
+  /**localy update trips of user (when modification is already done)*/
   updateLocal(triparr: tripModel[]) {
     this._trips.next(triparr)
   }

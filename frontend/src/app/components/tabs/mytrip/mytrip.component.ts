@@ -1,4 +1,4 @@
-import { MatSortModule, MatSort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
@@ -10,7 +10,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment'
 import { MatAccordion } from '@angular/material/expansion';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { DataSource } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-mytrip',
@@ -141,7 +140,6 @@ export class MytripComponent implements OnInit, OnDestroy {
       // this.tableDataSource.data = trips
       // this.tableDataSource.sort = this.sort;
       if (this.table) {
-        console.log('oi')
         this.table.renderRows()
       }
     })
@@ -161,7 +159,6 @@ export class MytripComponent implements OnInit, OnDestroy {
     });
 
     this.dialogRef.afterClosed().subscribe((result: tripModel)=> {
-      console.log(result)
       if (result) {
         this.trips.push(result)
         this.TripService.updateLocal(this.trips)
@@ -175,7 +172,7 @@ export class MytripComponent implements OnInit, OnDestroy {
       data: {
         tripIndex: tripIndex,
         scheduleIndex: scheduleIndex,
-        venueName: this.venueName,
+        name: this.venueName,
         venuePrice: this.venuePrice,
         venueCity: this.venueCity,
         venueAddress: this.venueAddress

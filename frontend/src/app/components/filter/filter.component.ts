@@ -64,11 +64,6 @@ export class FilterComponent implements OnInit, OnDestroy {
         console.log(err)
       })
     }) 
-
-    if (this.TripService.searchedCategory) {
-      // modify filter settings
-      this.setAll(this.TripService.searchedCategory)
-    }
   }
 
   /** Checks if datasource for material tree has any child groups */
@@ -172,16 +167,16 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   /**accepts leaf node, and either removes it or adds it to the array */
-  modifyIdSet(node: CategoryNode){
-    if(node.checked && !(this.categoriesSet).has(node.id) && node.categories.length === 0){
+  modifyIdSet(node: CategoryNode) {
+    if (node.checked && !(this.categoriesSet).has(node.id) && node.categories.length === 0) {
       this.categoriesSet.add(node.id)
-    }else if(!node.checked && this.categoriesSet.has(node.id) && node.categories.length === 0){
+    } else if (!node.checked && this.categoriesSet.has(node.id) && node.categories.length === 0) {
       this.categoriesSet.delete(node.id)
     }
     this.SearchService.updateCategorySet(this.categoriesSet)
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.SearchService.updateCategoryTree(this.categoriesTree)
     this.categoriesTree_sub.unsubscribe()
     this.categoriesSet_sub.unsubscribe()

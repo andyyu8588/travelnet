@@ -14,7 +14,7 @@
         <mat-accordion class="container-fluid" style="min-height: 750px;"  >
             <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index, let isFirst = first' [expanded]='isFirst'>
                 <mat-expansion-panel-header class="my-headers-align">
-                    <mat-panel-title class="align-self-center">{{trip.name}}</mat-panel-title>
+                    <mat-panel-title class="align-self-center">{{trip.tripName}}</mat-panel-title>
                     <mat-panel-description class="align-self-center" >{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}&nbsp;|&nbsp;{{ trip.dateRange.length }} days</mat-panel-description>
                     <span (click)="pan.toggle()" style="margin-right: 1em;">  
                         <button mat-button (click)='ok($event)' color='primary' matTooltip='share this trp'>    
@@ -53,7 +53,7 @@
                                         <!-- venueName -->
                                         <ng-container matColumnDef="venueName">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> Venue Name </mat-header-cell>
-                                            <mat-cell *matCellDef="let element">{{element.venueName}}</mat-cell>
+                                            <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
                                         </ng-container>
 
                                         <!-- venueCity -->
@@ -115,7 +115,7 @@
 
                     </mat-card-content>
                     <mat-card-actions class="">
-                        <button mat-button color='warn' (click)='onDelete(trip.name, i)'>
+                        <button mat-button color='warn' (click)='onDelete(trip.tripName, i)'>
                             delete
                         </button>
                         <button mat-button color='primary'>

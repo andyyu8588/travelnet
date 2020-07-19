@@ -10,3 +10,10 @@ mat-card-header:hover, #description:hover, mat-icon:hover {
   cursor: pointer;
 }
 
+.description:hover {
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}

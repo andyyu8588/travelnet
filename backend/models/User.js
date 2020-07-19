@@ -32,16 +32,10 @@ const UserSchema = mongoose.Schema({
                 end: Date,
                 length: Number
             },
-            name: String,
+            tripName: String,
             schedule: [{
                 day: Date,
-                venues: [{
-                    hour: Date,
-                    venueName: String,
-                    venueCity: String,
-                    venueAddress: String,
-                    price: Number
-                }],
+                venues: [mongoose.Schema.Types.Mixed],
             }],
             private: Boolean
         }],

@@ -1,4 +1,4 @@
-<mat-form-field class="example-full-width" style="width: 100%;" [appearance]='appearance'>
+<mat-form-field class="example-full-width" style="width: 100%;" [appearance]='appearance' matTooltip='{{searchInput.value}}' matTooltipShowDelay='800'>
     <mat-label>{{ placeholder }}</mat-label>
     <input type='text'
     #searchInput="matInput"

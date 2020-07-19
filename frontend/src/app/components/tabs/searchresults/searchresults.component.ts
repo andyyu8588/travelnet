@@ -1,11 +1,9 @@
 import { SearchParams } from './../../../models/searchParams';
-import { FilterComponent } from './../../filter/filter.component';
-import { CategoryNode } from './../../../models/CategoryNode.model';
-import { Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/services/search.service';
 import { tab } from 'src/app/models/tab.model'
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/services/map/map.service';
 import { CustomCoordinates } from 'src/app/models/coordinates';
 

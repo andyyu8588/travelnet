@@ -1,9 +1,9 @@
+import { selectedVenueModel } from './selectedVenue.model';
 import { venueModel } from 'src/app/models/venue.model';
 import * as moment from 'moment'
-import { FormBuilder } from '@angular/forms'
 
 export class tripModel {
-    name: String
+    tripName: String
     dateRange: {
         [key: string]: any
         start: Date
@@ -14,18 +14,18 @@ export class tripModel {
         day?: Date,
         venues: Array<{
             hour?: any
-            venueName: String
+            name: String
             venueCity?: String
             venueAddress?: String
             price?: Number
-        } | venueModel>
+        } | venueModel | selectedVenueModel>
     }>
     isPrivate: boolean
 
     constructor(start: Date, end: Date, name: string, isPrivate?: boolean) {
         let final = moment(end)
        
-        this.name = name
+        this.tripName = name
         this.dateRange = {
             start: start,
             end: end,

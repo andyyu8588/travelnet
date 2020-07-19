@@ -19,6 +19,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() isChild: boolean = false
   loading: boolean = false
 
+  foursquareCategory_sub: Subscription
   categories: CategoryNode[]
   openTab: tab
   fakeCenter: CustomCoordinates = null
@@ -33,6 +34,15 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
   private clickedOption_sub: Subscription
   clickedOption: {[key: string]: any, name: string, content: {[key: string]: any}} = null
+  filterOptions: {
+    0: string,
+    1: string,
+    2: string
+  } = {
+    0: '...',
+    1: 'Venues',
+    2: 'Users'
+  }
   defaultFilter: string = '0'
   defaultCategory: string = 'All'
 
@@ -55,9 +65,8 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.fakeCenter = coord? coord : new CustomCoordinates(73.5673, 45.5017)
     })
 
-    this.SearchService.updateCategories()
-    .then((x: CategoryNode[]) => {
-      this.categories = x
+    this.foursquareCategory_sub = this.SearchService.categoryTree.subscribe((cats: CategoryNode[]) => {
+      this.categories = cats
     })
   }
 
@@ -73,7 +82,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.searchBarForm.valid) {
+    if (this.searchBarForm.valid && this.CitySearchComponent.myControl.valid) {
       this.submission.emit()
       let coord: CustomCoordinates = this.clickedOption? new CustomCoordinates(this.clickedOption.content.geometry.coordinates[0], this.clickedOption.content.geometry.coordinates[1]) : this.fakeCenter
       this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, coord), this.fakeCenter)
@@ -89,6 +98,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   /** all|venues|users */
   changeFilter(filter:{response:string, value:string}) {
     this.defaultFilter = filter.value
+    this.defaultCategory = this.filterOptions[filter.value]
     this.SearchService.changeFilter(parseInt(filter.value))
   }
 

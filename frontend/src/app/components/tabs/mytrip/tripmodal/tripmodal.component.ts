@@ -40,7 +40,7 @@ export class TripmodalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  checkName(control: {[key: string]: any}): Promise<string | null> {
+  checkName(control: {[key: string]: any}): Promise<{err: string} | null> {
     return new Promise((resolve, reject) => {
       this.HttpService.get('/user', {})
       .then((response: {
@@ -51,8 +51,8 @@ export class TripmodalComponent implements OnInit {
         if (trips) {
           this.trips = trips
           for (let x = 0; x < trips.length; x++) {
-            if(trips[x].name == control.value) {
-              resolve('name already exists')
+            if(trips[x].tripName == control.value) {
+              resolve({err: 'name already exists'})
               break
             }
           }

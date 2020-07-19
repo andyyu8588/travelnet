@@ -1,9 +1,7 @@
 import { SearchBarComponent } from './../../../search-bar/search-bar.component';
 import { CustomCoordinates } from './../../../../models/coordinates';
-import { environment } from './../../../../../environments/environment.dev';
-import { Router } from '@angular/router';
 import { MapService } from './../../../../services/map/map.service';
-import { CategoryNode } from './../../../../models/CategoryNode.model';
+import { CategoryNode, foursquareCategory } from './../../../../models/CategoryNode.model';
 import { SearchService } from './../../../../services/search.service';
 import { tripModel } from './../../../../models/trip.model';
 import { TripService } from './../../../../services/trip.service';
@@ -28,6 +26,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   dayIndex: number
 
   // foursquare venues categories
+  foursquareCategory_sub: Subscription
   defaultCategory: string = 'All'
   venueCategories: CategoryNode[] = []
 
@@ -52,7 +51,6 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   constructor(private SearchService: SearchService,
               private TripService: TripService,
               private MapService: MapService,
-              private Router: Router,
               public dialogRef: MatDialogRef<AddVenuePopoverComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
                 tripIndex: number,
@@ -64,17 +62,15 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
               }) {
     this.tripIndex = data.tripIndex
     this.dayIndex = data.scheduleIndex
+    // this.TripService.changeIndex(null, null)
   }
 
   ngOnInit(): void {
     this.isLoaded = false
 
     // sets mat select venue category options 
-    this.SearchService.updateCategories()
-    .then((response: CategoryNode[]) => {
-      response.forEach((element: CategoryNode) => {
-        this.venueCategories.push(element)
-      })
+    this.foursquareCategory_sub =  this.SearchService.categoryTree.subscribe((cats: CategoryNode[]) => {
+      this.venueCategories = cats
     })
 
     // gets user trips from trip service
@@ -107,21 +103,22 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     })
   }
 
+  /** when user searches venues from foursquare */
   onSubmitSearch() {
     this.isLoading = true
-    console.log('kiet')
     if (this.SearchBarComponent.searchBarForm.valid) {
+      this.TripService.changeIndex(this.tripIndex, this.dayIndex)
       this.isLoading = false
       this.dialogRef.close()
     }
     this.isLoading = false
   }
 
-  // update when user adds custom venue 
+  /** update when user adds custom venue */
   onSubmitCustom() {
     if (this.customVenueForm.valid) {
       this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
-        venueName: this.customVenueForm.get('name').value,
+        name: this.customVenueForm.get('name').value,
         venueCity: this.CitySearchComponent.value? this.CitySearchComponent.value : '',
         venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
         price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0
@@ -146,6 +143,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   ngOnDestroy() {
     this.selectedOption_sub.unsubscribe()
     this.trips_sub.unsubscribe()
+    this.foursquareCategory_sub.unsubscribe()
     this.mapCenter_sub.unsubscribe()
   }
 }
