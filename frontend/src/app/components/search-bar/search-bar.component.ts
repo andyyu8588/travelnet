@@ -1,10 +1,12 @@
+import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
+import { SearchParams } from './../../models/searchParams';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomCoordinates } from './../../models/coordinates';
 import { CitySearchComponent } from './../city-search/city-search.component';
 import { CategoryNode } from './../../models/CategoryNode.model';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { tab } from 'src/app/models/tab.model';
 import { Subscription } from 'rxjs';
@@ -50,12 +52,15 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
     private MapService: MapService,
     private router : Router,
     private SearchService: SearchService,
+    private ActivatedRoute: ActivatedRoute,
+    private OpenstreetmapService: OpenstreetmapService
   ) { }
 
   ngOnInit(): void {
     this.searchBarForm = new FormGroup({
       'venueName': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)])
     })
+
 
     this.returnTab_sub = this.SearchService.searchTab.subscribe((tab) => {
       this.openTab = tab
@@ -79,15 +84,41 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.clickedOption = null
       }
     })
+    
+    this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
+      if (!params.lng) {
+        this.CitySearchComponent.value = 'Montreal, Canada'
+      } else {
+        this.OpenstreetmapService.reverseSearch(params.lng, params.lat).subscribe((response: {[key: string]: any}) => {
+          console.log(response)
+          if (response.features[0]) {
+            this.CitySearchComponent.value = response.features[0].properties.address.city + ',' + response.features[0].properties.address.country
+          }
+        })
+      }
+      if (params.query) {
+        this.searchBarForm.get('venueName').setValue(params.query)
+        
+        // if url contains query 
+        if (!this.SearchService.hasSearch) {
+          this.loading = true
+          let coord: CustomCoordinates = params.lng? new CustomCoordinates(params.lng, params.lat) : this.MapService.getCenter() 
+          this.SearchService.enterSearch(params.query, this.SearchService.mainSearch(params.query, coord), coord)
+          .finally(()=>{
+            this.loading = false
+          })      
+        }
+      }
+    })
   }
 
   onSubmit() {
     if (this.searchBarForm.valid && this.CitySearchComponent.myControl.valid) {
       this.submission.emit()
       let coord: CustomCoordinates = this.clickedOption? new CustomCoordinates(this.clickedOption.content.geometry.coordinates[0], this.clickedOption.content.geometry.coordinates[1]) : this.fakeCenter
-      this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, coord), this.fakeCenter)
+      this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, coord), coord)
       .then(() => {
-        this.router.navigate(['search'], {queryParams: {query: this.openTab.query, lng: coord.lng, lat: coord.lat, category: this.defaultCategory}})
+        this.router.navigate(['search'], {queryParams: {query: this.searchBarForm.get('venueName').value, lng: coord.lng, lat: coord.lat, category: this.defaultCategory}})
       })
       .catch(err => {
         console.log(err)

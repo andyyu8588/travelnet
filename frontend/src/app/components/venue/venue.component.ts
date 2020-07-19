@@ -46,7 +46,7 @@ export class VenueComponent implements OnInit,OnDestroy {
 
   goBack(){
     this.SearchService.goBack()
-    this.router.navigate([this.openTab.path])
+    this.router.navigate(['search' ,this.openTab.query])
   }
 
   // check if is object

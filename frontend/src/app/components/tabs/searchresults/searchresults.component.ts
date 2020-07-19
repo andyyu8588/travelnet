@@ -31,6 +31,8 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true
+
     // search parameters
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       this.queryParams = params
@@ -40,6 +42,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     // response from http queries
     this.returnTab_sub = this.SearchService.searchTab.subscribe((tab: tab) => {
       this.openTab = tab
+      this.loading = false
     })
 
     this._categoriesSet_sub= this.SearchService.categorySet.subscribe((set: Set<any>)=> {
@@ -47,15 +50,6 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
         this.categoriesSet = set
       }
     })
-
-    // if url contains query 
-    if (this.queryParams.query) {
-      this.loading = true
-      this.SearchService.enterSearch(this.queryParams.query, this.SearchService.mainSearch(this.queryParams.query, new CustomCoordinates(this.queryParams.lng, this.queryParams.lat)), new CustomCoordinates(this.queryParams.lng, this.queryParams.lat))
-      .finally(()=>{
-        this.loading = false
-      })      
-    }
   }
 
   /** check if state of venues|users filter */ 

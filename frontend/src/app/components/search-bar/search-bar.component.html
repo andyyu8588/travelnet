@@ -4,23 +4,22 @@
     <!-- venue name -->
     <mat-form-field class="col align-self-center" appearance="outline">
       <mat-label>Search for {{defaultCategory === 'All'? '...' : defaultCategory}}</mat-label>
-      <input matInput #search
-        type='search'
+      <input matInput
+        type="text"
         placeholder='Ex: restaurant'
         aria-label='Search'
         autocomplete='off'
-        formControlName='venueName'
-        (keydown.enter)='onSubmit()'>
-      <button mat-button *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="search.value=''" type='button'>
+        formControlName='venueName'>
+      <button mat-button *ngIf="searchBarForm.get('venueName').value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="searchBarForm.get('venueName').setValue('')" type='button'>
         <mat-icon>close</mat-icon>  
       </button>
       <i fas fa-search aria-hidden="true"></i>
     </mat-form-field>
     &nbsp;
-    <p class="align-self-center" *ngIf='defaultFilter === "1" || defaultFilter === "0"'>in</p>
+    <p class="align-self-center">in</p>
     &nbsp;
     <!-- venue location -->
-    <app-city-search appearance='outline' placeholder='Region' [clearOnSearch]='false' class="col align-self-center" *ngIf='defaultFilter === "1" || defaultFilter === "0"'></app-city-search>
+    <app-city-search appearance='outline' placeholder='Region' [clearOnSearch]='false' class="col align-self-center"></app-city-search>
     <mat-divider vertical="true" style="margin-bottom: 1em;"></mat-divider>
     <!-- filter user|venues -->
     <mat-form-field class="col-auto align-self-center" *ngIf='!isChild'>
@@ -41,7 +40,7 @@
     </mat-form-field>
     <!-- submit -->
     <div class="col-auto" style="padding-top: 1em;">
-      <button mat-raised-button class="align-self-center" color='primary' (click)='onSubmit()' matTooltip='select a city to search in or drag the area you want to search to the center of the visible map' matTooltipShowDelay='800'>
+      <button mat-raised-button type='submit' class="align-self-center" color='primary' matTooltip='select a city to search in or drag the area you want to search to the center of the visible map' matTooltipShowDelay='800'>
         <mat-icon>search</mat-icon>
       </button>        
     </div>

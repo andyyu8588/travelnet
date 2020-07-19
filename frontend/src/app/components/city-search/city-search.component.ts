@@ -1,14 +1,16 @@
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
 import { FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, ViewChild, AfterViewInit } from '@angular/core';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-city-search',
   templateUrl: './city-search.component.html',
   styleUrls: ['./city-search.component.scss']
 })
-export class CitySearchComponent implements OnInit, OnDestroy {
+export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild(MatSelect) MatSelect: MatSelect
   @Input() appearance: string
   @Input() placeholder: string
   @Input() clearOnSearch: boolean
@@ -58,6 +60,9 @@ export class CitySearchComponent implements OnInit, OnDestroy {
     })
   }
 
+  ngAfterViewInit() {
+  }
+
   /** check if input contains valid city */
   checkCityValidity(): boolean {
     if (this._clickedOptionLocal || this.value == '') {
@@ -81,7 +86,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   onOptionClick(country: {[key: string]: any}) {
     this._clickedOptionLocal = country
     this._clickedOption.next(country)
-    this.clearOnSearch? this.value = '' : null
+    this.clearOnSearch? (this.value = '') : null
   }
 
   ngOnDestroy() {

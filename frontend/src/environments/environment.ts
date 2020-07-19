@@ -24,7 +24,8 @@ export const environment = {
   },
 
   nominatim: {
-    search: 'https://nominatim.openstreetmap.org/search'
+    search: 'https://nominatim.openstreetmap.org/search',
+    reverse: 'https://nominatim.openstreetmap.org/reverse'
   },
 
   openstreetmap:{
