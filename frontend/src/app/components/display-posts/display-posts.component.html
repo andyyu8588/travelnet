@@ -16,6 +16,9 @@
         {{ post.title }}
       </h1>
       <p>
+        {{ 'tags: '+ post.tags.toString() }} {{post.date }}
+      </p>
+      <p>
             {{ post.content }}
       </p>
       <img mat-card-image [src]="post.imagePath" [alt]="post.title">

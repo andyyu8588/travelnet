@@ -2,7 +2,9 @@ const express = require("express");
 const multer = require("multer");
 
 const Post = require("../models/post");
-const User = require("../models/post");
+const User = require("../models/User");
+const jwt = require('jsonwebtoken')
+const jwtSecret = 'MonkasczI69'
 const jwtMiddleware = require("../jwt.middleware");
 
 const router = express.Router();
@@ -40,7 +42,7 @@ router.post(
     const url = req.protocol + "://" + req.get("host");
     let origin = jwt.decode(req.get('authorization'), jwtSecret)
     try{
-      User.updateOne({_id: origin.id}).then(user =>{
+      User.findById(origin.id).then(user =>{
         const post = new Post({
           date: req.body.date,
           location: req.body.location,
@@ -51,13 +53,12 @@ router.post(
           imagePath: url + "/images/" + req.file.filename,
           tags: req.body.tags
         });
-
-        user.posts.push(post)
-        user.save().then(updatedUser => {
+        post.save().then(newPost => {
+          console.log(newPost)
           res.status(201).json({
             message: "Post added successfully",
             post: {
-              id: updatedUser.posts[updatedUser.posts.length - 1]._id,
+              id: newPost._id,
               date: post.date,
               location: post.location,
               author: post.author,
@@ -69,6 +70,7 @@ router.post(
             }
           });
         });
+        user.posts.push(post._id)
       })
     }catch(err){
       res.status(500).json({
@@ -88,10 +90,14 @@ router.put(
     }
     const post = new Post({
       _id: req.body.id,
+      date: req.body.date,
+      location: req.body.location,
       author: req.body.author,
+      // likes
       title: req.body.title,
       content: req.body.content,
-      imagePath: imagePath
+      imagePath: imagePath,
+      tags: req.body.tags
     });
     console.log(req.body)
     try{

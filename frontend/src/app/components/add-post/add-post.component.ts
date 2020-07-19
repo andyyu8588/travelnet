@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 
@@ -22,6 +23,14 @@ export class AddPostComponent implements OnInit {
   private mode = "create";
   private postId: string;
 
+  //tags
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  tags: string[] = [];
+
   constructor(
     public postsService: AddPostService,
     public route: ActivatedRoute
@@ -29,8 +38,8 @@ export class AddPostComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      location: new FormControl(null, { validators: [Validators.required] }),
       title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
+      location: new FormControl(null, { validators: [Validators.required] }),
       content: new FormControl(null, { validators: [Validators.required] }),
       tags: new FormControl(null, { validators: [Validators.required] }),
       image: new FormControl(null, {
@@ -57,9 +66,11 @@ export class AddPostComponent implements OnInit {
             tags: postData.tags,
           };
           this.form.setValue({
+            location: this.post.location,
             title: this.post.title,
             content: this.post.content,
-            image: this.post.imagePath
+            image: this.post.imagePath,
+            tags: this.post.tags,
           });
           this.imagePreview = this.post.imagePath
         });
@@ -109,5 +120,33 @@ export class AddPostComponent implements OnInit {
       });
     }
     this.form.reset();
+  }
+
+
+  addTag(event): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add a tag
+    if ((value || '').trim()) {
+      this.tags.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    this.form.patchValue({ tags: this.tags });
+    this.form.get("tags").updateValueAndValidity();
+    console.log(this.form.get("tags"))
+  }
+
+  removeTag(tag): void {
+    const index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+    }
+    this.form.patchValue({ tags: this.tags });
+    this.form.get("tags").updateValueAndValidity();
   }
 }

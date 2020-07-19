@@ -59,17 +59,24 @@ export class AddPostService {
     );
   }
 
+  /**is now implemented inside user */
   addPost(newPost) {
-    // title: string, content: string, image: File
     const postData = new FormData();
+    postData.append("date", newPost.date);
+    postData.append("location", newPost.location);
     postData.append("author", newPost.author);
     postData.append("title", newPost.title);
     postData.append("content", newPost.content);
     postData.append("image", newPost.image, newPost.title);
+    postData.append("tags", newPost.tags);
     this.http
       .post<{ message: string; post: Post }>(
         this.url,
-        postData
+        postData,{
+          headers: {
+            authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas'
+          }
+        }
       )
       .subscribe(responseData => {
         const post: Post = {
