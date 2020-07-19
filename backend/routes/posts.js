@@ -2,6 +2,8 @@ const express = require("express");
 const multer = require("multer");
 
 const Post = require("../models/post");
+const User = require("../models/post");
+const jwtMiddleware = require("../jwt.middleware");
 
 const router = express.Router();
 
@@ -33,27 +35,45 @@ const storage = multer.diskStorage({
 router.post(
   "",
   multer({ storage: storage }).single("image"),
+  jwtMiddleware,
   (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
-    const post = new Post({
-      author: req.body.author,
-      title: req.body.title,
-      content: req.body.content,
-      imagePath: url + "/images/" + req.file.filename
-    });
-    post.save().then(createdPost => {
-      res.status(201).json({
-        message: "Post added successfully",
-        post: {
-          author: post.author,
-          likes: [],
-          title: post.title,
-          content: post.content,
-          imagePath: post.imagePath,
-          id: createdPost._id
-        }
-      });
-    });
+    let origin = jwt.decode(req.get('authorization'), jwtSecret)
+    try{
+      User.updateOne({_id: origin.id}).then(user =>{
+        const post = new Post({
+          date: req.body.date,
+          location: req.body.location,
+          author: req.body.author,
+          // likes
+          title: req.body.title,
+          content: req.body.content,
+          imagePath: url + "/images/" + req.file.filename,
+          tags: req.body.tags
+        });
+
+        user.posts.push(post)
+        user.save().then(updatedUser => {
+          res.status(201).json({
+            message: "Post added successfully",
+            post: {
+              id: updatedUser.posts[updatedUser.posts.length - 1]._id,
+              date: post.date,
+              location: post.location,
+              author: post.author,
+              likes: [],
+              title: post.title,
+              content: post.content,
+              imagePath: post.imagePath,
+              tags: post.tags
+            }
+          });
+        });
+      })
+    }catch(err){
+      res.status(500).json({
+      message: err})
+      }
   }
 );
 

@@ -21,12 +21,15 @@ export class AddPostService {
         map(postData => {
           return postData.posts.map(post => {
             return {
-              author: post.author,
+              id: post._id,
+              date: post.date,
+              location: post.location,
               likes: post.likes,
+              author: post.author,
               title: post.title,
               content: post.content,
-              id: post._id,
-              imagePath: post.imagePath
+              imagePath: post.imagePath,
+              tags: post.tags
             };
           });
         })
@@ -42,7 +45,16 @@ export class AddPostService {
   }
 
   getPost(id: string) {
-    return this.http.get<{ _id: string, author: string,likes: Array<string>, title: string, content: string, imagePath: string }>(
+    return this.http.get<{
+      _id: string,
+      date: string,
+      location: string,
+      author: string,
+      likes: Array<string>,
+      title: string,
+      content: string,
+      imagePath: string,
+      tags: Array<string>, }>(
       this.url + id
     );
   }
@@ -62,11 +74,14 @@ export class AddPostService {
       .subscribe(responseData => {
         const post: Post = {
           id: responseData.post.id,
-          likes: responseData.post.likes,
+          date: responseData.post.date,
+          location: responseData.post.location,
           author: responseData.post.author,
+          likes: responseData.post.likes,
           title: newPost.Title,
           content: newPost.content,
-          imagePath: responseData.post.imagePath
+          imagePath: responseData.post.imagePath,
+          tags: responseData.post.tags,
         };
         console.log(post)
         this.posts.push(post);
@@ -81,18 +96,24 @@ export class AddPostService {
     if (typeof oldPost.image === "object") {
       postData = new FormData();
       postData.append("id", oldPost.id);
+      postData.append("date", oldPost.date);
+      postData.append("location", oldPost.location);
       postData.append("author", oldPost.author);
       postData.append("title", oldPost.title);
       postData.append("content", oldPost.content);
       postData.append("image", oldPost.image, oldPost.title);
+      postData.append("tags", oldPost.tags);
     } else {
       postData = {
         id: oldPost.id,
+        date: oldPost.date,
+        location: oldPost.location,
         author: oldPost.author,
         likes: oldPost.likes,
         title: oldPost.title,
         content: oldPost.content,
-        imagePath: oldPost.image
+        imagePath: oldPost.image,
+        tags: oldPost.tags
       };
     }
     this.http
@@ -102,11 +123,14 @@ export class AddPostService {
         const oldPostIndex = updatedPosts.findIndex(p => p.id === oldPost.id);
         const post: Post = {
           id: oldPost.id,
+          date: oldPost.date,
+          location: oldPost.location,
           author: oldPost.author,
           likes: oldPost.likes,
           title: oldPost.title,
           content: oldPost.content,
-          imagePath: ""
+          imagePath: "",
+          tags: oldPost.tags
         };
         updatedPosts[oldPostIndex] = post;
         this.posts = updatedPosts;

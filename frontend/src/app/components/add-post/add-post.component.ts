@@ -29,10 +29,10 @@ export class AddPostComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      title: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(3)]
-      }),
+      location: new FormControl(null, { validators: [Validators.required] }),
+      title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
       content: new FormControl(null, { validators: [Validators.required] }),
+      tags: new FormControl(null, { validators: [Validators.required] }),
       image: new FormControl(null, {
         validators: [Validators.required],
         asyncValidators: [mimeType]
@@ -48,10 +48,13 @@ export class AddPostComponent implements OnInit {
           this.post = {
             id: postData._id,
             author: postData.author,
+            date: postData.date,
+            location: postData.location,
             likes: postData.likes,
             title: postData.title,
             content: postData.content,
-            imagePath: postData.imagePath
+            imagePath: postData.imagePath,
+            tags: postData.tags,
           };
           this.form.setValue({
             title: this.post.title,
@@ -85,18 +88,24 @@ export class AddPostComponent implements OnInit {
     this.isLoading = true;
     if (this.mode === "create") {
       this.postsService.addPost({
+        date: new Date().toLocaleString(),
+        location: this.form.value.location,
         author: sessionStorage.getItem('username'),
         title: this.form.value.title,
         content: this.form.value.content,
-        image: this.form.value.image
+        image: this.form.value.image,
+        tags: this.form.value.tags,
       });
     } else {
       this.postsService.updatePost({
         id: this.postId,
+        date: new Date().toLocaleString(), //will be changed to earlier date
+        location: this.form.value.location,
         author: sessionStorage.getItem('username'),
         title: this.form.value.title,
         content: this.form.value.content,
-        image: this.form.value.image
+        image: this.form.value.image,
+        tags: this.form.value.tags,
       });
     }
     this.form.reset();
