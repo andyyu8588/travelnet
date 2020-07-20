@@ -19,7 +19,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   panelOpenState = false
 
   categoriesTree: CategoryNode[] = null
-  categoriesSet: any
+  categoriesSet: any = null
   private categoriesTree_sub: Subscription
   private categoriesSet_sub: Subscription
 
@@ -38,32 +38,30 @@ export class FilterComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.categoriesTree_sub = this.SearchService.categoryTree.subscribe((tree)=> this.categoriesTree = tree)
-    this.categoriesSet_sub = this.SearchService.categorySet.subscribe((set)=> this.categoriesSet = set)
+    this.categoriesSet_sub = this.SearchService.categorySet.subscribe((set: Set<any>) => this.categoriesSet = set)
 
-    // sets category filter from url params
-    this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
-      this.SearchService.updateCategories()
-      .then((val: CategoryNode[]) => {
-        this.categoriesTree = val
-        if (params.category) {
-          if (params.category === 'All') {
-            null
-          } else {
-          this.categoriesTree.forEach((child: CategoryNode) => {
-            if (child.name != params.category) {
-              this.uncheckAll(child.categories)
+    this.categoriesTree_sub = this.SearchService.categoryTree.subscribe((tree: CategoryNode[]) => {
+      if (tree) {
+        this.categoriesTree = tree
+
+        // sets category filter from url params
+        this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
+          if (params.category) {
+            if (params.category === 'All') {
+              null
             } else {
-              this.checkAll(child.categories)
+              this.categoriesTree.forEach((child: CategoryNode) => {
+                if (child.name != params.category) {
+                  this.uncheckAll(child.categories)
+                } else {
+                  this.checkAll(child.categories)
+                }
+              })              
             }
-          })              
-          }
-        }        
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }) 
+          }        
+        }) 
+      }
+    })
   }
 
   /** Checks if datasource for material tree has any child groups */
@@ -177,7 +175,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.SearchService.updateCategoryTree(this.categoriesTree)
     this.categoriesTree_sub.unsubscribe()
     this.categoriesSet_sub.unsubscribe()
   }

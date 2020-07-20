@@ -19,7 +19,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   isLoading = false;
   private postsSub: Subscription;
-  timeoutHandler: number;
+  timeoutHandler
   likeShow = false
   form: FormGroup;
 

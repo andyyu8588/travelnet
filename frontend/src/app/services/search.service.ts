@@ -1,3 +1,4 @@
+import { logging } from 'protractor';
 import { CustomCoordinates } from './../models/coordinates';
 import { tab } from 'src/app/models/tab.model';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,7 +13,8 @@ import { CategoryNode } from '../models/CategoryNode.model';
   providedIn: 'root'
 })
 export class SearchService implements OnDestroy {
-
+  /**if user is already searchign something */
+  hasSearch: boolean = false
 
   private search: tab = {query: null, content : {'users':[], 'venues':[]}}
   private _searchTab: BehaviorSubject<tab> = new BehaviorSubject(this.search)
@@ -46,6 +48,8 @@ export class SearchService implements OnDestroy {
       this._categoryTree.next(x)
       this._categorySet.next(this.treeValues.categorySet)
     })
+
+    this.hasSearch = false
   }
 
   //looks for venues in the area
@@ -100,11 +104,11 @@ export class SearchService implements OnDestroy {
 
   /**user makes new search in a tab*/
   enterSearch(query: string, searchType: Promise<any>, coord: CustomCoordinates) {
+    this.hasSearch = true
     return new Promise((resolve,reject)=>{
       this.resetSearchContent()
       searchType
       .then(result => {
-        console.log(result)
 
         if (result[0].response.totalResults != 0) {
           result[0].response.groups[0].items.forEach(venue =>{
@@ -115,14 +119,15 @@ export class SearchService implements OnDestroy {
         }
 
         if (sessionStorage.getItem('username')) {
-          if (true && result[1].users){
+          if (result[1].users) {
             result[1].users.forEach(user=>{
               this.search.content.users.push(user)
             })
           }
         } else {
-          this.search.push({'type' : 'warning', 'name' : 'You must be logged in to see users'})
+          this.search.content.users.push({'username' : 'warning', 'name' : 'You must be logged in to see users'})
         }
+
         this.search = ({
           query: {
             query: query,
@@ -131,7 +136,8 @@ export class SearchService implements OnDestroy {
           },
           content: this.search.content
         })
-        resolve(this._searchTab.next(this.search))
+        this._searchTab.next(this.search)
+        resolve()
       })
       .catch(err => {
         reject(err)
@@ -190,16 +196,11 @@ export class SearchService implements OnDestroy {
   }
 
   updatePath(path){
-    this.search.prePath = this.search.path
-    this.search.path = path
-    this._searchTab.next(this.search)
+    // this._searchTab.next(this.search)
   }
 
   goBack(){
-    this.search.path = this.search.prePath
-    this.search.prePath = 'search/'
-    this._searchTab.next(this.search)
-    console.log(this.search)
+    // this._searchTab.next(this.search)
   }
 
   changeFilter(filter: number){

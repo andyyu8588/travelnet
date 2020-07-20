@@ -1,15 +1,19 @@
 <div class="container-fluid row" style="margin: 0; padding: 0;">
     <div class="col mr-auto"*ngIf="openTab.content" style="margin-left: 0; padding-left: 0;">
       <br>
-      <!-- loading animation -->
-      <div *ngIf="loading" class="container-fluid row justify-content-center" style="overflow: hidden; padding-top: 1em;">
-        <mat-spinner class="col-auto"></mat-spinner>
-      </div>
-      <!-- nothing found -->
-      <mat-card *ngIf="openTab.content.venues.length === 0 && openTab.content.users.length === 0 && !loading">
+      <mat-card *ngIf="openTab.content.venues.length === 0 && openTab.content.users.length === 0">
+        <!-- loading animation -->
+        <div *ngIf='queryParams.query && loading' class="container-fluid row justify-content-center" style="overflow: hidden; padding-top: 1em;">
+          <mat-spinner class="col-auto"></mat-spinner>
+        </div>
+        <!-- nothing found -->
         <mat-card-header>
-          <mat-card-title>
+          <mat-card-title *ngIf='queryParams.query && !loading'>
             No Matches Found...
+          </mat-card-title>
+          <!-- no query param -->
+          <mat-card-title *ngIf='!queryParams.query && !loading'>
+            Search Something!
           </mat-card-title>
         </mat-card-header>
       </mat-card>

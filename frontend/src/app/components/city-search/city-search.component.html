@@ -11,10 +11,10 @@
     <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''" type='button'>
         <mat-icon>close</mat-icon>
     </button>
-    <small *ngIf='!checkCityValidity() && myControl.touched && !searchInput.focused' class="text-danger">this is not a valid region</small>
-    <mat-autocomplete #auto='matAutocomplete' panelWidth='25%'>
+    <small *ngIf='!checkCityValidity() && myControl.touched' class="text-danger">this is not a valid region</small>
+    <mat-autocomplete #auto='matAutocomplete' panelWidth='25%'> 
         <mat-spinner *ngIf='isLoading' style="margin:0 auto;"></mat-spinner>
-        <mat-option *ngFor='let country of autoSuggested | async' [value]='country.name' (click)='onOptionClick(country)'>
+        <mat-option *ngFor='let country of autoSuggested | async' [value]='country.name' (onSelectionChange)='onOptionClick(country)'>
             <span>{{ country.name }}</span>
         </mat-option>
     </mat-autocomplete>

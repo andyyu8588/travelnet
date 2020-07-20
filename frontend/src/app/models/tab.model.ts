@@ -1,6 +1,6 @@
 import { SearchParams } from './searchParams';
 export class tab {
-  [key: string]: any
+  // [key: string]: any
   query: SearchParams
   content: {
     'venues': any[];
