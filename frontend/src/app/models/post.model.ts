@@ -1,3 +1,4 @@
+import { Comment } from './comment.model'
 export interface Post {
   id: string;
   date: string,
@@ -8,5 +9,6 @@ export interface Post {
   content: string;
   imagePath: string;
   tags: string[];
+  comments: Comment[]
 }
 

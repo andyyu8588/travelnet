@@ -7,6 +7,7 @@ const profileRoute = require('./routes/profile')
 const searchUsersRoute = require('./routes/searchusers')
 const tripsRoute = require('./routes/trips')
 const postsRoutes = require("./routes/posts");
+const commentsRoutes = require("./routes/comments");
 const app = express()
 
 // body parser
@@ -35,6 +36,7 @@ app.use('/profile', profileRoute)
 app.use('/searchusers',searchUsersRoute)
 app.use('/trips', tripsRoute)
 app.use("/api/posts", postsRoutes);
+app.use("/api/comments", commentsRoutes);
 
 app.use('/', express.static(path.resolve(__dirname, '..', 'frontend', 'dist', 'frontend')))
 

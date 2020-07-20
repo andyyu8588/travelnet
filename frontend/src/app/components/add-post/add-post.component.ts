@@ -65,6 +65,7 @@ export class AddPostComponent implements OnInit {
             content: postData.content,
             imagePath: postData.imagePath,
             tags: postData.tags,
+            comments: postData.comments,
           };
           this.form.setValue({
             location: this.post.location,

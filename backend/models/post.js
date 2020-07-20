@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 
-const commentSchema = mongoose.Schema({
-  comment: { type: {
-    author: String,
-    content: String,
-    likes: [String],
-    replies: [comments]
-  }, default: [] },
-
+var commentSchema = mongoose.Schema()
+commentSchema.add({
+  date: { type: String, required: true},
+  author: { type: String, required: true},
+  content: { type: String, required: true},
+  likes: { type: [String], default: []},
+  replies: { type: [commentSchema], default: []}
 })
 const postSchema = mongoose.Schema({
   date: { type: String, required: true },

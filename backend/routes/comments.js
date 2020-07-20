@@ -11,6 +11,7 @@ router.post(
     Post.findById(req.params.id).then(post => {
       if (post){
         const comment = new Comment({
+          date: req.params.date,
           author: req.params.author,
           content: req.params.content,
           likes: [],
@@ -21,7 +22,8 @@ router.post(
           res.status(201).json({
             message: "comment added successfully",
             comment: {
-              id: post[post.comments.length-1].comment_id,
+              id: post[post.comments.length-1]._id,
+              date: req.params.date,
               author: req.params.author,
               content: req.params.content,
               likes: [],
@@ -42,6 +44,7 @@ router.post(
     Comments.findById(req.params.id).then(comment => {
       if (comment){
         const reply = new Comment({
+          date: req.params.date,
           author: req.params.author,
           content: req.params.content,
           likes: [],
@@ -52,7 +55,8 @@ router.post(
           res.status(201).json({
             message: "reply added successfully",
             comment: {
-              id: comment[comment.replies.length-1].comment_id,
+              id: comment[comment.replies.length-1]._id,
+              date: req.params.date,
               author: req.params.author,
               content: req.params.content,
               likes: [],
@@ -71,6 +75,7 @@ router.post(
     "/:id",
     (req, res, next) => {
         const comment = new Comment({
+          date: req.params.date,
           author: req.params.author,
           content: req.params.content,
           likes: req.params.likes,
@@ -82,6 +87,7 @@ router.post(
               message: "Update successful!",
               comment: {
                 id: result._id,
+                date: req.params.date,
                 author: req.params.author,
                 content: req.params.content,
                 likes: req.params.likes,

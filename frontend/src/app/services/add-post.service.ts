@@ -5,11 +5,12 @@ import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 
 import { Post } from "src/app/models/post.model";
+import { Comment } from "src/app/models/comment.model";
 
 @Injectable({ providedIn: "root" })
 export class AddPostService {
   url = "http://localhost:3000/api/posts/"
-  private posts: Post[] = [];
+  public posts: Post[] = [];
   private postsUpdated = new Subject<Post[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -29,7 +30,8 @@ export class AddPostService {
               title: post.title,
               content: post.content,
               imagePath: post.imagePath,
-              tags: post.tags
+              tags: post.tags,
+              comments: post.comments
             };
           });
         })
@@ -54,7 +56,8 @@ export class AddPostService {
       title: string,
       content: string,
       imagePath: string,
-      tags: Array<string>, }>(
+      tags: Array<string>,
+      comments: Array<Comment>}>(
       this.url + id
     );
   }
@@ -89,6 +92,7 @@ export class AddPostService {
           content: newPost.content,
           imagePath: responseData.post.imagePath,
           tags: responseData.post.tags,
+          comments: responseData.post.comments,
         };
         console.log(post)
         this.posts.push(post);
@@ -120,7 +124,8 @@ export class AddPostService {
         title: oldPost.title,
         content: oldPost.content,
         imagePath: oldPost.image,
-        tags: oldPost.tags
+        tags: oldPost.tags,
+        comments: oldPost.comments
       };
     }
     this.http
@@ -137,7 +142,8 @@ export class AddPostService {
           title: oldPost.title,
           content: oldPost.content,
           imagePath: "",
-          tags: oldPost.tags
+          tags: oldPost.tags,
+          comments: oldPost.comments
         };
         updatedPosts[oldPostIndex] = post;
         this.posts = updatedPosts;
@@ -163,5 +169,9 @@ export class AddPostService {
         (this.posts[updatedPostIndex]).likes= response.likes
         this.postsUpdated.next([...this.posts])
       })
+  }
+  updatePosts(posts){
+    this.postsUpdated.next(posts)
+
   }
 }
