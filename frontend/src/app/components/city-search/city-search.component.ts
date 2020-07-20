@@ -1,7 +1,7 @@
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
 import { FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-city-search',
@@ -11,16 +11,20 @@ import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
 export class CitySearchComponent implements OnInit, OnDestroy {
   @Input() appearance: string
   @Input() placeholder: string
+  //initial location
+  @Input() location: string
   @Input() clearOnSearch: boolean
-  
+  //for custom event emiting
+  @Output() locationAdded = new EventEmitter<string>();
+
   // search input variables
   myControl: FormControl = new FormControl(null)
-  value: string = ''
+  value: string
   timeout
   searched: Subscription
 
   isLoading: boolean = false
-  
+
   openstreetmap_sub: Subscription
 
   // display suggestions on autosuggest
@@ -35,6 +39,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   constructor(private OpenstreetmapService: OpenstreetmapService) { }
 
   ngOnInit(): void {
+    this.value = this.location ? this.location: ''
     // search for new cities on input value change
     this.searched = this.myControl.valueChanges.subscribe(x => {
       this._clickedOptionLocal = null
@@ -64,7 +69,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
       return true
     } else {
       return false
-    }         
+    }
   }
 
   // filters city name string
@@ -82,11 +87,15 @@ export class CitySearchComponent implements OnInit, OnDestroy {
     this._clickedOptionLocal = country
     this._clickedOption.next(country)
     this.clearOnSearch? this.value = '' : null
+    this.emitCountry()
+  }
+  emitCountry() {
+    this.locationAdded.emit(this.value)
   }
 
   ngOnDestroy() {
     this.searched.unsubscribe()
     this.openstreetmap_sub? this.openstreetmap_sub.unsubscribe() : null
-  } 
+  }
 
 }

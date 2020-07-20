@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from "@angular/core";
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap } from "@angular/router";
@@ -6,7 +6,6 @@ import { ActivatedRoute, ParamMap } from "@angular/router";
 import { AddPostService } from "src/app/services/add-post.service";
 import { Post } from "src/app/models/post.model";
 import { mimeType } from "./mime-type.validator";
-import { image } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-add-post',
@@ -22,6 +21,7 @@ export class AddPostComponent implements OnInit {
   imagePreview: string;
   private mode = "create";
   private postId: string;
+  location: string
 
   //tags
   visible = true;
@@ -37,6 +37,7 @@ export class AddPostComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log(this.location)
     this.form = new FormGroup({
       title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
       location: new FormControl(null, { validators: [Validators.required] }),
@@ -73,6 +74,8 @@ export class AddPostComponent implements OnInit {
             tags: this.post.tags,
           });
           this.imagePreview = this.post.imagePath
+          this.tags = this.post.tags
+          this.location = this.post.location
         });
       } else {
         this.mode = "create";
@@ -148,5 +151,11 @@ export class AddPostComponent implements OnInit {
     }
     this.form.patchValue({ tags: this.tags });
     this.form.get("tags").updateValueAndValidity();
+  }
+  onAddLocation(location: string){
+    this.location = location
+    this.form.patchValue({ location: location });
+    this.form.get("location").updateValueAndValidity();
+    console.log(location)
   }
 }

@@ -3,6 +3,7 @@ const multer = require("multer");
 
 const Post = require("../models/post");
 const User = require("../models/User");
+
 const jwt = require('jsonwebtoken')
 const jwtSecret = 'MonkasczI69'
 const jwtMiddleware = require("../jwt.middleware");
@@ -33,7 +34,7 @@ const storage = multer.diskStorage({
     cb(null, name + "-" + Date.now() + "." + ext);
   }
 });
-
+/**saves post to post collection, and saves post id to user */
 router.post(
   "",
   multer({ storage: storage }).single("image"),
@@ -78,7 +79,7 @@ router.post(
       }
   }
 );
-
+/**edit existing post */
 router.put(
   "/:id",
   multer({ storage: storage }).single("image"),
@@ -109,6 +110,7 @@ router.put(
     }
   }
 );
+/**like post through id */
 router.put("/like/:id",(req, res, next) => {
   Post.findById(req.params.id).then(post => {
     if (post) {
@@ -129,7 +131,7 @@ router.put("/like/:id",(req, res, next) => {
     }
   })
 })
-
+/**get all posts */
 router.get("", (req, res, next) => {
   Post.find().then(documents => {
     res.status(200).json({
@@ -138,7 +140,7 @@ router.get("", (req, res, next) => {
     });
   });
 });
-
+/**get specific post */
 router.get("/:id", (req, res, next) => {
   Post.findById(req.params.id).then(post => {
     if (post) {
@@ -149,6 +151,7 @@ router.get("/:id", (req, res, next) => {
   });
 });
 
+/**delete post */
 router.delete("/:id", (req, res, next) => {
   
   Post.deleteOne({ _id: req.params.id }).then(result => {

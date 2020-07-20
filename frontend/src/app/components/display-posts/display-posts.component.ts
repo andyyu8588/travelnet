@@ -70,6 +70,9 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   showLikes(){
     this.likeShow = !this.likeShow
   }
+  submitComment(comment){
+
+  }
 
 
 
