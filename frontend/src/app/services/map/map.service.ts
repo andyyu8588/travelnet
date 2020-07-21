@@ -1,3 +1,4 @@
+import { geocodeResponseModel } from './../../models/geocodeResp.model';
 import { OpenstreetmapService } from './openstreetmap.service';
 import { SessionService } from 'src/app/services/session.service';
 import { CustomCoordinates } from './../../models/coordinates';
@@ -152,7 +153,6 @@ export class MapService implements OnDestroy{
       centerPoints = this.map.unproject([(window.innerWidth - sidebar)/2 + sidebar, window.innerHeight/2])
     }
     centerPoints = new CustomCoordinates(centerPoints.lng, centerPoints.lat)
-    console.log(centerPoints)
     // update coord at fake center
     this._fakeCenter.next(centerPoints)
 
@@ -173,8 +173,8 @@ export class MapService implements OnDestroy{
     return new CustomCoordinates(lng, lat)
   }
 
-  // highlight selected coutries when register
-  showMarker(target: number, input?: {[key: string]: any}) {
+  /** highlight selected coutries when register */
+  showMarker(target: number, input?: geocodeResponseModel) {
     if (!input && this.map.getSource('points') && this.Places[target - 1]) {
       this.map.getSource('points').setData(
         {

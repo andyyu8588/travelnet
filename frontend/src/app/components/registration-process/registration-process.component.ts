@@ -46,12 +46,12 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
 
   constructor(private _formBuilder: FormBuilder,
               private MapService: MapService,
-              private  SessionService: SessionService,
+              private SessionService: SessionService,
               private Router: Router) { }
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      firstCtrl: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ''
@@ -65,11 +65,12 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     this.step1.stepControl = this.registration.registrationForm
     this.clickLocation = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
       this._progressUpdate.next({
-        target: this.stepper._getFocusIndex(),
+        target: this.stepper.selectedIndex,
         coordinates: [x.lng, x.lat]
       })
     })
     this.stepper_sub = this.stepper.selectionChange.subscribe(x => {
+      console.log(this.stepper.steps) 
       if (x.selectedIndex != 0) {
         this.editable = false
         this.isDone = false

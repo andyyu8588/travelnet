@@ -1,15 +1,23 @@
 <mat-horizontal-stepper linear #stepper>
-  <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="false">
-      <app-registrationpage #registration [stepper]='stepper'></app-registrationpage>
+  <ng-template matStepperIcon="edit">
+    <mat-icon>check</mat-icon>
+  </ng-template>
+
+  <mat-step #step1 label='Create Your Account' [editable]='editable' [optional]="true">
+    <app-registrationpage #registration [stepper]='stepper'></app-registrationpage>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup" label="Tell Us Where You've Been" [optional]="true">
-    <app-country-selector #selector1 [progressUpdate]='stepper._getFocusIndex()' [target]='1'></app-country-selector>
+  <mat-step label="Where You've Been" [optional]="true">
+    <br>
+    <mat-label ><h2>Tell Us About The Places You Enjoyed Most</h2></mat-label>
+    <app-country-selector #selector1 [progressUpdate]='stepper.selectedIndex' [target]='1'></app-country-selector>
     <div>
       <button mat-stroked-button matStepperNext color='primary'>Next</button>
     </div>
   </mat-step>
   <mat-step label='Where Do You Want To Go' [optional]="true">
-    <app-country-selector #selector2 [progressUpdate]='stepper._getFocusIndex()' [target]='2'></app-country-selector>
+    <br>
+    <mat-label ><h2>Tell Us About Places You Would Like to Discover</h2></mat-label>
+    <app-country-selector #selector2 [progressUpdate]='stepper.selectedIndex' [target]='2'></app-country-selector>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-raised-button color='primary' (click)='savePreferences()'>Save</button>
