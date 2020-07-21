@@ -31,9 +31,6 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
         validators: []
       })
     })
-
-
-
     this.isLoading = true;
     this.postsService.getPosts();
     this.postsSub = this.postsService.getPostUpdateListener()

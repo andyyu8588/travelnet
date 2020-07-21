@@ -4,6 +4,13 @@ export interface Comment {
   author: string;
   content: string;
   likes: string[];
-  replies: Comment[];
+  replies: [{
+    id: string;
+    date: string,
+    author: string;
+    content: string;
+    likes: string[];
+  }];
+  edited: string;
 }
 

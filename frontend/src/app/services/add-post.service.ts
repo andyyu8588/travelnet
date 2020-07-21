@@ -172,6 +172,5 @@ export class AddPostService {
   }
   updatePosts(posts){
     this.postsUpdated.next(posts)
-
   }
 }

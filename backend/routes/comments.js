@@ -11,11 +11,12 @@ router.post(
     Post.findById(req.params.id).then(post => {
       if (post){
         const comment = new Comment({
-          date: req.params.date,
-          author: req.params.author,
-          content: req.params.content,
+          date: req.body.date,
+          author: req.body.author,
+          content: req.body.content,
           likes: [],
-          replies: []
+          replies: [],
+          edited: null
         })
         post.comments.push(comment)
         post.save().then(post => {
@@ -23,11 +24,12 @@ router.post(
             message: "comment added successfully",
             comment: {
               id: post[post.comments.length-1]._id,
-              date: req.params.date,
-              author: req.params.author,
-              content: req.params.content,
+              date: req.body.date,
+              author: req.body.author,
+              content: req.body.content,
               likes: [],
-              replies: []
+              replies: [],
+              edited: null
             }
           })
         })
@@ -37,18 +39,18 @@ router.post(
       )
     })
   })
-  /**replies to existing comment */
+  /**replies to tree comment */
   router.post(
   ":id",
   (req,res,next) => {
     Comments.findById(req.params.id).then(comment => {
       if (comment){
         const reply = new Comment({
-          date: req.params.date,
-          author: req.params.author,
-          content: req.params.content,
+          date: req.body.date,
+          author: req.body.author,
+          content: req.body.content,
           likes: [],
-          replies: []
+          edited: null
         })
         comment.replies.push(reply)
         comment.save().then(comment => {
@@ -56,11 +58,11 @@ router.post(
             message: "reply added successfully",
             comment: {
               id: comment[comment.replies.length-1]._id,
-              date: req.params.date,
-              author: req.params.author,
-              content: req.params.content,
+              date: req.body.date,
+              author: req.body.author,
+              content: req.body.content,
               likes: [],
-              replies: []
+              edited: null
             }
           })
         })
@@ -75,11 +77,10 @@ router.post(
     "/:id",
     (req, res, next) => {
         const comment = new Comment({
-          date: req.params.date,
-          author: req.params.author,
-          content: req.params.content,
-          likes: req.params.likes,
-          replies: req.params.replies
+          date: req.body.date,
+          author: req.body.author,
+          content: req.body.content,
+          edited: req.body.edited
         })
       try{
         Comment.updateOne({ _id: req.params.id }, comment).then(result => {
@@ -87,11 +88,13 @@ router.post(
               message: "Update successful!",
               comment: {
                 id: result._id,
-                date: req.params.date,
-                author: req.params.author,
-                content: req.params.content,
-                likes: req.params.likes,
-                replies: req.params.replies
+                date: req.body.date,
+                author: req.body.author,
+                content: req.body.content,
+                likes: req.body.likes,
+                replies: req.body.replies,
+                edited: req.body.edited
+                
               }
             },
           );

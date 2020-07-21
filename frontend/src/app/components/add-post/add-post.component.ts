@@ -6,6 +6,7 @@ import { ActivatedRoute, ParamMap } from "@angular/router";
 import { AddPostService } from "src/app/services/add-post.service";
 import { Post } from "src/app/models/post.model";
 import { mimeType } from "./mime-type.validator";
+import { title } from 'process';
 
 @Component({
   selector: 'app-add-post',
@@ -111,6 +112,7 @@ export class AddPostComponent implements OnInit {
         image: this.form.value.image,
         tags: this.form.value.tags,
       });
+      console.log(this.form)
     } else {
       this.postsService.updatePost({
         id: this.postId,
@@ -142,7 +144,6 @@ export class AddPostComponent implements OnInit {
     }
     this.form.patchValue({ tags: this.tags });
     this.form.get("tags").updateValueAndValidity();
-    console.log(this.form.get("tags"))
   }
 
   removeTag(tag): void {
