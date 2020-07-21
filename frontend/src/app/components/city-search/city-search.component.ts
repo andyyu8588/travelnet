@@ -1,3 +1,4 @@
+import { MapService } from './../../services/map/map.service';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
 import { FormControl, Validators } from '@angular/forms';
@@ -21,7 +22,6 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // search input variables
   myControl: FormControl = new FormControl(null)
-  value: string
   timeout
   searched: Subscription
 
@@ -29,19 +29,21 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openstreetmap_sub: Subscription
 
+  private fakeCenterCity_sub: Subscription
+
   // display suggestions on autosuggest
   private _autoSuggested: BehaviorSubject<Array<{[key: string]: any}>> = new BehaviorSubject([])
   autoSuggested: Observable<Array<{[key: string]: any}>> = this._autoSuggested.asObservable()
 
   //return clicked option
   _clickedOptionLocal: {[key: string]: any} = null
-  private _clickedOption: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject(null)
+  private _clickedOption: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject(this._clickedOptionLocal)
   clickedOption: Observable<{[key: string]: any}> = this._clickedOption.asObservable()
 
-  constructor(private OpenstreetmapService: OpenstreetmapService) { }
+  constructor(private OpenstreetmapService: OpenstreetmapService,
+              private MapService: MapService) { }
 
   ngOnInit(): void {
-    this.value = this.location ? this.location: ''
     // search for new cities on input value change
     this.searched = this.myControl.valueChanges.subscribe(x => {
       this._clickedOptionLocal = null
@@ -63,6 +65,16 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       }, 400)
     })
+
+    // sub to city name at fake center
+    this.fakeCenterCity_sub = this.MapService.fakeCenterCity.subscribe((res: {[key: string]: any, features: Array<{[key: string]: any}>}) => {
+      if (res.features) {
+        console.log(res)
+        this.myControl.patchValue(this.removeMiddle(res.features[0].properties.display_name, 1))
+        this._clickedOptionLocal = res.content
+        this._clickedOption.next(this._clickedOptionLocal)
+      }
+    })
   }
 
   ngAfterViewInit() {
@@ -70,7 +82,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** check if input contains valid city */
   checkCityValidity(): boolean {
-    if (this._clickedOptionLocal || this.value == '') {
+    if (!this._clickedOptionLocal || this.myControl.value == '') {
       return true
     } else {
       return false
@@ -91,16 +103,17 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   onOptionClick(country: {[key: string]: any}) {
     this._clickedOptionLocal = country
     this._clickedOption.next(country)
-    this.clearOnSearch? this.value = '' : null
+    this.clearOnSearch? this.myControl.patchValue('') : null
     this.emitCountry()
   }
   emitCountry() {
-    this.locationAdded.emit(this.value)
-    this.clearOnSearch? (this.value = '') : null
+    this.locationAdded.emit(this.myControl.value)
+    this.clearOnSearch? this.myControl.patchValue('') : null
   }
 
   ngOnDestroy() {
     this.searched.unsubscribe()
+    this.fakeCenterCity_sub.unsubscribe()
     this.openstreetmap_sub? this.openstreetmap_sub.unsubscribe() : null
   }
 

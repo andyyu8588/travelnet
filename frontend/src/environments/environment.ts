@@ -1,3 +1,4 @@
+import { CustomCoordinates } from './../app/models/coordinates';
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
@@ -38,6 +39,8 @@ export const environment = {
     getProfile: 'http://localhost:3000/profile',
     searchUsers:'http://localhost:3000/searchusers',
   },
+
+  montrealCoord: new CustomCoordinates(-73.5633265, 45.5009128)
 };
 
 /*

@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment.dev';
 import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
 import { SearchParams } from './../../models/searchParams';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -67,7 +68,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
     this.fakeCenter_sub = this.MapService.fakeCenter.subscribe((coord: CustomCoordinates) => {
-      this.fakeCenter = coord? coord : new CustomCoordinates(73.5673, 45.5017)
+      this.fakeCenter = coord? coord : environment.montrealCoord
     })
 
     this.foursquareCategory_sub = this.SearchService.categoryTree.subscribe((cats: CategoryNode[]) => {
@@ -86,13 +87,14 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
+      // set param to montreal if no location param 
       if (!params.lng) {
-        this.CitySearchComponent.value = 'Montreal, Canada'
+        this.CitySearchComponent.myControl.patchValue('Montreal, Canada')
+        this.CitySearchComponent._clickedOptionLocal = environment.montrealCoord
       } else {
         this.OpenstreetmapService.reverseSearch(params.lng, params.lat).subscribe((response: {[key: string]: any}) => {
-          console.log(response)
           if (response.features[0]) {
-            this.CitySearchComponent.value = response.features[0].properties.address.city + ',' + response.features[0].properties.address.country
+            this.CitySearchComponent.myControl.patchValue(response.features[0].properties.address.city + ',' + response.features[0].properties.address.country)
           }
         })
       }
