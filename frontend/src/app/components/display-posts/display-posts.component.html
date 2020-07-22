@@ -19,18 +19,19 @@
         {{post.tags }} {{post.date }}
       </p>
       <p>
-            {{ post.content }}
+        {{ post.content }}
       </p>
       <img mat-card-image [src]="post.imagePath" [alt]="post.title">
 
       <mat-card-actions>
-        <button mat-button type="button" (click)="like(post.id)" (mousedown)="mousedown()" (mouseup)="mouseup()" (mouseleave)="mouseup()">LIKE {{ post.likes.length }}</button>
+        <button mat-button type="button" (click)="like(post.id)" (mousedown)="mousedown()" (mouseup)="mouseup()" (mouseleave)="mouseup()" matTooltip='{{post.likes}}'>LIKE {{ post.likes.length }}</button>
         <button mat-button>SHARE</button>
       </mat-card-actions>
-      <div *ngIf="likeShow">{{post.likes}}</div>
+      <!-- <div *ngIf="likeShow">{{post.likes}}</div> -->
+  
+      <app-comment-section [post] ='post'></app-comment-section>
     </mat-card>
 
-    <app-comment-section [post] ='post'></app-comment-section>
   </div>
 </div>
 <p class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">No posts added yet!</p>
