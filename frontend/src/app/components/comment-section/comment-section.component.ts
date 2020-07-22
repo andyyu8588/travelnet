@@ -27,9 +27,10 @@ export class CommentSectionComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       content: new FormControl(null, { validators: [Validators.required] }),
-      })
+    })
   }
-  onAddComment(){
+
+  onAddComment() {
     if (this.form.invalid) {
       return;
     }
@@ -41,7 +42,5 @@ export class CommentSectionComponent implements OnInit {
     this.commentsService.addComment(newComment,this.post.id)
     this.form.reset();
   }
-
-
 
 }

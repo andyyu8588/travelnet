@@ -37,7 +37,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   // filters
   @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
   private clickedOption_sub: Subscription
-  clickedOption: {[key: string]: any, name: string, content: {[key: string]: any}} = null
+  clickedOption: geocodeResponseModel = null
   filterOptions: {
     0: string,
     1: string,
@@ -79,7 +79,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     // for coordinates of city search
-    this.clickedOption_sub = this.CitySearchComponent.clickedOption.subscribe((city: {[key: string]: any, name: string, content: {[key: string]: any}}) => {
+    this.clickedOption_sub = this.CitySearchComponent.clickedOption.subscribe((city: geocodeResponseModel) => {
       if (city) {
         this.clickedOption = city
       } else {
@@ -90,8 +90,8 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       // set param to montreal if no location param 
       if (!params.lng) {
-        this.CitySearchComponent.myControl.patchValue('Montreal, Canada')
-        this.CitySearchComponent._clickedOptionLocal = new geocodeResponseModel('Montreal, Canada', [environment.montrealCoord.lng, environment.montrealCoord.lat]) 
+        // this.CitySearchComponent.myControl.patchValue('Montreal, Canada')
+        this.CitySearchComponent._clickedOptionLocal = new geocodeResponseModel(this.CitySearchComponent.myControl.value, [this.fakeCenter.lng, this.fakeCenter.lat]) 
       } else {
         this.OpenstreetmapService.reverseSearch(params.lng, params.lat).subscribe((response: {[key: string]: any}) => {
           if (response.features[0]) {
