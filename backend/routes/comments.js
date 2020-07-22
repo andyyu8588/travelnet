@@ -8,25 +8,25 @@ const router = express.Router();
 router.post(
     "/",
     (req,res,next) => {
-    Post.findById(req.params.id).then(post => {
+    Post.findById(req.body.postId).then(post => {
       if (post){
-        const comment = new Comment({
-          date: req.body.date,
-          author: req.body.author,
-          content: req.body.content,
+        const comment ={
+          date: req.body.commentData.date,
+          author: req.body.commentData.author,
+          content: req.body.commentData.content,
           likes: [],
           replies: [],
           edited: null
-        })
+        }
         post.comments.push(comment)
         post.save().then(post => {
           res.status(201).json({
             message: "comment added successfully",
             comment: {
-              id: post[post.comments.length-1]._id,
-              date: req.body.date,
-              author: req.body.author,
-              content: req.body.content,
+              id: post.comments[post.comments.length-1]._id,
+              date: req.body.commentData.date,
+              author: req.body.commentData.author,
+              content: req.body.commentData.content,
               likes: [],
               replies: [],
               edited: null
@@ -41,26 +41,29 @@ router.post(
   })
   /**replies to tree comment */
   router.post(
-  ":id",
+  "/:id",
   (req,res,next) => {
-    Comments.findById(req.params.id).then(comment => {
-      if (comment){
-        const reply = new Comment({
-          date: req.body.date,
-          author: req.body.author,
-          content: req.body.content,
+    Post.findById(req.body.postId).then(post => {
+      if (post){
+        const reply ={
+          date: req.body.commentData.date,
+          author: req.body.commentData.author,
+          content: req.body.commentData.content,
           likes: [],
           edited: null
-        })
-        comment.replies.push(reply)
-        comment.save().then(comment => {
+        };
+        // console.log(reply);
+        // console.log(post.comments.id(req.params.id).replies);
+        (post.comments.id(req.params.id).replies).push(reply);
+        post.save().then(post => {
+          // console.log(post);
           res.status(201).json({
             message: "reply added successfully",
-            comment: {
-              id: comment[comment.replies.length-1]._id,
-              date: req.body.date,
-              author: req.body.author,
-              content: req.body.content,
+            reply: {
+              id: post.comments.id(req.params.id).replies[post.comments.id(req.params.id).replies.length-1]._id,
+              date: req.body.commentDatadate,
+              author: req.body.commentData.author,
+              content: req.body.commentData.content,
               likes: [],
               edited: null
             }
@@ -125,6 +128,18 @@ router.post(
       }
     })
   })
+
+  /**get all comments associated to a post */
+router.get("/:id", (req, res, next) => {
+  Post.findById(req.params.id).then(post => {
+    if (post) {
+      res.status(200).json(post.comments);
+    } else {
+      res.status(404).json({ message: "Post not found!" });
+    }
+  });
+});
+
   /**deletes existing comment */
 router.delete("/:id", (req, res, next) => {
     Comment.deleteOne({ _id: req.params.id }).then(result => {

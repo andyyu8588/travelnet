@@ -38,7 +38,6 @@ export class AddPostComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.location)
     this.form = new FormGroup({
       title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
       location: new FormControl(null, { validators: [Validators.required] }),
@@ -103,7 +102,7 @@ export class AddPostComponent implements OnInit {
     }
     this.isLoading = true;
     if (this.mode === "create") {
-      this.postsService.addPost({
+      let newPost = {
         date: new Date().toLocaleString(),
         location: this.form.value.location,
         author: sessionStorage.getItem('username'),
@@ -111,8 +110,8 @@ export class AddPostComponent implements OnInit {
         content: this.form.value.content,
         image: this.form.value.image,
         tags: this.form.value.tags,
-      });
-      console.log(this.form)
+      }
+      this.postsService.addPost(newPost);
     } else {
       this.postsService.updatePost({
         id: this.postId,
@@ -144,6 +143,7 @@ export class AddPostComponent implements OnInit {
     }
     this.form.patchValue({ tags: this.tags });
     this.form.get("tags").updateValueAndValidity();
+
   }
 
   removeTag(tag): void {

@@ -77,7 +77,9 @@ import { CitySearchComponent } from './components/city-search/city-search.compon
 import { FilterComponent } from './components/filter/filter.component';
 import { ScrollToTopComponent } from './components/sidebar/scroll-to-top/scroll-to-top.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
-import { DisplayPostsComponent } from './components/display-posts/display-posts.component'
+import { DisplayPostsComponent } from './components/display-posts/display-posts.component';
+import { CommentSectionComponent } from './components/comment-section/comment-section.component';
+import { CommentComponent } from './components/comment/comment.component'
 
 @NgModule({
   declarations: [
@@ -115,6 +117,8 @@ import { DisplayPostsComponent } from './components/display-posts/display-posts.
     ScrollToTopComponent,
     AddPostComponent,
     DisplayPostsComponent,
+    CommentSectionComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule,

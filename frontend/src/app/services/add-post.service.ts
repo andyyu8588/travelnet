@@ -20,8 +20,10 @@ export class AddPostService {
       .get<{ message: string; posts: any }>(this.url)
       .pipe(
         map(postData => {
+          var formattedComment
+          var formattedReply
           return postData.posts.map(post => {
-            return {
+          return{
               id: post._id,
               date: post.date,
               location: post.location,
@@ -33,10 +35,12 @@ export class AddPostService {
               tags: post.tags,
               comments: post.comments
             };
+
           });
         })
       )
       .subscribe(transformedPosts => {
+        console.log(transformedPosts)
         this.posts = transformedPosts;
         this.postsUpdated.next([...this.posts]);
       });
@@ -94,7 +98,6 @@ export class AddPostService {
           tags: responseData.post.tags,
           comments: responseData.post.comments,
         };
-        console.log(post)
         this.posts.push(post);
         this.postsUpdated.next([...this.posts]);
         this.router.navigate(["/"]);

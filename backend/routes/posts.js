@@ -42,6 +42,7 @@ router.post(
   (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     let origin = jwt.decode(req.get('authorization'), jwtSecret)
+    console.log(req.body)
     try{
       User.findById(origin.id).then(user =>{
         const post = new Post({
@@ -54,8 +55,8 @@ router.post(
           imagePath: url + "/images/" + req.file.filename,
           tags: req.body.tags
         });
+        console.log(post)
         post.save().then(newPost => {
-          console.log(newPost)
           res.status(201).json({
             message: "Post added successfully",
             post: {
@@ -63,11 +64,12 @@ router.post(
               date: post.date,
               location: post.location,
               author: post.author,
-              likes: [],
+              likes: post.likes,
               title: post.title,
               content: post.content,
               imagePath: post.imagePath,
-              tags: post.tags
+              tags: post.tags,
+              comments: post.comments,
             }
           });
         });

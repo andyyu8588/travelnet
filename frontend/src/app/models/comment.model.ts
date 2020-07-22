@@ -1,11 +1,11 @@
 export interface Comment {
-  id: string;
+  _id: string;
   date: string,
   author: string;
   content: string;
   likes: string[];
   replies: [{
-    id: string;
+    _id: string;
     date: string,
     author: string;
     content: string;

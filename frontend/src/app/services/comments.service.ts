@@ -7,13 +7,13 @@ import { Router } from "@angular/router";
 import { Post } from "../models/post.model";
 import { Comment } from "../models/comment.model";
 import { AddPostService } from "./add-post.service"
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class CommentsService {
-  url = "http://localhost:3000/api/comments/"
+  url = environment.travelnetCommentURL
   private posts: Post[] = [];
-  private comments: Comment[] = []
   private postsUpdated = new Subject<Post[]>();
 
   constructor(
@@ -21,25 +21,16 @@ export class CommentsService {
     private router: Router,
     private PostService: AddPostService) {}
 
-  // getComments(postId:string) {
-  //   this.PostService.getPost(postId).subscribe(post =>{
-  //   })
-  // }
-  addComment(newComment,postId){
-    const postData = new FormData();
-    postData.append("date", newComment.date);
-    postData.append("author", newComment.author);
-    postData.append("content", newComment.content);
-
+  addComment(newComment,postId: string){
     this.http
     .post<{ message: string; comment: Comment }>(
       this.url,
-      postData,{
+      {commentData: newComment, postId: postId},{
         headers: {}
       }
     ).subscribe(responseData => {
       const comment: Comment = {
-        id: responseData.comment.id,
+        _id: responseData.comment._id,
         date: responseData.comment.date,
         author: responseData.comment.author,
         likes: responseData.comment.likes,
@@ -49,11 +40,35 @@ export class CommentsService {
       };
       console.log(comment)
       //need to update post
-      const postIndex = this.posts.findIndex(p => p.id === postId);
-      let allPosts = this.PostService.posts[postIndex].comments.push(comment)
-      this.PostService.updatePosts(allPosts)
+      const postIndex = this.PostService.posts.findIndex(p => p.id === postId);
+      this.PostService.posts[postIndex].comments.push(comment)
+      this.PostService.updatePosts(this.PostService.posts)
   })
 }
+  /**get all comments associated to a post*/
+  getComments() {
+    this.http
+      .get<{ message: string; comments: any }>(this.url)
+      .pipe(
+        map(commentData => {
+          return commentData.comments.map(comment => {
+            return {
+              id: comment._id,
+              date: comment.date,
+              author: comment.author,
+              content: comment.content,
+              likes: comment.likes,
+              replies: comment.replies,
+              edited: comment.edited
+            };
+          });
+        })
+      )
+      .subscribe(transformedComments => {
+        // this.posts = transformedPosts;
+        // this.postsUpdated.next([...this.posts])/;
+      });
+  }
   //doesnt even exist lul
   /**get specific comment given its id */
   getComment(commentId: string) {
@@ -70,28 +85,25 @@ export class CommentsService {
     );
   }
   /**reply to head comment */
-  reply(postId: string, commentId: string, reply: Comment){
-    const commentData = new FormData();
-    commentData.append("date", reply.date);
-    commentData.append("author", reply.author);
-    commentData.append("content", reply.content);
-    const postIndex = this.posts.findIndex(p => p.id === postId);
-    const commentIndex = this.posts[postIndex].comments.findIndex(c => c.id === commentId)
+  reply(postId: string, commentId: string, reply: any){
+    const postIndex = this.PostService.posts.findIndex(p => p.id === postId);
+    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === commentId)
 
     this.http
     .post<{ message: string; reply: Comment }>(
       this.url + commentId,
-      commentData,
-    )
+      {commentData:reply, postId: postId})
     .subscribe(responseData => {
-      let allPosts = this.PostService.posts[postIndex].comments[commentIndex].push(responseData.reply)
-      this.PostService.updatePosts(allPosts)
+      // console.log(responseData.reply)
+      this.PostService.posts[postIndex].comments[commentIndex].replies.push(responseData.reply)
+      // console.log(this.PostService.posts[postIndex].comments[commentIndex].replies)
+      this.PostService.updatePosts(this.PostService.posts)
     })
   }
   /**edit comment */
   editComment(postId: string, commentId: string, newComment: Comment){
     const commentData = new FormData();
-    commentData.append("id", newComment.id);
+    commentData.append("id", newComment._id);
     commentData.append("date", newComment.date);
     commentData.append("author", newComment.author);
     commentData.append("content", newComment.content);
