@@ -13,6 +13,7 @@ export class CommentComponent implements OnInit {
   @Input() comment: Comment
   @Input() postId: string
   replyField = false
+  showReplies = false
   form: FormGroup;
   constructor(
     private commentsService: CommentsService,
@@ -36,9 +37,11 @@ export class CommentComponent implements OnInit {
       author: sessionStorage.getItem('username'),
       content: this.form.value.content,
     }
-    console.log(this.comment)
     this.commentsService.reply(this.postId,this.comment._id,newReply)
     this.form.reset();
+  }
+  likeTreeComment(){
+    this.commentsService.liketreeComment(this.postId,this.comment._id,sessionStorage.getItem("username"))
   }
   like(){
 
