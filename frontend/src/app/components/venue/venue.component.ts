@@ -21,7 +21,7 @@ export class VenueComponent implements OnInit,OnDestroy {
   windowHeight: number = window.innerHeight
 
   private openTabSub: Subscription
-  openTab:tab
+  openTab: tab
   constructor(
     private router: Router,
     private SearchService: SearchService,
@@ -35,7 +35,6 @@ export class VenueComponent implements OnInit,OnDestroy {
 
     this.url = this.router.url.replace('/search/venue/','')
     this.SearchService.formatDetails(this.url).then(result=>{
-      console.log(result.response.venue)
       this.content = result.response.venue
       if (this.content.rating && this.content.ratingColor) {
         this.rating = this.content.rating
@@ -45,8 +44,7 @@ export class VenueComponent implements OnInit,OnDestroy {
   }
 
   goBack(){
-    this.SearchService.goBack()
-    this.router.navigate(['search' ,this.openTab.query])
+    this.router.navigate(['search'], {queryParams: this.SearchService.currentSearch? this.SearchService.currentSearch : {}})
   }
 
   // check if is object

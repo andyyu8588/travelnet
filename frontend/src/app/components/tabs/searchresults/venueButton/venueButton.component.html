@@ -6,8 +6,8 @@
     </mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content class="container-fluid col-auto" style="margin-right: 1em;">
-  <p class="d-flex inline description" (click)='navigate()'>
+  <mat-card-content class="container-fluid justify-content-end">
+    <p class="description text-right d-flex flex-row-reverse"  (click)='navigate()'>
       {{searchResult|null:['venue','location','address']}}
     </p>
     <hr>
@@ -16,8 +16,8 @@
       <button mat-button class="col-auto mr-auto">
         <mat-icon mat-icon-button matTooltip="share" matTooltipPosition='above' color='accent' >share</mat-icon>
       </button>
-      <button mat-button class="col-auto mr-auto">
-        <mat-icon mat-icon-button matTooltip="show on map" matTooltipPosition='above' color='primary' >map</mat-icon>
+      <button mat-button class="col-auto mr-auto" (click)='showLocation()'>
+        <mat-icon mat-icon-button matTooltip="show on map" matTooltipPosition='above' color='primary'>map</mat-icon>
       </button>
       <button mat-button class="col-auto mr-auto">
         <mat-icon mat-icon-button [matTooltip]="addTripText()" (click)='addToTrip()' matTooltipPosition='above' *ngIf='!isErr && !isLoading && !isSuccess'>playlist_add</mat-icon>
@@ -28,8 +28,3 @@
     </span>
   </mat-card-content>
 </mat-card>
-
-
-
-
-
