@@ -94,9 +94,7 @@ export class CommentsService {
       this.url + commentId,
       {commentData:reply, postId: postId})
     .subscribe(responseData => {
-      // console.log(responseData.reply)
       this.PostService.posts[postIndex].comments[commentIndex].replies.push(responseData.reply)
-      // console.log(this.PostService.posts[postIndex].comments[commentIndex].replies)
       this.PostService.updatePosts(this.PostService.posts)
     })
   }
@@ -109,7 +107,18 @@ export class CommentsService {
     commentData.append("content", newComment.content);
     commentData.append("edited", newComment.edited);
   }
-  /**like existing comment */
+  /**like tree comment */
+  liketreeComment(postId: string, commentId: string, username: string){
+    const postIndex = this.PostService.posts.findIndex(p => p.id === postId);
+    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === commentId)
+
+    this.http
+    .put(this.url +'like/' + commentId, {'postId': postId,'username': username})
+      .subscribe((response:{message:string, likes: string[]})=>{
+        (this.PostService.posts[postIndex]).comments[commentIndex].likes= response.likes
+        this.PostService.updatePost(this.PostService.posts)
+      })
+  }
   /**delete existing comment */
 
 

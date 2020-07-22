@@ -2,35 +2,29 @@
 <mat-card>
   {{comment.author}} : {{comment.content}}
   <div>
-    <button mat-button (click)="like()">LIKE</button>
+    <button mat-button (click)="likeTreeComment()">LIKE</button>
     {{comment.likes}}
     <button mat-button (click)="reply()">REPLY</button>
   </div>
-    <div *ngIf="replyField">
-      <form [formGroup]="form" (submit)="onAddReply()">
-        <mat-form-field>
-          <input matInput type="text" formControlName="content" placeholder="say something...">
-        </mat-form-field>
-      </form>
-    </div>
   <p *ngIf="comment.edited">edited</p>
-  <div>
+
+  <div *ngIf="replyField">
     <mat-card *ngFor="let reply of comment.replies">
-      <mat-card> {{reply.author}} : {{reply.content }}
+      <mat-card-header> {{reply.author}} : {{reply.content }}
         <div>
           <button mat-button (click)="like()">LIKE</button>
           {{comment.likes}}
           <button mat-button >REPLY</button>
         </div>
-          <div *ngIf="replyField">
-            <form [formGroup]="form" (submit)="onAddReply()">
-              <mat-form-field>
-                <input matInput type="text" formControlName="content" placeholder="say something...">
-              </mat-form-field>
-            </form>
-          </div>
-      </mat-card>
-
-    </mat-card>
+      </mat-card-header>
+   </mat-card>
+    <div *ngIf="replyField">
+        <form [formGroup]="form" (submit)="onAddReply()">
+          <mat-form-field>
+            <input matInput type="text" formControlName="content" placeholder="say something...">
+          </mat-form-field>
+        </form>
+      </div>
   </div>
+
   </mat-card>

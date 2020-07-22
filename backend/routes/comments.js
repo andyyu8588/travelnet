@@ -1,6 +1,7 @@
 const express = require("express");
 const Post = require("../models/post");
 const Comment = require("../models/post");
+const { response } = require("express");
 const router = express.Router();
 
 
@@ -52,11 +53,8 @@ router.post(
           likes: [],
           edited: null
         };
-        // console.log(reply);
-        // console.log(post.comments.id(req.params.id).replies);
         (post.comments.id(req.params.id).replies).push(reply);
         post.save().then(post => {
-          // console.log(post);
           res.status(201).json({
             message: "reply added successfully",
             reply: {
@@ -107,27 +105,33 @@ router.post(
       }
     }
   );
-  /**likes existing comment */
+  /**likes tree comment */
   router.put("/like/:id",(req, res, next) => {
-    Comment.findById(req.params.id).then(comment => {
-      if (comment) {
-        if(!comment.likes.includes(req.body.username)){
-          comment.likes.push(req.body.username)
+      Post.findById(req.params.id).then(post => {
+        if (post) {
+          if(!post.comments.id(req.params.id).likes.includes(req.body.username)){
+            post.comments.id(req.params.id).likes.push(req.body.username)
+            console.log(post.comments.id(req.params.id))
+          }
+          else{
+            post.comments.id(req.params.id).likes.pop(req.body.username)
+          }
+          post.save().then(post =>{
+            console.log('woo')
+            res.status(200).json({
+              message: "like added/removed" ,
+              likes : post.comments.id(req.params.id).likes
+            });
+          })
         }
         else{
-          comment.likes.pop(req.body.username)
+          res.status(404).json({ message: "comment not found!" });
         }
-        comment.save()
-        res.status(200).json({
-          message: "like added/removed" ,
-          likes : comment.likes
-        });
-      }
-      else{
-        res.status(404).json({ message: "comment not found!" });
-      }
-    })
+      }).catch(err=>{
+        console.log(err)
+      });
   })
+
 
   /**get all comments associated to a post */
 router.get("/:id", (req, res, next) => {
