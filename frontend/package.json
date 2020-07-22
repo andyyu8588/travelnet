@@ -26,6 +26,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.0.3",
     "@rxweb/reactive-form-validators": "^2.0.0-rc2",
     "@types/jquery": "^3.3.35",
+    "@types/mapbox-gl": "^1.11.1",
     "angular-resizable-element": "^3.3.0",
     "bootstrap": "^4.4.1",
     "countries-list": "^2.5.4",

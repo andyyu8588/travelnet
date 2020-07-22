@@ -1,3 +1,4 @@
+import { CustomCoordinates } from 'src/app/models/coordinates';
 import { MapService } from 'src/app/services/map/map.service';
 import { tripModel } from './../../../../models/trip.model';
 import { Subscription } from 'rxjs';
@@ -91,12 +92,14 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
 
   /** show venue location on map */
   showLocation() {
-    this.MapService.addMarker(this.result.location)
+    this.MapService.venueOnDestroy()
+    this.MapService.addMarker(new CustomCoordinates(this.result.venue.location.lng, this.result.venue.location.lat))
   }
 
   ngOnDestroy() {
     // this.MapService.venueOnDestroy()
     this.trips_sub.unsubscribe()
     this.tripIndexes_sub.unsubscribe()
+    this.MapService.venueOnDestroy()
   }
 }

@@ -42,16 +42,15 @@ export interface clickLocationCoordinates {
   providedIn: 'root'
 })
 export class MapService implements OnDestroy{
-  private _fakeCenter: BehaviorSubject<CustomCoordinates> = new BehaviorSubject(null)
-  public fakeCenter : Observable<CustomCoordinates> = this._fakeCenter.asObservable()
+  private _fakeCenter: BehaviorSubject<mapboxgl.LngLatLike | CustomCoordinates> = new BehaviorSubject(null)
+  public fakeCenter : Observable<mapboxgl.LngLatLike | CustomCoordinates> = this._fakeCenter.asObservable()
 
   private _fakeCenterCity: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject({})
   public fakeCenterCity : Observable<{[key: string]: any}> = this._fakeCenterCity.asObservable()
 
-  latOffset: number
-
+  lngOffset: number
   map: Mapboxgl.Map
-  venueLocation: Mapboxgl.marker
+  venueLocation: Mapboxgl.Marker
 
   private _clickLocation: BehaviorSubject<clickLocationCoordinates> = new BehaviorSubject({
     lat: null,
@@ -90,6 +89,7 @@ export class MapService implements OnDestroy{
     this.map.on('load', () => {
       // init center observable 
       this.getCenter()
+      this.getFakeCenter()
 
       this.map.on('click',(e)=>{
         let lng = e.lngLat.lng
@@ -113,7 +113,6 @@ export class MapService implements OnDestroy{
     })
 
   }
-
   addGeoJsonSource(id: string, type: string, content: featureGEOJSONModel[]) {
     this.map.addSource(id, {
       'type': 'geojson',
@@ -135,11 +134,15 @@ export class MapService implements OnDestroy{
   }
 
   addMarker(location: {[key: string]: any}) {
-    let coord: number[] = [location.lng, location.lat]
+    let coord: mapboxgl.LngLatLike = {
+      lng: location.lng,
+      lat: location.lat
+    }
     this.venueLocation = new Mapboxgl.Marker()
     .setLngLat(coord)
     .addTo(this.map);
-    this.map.flyTo({ 'center': coord, 'zoom': 8, 'speed': 0.8, 'curve': 1, 'essential': true });
+    coord.lng -= this.lngOffset
+    this.map.flyTo({ 'center': coord, 'speed': 0.8, 'curve': 1, 'essential': true });
   }
 
   /** gets middle point between sidebar and right side of screen */
@@ -154,7 +157,10 @@ export class MapService implements OnDestroy{
     else {
       centerPoints = this.map.unproject([(window.innerWidth - sidebar)/2 + sidebar, window.innerHeight/2])
     }
+    let realCenter: mapboxgl.LngLatLike = this.map.getCenter()
     centerPoints = new CustomCoordinates(centerPoints.lng, centerPoints.lat)
+    this.lngOffset = centerPoints.lng - realCenter.lng
+    console.log(this.lngOffset)
     // update coord at fake center
     this._fakeCenter.next(centerPoints)
 
@@ -186,7 +192,12 @@ export class MapService implements OnDestroy{
       )
     } else if (input) {
       this.Places[target - 1].push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates))
-      this.map.flyTo({ 'center': input.content.geometry.coordinates, 'zoom': 4, 'speed': 0.8, 'curve': 1, 'essential': true });
+      let coord: mapboxgl.LngLatLike = {
+        lng: input.content.geometry.coordinates[0],
+        lat: input.content.geometry.coordinates[1]
+      }
+      coord.lng -= this.lngOffset
+      this.map.flyTo({ 'center': coord, 'speed': 0.8, 'curve': 1, 'essential': true });
       if (this.map.getSource('points')) {
         // update points
         this.map.getSource('points').setData(
@@ -278,16 +289,3 @@ export class MapService implements OnDestroy{
     this.sidebarWidth_sub.unsubscribe()
   }
 }
-
-      // add areas ** gotta complete the polygon
-      // this.addGeoJsonSource(input.name, 'Feature', [{
-      //   'type': 'Polygon',
-      //   'geometry': {
-      //     'type': 'Point',
-      //     'coordinates': [input.content.bbox]
-      //   }
-      // }])
-      // this.addLayer(input.name, 'fill', input.name, {}, {
-      //     'fill-color': '#088',
-      //     'fill-opacity': 0.8
-      //   } )

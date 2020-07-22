@@ -17,3 +17,8 @@ mat-card-header:hover, #description:hover, mat-icon:hover {
 button:focus {
   outline: none;
 }
+
+::ng-deep .popover{
+  max-width: 100%; /* Max Width of the popover (depending on the container!) */
+  min-width: 400px;
+}

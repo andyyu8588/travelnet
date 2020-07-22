@@ -79,7 +79,8 @@ import { ScrollToTopComponent } from './components/sidebar/scroll-to-top/scroll-
 import { AddPostComponent } from './components/add-post/add-post.component';
 import { DisplayPostsComponent } from './components/display-posts/display-posts.component';
 import { CommentSectionComponent } from './components/comment-section/comment-section.component';
-import { CommentComponent } from './components/comment/comment.component'
+import { CommentComponent } from './components/comment/comment.component';
+import { AddToTripPopoverComponent } from './components/tabs/searchresults/add-to-trip-popover/add-to-trip-popover.component'
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { CommentComponent } from './components/comment/comment.component'
     DisplayPostsComponent,
     CommentSectionComponent,
     CommentComponent,
+    AddToTripPopoverComponent,
   ],
   imports: [
     BrowserModule,

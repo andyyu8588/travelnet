@@ -15,4 +15,5 @@ export class CustomCoordinates {
         this.lng = lng
         this.lat = lat
     }
+
 }

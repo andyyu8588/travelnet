@@ -1,0 +1,54 @@
+<mat-label>
+    <h2>Select Where You Want To Add This Venue</h2>
+</mat-label>
+<mat-accordion>
+    <mat-expansion-panel *ngFor='let trip of trips, let i = index'>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ trip.tripName }}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{ trip.dateRange.start | date }} &mdash; {{ trip.dateRange.end | date }}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-selection-list #days>
+            <mat-accordion>
+                <mat-expansion-panel *ngFor='let day of trip.schedule, let j = index' #panel>
+                    <mat-expansion-panel-header>
+                        <mat-list-option (click)='panel.toggle()' style="margin-right: 1em;">
+                            {{ day.day | date}}
+                        </mat-list-option>
+                    </mat-expansion-panel-header>
+                    <mat-table [dataSource]="trip.schedule[j].venues" class="mat-elevation-z8">
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                        </ng-container>
+                      
+                        <!-- Price Column -->
+                        <ng-container matColumnDef="price">
+                          <mat-header-cell *matHeaderCellDef> price </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+                        </ng-container>
+                      
+                        <!-- category Column -->
+                        <ng-container matColumnDef="category">
+                          <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
+                        </ng-container>
+                      
+                        <mat-header-row *matHeaderRowDef="['name', 'price', 'category']"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: ['name', 'price', 'category']"></mat-row>
+                      </mat-table>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-selection-list>
+    </mat-expansion-panel>
+</mat-accordion>
+<br>
+<span class="container-fluid justify-content-end">
+    <button mat-raised-button color='primary'>
+        add
+    </button>
+</span>
