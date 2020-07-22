@@ -1,3 +1,4 @@
+import { SearchParams } from './../models/searchParams';
 import { logging } from 'protractor';
 import { CustomCoordinates } from './../models/coordinates';
 import { tab } from 'src/app/models/tab.model';
@@ -14,7 +15,7 @@ import { CategoryNode } from '../models/CategoryNode.model';
 })
 export class SearchService implements OnDestroy {
   /**if user is already searchign something */
-  hasSearch: boolean = false
+  currentSearch: SearchParams = null
 
   private search: tab = {query: null, content : {'users':[], 'venues':[]}}
   private _searchTab: BehaviorSubject<tab> = new BehaviorSubject(this.search)
@@ -49,7 +50,7 @@ export class SearchService implements OnDestroy {
       this._categorySet.next(this.treeValues.categorySet)
     })
 
-    this.hasSearch = false
+    this.currentSearch = null
   }
 
   //looks for venues in the area
@@ -104,7 +105,6 @@ export class SearchService implements OnDestroy {
 
   /**user makes new search in a tab*/
   enterSearch(query: string, searchType: Promise<any>, coord: CustomCoordinates) {
-    this.hasSearch = true
     return new Promise((resolve,reject)=>{
       this.resetSearchContent()
       searchType
@@ -193,14 +193,6 @@ export class SearchService implements OnDestroy {
   resetSearchContent(){
     this.search.content= {venues:[],users:[]}
     this._searchTab.next(this.search)
-  }
-
-  updatePath(path){
-    // this._searchTab.next(this.search)
-  }
-
-  goBack(){
-    // this._searchTab.next(this.search)
   }
 
   changeFilter(filter: number){

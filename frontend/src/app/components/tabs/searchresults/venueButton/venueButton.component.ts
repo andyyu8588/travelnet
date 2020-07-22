@@ -1,3 +1,4 @@
+import { MapService } from 'src/app/services/map/map.service';
 import { tripModel } from './../../../../models/trip.model';
 import { Subscription } from 'rxjs';
 import { TripService } from './../../../../services/trip.service';
@@ -39,7 +40,8 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
   constructor (
     private searchservice: SearchService,
     private TripService: TripService,
-    private router : Router
+    private router : Router,
+    private MapService: MapService
   ) {
   }
 
@@ -59,7 +61,6 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
   }
 
   navigate(){
-    this.searchservice.updatePath(this.pathID)
     this.router.navigate([this.pathID])
   }
 
@@ -90,7 +91,7 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
 
   /** show venue location on map */
   showLocation() {
-  //   this.MapService.addMarker(this.result.location)
+    this.MapService.addMarker(this.result.location)
   }
 
   ngOnDestroy() {

@@ -48,6 +48,8 @@ export class MapService implements OnDestroy{
   private _fakeCenterCity: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject({})
   public fakeCenterCity : Observable<{[key: string]: any}> = this._fakeCenterCity.asObservable()
 
+  latOffset: number
+
   map: Mapboxgl.Map
   venueLocation: Mapboxgl.marker
 
@@ -137,7 +139,7 @@ export class MapService implements OnDestroy{
     this.venueLocation = new Mapboxgl.Marker()
     .setLngLat(coord)
     .addTo(this.map);
-    // this.map.flyTo({ 'center': coord, 'zoom': 8, 'speed': 0.8, 'curve': 1, 'essential': true });
+    this.map.flyTo({ 'center': coord, 'zoom': 8, 'speed': 0.8, 'curve': 1, 'essential': true });
   }
 
   /** gets middle point between sidebar and right side of screen */

@@ -29,7 +29,6 @@ export class UserbuttonComponent implements OnInit {
   
   navigate() {
     console.log(this.result)
-    this.searchservice.updatePath(this.pathID)
     this.router.navigate([this.pathID])
   }
 

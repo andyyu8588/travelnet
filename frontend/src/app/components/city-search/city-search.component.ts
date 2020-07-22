@@ -1,3 +1,5 @@
+import { SearchParams } from './../../models/searchParams';
+import { ActivatedRoute } from '@angular/router';
 import { geocodeResponseModel } from './../../models/geocodeResp.model';
 import { MapService } from './../../services/map/map.service';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
@@ -43,9 +45,23 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   clickedOption: Observable<geocodeResponseModel> = this._clickedOption.asObservable()
 
   constructor(private OpenstreetmapService: OpenstreetmapService,
-              private MapService: MapService) { }
+              private MapService: MapService,
+              private ActivatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
+      if (params.lng) {
+        this.OpenstreetmapService.reverseSearch(params.lng, params.lat)
+        .subscribe((res) => {
+          if (res.features[0]) {
+            this.myControl.patchValue(this.removeMiddle(res.features[0].properties.display_name, 1))
+            this._clickedOptionLocal = new geocodeResponseModel(this.myControl.value, res.features[0].geometry.coordinates)
+            this._clickedOption.next(this._clickedOptionLocal)
+          }
+        })
+      }
+    })
+
     // search for new cities on input value change
     this.searched = this.myControl.valueChanges.subscribe(x => {
       this._clickedOptionLocal = null
@@ -72,7 +88,6 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
       // sub to city name at fake center
       this.fakeCenterCity_sub = this.MapService.fakeCenterCity.subscribe((res: {[key: string]: any, features: Array<{[key: string]: any}>}) => {
         if (res.features) {
-          console.log(res)
           this.placeholder = 'Region'
           this.myControl.patchValue(this.removeMiddle(res.features[0].properties.display_name, 1))
           this._clickedOptionLocal = new geocodeResponseModel(this.myControl.value, res.features[0].geometry.coordinates)

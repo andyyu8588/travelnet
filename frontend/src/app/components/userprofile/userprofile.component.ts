@@ -39,7 +39,6 @@ export class UserprofileComponent implements OnInit, OnDestroy {
   }
 
   goBack(){
-    this.SearchService.goBack()
     this.router.navigate(['search', this.openTab.query])
   }
 

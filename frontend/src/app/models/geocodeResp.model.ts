@@ -19,7 +19,6 @@ export class geocodeResponseModel {
             }
         }
         if (content) {
-            console.log(content)
             this.content = content
         } else {
             this.content.geometry.coordinates = coord

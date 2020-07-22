@@ -1,18 +1,27 @@
 <mat-card class="container" *ngIf="content">
   <mat-card-title>
     <div class="row">
+      <!-- go back -->
       <button mat-button (click)='goBack()' *ngIf="this.openTab" class="col-auto" matTooltip="back">
         <mat-icon class="">
           keyboard_backspace
         </mat-icon>
       </button>
+      <!-- venue category icon -->
       <span class="col-auto md-auto">
         <button mat-flat-button color='primary' class="align-self-start" matTooltip='{{content.categories[0].name}}' matTooltipPosition='above'>
           <span style="padding: auto; display:inline-block;"><img src="{{content.categories[0].icon.prefix}}32{{content.categories[0].icon.suffix}}" alt=""></span>
         </button>
       </span>
-      <span class="col-auto md-auto align-self-center">{{ content.name }}&nbsp;<span *ngIf='content.verified' matTooltip="Verified Venue" matTooltipPosition='above'><mat-icon mat-icon-button style="vertical-align: middle;" color='primary'>verified_user</mat-icon></span></span>
-
+      <!-- verified user icon -->
+      <span class="col-auto md-auto align-self-center">
+        {{ content.name }}
+        &nbsp;
+        <span *ngIf='content.verified' matTooltip="Verified Venue" matTooltipPosition='above'>
+          <mat-icon mat-icon-button style="vertical-align: middle;" color='primary'>verified_user</mat-icon>
+        </span>
+      </span>
+      <!-- quick actions -->
       <span class="col justify-content-end">
         <button mat-icon-button matTooltip="share" matTooltipPosition='above' color='accent'>
           <mat-icon>
@@ -24,21 +33,18 @@
             map
           </mat-icon>
         </button>
-
         <button mat-icon-button matTooltip="add to trip" matTooltipPosition='above' >
           <mat-icon>
             playlist_add
           </mat-icon>
         </button>
-
       </span>
-
     </div>
   </mat-card-title>
 
   <mat-card-content class="">
-
     <mat-grid-list cols="4" rowHeight='{{windowHeight*.1}}'>
+      <!-- pictures -->
       <mat-grid-tile id='imgTile'colspan="2" rowspan="4" >
         <ngb-carousel *ngIf="content.photos">
           <ng-template ngbSlide *ngFor='let photo of content.photos.groups[0].items, let i = index'>
@@ -50,6 +56,7 @@
         <!-- need button for additional pictures -->
       </mat-grid-tile>
 
+      <!-- description -->
       <mat-grid-tile colspan="2" rowspan="3" >
         <div class="container-fluid">
           <!-- get page info -->
@@ -60,13 +67,11 @@
           <div class="div">
             <p>category: <span *ngFor="let category of content.categories">{{category | null:['name']}}</span></p>
           </div>
-
           <!-- need for each for attributes -->
           <p>attributes:</p>
           <div class="div" *ngFor="let attribute of content.attributes.groups">
              <span>{{attribute|null:['name']}} </span><span *ngIf="(attribute|null:['name'])!==(attribute|null:['summary'])"> | {{attribute|null:['summary']}}</span>
           </div>
-
           <!-- need price -->
       </div>
       </mat-grid-tile>
@@ -83,9 +88,7 @@
               </span>
             </ng-template>
           </ngb-rating>
-
         </div>
-
       </mat-grid-tile>
 
       <mat-grid-tile colspan="4" rowspan=5 >
@@ -102,10 +105,7 @@
           </div>
         </div>
       </mat-grid-tile>
-
     </mat-grid-list>
-
-
 
   </mat-card-content>
 </mat-card>

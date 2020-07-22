@@ -19,7 +19,7 @@
     <p class="align-self-center">in</p>
     &nbsp;
     <!-- venue location -->
-    <app-city-search appearance='outline' placeholder='Region' [clearOnSearch]='false' class="col align-self-center"></app-city-search>
+    <app-city-search appearance='outline' placeholder='Region' [clearOnSearch]='false' [getFakeCenterCity]='true' class="col align-self-center"></app-city-search>
     <mat-divider vertical="true" style="margin-bottom: 1em;"></mat-divider>
     <!-- filter user|venues -->
     <mat-form-field class="col-auto align-self-center" *ngIf='!isChild'>

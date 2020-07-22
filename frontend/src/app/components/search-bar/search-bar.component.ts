@@ -37,7 +37,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   // filters
   @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
   private clickedOption_sub: Subscription
-  clickedOption: {[key: string]: any, name: string, content: {[key: string]: any}} = null
+  clickedOption: geocodeResponseModel = null
   filterOptions: {
     0: string,
     1: string,
@@ -79,7 +79,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     // for coordinates of city search
-    this.clickedOption_sub = this.CitySearchComponent.clickedOption.subscribe((city: {[key: string]: any, name: string, content: {[key: string]: any}}) => {
+    this.clickedOption_sub = this.CitySearchComponent.clickedOption.subscribe((city: geocodeResponseModel) => {
       if (city) {
         this.clickedOption = city
       } else {
@@ -90,8 +90,8 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       // set param to montreal if no location param 
       if (!params.lng) {
-        this.CitySearchComponent.myControl.patchValue('Montreal, Canada')
-        this.CitySearchComponent._clickedOptionLocal = new geocodeResponseModel('Montreal, Canada', [environment.montrealCoord.lng, environment.montrealCoord.lat]) 
+        // this.CitySearchComponent.myControl.patchValue('Montreal, Canada')
+        this.CitySearchComponent._clickedOptionLocal = new geocodeResponseModel(this.CitySearchComponent.myControl.value, [this.fakeCenter.lng, this.fakeCenter.lat]) 
       } else {
         this.OpenstreetmapService.reverseSearch(params.lng, params.lat).subscribe((response: {[key: string]: any}) => {
           if (response.features[0]) {
@@ -103,7 +103,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.searchBarForm.get('venueName').setValue(params.query)
         
         // if url contains query 
-        if (!this.SearchService.hasSearch) {
+        if (!this.SearchService.currentSearch) {
           this.loading = true
           let coord: CustomCoordinates = params.lng? new CustomCoordinates(params.lng, params.lat) : this.MapService.getCenter() 
           this.SearchService.enterSearch(params.query, this.SearchService.mainSearch(params.query, coord), coord)
@@ -113,6 +113,13 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     })
+
+    if (this.SearchService.currentSearch) {
+      this.searchBarForm.get('venueName').setValue(this.SearchService.currentSearch.query)
+      if (this.SearchService.currentSearch.lat) {
+        // get name of searched city
+      }
+    }
   }
 
   onSubmit() {
@@ -121,6 +128,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
       let coord: CustomCoordinates = this.clickedOption? new CustomCoordinates(this.clickedOption.content.geometry.coordinates[0], this.clickedOption.content.geometry.coordinates[1]) : this.fakeCenter
       this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, coord), coord)
       .then(() => {
+        this.SearchService.currentSearch = {query: this.searchBarForm.get('venueName').value, lng: coord.lng, lat: coord.lat, category: this.defaultCategory}
         this.router.navigate(['search'], {queryParams: {query: this.searchBarForm.get('venueName').value, lng: coord.lng, lat: coord.lat, category: this.defaultCategory}})
       })
       .catch(err => {
