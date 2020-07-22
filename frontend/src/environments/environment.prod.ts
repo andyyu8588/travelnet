@@ -1,3 +1,4 @@
+import { CustomCoordinates } from './../app/models/coordinates';
 export const environment = {
 
 
@@ -38,6 +39,5 @@ export const environment = {
     getProfile: 'https://travelnet.herokuapp.com/profile',
     searchUsers:'https://travelnet.herokuapp.com/searchusers',
   },
-
-
+  montrealCoord: new CustomCoordinates(-73.5633265, 45.5009128)
 };

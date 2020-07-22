@@ -98,7 +98,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     // selected option from autosuggest
     this.selectedOption_sub = this.CitySearchComponent.clickedOption.subscribe((location) => {
       if (location) {
-        this.CitySearchComponent.value = location.name
+        this.CitySearchComponent.myControl.patchValue(location.name)
       }
     })
   }
@@ -119,7 +119,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     if (this.customVenueForm.valid) {
       this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
         name: this.customVenueForm.get('name').value,
-        venueCity: this.CitySearchComponent.value? this.CitySearchComponent.value : '',
+        venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
         venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
         price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0
       })

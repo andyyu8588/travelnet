@@ -1,3 +1,5 @@
+import { geocodeResponseModel } from './../../models/geocodeResp.model';
+import { MapService } from './../../services/map/map.service';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
 import { FormControl, Validators } from '@angular/forms';
@@ -15,13 +17,13 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() placeholder: string
   //initial location
   @Input() location: string
+  @Input() getFakeCenterCity: boolean
   @Input() clearOnSearch: boolean
   //for custom event emiting
   @Output() locationAdded = new EventEmitter<string>();
 
   // search input variables
   myControl: FormControl = new FormControl(null)
-  value: string
   timeout
   searched: Subscription
 
@@ -29,19 +31,21 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openstreetmap_sub: Subscription
 
+  private fakeCenterCity_sub: Subscription
+
   // display suggestions on autosuggest
   private _autoSuggested: BehaviorSubject<Array<{[key: string]: any}>> = new BehaviorSubject([])
   autoSuggested: Observable<Array<{[key: string]: any}>> = this._autoSuggested.asObservable()
 
   //return clicked option
-  _clickedOptionLocal: {[key: string]: any} = null
-  private _clickedOption: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject(null)
-  clickedOption: Observable<{[key: string]: any}> = this._clickedOption.asObservable()
+  _clickedOptionLocal: geocodeResponseModel = null
+  private _clickedOption: BehaviorSubject<geocodeResponseModel> = new BehaviorSubject(this._clickedOptionLocal)
+  clickedOption: Observable<geocodeResponseModel> = this._clickedOption.asObservable()
 
-  constructor(private OpenstreetmapService: OpenstreetmapService) { }
+  constructor(private OpenstreetmapService: OpenstreetmapService,
+              private MapService: MapService) { }
 
   ngOnInit(): void {
-    this.value = this.location ? this.location: ''
     // search for new cities on input value change
     this.searched = this.myControl.valueChanges.subscribe(x => {
       this._clickedOptionLocal = null
@@ -63,6 +67,22 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       }, 400)
     })
+
+    if (this.getFakeCenterCity) {
+      // sub to city name at fake center
+      this.fakeCenterCity_sub = this.MapService.fakeCenterCity.subscribe((res: {[key: string]: any, features: Array<{[key: string]: any}>}) => {
+        if (res.features) {
+          console.log(res)
+          this.placeholder = 'Region'
+          this.myControl.patchValue(this.removeMiddle(res.features[0].properties.display_name, 1))
+          this._clickedOptionLocal = new geocodeResponseModel(this.myControl.value, res.features[0].geometry.coordinates)
+          this._clickedOption.next(this._clickedOptionLocal)
+        } else {
+          this.myControl.patchValue('')
+          this.placeholder = 'No city found'
+        }
+      })      
+    }
   }
 
   ngAfterViewInit() {
@@ -70,14 +90,14 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** check if input contains valid city */
   checkCityValidity(): boolean {
-    if (this._clickedOptionLocal || this.value == '') {
+    if (!this._clickedOptionLocal || this.myControl.value == '') {
       return true
     } else {
       return false
     }
   }
 
-  // filters city name string
+  /** filters city name string */
   removeMiddle(string: string, keep: number): string {
     let arr: string[] = string.split(',')
     let nothing = arr[0]
@@ -87,20 +107,23 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
     return nothing.concat(', ', arr[arr.length - 1])
   }
 
-  // when option is clicked
+  /** when option is clicked */ 
   onOptionClick(country: {[key: string]: any}) {
-    this._clickedOptionLocal = country
-    this._clickedOption.next(country)
-    this.clearOnSearch? this.value = '' : null
+    this._clickedOptionLocal = new geocodeResponseModel(country.name, country.content.geometry.coordinates, country.content)
+    console.log(this._clickedOptionLocal)
+    this._clickedOption.next(this._clickedOptionLocal)
+    this.clearOnSearch? this.myControl.patchValue('') : null
     this.emitCountry()
   }
+
   emitCountry() {
-    this.locationAdded.emit(this.value)
-    this.clearOnSearch? (this.value = '') : null
+    this.locationAdded.emit(this.myControl.value)
+    this.clearOnSearch? this.myControl.patchValue('') : null
   }
 
   ngOnDestroy() {
     this.searched.unsubscribe()
+    this.fakeCenterCity_sub? this.fakeCenterCity_sub.unsubscribe() : null
     this.openstreetmap_sub? this.openstreetmap_sub.unsubscribe() : null
   }
 

@@ -1,3 +1,5 @@
+import { geocodeResponseModel } from './../../models/geocodeResp.model';
+import { OpenstreetmapService } from './openstreetmap.service';
 import { SessionService } from 'src/app/services/session.service';
 import { CustomCoordinates } from './../../models/coordinates';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -43,6 +45,9 @@ export class MapService implements OnDestroy{
   private _fakeCenter: BehaviorSubject<CustomCoordinates> = new BehaviorSubject(null)
   public fakeCenter : Observable<CustomCoordinates> = this._fakeCenter.asObservable()
 
+  private _fakeCenterCity: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject({})
+  public fakeCenterCity : Observable<{[key: string]: any}> = this._fakeCenterCity.asObservable()
+
   map: Mapboxgl.Map
   venueLocation: Mapboxgl.marker
 
@@ -57,7 +62,8 @@ export class MapService implements OnDestroy{
   private sidebarWidth_sub: Subscription
   sidebarWidth: number
 
-  constructor(private SessionService: SessionService) {
+  constructor(private SessionService: SessionService,
+              private OpenstreetmapService: OpenstreetmapService) {
     Mapboxgl.accessToken = environment.mapbox.token
 
     this.sidebarWidth_sub = this.SessionService.sidebarWidth.subscribe((w: number) => {
@@ -146,19 +152,29 @@ export class MapService implements OnDestroy{
     else {
       centerPoints = this.map.unproject([(window.innerWidth - sidebar)/2 + sidebar, window.innerHeight/2])
     }
-    this._fakeCenter.next(new CustomCoordinates(centerPoints.lng, centerPoints.lat))
-    // this.addMarker({lng: centerPoints.lng, lat: centerPoints.lat})
+    centerPoints = new CustomCoordinates(centerPoints.lng, centerPoints.lat)
+    // update coord at fake center
+    this._fakeCenter.next(centerPoints)
+
+    // get name of city at fake center
+    this.OpenstreetmapService.reverseSearch(centerPoints.lng, centerPoints.lat)
+    .subscribe((response) => {
+      this._fakeCenterCity.next(response)
+    }, err => {
+      console.log(err)
+      this._fakeCenterCity.next(err)
+    })
   }
 
   /** return coordinates [lng, lat] at center of screen if not found -> montreal*/
   getCenter(): CustomCoordinates {
-    let lng: number = this.map.getCenter().lng? this.map.getCenter().lng : 73.5673 
-    let lat: number = this.map.getCenter().lat? this.map.getCenter().lat : 45.5017
+    let lng: number = this.map.getCenter().lng? this.map.getCenter().lng : environment.montrealCoord.lng
+    let lat: number = this.map.getCenter().lat? this.map.getCenter().lat : environment.montrealCoord.lat
     return new CustomCoordinates(lng, lat)
   }
 
-  // highlight selected coutries when register
-  showMarker(target: number, input?: {[key: string]: any}) {
+  /** highlight selected coutries when register */
+  showMarker(target: number, input?: geocodeResponseModel) {
     if (!input && this.map.getSource('points') && this.Places[target - 1]) {
       this.map.getSource('points').setData(
         {

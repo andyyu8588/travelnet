@@ -41,13 +41,14 @@ export class OpenstreetmapService {
   }
 
   /** reverse geocoding */
-  reverseSearch(lng: number, lat: number): Observable<{[key: string]: any}> {
+  reverseSearch(lng: number, lat: number): Observable<{[key: string]: any, features: Array<{[key: string]: any}>}> {
     return this.http
-      .get<{[key: string]: any, name: string, content: {[key: string]: any}}>(
+      .get<{[key: string]: any, features: Array<{[key: string]: any}>}>(
         environment.nominatim.reverse,
         {
           params: {
             'format': 'geojson',
+            'zoom': '10',
             'lat': lat.toString(),
             'lon': lng.toString()
           }

@@ -6,9 +6,8 @@
     placeholder="Ex. Berlin"
     [matAutocomplete]="auto"
     [formControl]="myControl"
-    [(ngModel)]='value'
     autocomplete="off">
-    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''" type='button'>
+    <button mat-button *ngIf="myControl.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="myControl.patchValue(''); _clickedOptionLocal = null" type='button'>
         <mat-icon>close</mat-icon>
     </button>
     <small *ngIf='!checkCityValidity() && myControl.touched' class="text-danger">this is not a valid region</small>
