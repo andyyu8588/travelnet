@@ -26,7 +26,7 @@
         <mat-icon mat-icon-button class="text-danger" *ngIf='isErr && !isLoading' matTooltip='an error occured'>error</mat-icon>
       </button>
       <ng-template #popContent> 
-        <app-add-to-trip-popover></app-add-to-trip-popover>
+        <app-add-to-trip-popover (onSubmitEvent)='addToTrip($event)'></app-add-to-trip-popover>
       </ng-template>
     </span>
   </mat-card-content>

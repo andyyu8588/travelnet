@@ -34,10 +34,10 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.postsService.getPosts();
     this.postsSub = this.postsService.getPostUpdateListener()
-      .subscribe((posts: Post[]) => {
-        this.isLoading = false;
-        this.posts = posts;
-      });
+    .subscribe((posts: Post[]) => {
+      this.isLoading = false;
+      this.posts = posts;
+    });
   }
 
   onDelete(postId: string) {
@@ -47,6 +47,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.postsSub.unsubscribe();
   }
+
   like(postId: string){
     this.postsService.likePost(postId, sessionStorage.getItem('username'))
   }
@@ -64,9 +65,11 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
       console.log(this.likeShow)
     }, 300);
   }
+  
   showLikes(){
     this.likeShow = !this.likeShow
   }
+
   submitComment(comment){
 
   }

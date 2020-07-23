@@ -63,7 +63,7 @@
                                         </ng-container>
                                         
                                         <!-- venueAddress -->
-                                        <ng-container matColumnDef="venueAddress">
+                                        <ng-container matColumnDef="venueAddress" style="display: inline-block">
                                             <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
                                             <mat-cell *matCellDef="let element"> {{element.venueAddress}} </mat-cell>
                                         </ng-container>
@@ -72,6 +72,18 @@
                                         <ng-container matColumnDef="price">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
                                             <mat-cell *matCellDef="let element"> {{element.price}}$ </mat-cell>
+                                        </ng-container>
+
+                                        <!-- venuePrice -->
+                                        <ng-container matColumnDef="url">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> website </mat-header-cell>
+                                            <mat-cell *matCellDef="let element">
+                                                <a href="{{element.url}}" target="_blank" *ngIf='element.url' matTooltip='{{element.url}}'>
+                                                    <button mat-button>
+                                                        <mat-icon>open_in_new</mat-icon>
+                                                    </button>
+                                                </a>
+                                            </mat-cell>
                                         </ng-container>
 
                                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

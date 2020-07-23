@@ -35,6 +35,7 @@ export class VenueComponent implements OnInit,OnDestroy {
 
     this.url = this.router.url.replace('/search/venue/','')
     this.SearchService.formatDetails(this.url).then(result=>{
+      console.log(result)
       this.content = result.response.venue
       if (this.content.rating && this.content.ratingColor) {
         this.rating = this.content.rating

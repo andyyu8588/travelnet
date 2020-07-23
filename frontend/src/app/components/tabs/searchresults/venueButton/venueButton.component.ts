@@ -1,11 +1,14 @@
+import { MatListOption } from '@angular/material/list';
+import { AddToTripPopoverComponent } from './../add-to-trip-popover/add-to-trip-popover.component';
 import { CustomCoordinates } from 'src/app/models/coordinates';
 import { MapService } from 'src/app/services/map/map.service';
 import { tripModel } from './../../../../models/trip.model';
 import { Subscription } from 'rxjs';
 import { TripService } from './../../../../services/trip.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
+import { even } from '@rxweb/reactive-form-validators';
 @Component({
   selector: 'app-venueButton',
   templateUrl: './venueButton.component.html',
@@ -16,6 +19,7 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
   searchResult : any
   @Input() select: any
   @Input() result: any
+  @ViewChild(AddToTripPopoverComponent) AddToTripPopoverComponent: AddToTripPopoverComponent
   
   // keeps track of user trips
   trips_sub: Subscription
@@ -39,7 +43,7 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
   isErr: boolean = false
 
   constructor (
-    private searchservice: SearchService,
+    private SearchService: SearchService,
     private TripService: TripService,
     private router : Router,
     private MapService: MapService
@@ -65,29 +69,40 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
     this.router.navigate([this.pathID])
   }
 
-  /** add venue to specific trip w/ indexes*/
-  addToTrip() {
+  /** add venue to specific trips */
+  addToTrip(event: MatListOption[]) {
     this.isLoading = true
-    if (this.trips && Number.isInteger(this.tripIndexes.tripIndex)) {
-      this.trips[this.tripIndexes.tripIndex].schedule[this.tripIndexes.dayIndex].venues.push(this.result.venue)
-      console.log(this.trips)
-      this.TripService.modifyBackend(this.trips)
-      .then((val) => {
-        this.isSuccess = true
-      })
-      .catch(err => {
-        this.isErr = true
-      })
-      .finally(() => {
-        this.isLoading = false
-      })
-    } else {
+    this.SearchService.formatDetails(this.result.venue.id)
+    .then(result => {
+      console.log(result)
+      if (event.length && this.trips) {
+        event.map((option: MatListOption) => {
+          this.trips[option.value.trip].schedule[option.value.day].venues.push({
+            name: result.response.venue.name? result.response.venue.name : null,
+            venueAddress: result.response.venue.location.formattedAddress? result.response.venue.location.formattedAddress.join(' ') : null,
+            venueCity: result.response.venue.location.city? result.response.venue.location.city : null,
+            url: result.response.venue.canonicalUrl? result.response.venue.canonicalUrl : null
+          })
+        })
+
+        this.TripService.modifyBackend(this.trips)
+        .then((val) => {
+          this.isSuccess = true
+        })
+        .catch(err => {
+          this.isErr = true
+        })
+      }
+    })
+    .catch(() => {
       this.isErr = true
-      this.isLoading = false
       setTimeout(() => {
         this.isErr = false
-      }, 1500)
-    }
+      }, 800)
+    })
+    .finally(() => {
+      this.isLoading = false
+    })
   }
 
   /** show venue location on map */

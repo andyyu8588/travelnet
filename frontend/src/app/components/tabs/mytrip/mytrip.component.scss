@@ -19,7 +19,7 @@ button:focus {
     transform: scale(0.9);
 }
 
-::ng-deep .popover {
+:host ::ng-deep .popover {
     min-width: 400px;
     z-index: 2006 !important;
 }

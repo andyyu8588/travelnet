@@ -18,6 +18,7 @@ export class tripModel {
             venueCity?: String
             venueAddress?: String
             price?: Number
+            url? : URL
         } | venueModel | selectedVenueModel>
     }>
     isPrivate: boolean

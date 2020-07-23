@@ -15,7 +15,7 @@
             <mat-accordion>
                 <mat-expansion-panel *ngFor='let day of trip.schedule, let j = index' #panel>
                     <mat-expansion-panel-header>
-                        <mat-list-option (click)='panel.toggle()' style="margin-right: 1em;">
+                        <mat-list-option (click)='panel.toggle()' [value]='{trip: i, day: j}' style="margin-right: 1em;">
                             {{ day.day | date}}
                         </mat-list-option>
                     </mat-expansion-panel-header>
@@ -48,7 +48,7 @@
 </mat-accordion>
 <br>
 <span class="container-fluid justify-content-end">
-    <button mat-raised-button color='primary'>
+    <button mat-raised-button color='primary' (click)='onSubmit()'>
         add
     </button>
 </span>

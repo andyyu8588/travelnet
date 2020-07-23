@@ -5,7 +5,6 @@ import { CustomCoordinates } from './../../models/coordinates';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Injectable, OnInit, Input, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SearchService } from 'src/app/services/search.service'
 import * as Mapboxgl from 'mapbox-gl'
 
 export class featureGEOJSONModel {
