@@ -46,7 +46,7 @@ export class MytripComponent implements OnInit, OnDestroy {
   venueCity: string
   venueAddress: string
 
-  displayedColumns= ['venueName', 'venueCity', 'venueAddress', 'price', 'url']
+  displayedColumns= ['category', 'venueName', 'venueCity', 'venueAddress', 'price', 'url']
 
   dialogRef: MatDialogRef<any>
 
@@ -137,8 +137,6 @@ export class MytripComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.trips = trips
-      // this.tableDataSource.data = trips
-      // this.tableDataSource.sort = this.sort;
       if (this.table) {
         this.table.renderRows()
       }

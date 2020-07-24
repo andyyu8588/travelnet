@@ -25,19 +25,6 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
   trips_sub: Subscription
   trips: tripModel[] = null 
   
-  // keeps track of index of add venue
-  tripIndexes_sub: Subscription
-  tripIndexes: {tripIndex: number|null, dayIndex: number|null} = null
-
-  /** determine tooltip text of add to trip */
-  addTripText(): string {
-    if (Number.isInteger(this.tripIndexes.tripIndex) && this.trips.length) {
-      return `add venue to day ${this.tripIndexes.dayIndex+1} of ${this.trips[this.tripIndexes.tripIndex].tripName}`
-    } else {
-      return `add to trip..`
-    }
-  }
-
   isLoading: boolean = false
   isSuccess: boolean = false
   isErr: boolean = false
@@ -59,10 +46,6 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
         this.trips = triparr
       }
     })
-
-    this.tripIndexes_sub = this.TripService.tripIndexes.subscribe((obj: {tripIndex: number|null, dayIndex: number|null}) => {
-      this.tripIndexes = obj
-    })
   }
 
   navigate(){
@@ -81,7 +64,8 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
             name: result.response.venue.name? result.response.venue.name : null,
             venueAddress: result.response.venue.location.formattedAddress? result.response.venue.location.formattedAddress.join(' ') : null,
             venueCity: result.response.venue.location.city? result.response.venue.location.city : null,
-            url: result.response.venue.canonicalUrl? result.response.venue.canonicalUrl : null
+            url: result.response.venue.canonicalUrl? result.response.venue.canonicalUrl : null,
+            category: result.response.venue.categories[0]? { name: result.response.venue.categories[0].name, url: result.response.venue.categories[0].icon.prefix + '32' + result.response.venue.categories[0].icon.suffix } : null
           })
         })
 
@@ -114,7 +98,6 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // this.MapService.venueOnDestroy()
     this.trips_sub.unsubscribe()
-    this.tripIndexes_sub.unsubscribe()
     this.MapService.venueOnDestroy()
   }
 }

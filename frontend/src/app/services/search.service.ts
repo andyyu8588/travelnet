@@ -1,3 +1,4 @@
+import { foursquareCategory } from './../models/CategoryNode.model';
 import { SearchParams } from './../models/searchParams';
 import { logging } from 'protractor';
 import { CustomCoordinates } from './../models/coordinates';
@@ -25,9 +26,9 @@ export class SearchService implements OnDestroy {
   private _filterNumber: BehaviorSubject<number> = new BehaviorSubject(this.filter)
   public filterNumber : Observable<number> = this._filterNumber.asObservable()
 
-  private categories: CategoryNode[] = null
-  private _categoryTree: BehaviorSubject<CategoryNode[]> = new BehaviorSubject(this.categories)
-  public categoryTree : Observable<CategoryNode[]> = this._categoryTree.asObservable()
+  private categories: foursquareCategory[] = null
+  private _categoryTree: BehaviorSubject<foursquareCategory[] | CategoryNode[]> = new BehaviorSubject(this.categories)
+  public categoryTree : Observable<foursquareCategory[] | CategoryNode[]> = this._categoryTree.asObservable()
 
   private categoriesCollection: any
   private _categorySet: BehaviorSubject<Set<any>> = new BehaviorSubject(this.categoriesCollection)
@@ -45,7 +46,7 @@ export class SearchService implements OnDestroy {
   constructor(private HttpClient: HttpClient,
               private foursquareService: FoursquareService) {
     this.updateCategories()
-    .then((x: CategoryNode[]) => {
+    .then((x: foursquareCategory[]) => {
       this._categoryTree.next(x)
       this._categorySet.next(this.treeValues.categorySet)
     })
@@ -146,7 +147,7 @@ export class SearchService implements OnDestroy {
   }
 
   /**update foursquare categories*/
-  updateCategories(): Promise<CategoryNode[]> {
+  updateCategories(): Promise<foursquareCategory[] | CategoryNode[]> {
     return new Promise((resolve,reject)=>{
       this.foursquareService.updateCategories()
       .subscribe(x=>{

@@ -4,7 +4,7 @@ import { SearchParams } from './../../models/searchParams';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomCoordinates } from './../../models/coordinates';
 import { CitySearchComponent } from './../city-search/city-search.component';
-import { CategoryNode } from './../../models/CategoryNode.model';
+import { CategoryNode, foursquareCategory } from './../../models/CategoryNode.model';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { MapService } from 'src/app/services/map/map.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -24,7 +24,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   loading: boolean = false
 
   foursquareCategory_sub: Subscription
-  categories: CategoryNode[]
+  categories: foursquareCategory[]
   openTab: tab
   fakeCenter: CustomCoordinates = null
   private returnTab_sub: Subscription
@@ -72,7 +72,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.fakeCenter = coord? coord : environment.montrealCoord
     })
 
-    this.foursquareCategory_sub = this.SearchService.categoryTree.subscribe((cats: CategoryNode[]) => {
+    this.foursquareCategory_sub = this.SearchService.categoryTree.subscribe((cats: foursquareCategory[]) => {
       this.categories = cats
     })
   }

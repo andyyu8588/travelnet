@@ -15,10 +15,6 @@ export class TripService implements OnDestroy {
   // query settings from mytrip add venue
   searchedVenue: string = null
 
-  // indexes of trip from add venue
-  private _tripIndexes: BehaviorSubject<{tripIndex: number|null, dayIndex: number|null}> = new BehaviorSubject({tripIndex: null, dayIndex: null})
-  tripIndexes: Observable<{tripIndex: number|null, dayIndex: number|null}> = this._tripIndexes.asObservable()
-
   private _trips: BehaviorSubject<tripModel[]> = new BehaviorSubject(null)
   public trips: Observable<tripModel[]> = this._trips.asObservable()
 
@@ -47,14 +43,6 @@ export class TripService implements OnDestroy {
   /** when user searches/finished searching a venue from mytrip -> add venue */ 
   changeQuery(query: string | null) {
     this.searchedVenue = query
-  }
-
-  /** changes index of trip to add venue in */
-  changeIndex(trip: number|null, day: number|null) {
-    this._tripIndexes.next({
-      tripIndex: trip,
-      dayIndex: day
-    })
   }
 
   /** modifies trips of user */ 

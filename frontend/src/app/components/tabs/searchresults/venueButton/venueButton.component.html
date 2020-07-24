@@ -20,7 +20,7 @@
         <mat-icon mat-icon-button matTooltip="show on map" matTooltipPosition='above' color='primary'>map</mat-icon>
       </button>
       <button mat-button class="col-auto mr-auto">
-        <mat-icon mat-icon-button *ngIf='!isErr && !isLoading && !isSuccess' [ngbPopover]="popContent" [matTooltip]="addTripText()"  matTooltipPosition='above'  [autoClose]="'outside'">playlist_add</mat-icon>
+        <mat-icon mat-icon-button *ngIf='!isErr && !isLoading && !isSuccess' [ngbPopover]="popContent" matTooltip="add to trip..."  matTooltipPosition='above'  [autoClose]="'outside'">playlist_add</mat-icon>
         <mat-spinner diameter='20' *ngIf='isLoading'></mat-spinner>
         <mat-icon mat-icon-button class="text-success" *ngIf='isSuccess && !isLoading'>check</mat-icon>
         <mat-icon mat-icon-button class="text-danger" *ngIf='isErr && !isLoading' matTooltip='an error occured'>error</mat-icon>

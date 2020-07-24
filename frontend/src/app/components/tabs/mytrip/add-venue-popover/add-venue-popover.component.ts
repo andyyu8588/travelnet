@@ -28,7 +28,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   // foursquare venues categories
   foursquareCategory_sub: Subscription
   defaultCategory: string = 'All'
-  venueCategories: CategoryNode[] = []
+  venueCategories: foursquareCategory[] = []
 
   // for database venue search
   @ViewChild(SearchBarComponent) SearchBarComponent: SearchBarComponent
@@ -62,14 +62,13 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
               }) {
     this.tripIndex = data.tripIndex
     this.dayIndex = data.scheduleIndex
-    // this.TripService.changeIndex(null, null)
   }
 
   ngOnInit(): void {
     this.isLoaded = false
 
     // sets mat select venue category options 
-    this.foursquareCategory_sub =  this.SearchService.categoryTree.subscribe((cats: CategoryNode[]) => {
+    this.foursquareCategory_sub =  this.SearchService.categoryTree.subscribe((cats: foursquareCategory[]) => {
       this.venueCategories = cats
     })
 
@@ -107,7 +106,6 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   onSubmitSearch() {
     this.isLoading = true
     if (this.SearchBarComponent.searchBarForm.valid) {
-      this.TripService.changeIndex(this.tripIndex, this.dayIndex)
       this.isLoading = false
       this.dialogRef.close()
     }
@@ -117,11 +115,20 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   /** update when user adds custom venue */
   onSubmitCustom() {
     if (this.customVenueForm.valid) {
+      let url: any = null
+      for(let category of this.venueCategories) {
+        if (category.name === this.defaultCategory) {
+          url = category.icon.prefix + '32' + category.icon.suffix
+          break
+        }
+      }        
+
       this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
         name: this.customVenueForm.get('name').value,
         venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
         venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
-        price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0
+        price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
+        category: url? {name: this.defaultCategory, url: url} : null
       })
       this.TripService.modifyBackend(this.allTrips)
       .then((response) => {

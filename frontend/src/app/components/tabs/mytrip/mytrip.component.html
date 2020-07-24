@@ -50,6 +50,16 @@
                                 </mat-expansion-panel-header>
                                 <div class="container-fluid">
                                     <table mat-table [dataSource]='getDataSource(i, j)' style="width: 100%;" matSort>
+                                        <!-- category -->
+                                        <ng-container matColumnDef="category">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Category </mat-header-cell>
+                                            <mat-cell *matCellDef="let element">
+                                                <button mat-mini-fab color='primary' style="box-shadow: none;" *ngIf='element.category' matTooltip='{{element.category.name}}'>
+                                                    <img src="{{element.category.url}}" alt="" style="margin-top: -0.3em;">
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+
                                         <!-- venueName -->
                                         <ng-container matColumnDef="venueName">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> Venue Name </mat-header-cell>
@@ -61,19 +71,16 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
                                             <mat-cell *matCellDef="let element"> {{element.venueCity}} </mat-cell>
                                         </ng-container>
-                                        
                                         <!-- venueAddress -->
                                         <ng-container matColumnDef="venueAddress" style="display: inline-block">
                                             <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
-                                            <mat-cell *matCellDef="let element"> {{element.venueAddress}} </mat-cell>
+                                            <mat-cell *matCellDef="let element"><p style="display: inline-block; width: 100%;">{{element.venueAddress}} </p> </mat-cell>
                                         </ng-container>
-
                                         <!-- venuePrice -->
                                         <ng-container matColumnDef="price">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
-                                            <mat-cell *matCellDef="let element"> {{element.price}}$ </mat-cell>
+                                            <mat-cell *matCellDef="let element" ><p class="text-center" style="width: 100%;">{{element.price}}$</p></mat-cell>
                                         </ng-container>
-
                                         <!-- venuePrice -->
                                         <ng-container matColumnDef="url">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> website </mat-header-cell>
