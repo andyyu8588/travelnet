@@ -49,6 +49,8 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
               private ActivatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.MapService.citySearchPresent = true
+
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       if (params.lng) {
         this.OpenstreetmapService.reverseSearch(params.lng, params.lat)
@@ -137,6 +139,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.MapService.citySearchPresent = false
     this.searched.unsubscribe()
     this.fakeCenterCity_sub? this.fakeCenterCity_sub.unsubscribe() : null
     this.openstreetmap_sub? this.openstreetmap_sub.unsubscribe() : null

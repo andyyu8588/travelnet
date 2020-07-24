@@ -1,3 +1,4 @@
+import * as Mapboxgl  from 'mapbox-gl';
 import { geocodeResponseModel } from './../../models/geocodeResp.model';
 import { OpenstreetmapService } from './openstreetmap.service';
 import { SessionService } from 'src/app/services/session.service';
@@ -5,7 +6,8 @@ import { CustomCoordinates } from './../../models/coordinates';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Injectable, OnInit, Input, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import * as Mapboxgl from 'mapbox-gl'
+import { GeoJsonTypes } from 'geojson';
+
 
 export class featureGEOJSONModel {
   public type: String
@@ -41,11 +43,14 @@ export interface clickLocationCoordinates {
   providedIn: 'root'
 })
 export class MapService implements OnDestroy{
+  citySearchPresent: boolean = null
+
   private _fakeCenter: BehaviorSubject<mapboxgl.LngLatLike | CustomCoordinates> = new BehaviorSubject(null)
   public fakeCenter : Observable<mapboxgl.LngLatLike | CustomCoordinates> = this._fakeCenter.asObservable()
 
   private _fakeCenterCity: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject({})
   public fakeCenterCity : Observable<{[key: string]: any}> = this._fakeCenterCity.asObservable()
+
 
   lngOffset: number
   map: Mapboxgl.Map
@@ -64,7 +69,7 @@ export class MapService implements OnDestroy{
 
   constructor(private SessionService: SessionService,
               private OpenstreetmapService: OpenstreetmapService) {
-    Mapboxgl.accessToken = environment.mapbox.token
+    (Mapboxgl as any).accessToken = environment.mapbox.token
 
     this.sidebarWidth_sub = this.SessionService.sidebarWidth.subscribe((w: number) => {
       this.sidebarWidth = w
@@ -101,18 +106,16 @@ export class MapService implements OnDestroy{
     })
 
     // update fake center of map
-    this.map.on('touchend',()=>{
+    this.map
+    .on('zoomend',()=>{
       this.getFakeCenter()
     })
-    this.map.on('zoomend',()=>{
-      this.getFakeCenter()
-    })
-    this.map.on('moveend',()=>{
+    .on('moveend',()=>{
       this.getFakeCenter()
     })
 
   }
-  addGeoJsonSource(id: string, type: string, content: featureGEOJSONModel[]) {
+  addGeoJsonSource(id: string, type: any, content: any[]) {
     this.map.addSource(id, {
       'type': 'geojson',
       'data': {
@@ -122,7 +125,7 @@ export class MapService implements OnDestroy{
     })
   }
 
-  addLayer(id: string, type: string, source: string, layout?: {[key: string]: any}, paint?: {[key: string]: any}) {
+  addLayer(id: string, type: any, source: string, layout?: {[key: string]: any}, paint?: {[key: string]: any}) {
     this.map.addLayer({
       'id': id,
       'type': type,
@@ -147,10 +150,7 @@ export class MapService implements OnDestroy{
   /** gets middle point between sidebar and right side of screen */
   getFakeCenter(sidebar: number = this.sidebarWidth) {
     let centerPoints: any
-    if (sidebar === -1) {
-      centerPoints = this.map.unproject([window.innerWidth/2 + this.map.project(this.fakeCenter)[0], window.innerHeight/2])
-    }
-    else if (sidebar < 500) {
+    if (sidebar < 500) {
       centerPoints = this.map.unproject([window.innerWidth/2, window.innerHeight/2])
     }
     else {
@@ -159,18 +159,20 @@ export class MapService implements OnDestroy{
     let realCenter: mapboxgl.LngLatLike = this.map.getCenter()
     centerPoints = new CustomCoordinates(centerPoints.lng, centerPoints.lat)
     this.lngOffset = centerPoints.lng - realCenter.lng
-    console.log(this.lngOffset)
     // update coord at fake center
     this._fakeCenter.next(centerPoints)
 
-    // get name of city at fake center
-    this.OpenstreetmapService.reverseSearch(centerPoints.lng, centerPoints.lat)
-    .subscribe((response) => {
-      this._fakeCenterCity.next(response)
-    }, err => {
-      console.log(err)
-      this._fakeCenterCity.next(err)
-    })
+    if (this.citySearchPresent) {
+      // get name of city at fake center
+      this.OpenstreetmapService.reverseSearch(centerPoints.lng, centerPoints.lat)
+      .subscribe((response) => {
+        console.log(response)
+        this._fakeCenterCity.next(response)
+      }, err => {
+        console.log(err)
+        this._fakeCenterCity.next(err)
+      })      
+    }
   }
 
   /** return coordinates [lng, lat] at center of screen if not found -> montreal*/
@@ -183,10 +185,10 @@ export class MapService implements OnDestroy{
   /** highlight selected coutries when register */
   showMarker(target: number, input?: geocodeResponseModel) {
     if (!input && this.map.getSource('points') && this.Places[target - 1]) {
-      this.map.getSource('points').setData(
+      (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
         {
           'type': 'FeatureCollection',
-          'features': this.Places[target - 1]
+          'features': this.Places[target - 1] as any
         }
       )
     } else if (input) {
@@ -199,10 +201,10 @@ export class MapService implements OnDestroy{
       this.map.flyTo({ 'center': coord, 'speed': 0.8, 'curve': 1, 'essential': true });
       if (this.map.getSource('points')) {
         // update points
-        this.map.getSource('points').setData(
+        (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
           {
             'type': 'FeatureCollection',
-            'features': this.Places[target - 1]
+            'features': this.Places[target - 1] as any
           }
         )
       } else {
@@ -256,7 +258,7 @@ export class MapService implements OnDestroy{
     if (all) {
       this.Places[target - 1] = []
       if(this.map.getSource('points')) {
-        this.map.getSource('points').setData(
+        (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
           {
             'type': 'FeatureCollection',
             'features': []
@@ -266,11 +268,11 @@ export class MapService implements OnDestroy{
     } else {
       for (let x = 0; x < this.Places[target - 1].length; x++) {
         if (this.Places[target - 1][x].properties.title == name) {
-          this.Places[target - 1].splice(x, 1)
-          this.map.getSource('points').setData(
+          this.Places[target - 1].splice(x, 1) as any
+          (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
             {
               'type': 'FeatureCollection',
-              'features': this.Places[target - 1]
+              'features': this.Places[target - 1] as any
             }
           )
           break
