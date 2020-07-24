@@ -2,7 +2,7 @@
 <form [formGroup]='searchBarForm' (ngSubmit)='onSubmit()' class='container-fluid row' style="min-width: 100%; background-color: rgba(255, 255, 255, 0.9); margin: 0; padding: 0;">
   <span class="col row mr-auto" style="padding-top: 1em; margin: 0; padding-right: 0; padding-left: 0;">
     <!-- venue name -->
-    <mat-form-field class="col align-self-center" appearance="outline">
+    <mat-form-field class="col align-self-center" style="padding-left: 0.5em; padding-right: 0;" appearance="outline">
       <mat-label>Search for {{defaultCategory === 'All'? '...' : defaultCategory}}</mat-label>
       <input matInput
         type="text"
@@ -16,13 +16,15 @@
       <i fas fa-search aria-hidden="true"></i>
     </mat-form-field>
     &nbsp;
+    &nbsp;
     <p class="align-self-center">in</p>
     &nbsp;
+    &nbsp;
     <!-- venue location -->
-    <app-city-search appearance='outline' placeholder='Region' [clearOnSearch]='false' [getFakeCenterCity]='true' class="col align-self-center"></app-city-search>
+    <app-city-search appearance='outline' placeholder='Region' [clearOnSearch]='false' [getFakeCenterCity]='true' class="col align-self-center" style="min-width: 200px; padding-right: 0.5em; padding-left: 0;"></app-city-search>
     <mat-divider vertical="true" style="margin-bottom: 1em;"></mat-divider>
     <!-- filter user|venues -->
-    <mat-form-field class="col-auto align-self-center" *ngIf='!isChild'>
+    <mat-form-field class="col-auto align-self-center" style="max-width: 125px; padding-left: 0.5em;" *ngIf='!isChild'>
       <mat-label>Filter</mat-label>
       <mat-select [(ngModel)]='defaultFilter' [ngModelOptions]="{standalone: true}" (selectionChange)='changeFilter($event)'>
         <mat-option value='0'>All</mat-option>
@@ -31,7 +33,7 @@
       </mat-select>
     </mat-form-field>
     <!-- filter categories -->
-    <mat-form-field class="col-auto align-self-center" appearance='outline' *ngIf='isChild'>
+    <mat-form-field class="col-auto align-self-center" style="max-width: 125px; padding-left: 0.5em;" appearance='outline' *ngIf='isChild'>
       <mat-label>Category</mat-label>
       <mat-select [(value)]='defaultCategory'>
           <mat-option value='All'>All</mat-option>

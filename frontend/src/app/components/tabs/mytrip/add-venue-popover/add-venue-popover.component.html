@@ -6,7 +6,7 @@
     <mat-card-content>
         <mat-tab-group dynamicHeight mat-align-tabs="center">
             <!-- Search Venue -->
-            <mat-tab>
+            <mat-tab id="theTab">
                 <!-- <form
                     [formGroup]='searchVenueForm'
                     (ngSubmit)='onSubmitSearch()'>
@@ -36,7 +36,7 @@
                 </form> -->
                 <form
                     (ngSubmit)='onSubmitSearch()'
-                    class="container-fluid">
+                    class="container-fluid" style="padding: 0;">
                     <ng-template mat-tab-label>
                         <label matTooltip="Search Venue in Database" style="margin: 0;">Search</label>
                     </ng-template>
