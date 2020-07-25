@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, AfterViewChecked } from "@angular/core";
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap } from "@angular/router";
@@ -16,7 +16,7 @@ import { CitySearchComponent } from '../city-search/city-search.component';
   templateUrl: './add-post.component.html',
   styleUrls: ['./add-post.component.scss']
 })
-export class AddPostComponent implements OnInit, OnDestroy {
+export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
   enteredTitle = "";
   enteredContent = "";
   post: Post;
@@ -39,11 +39,13 @@ export class AddPostComponent implements OnInit, OnDestroy {
   private clickedOption_sub: Subscription
   clickedOption: geocodeResponseModel = null
   @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
+  checkedOnce = false
 
   constructor(
     public postsService: AddPostService,
     public route: ActivatedRoute
   ) {}
+
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -56,14 +58,6 @@ export class AddPostComponent implements OnInit, OnDestroy {
         asyncValidators: [mimeType]
       })
     });
-    this.clickedOption_sub = this.CitySearchComponent.clickedOption.subscribe((city: geocodeResponseModel) => {
-      if (city) {
-        this.clickedOption = city
-      } else {
-        this.clickedOption = null
-      }
-    })
-
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("postId")) {
         this.mode = "edit";
@@ -101,6 +95,24 @@ export class AddPostComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewChecked(){
+    if (this.CitySearchComponent && !this.checkedOnce){
+      this.clickedOption_sub = this.CitySearchComponent.clickedOption.subscribe((city: geocodeResponseModel) => {
+      if (city) {
+        this.clickedOption = city
+      } else {
+        this.clickedOption = null
+      }
+      })
+    }
+    else if (!this.CitySearchComponent){
+
+    }
+    else{
+      this.checkedOnce = true
+    }
+  }
+
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({ image: file });
@@ -113,6 +125,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
   }
 
   onSavePost() {
+    this.onAddLocation(this.clickedOption.name)
     if (this.form.invalid) {
       return;
     }
@@ -174,7 +187,6 @@ export class AddPostComponent implements OnInit, OnDestroy {
     this.location = location
     this.form.patchValue({ location: location });
     this.form.get("location").updateValueAndValidity();
-    console.log(location)
   }
   ngOnDestroy(){
     this.clickedOption_sub.unsubscribe()

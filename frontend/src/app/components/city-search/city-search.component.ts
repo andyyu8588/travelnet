@@ -22,7 +22,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() getFakeCenterCity: boolean
   @Input() clearOnSearch: boolean
   //for custom event emiting
-  // @Output() locationAdded = new EventEmitter<string>();
+  @Output() locationAdded = new EventEmitter<string>();
 
   // search input variables
   myControl: FormControl = new FormControl(null)
@@ -50,7 +50,6 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.MapService.citySearchPresent = true
-    console.log('yo')
 
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       if (params.lng) {
@@ -134,11 +133,11 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.emitCountry(this._clickedOptionLocal.name)
   }
 
-  // emitCountry(city) {
-  //   console.log(city)
-  //   this.locationAdded.emit(city)
-  //   this.clearOnSearch? this.myControl.patchValue('') : null
-  // }
+  emitCountry(city) {
+    console.log(city)
+    this.locationAdded.emit(city)
+    this.clearOnSearch? this.myControl.patchValue('') : null
+  }
 
   ngOnDestroy() {
     this.MapService.citySearchPresent = false

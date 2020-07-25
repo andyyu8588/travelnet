@@ -24,7 +24,7 @@ export class AddPostService {
           var formattedReply
           return postData.posts.map(post => {
           return{
-              id: post._id,
+              _id: post._id,
               date: post.date,
               location: post.location,
               likes: post.likes,
@@ -99,58 +99,61 @@ export class AddPostService {
           comments: responseData.post.comments,
         };
         this.posts.push(post);
-        this.postsUpdated.next([...this.posts]);
+        this.postsUpdated.next(this.posts);
         this.router.navigate(["/"]);
+        console.log(this.posts)
       });
   }
 
-  updatePost(oldPost) {
+  updatePost(newPost) {
     // id: string, title: string, content: string, image: File | string
     let postData: Post | FormData;
-    if (typeof oldPost.image === "object") {
+    if (typeof newPost.image === "object") {
       postData = new FormData();
-      postData.append("id", oldPost.id);
-      postData.append("date", oldPost.date);
-      postData.append("location", oldPost.location);
-      postData.append("author", oldPost.author);
-      postData.append("title", oldPost.title);
-      postData.append("content", oldPost.content);
-      postData.append("image", oldPost.image, oldPost.title);
-      postData.append("tags", oldPost.tags);
+      postData.append("id", newPost._id);
+      postData.append("date", newPost.date);
+      postData.append("location", newPost.location);
+      postData.append("author", newPost.author);
+      postData.append("likes", newPost.likes);
+      postData.append("title", newPost.title);
+      postData.append("content", newPost.content);
+      postData.append("image", newPost.image, newPost.title);
+      postData.append("tags", newPost.tags);
+      postData.append("comments", newPost.comments);
     } else {
       postData = {
-        _id: oldPost._id,
-        date: oldPost.date,
-        location: oldPost.location,
-        author: oldPost.author,
-        likes: oldPost.likes,
-        title: oldPost.title,
-        content: oldPost.content,
-        imagePath: oldPost.image,
-        tags: oldPost.tags,
-        comments: oldPost.comments
+        _id: newPost._id,
+        date: newPost.date,
+        location: newPost.location,
+        author: newPost.author,
+        likes: newPost.likes,
+        title: newPost.title,
+        content: newPost.content,
+        imagePath: newPost.image,
+        tags: newPost.tags,
+        comments: newPost.comments
       };
     }
     this.http
-      .put(this.url + oldPost.id, postData)
+      .put(this.url + newPost._id, postData)
       .subscribe(response => {
         const updatedPosts = [...this.posts];
-        const oldPostIndex = updatedPosts.findIndex(p => p._id === oldPost.id);
+        const oldPostIndex = updatedPosts.findIndex(p => p._id === newPost.id);
         const post: Post = {
-          _id: oldPost._id,
-          date: oldPost.date,
-          location: oldPost.location,
-          author: oldPost.author,
-          likes: oldPost.likes,
-          title: oldPost.title,
-          content: oldPost.content,
+          _id: newPost._id,
+          date: newPost.date,
+          location: newPost.location,
+          author: newPost.author,
+          likes: newPost.likes,
+          title: newPost.title,
+          content: newPost.content,
           imagePath: "",
-          tags: oldPost.tags,
-          comments: oldPost.comments
+          tags: newPost.tags,
+          comments: newPost.comments
         };
         updatedPosts[oldPostIndex] = post;
         this.posts = updatedPosts;
-        this.postsUpdated.next([...this.posts]);
+        this.postsUpdated.next(this.posts);
         this.router.navigate(["/"]);
       });
   }
@@ -160,8 +163,10 @@ export class AddPostService {
       .delete(this.url + postId)
       .subscribe(() => {
         const updatedPosts = this.posts.filter(post => post._id !== postId);
+        console.log(postId)
         this.posts = updatedPosts;
-        this.postsUpdated.next([...this.posts]);
+        console.log(this.posts)
+        this.postsUpdated.next(this.posts);
       });
   }
   likePost(postId: string, username: string){
@@ -170,7 +175,7 @@ export class AddPostService {
       .put(this.url +'like/' + postId, {'username': username})
       .subscribe((response:{message:string, likes: string[]})=>{
         (this.posts[updatedPostIndex]).likes= response.likes
-        this.postsUpdated.next([...this.posts])
+        this.postsUpdated.next(this.posts)
       })
   }
   updatePosts(posts){

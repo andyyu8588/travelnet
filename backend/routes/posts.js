@@ -60,7 +60,7 @@ router.post(
           res.status(201).json({
             message: "Post added successfully",
             post: {
-              id: newPost._id,
+              _id: newPost._id,
               date: post.date,
               location: post.location,
               author: post.author,
@@ -92,19 +92,22 @@ router.put(
       imagePath = url + "/images/" + req.file.filename
     }
     const post = new Post({
-      _id: req.body.id,
-      date: req.body.date,
+      // _id: req.body._id,
+      // date: req.body.date,
       location: req.body.location,
-      author: req.body.author,
-      // likes
+      // author: req.body.author,
+      // likes: req.body.likes,
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath,
       tags: req.body.tags
     });
-    console.log(req.body)
     try{
-      Post.updateOne({ _id: req.params.id }, post).then(result => {
+      Post.updateOne({ _id: req.params.id }, {$set: {
+        post
+      }}
+      ).then(result => {
+        console.log(result)
         res.status(200).json({ message: "Update successful!" });
       });
     } catch (e){
@@ -154,10 +157,8 @@ router.get("/:id", (req, res, next) => {
 });
 
 /**delete post */
-router.delete("/:id", (req, res, next) => {
-  
+router.delete("/:id", (req, res, next) => {  
   Post.deleteOne({ _id: req.params.id }).then(result => {
-    console.log(result);
     res.status(200).json({ message: "Post deleted!" });
   });
 });
