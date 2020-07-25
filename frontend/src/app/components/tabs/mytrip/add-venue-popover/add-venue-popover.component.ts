@@ -24,6 +24,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   // passed by mytrip
   tripIndex: number
   dayIndex: number
+  venueIndex: number|null
 
   // foursquare venues categories
   foursquareCategory_sub: Subscription
@@ -53,8 +54,9 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
               private MapService: MapService,
               public dialogRef: MatDialogRef<AddVenuePopoverComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
-                tripIndex: number,
+                tripIndex: number
                 scheduleIndex: number
+                venueIndex: number|null
                 venueName: string
                 venuePrice: number
                 venueCity: string
@@ -62,6 +64,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
               }) {
     this.tripIndex = data.tripIndex
     this.dayIndex = data.scheduleIndex
+    this.venueIndex = data.venueIndex
   }
 
   ngOnInit(): void {
@@ -91,6 +94,13 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
       'address': new FormControl(null),
       'price': new FormControl(null)
     })
+
+    // fill form if user is editing venue
+    if (this.venueIndex != null) {
+      this.customVenueForm.get('name').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].name? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].name : '')
+      this.customVenueForm.get('address').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueAddress? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueAddress : '')
+      this.customVenueForm.get('price').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].price? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].price : 0)
+    }
   }
 
   ngAfterViewInit() {
@@ -100,6 +110,11 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
         this.CitySearchComponent.myControl.patchValue(location.name)
       }
     })
+
+    // fill form if user is editing venue
+    if (this.venueIndex != null) {
+      this.CitySearchComponent.myControl.patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueCity? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueCity : '')
+    }
   }
 
   /** when user searches venues from foursquare */
@@ -123,13 +138,25 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
         }
       }        
 
-      this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
-        name: this.customVenueForm.get('name').value,
-        venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
-        venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
-        price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
-        category: url? {name: this.defaultCategory, url: url} : null
-      })
+      // if edit venue
+      if (this.venueIndex != null) {
+        this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex] = {
+          name: this.customVenueForm.get('name').value,
+          venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
+          venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
+          price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
+          category: url? {name: this.defaultCategory, url: url} : null
+        }
+      } else {
+        // if add venue
+        this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
+          name: this.customVenueForm.get('name').value,
+          venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
+          venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
+          price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
+          category: url? {name: this.defaultCategory, url: url} : null
+        })
+      }
       this.TripService.modifyBackend(this.allTrips)
       .then((response) => {
         this.TripService.updateLocal(this.allTrips)

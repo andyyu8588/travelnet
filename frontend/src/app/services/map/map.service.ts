@@ -166,7 +166,6 @@ export class MapService implements OnDestroy{
       // get name of city at fake center
       this.OpenstreetmapService.reverseSearch(centerPoints.lng, centerPoints.lat)
       .subscribe((response) => {
-        console.log(response)
         this._fakeCenterCity.next(response)
       }, err => {
         console.log(err)

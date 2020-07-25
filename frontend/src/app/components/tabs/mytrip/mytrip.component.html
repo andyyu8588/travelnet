@@ -49,9 +49,9 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div class="container-fluid">
-                                    <table mat-table [dataSource]='getDataSource(i, j)' style="width: 100%;" matSort>
-                                        <!-- category -->
-                                        <ng-container matColumnDef="category">
+                                    <mat-table [dataSource]='getDataSource(i, j)' style="width: 100%;" matSort cdkDropList [cdkDropListData]='getDataSource(i, j)' (cdkDropListDropped)="onListDrop($event, i, j)">
+                                         <!-- category -->
+                                         <ng-container matColumnDef="category">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> Category </mat-header-cell>
                                             <mat-cell *matCellDef="let element">
                                                 <button mat-mini-fab color='primary' style="box-shadow: none;" *ngIf='element.category' matTooltip='{{element.category.name}}'>
@@ -96,35 +96,43 @@
                                             </mat-cell>
                                         </ng-container>
 
-                                        <!-- Star Column -->
+                                        <!-- edit & drag -->
                                         <ng-container matColumnDef="index" stickyEnd>
                                             <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-                                            <mat-cell *matCellDef="let index = index"><p class="text-right" style="width: 100%;"><button mat-button matTooltip='edit venue'><mat-icon>edit</mat-icon></button><button mat-button matTooltip='drag to reorder schedule'><mat-icon>drag_indicator</mat-icon></button></p></mat-cell>
+                                            <mat-cell *matCellDef="let index = index">
+                                                <p class="text-right" style="width: 100%;">
+                                                    <button mat-button matTooltip='edit venue' (click)='openAddVenueModal(i, j, index)'>
+                                                        <mat-icon>edit</mat-icon>
+                                                    </button>
+                                                    <button mat-button matTooltip='delete venue' color='warn' (click)='onDeleteVenue(i, j, index)'>
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                    <button mat-button matTooltip='drag to reorder schedule' cdkDragHandle>
+                                                        <mat-icon>drag_indicator</mat-icon>
+                                                    </button>
+                                                </p>
+                                            </mat-cell>
                                         </ng-container>
 
                                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                                    </table>
+                                        <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag></mat-row>
+                                    </mat-table>
                                 </div>
                                 <br>
-                                <!-- <ng-template #popcontent ><app-add-venue-popover [tripIndex]='i' [dayIndex]='j' ></app-add-venue-popover></ng-template> -->
+                                <!-- add venue -->
                                 <div class="row justify-content-center">
-                                    <!-- <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false" class="col-auto align-self-center">
-                                        <mat-icon id='addIcon'>add_location</mat-icon>
-                                    </button> -->
-                                    <button mat-mini-fab id="addIcon" class="col-auto align-self-center" (click)='openAddVenueModal(i, j)' matTooltip='add a venue'>
-                                        <mat-icon id='addIcon'>add_location</mat-icon>
+                                    <button mat-mini-fab id="addIcon" class="col-auto align-self-center" (click)='openAddVenueModal(i, j, null)' matTooltip='add a venue'>
+                                        <mat-icon id='addIcon' *ngIf='!isLoading && !isErr && !isSuccess'>add_location</mat-icon>
+                                        <mat-icon id='addIcon' *ngIf='!isLoading && !isErr && isSuccess'>done</mat-icon>
+                                        <mat-icon id='addIcon' class="text-danger" *ngIf='!isLoading && isErr && !isSuccess'>error</mat-icon>
+                                        <mat-spinner *ngIf='isLoading && !isErr && !isSuccess' diameter='20'></mat-spinner>
                                     </button>
+                                    &nbsp;
+                                    <small class="text-success align-self-center" style="vertical-align: middle;" *ngIf='!isLoading && !isErr && isSuccess'>Schedule Saved Successfully!</small>
                                 </div>
                             </mat-expansion-panel>
-                            <!-- <div id="lineBtn">
-                                <hr id="hrBtn">
-                                <button mat-mini-fab id="addIcon" [ngbPopover]='popcontent' placement="bottom" [autoClose]="false">
-                                    <mat-icon id='addIcon'>add_location</mat-icon>
-                                </button>
-                                <hr id="hrBtn">
-                            </div> -->
                             <br>
+                            <!-- trip stats -->
                             <mat-expansion-panel expanded='true'>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>Trip Overview</mat-panel-title>
@@ -139,11 +147,11 @@
                                 </div>
                             </mat-expansion-panel>
                         </mat-accordion>
-                                                    
-
                     </mat-card-content>
+                    
+                    <!-- trip actions -->
                     <mat-card-actions class="">
-                        <button mat-button color='warn' (click)='onDelete(trip.tripName, i)'>
+                        <button mat-button color='warn' (click)='onDeleteTrip(trip.tripName, i)'>
                             delete
                         </button>
                         <button mat-button color='primary'>
