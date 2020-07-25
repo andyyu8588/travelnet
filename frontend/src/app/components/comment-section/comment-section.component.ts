@@ -39,7 +39,7 @@ export class CommentSectionComponent implements OnInit {
       author: sessionStorage.getItem('username'),
       content: this.form.value.content,
     }
-    this.commentsService.addComment(newComment,this.post.id)
+    this.commentsService.addComment(newComment,this.post._id)
     this.form.reset();
   }
 

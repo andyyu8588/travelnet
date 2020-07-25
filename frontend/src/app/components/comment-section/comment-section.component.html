@@ -6,7 +6,7 @@
   </form>
   <app-comment *ngFor="let comment of post.comments"
   [comment]='comment'
-  [postId]='this.post.id'>
+  [postId]='this.post._id'>
 
   </app-comment>
 </mat-card>

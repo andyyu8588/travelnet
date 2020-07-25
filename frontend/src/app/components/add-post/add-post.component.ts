@@ -7,13 +7,16 @@ import { AddPostService } from "src/app/services/add-post.service";
 import { Post } from "src/app/models/post.model";
 import { mimeType } from "./mime-type.validator";
 import { title } from 'process';
+import { Subscription } from 'rxjs';
+import { geocodeResponseModel } from 'src/app/models/geocodeResp.model';
+import { CitySearchComponent } from '../city-search/city-search.component';
 
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
   styleUrls: ['./add-post.component.scss']
 })
-export class AddPostComponent implements OnInit {
+export class AddPostComponent implements OnInit, OnDestroy {
   enteredTitle = "";
   enteredContent = "";
   post: Post;
@@ -32,6 +35,11 @@ export class AddPostComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: string[] = [];
 
+  //filters
+  private clickedOption_sub: Subscription
+  clickedOption: geocodeResponseModel = null
+  @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
+
   constructor(
     public postsService: AddPostService,
     public route: ActivatedRoute
@@ -48,6 +56,14 @@ export class AddPostComponent implements OnInit {
         asyncValidators: [mimeType]
       })
     });
+    this.clickedOption_sub = this.CitySearchComponent.clickedOption.subscribe((city: geocodeResponseModel) => {
+      if (city) {
+        this.clickedOption = city
+      } else {
+        this.clickedOption = null
+      }
+    })
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("postId")) {
         this.mode = "edit";
@@ -56,7 +72,7 @@ export class AddPostComponent implements OnInit {
         this.postsService.getPost(this.postId).subscribe(postData => {
           this.isLoading = false;
           this.post = {
-            id: postData._id,
+            _id: postData._id,
             author: postData.author,
             date: postData.date,
             location: postData.location,
@@ -114,7 +130,7 @@ export class AddPostComponent implements OnInit {
       this.postsService.addPost(newPost);
     } else {
       this.postsService.updatePost({
-        id: this.postId,
+        _id: this.postId,
         date: new Date().toLocaleString(), //will be changed to earlier date
         location: this.form.value.location,
         author: sessionStorage.getItem('username'),
@@ -159,5 +175,8 @@ export class AddPostComponent implements OnInit {
     this.form.patchValue({ location: location });
     this.form.get("location").updateValueAndValidity();
     console.log(location)
+  }
+  ngOnDestroy(){
+    this.clickedOption_sub.unsubscribe()
   }
 }

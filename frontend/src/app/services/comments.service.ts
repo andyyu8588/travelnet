@@ -40,7 +40,7 @@ export class CommentsService {
       };
       console.log(comment)
       //need to update post
-      const postIndex = this.PostService.posts.findIndex(p => p.id === postId);
+      const postIndex = this.PostService.posts.findIndex(p => p._id === postId);
       this.PostService.posts[postIndex].comments.push(comment)
       this.PostService.updatePosts(this.PostService.posts)
   })
@@ -53,7 +53,7 @@ export class CommentsService {
         map(commentData => {
           return commentData.comments.map(comment => {
             return {
-              id: comment._id,
+              _id: comment._id,
               date: comment.date,
               author: comment.author,
               content: comment.content,
@@ -86,7 +86,7 @@ export class CommentsService {
   }
   /**reply to head comment */
   reply(postId: string, commentId: string, reply: any){
-    const postIndex = this.PostService.posts.findIndex(p => p.id === postId);
+    const postIndex = this.PostService.posts.findIndex(p => p._id === postId);
     const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === commentId)
 
     this.http
@@ -109,7 +109,7 @@ export class CommentsService {
   }
   /**like tree comment */
   liketreeComment(postId: string, commentId: string, username: string){
-    const postIndex = this.PostService.posts.findIndex(p => p.id === postId);
+    const postIndex = this.PostService.posts.findIndex(p => p._id === postId);
     const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === commentId)
 
     this.http

@@ -1,6 +1,6 @@
 import { Comment } from './comment.model'
 export interface Post {
-  id: string;
+  _id: string;
   date: string,
   location: string,
   author: string;

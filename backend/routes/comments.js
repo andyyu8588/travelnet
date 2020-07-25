@@ -24,7 +24,7 @@ router.post(
           res.status(201).json({
             message: "comment added successfully",
             comment: {
-              id: post.comments[post.comments.length-1]._id,
+              _id: post.comments[post.comments.length-1]._id,
               date: req.body.commentData.date,
               author: req.body.commentData.author,
               content: req.body.commentData.content,
@@ -58,7 +58,7 @@ router.post(
           res.status(201).json({
             message: "reply added successfully",
             reply: {
-              id: post.comments.id(req.params.id).replies[post.comments.id(req.params.id).replies.length-1]._id,
+              _id: post.comments.id(req.params.id).replies[post.comments.id(req.params.id).replies.length-1]._id,
               date: req.body.commentDatadate,
               author: req.body.commentData.author,
               content: req.body.commentData.content,
@@ -88,7 +88,7 @@ router.post(
           res.status(200).json({ 
               message: "Update successful!",
               comment: {
-                id: result._id,
+                _id: result._id,
                 date: req.body.date,
                 author: req.body.author,
                 content: req.body.content,
@@ -107,6 +107,7 @@ router.post(
   );
   /**likes tree comment */
   router.put("/like/:id",(req, res, next) => {
+    console.log(req)
       Post.findById(req.params.id).then(post => {
         if (post) {
           if(!post.comments.id(req.params.id).likes.includes(req.body.username)){

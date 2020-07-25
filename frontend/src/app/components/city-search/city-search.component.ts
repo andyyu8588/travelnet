@@ -22,7 +22,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() getFakeCenterCity: boolean
   @Input() clearOnSearch: boolean
   //for custom event emiting
-  @Output() locationAdded = new EventEmitter<string>();
+  // @Output() locationAdded = new EventEmitter<string>();
 
   // search input variables
   myControl: FormControl = new FormControl(null)
@@ -50,6 +50,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.MapService.citySearchPresent = true
+    console.log('yo')
 
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       if (params.lng) {
@@ -98,7 +99,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
           this.myControl.patchValue('')
           this.placeholder = 'No city found'
         }
-      })      
+      })
     }
   }
 
@@ -124,19 +125,20 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
     return nothing.concat(', ', arr[arr.length - 1])
   }
 
-  /** when option is clicked */ 
+  /** when option is clicked */
   onOptionClick(country: {[key: string]: any}) {
     this._clickedOptionLocal = new geocodeResponseModel(country.name, country.content.geometry.coordinates, country.content)
-    console.log(this._clickedOptionLocal)
+    console.log(this._clickedOptionLocal + '???')
     this._clickedOption.next(this._clickedOptionLocal)
     this.clearOnSearch? this.myControl.patchValue('') : null
-    this.emitCountry()
+    // this.emitCountry(this._clickedOptionLocal.name)
   }
 
-  emitCountry() {
-    this.locationAdded.emit(this.myControl.value)
-    this.clearOnSearch? this.myControl.patchValue('') : null
-  }
+  // emitCountry(city) {
+  //   console.log(city)
+  //   this.locationAdded.emit(city)
+  //   this.clearOnSearch? this.myControl.patchValue('') : null
+  // }
 
   ngOnDestroy() {
     this.MapService.citySearchPresent = false

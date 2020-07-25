@@ -87,7 +87,7 @@ export class AddPostService {
       )
       .subscribe(responseData => {
         const post: Post = {
-          id: responseData.post.id,
+          _id: responseData.post._id,
           date: responseData.post.date,
           location: responseData.post.location,
           author: responseData.post.author,
@@ -119,7 +119,7 @@ export class AddPostService {
       postData.append("tags", oldPost.tags);
     } else {
       postData = {
-        id: oldPost.id,
+        _id: oldPost._id,
         date: oldPost.date,
         location: oldPost.location,
         author: oldPost.author,
@@ -135,9 +135,9 @@ export class AddPostService {
       .put(this.url + oldPost.id, postData)
       .subscribe(response => {
         const updatedPosts = [...this.posts];
-        const oldPostIndex = updatedPosts.findIndex(p => p.id === oldPost.id);
+        const oldPostIndex = updatedPosts.findIndex(p => p._id === oldPost.id);
         const post: Post = {
-          id: oldPost.id,
+          _id: oldPost._id,
           date: oldPost.date,
           location: oldPost.location,
           author: oldPost.author,
@@ -159,13 +159,13 @@ export class AddPostService {
     this.http
       .delete(this.url + postId)
       .subscribe(() => {
-        const updatedPosts = this.posts.filter(post => post.id !== postId);
+        const updatedPosts = this.posts.filter(post => post._id !== postId);
         this.posts = updatedPosts;
         this.postsUpdated.next([...this.posts]);
       });
   }
   likePost(postId: string, username: string){
-    const updatedPostIndex = this.posts.indexOf(this.posts.find(post => post.id == postId));
+    const updatedPostIndex = this.posts.indexOf(this.posts.find(post => post._id == postId));
       this.http
       .put(this.url +'like/' + postId, {'username': username})
       .subscribe((response:{message:string, likes: string[]})=>{
