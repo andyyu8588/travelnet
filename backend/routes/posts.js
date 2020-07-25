@@ -42,7 +42,6 @@ router.post(
   (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     let origin = jwt.decode(req.get('authorization'), jwtSecret)
-    console.log(req.body)
     try{
       User.findById(origin.id).then(user =>{
         const post = new Post({
@@ -55,7 +54,6 @@ router.post(
           imagePath: url + "/images/" + req.file.filename,
           tags: req.body.tags
         });
-        console.log(post)
         post.save().then(newPost => {
           res.status(201).json({
             message: "Post added successfully",
@@ -92,22 +90,21 @@ router.put(
       imagePath = url + "/images/" + req.file.filename
     }
     const post = new Post({
-      // _id: req.body._id,
+      _id: req.body._id,
       // date: req.body.date,
       location: req.body.location,
       // author: req.body.author,
-      // likes: req.body.likes,
+      likes: req.body.likes,
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath,
-      tags: req.body.tags
+      tags: req.body.tags,
+      comments: req.body.comments
     });
     try{
-      Post.updateOne({ _id: req.params.id }, {$set: {
-        post
-      }}
+      Post.updateOne({ _id: req.params.id }, 
+        post      
       ).then(result => {
-        console.log(result)
         res.status(200).json({ message: "Update successful!" });
       });
     } catch (e){

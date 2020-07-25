@@ -111,9 +111,9 @@ export class CommentsService {
   liketreeComment(postId: string, commentId: string, username: string){
     const postIndex = this.PostService.posts.findIndex(p => p._id === postId);
     const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === commentId)
-
+    console.log(postId)
     this.http
-    .put(this.url +'like/' + commentId, {'postId': postId,'username': username})
+    .put(this.url +'like/' + postId, {'commentId': commentId,'username': username})
       .subscribe((response:{message:string, likes: string[]})=>{
         (this.PostService.posts[postIndex]).comments[commentIndex].likes= response.likes
         this.PostService.updatePost(this.PostService.posts)

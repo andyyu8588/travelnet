@@ -151,6 +151,7 @@ export class AddPostService {
           tags: newPost.tags,
           comments: newPost.comments
         };
+        console.log(post)
         updatedPosts[oldPostIndex] = post;
         this.posts = updatedPosts;
         this.postsUpdated.next(this.posts);

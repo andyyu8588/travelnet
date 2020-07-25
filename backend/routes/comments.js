@@ -3,6 +3,7 @@ const Post = require("../models/post");
 const Comment = require("../models/post");
 const { response } = require("express");
 const router = express.Router();
+var mongoose = require('mongoose');
 
 
 /**creates new comment */
@@ -106,31 +107,33 @@ router.post(
     }
   );
   /**likes tree comment */
-  router.put("/like/:id",(req, res, next) => {
-    console.log(req)
-      Post.findById(req.params.id).then(post => {
-        if (post) {
-          if(!post.comments.id(req.params.id).likes.includes(req.body.username)){
-            post.comments.id(req.params.id).likes.push(req.body.username)
-            console.log(post.comments.id(req.params.id))
+  router.put("/like/:id",(req, res) => {
+    // if(mongoose.Types.ObjectId.isValid(req.params.id)){
+    Post.findById(req.params.id,(err,post) => {
+      if (err) {
+        res.status(404).json({ message: "comment not found!" });
+      }
+      else {
+        if(post){
+          let comment= post.comments.id(req.body.commentId)
+          if(!comment.likes.includes(req.body.username)){
+            comment.likes.push(req.body.username)
           }
           else{
-            post.comments.id(req.params.id).likes.pop(req.body.username)
+            comment.likes.pop(req.body.username)
           }
-          post.save().then(post =>{
-            console.log('woo')
-            res.status(200).json({
+          post.save(err).then(e =>{
+            if (err) return handleError(err)
+            else{           
+              res.status(200).json({
               message: "like added/removed" ,
-              likes : post.comments.id(req.params.id).likes
-            });
+              likes : comment.likes
+            });}
+ 
           })
         }
-        else{
-          res.status(404).json({ message: "comment not found!" });
-        }
-      }).catch(err=>{
-        console.log(err)
-      });
+      }
+    })
   })
 
 

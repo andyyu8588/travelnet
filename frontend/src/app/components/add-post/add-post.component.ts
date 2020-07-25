@@ -144,13 +144,15 @@ export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       this.postsService.updatePost({
         _id: this.postId,
-        date: new Date().toLocaleString(), //will be changed to earlier date
+        date: this.post.date, //will be changed to earlier date
         location: this.form.value.location,
         author: sessionStorage.getItem('username'),
+        likes: this.post.likes,
         title: this.form.value.title,
         content: this.form.value.content,
         image: this.form.value.image,
         tags: this.form.value.tags,
+        comments: this.post.comments
       });
     }
     this.form.reset();
