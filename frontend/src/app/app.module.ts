@@ -80,7 +80,7 @@ import { DisplayPostsComponent } from './components/display-posts/display-posts.
 import { CommentSectionComponent } from './components/comment-section/comment-section.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { AddToTripPopoverComponent } from './components/tabs/searchresults/add-to-trip-popover/add-to-trip-popover.component'
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
     AppComponent,
@@ -172,6 +172,7 @@ import { AddToTripPopoverComponent } from './components/tabs/searchresults/add-t
     MatTooltipModule,
     MatTreeModule,
     HttpClientModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

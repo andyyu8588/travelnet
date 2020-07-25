@@ -1,12 +1,12 @@
     <mat-card>
     <mat-card-header>
-        <mat-card-title>Add Venue for Day {{dayIndex + 1}}</mat-card-title>
+        <mat-card-title>{{venueIndex != null? 'Edit' : 'Add'}} Venue for Day {{dayIndex + 1}}</mat-card-title>
     </mat-card-header>
     <br>
     <mat-card-content>
         <mat-tab-group dynamicHeight mat-align-tabs="center">
             <!-- Search Venue -->
-            <mat-tab id="theTab">
+            <mat-tab id="theTab" *ngIf='venueIndex === null'>
                 <!-- <form
                     [formGroup]='searchVenueForm'
                     (ngSubmit)='onSubmitSearch()'>

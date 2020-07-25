@@ -9,7 +9,8 @@ import { TripmodalComponent } from 'src/app/components/tabs/mytrip/tripmodal/tri
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment'
 import { MatAccordion } from '@angular/material/expansion';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-mytrip',
@@ -19,8 +20,9 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 export class MytripComponent implements OnInit, OnDestroy {
   private sessionState_sub: Subscription
   sessionState: boolean
-  false: boolean = false
-
+  isLoading: boolean = false
+  isErr: boolean = false
+  isSuccess: boolean = false
   // trip accordeon
   @ViewChild(MatAccordion) TripAccordion: MatAccordion
   // onTripAccClose() {
@@ -146,6 +148,7 @@ export class MytripComponent implements OnInit, OnDestroy {
     })
   }
 
+  /** modal for adding a trip */
   openAddTripModal() {
     this.dialogRef = this.MatDialog.open(TripmodalComponent, {
       width: '800px',
@@ -164,12 +167,14 @@ export class MytripComponent implements OnInit, OnDestroy {
     })
   }
 
-  openAddVenueModal(tripIndex: number, scheduleIndex: number) {
+  /** modal for adding venue */
+  openAddVenueModal(tripIndex: number, scheduleIndex: number, venueIndex: number|null) {
     this.dialogRef = this.MatDialog.open(AddVenuePopoverComponent, {
       width: '800px',
       data: {
         tripIndex: tripIndex,
         scheduleIndex: scheduleIndex,
+        venueIndex: venueIndex,
         name: this.venueName,
         venuePrice: this.venuePrice,
         venueCity: this.venueCity,
@@ -185,11 +190,49 @@ export class MytripComponent implements OnInit, OnDestroy {
     })
   }
 
-  // confirm action
-  onDelete(name: string, index: number) {
+  /** when row are reordered */
+  onListDrop(event: CdkDragDrop<string[]>, tripIndex: number, dayIndex: number) {
+    moveItemInArray(this.trips[tripIndex].schedule[dayIndex].venues, event.previousIndex, event.currentIndex)
+    this.isLoading = true
+    this.TripService.modifyBackend(this.trips)
+    .then((res) => {
+      this.table.renderRows()
+      this.isSuccess = true
+    })
+    .catch(() => {
+      this.isErr = true
+    })
+    .finally(() => {
+      this.isLoading = false
+      setTimeout(() => {
+        this.isSuccess = false
+        this.isErr = false
+      }, 1000)
+    })
+  }
+
+  /** delete one venue  */
+  onDeleteVenue(tripIndex: number, dayIndex: number, venueIndex: number) {
+    if (confirm(`are you sure you want to delete this venue?`)) {
+      console.log( this.trips[tripIndex].schedule[dayIndex].venues[venueIndex])
+      this.trips[tripIndex].schedule[dayIndex].venues.splice(venueIndex, 1)
+      this.TripService.modifyBackend(this.trips)
+      .finally(() => {
+        this.table.renderRows()
+      })
+    } else {
+
+    }
+  }
+
+  /** delete entire trip */
+  onDeleteTrip(name: string, index: number) {
     if (confirm(`are you sure you want to delete ${name}?`)) {
       this.trips.splice(index, 1)
       this.TripService.modifyBackend(this.trips)
+      .finally(() => {
+        this.table.renderRows()
+      })
     } else {
 
     }

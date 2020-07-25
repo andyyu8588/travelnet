@@ -23,7 +23,7 @@ export class tripModel {
                 name: string
                 url: URL | string
             }
-        } | venueModel | selectedVenueModel>
+        } | selectedVenueModel>
     }>
     isPrivate: boolean
 
