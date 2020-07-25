@@ -46,7 +46,7 @@ export class MytripComponent implements OnInit, OnDestroy {
   venueCity: string
   venueAddress: string
 
-  displayedColumns= ['category', 'venueName', 'venueCity', 'venueAddress', 'price', 'url']
+  displayedColumns= ['category', 'venueName', 'venueCity', 'venueAddress', 'price', 'url', 'index']
 
   dialogRef: MatDialogRef<any>
 

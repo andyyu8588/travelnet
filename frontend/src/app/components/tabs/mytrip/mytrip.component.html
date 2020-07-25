@@ -71,19 +71,22 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
                                             <mat-cell *matCellDef="let element"> {{element.venueCity}} </mat-cell>
                                         </ng-container>
+                                        
                                         <!-- venueAddress -->
                                         <ng-container matColumnDef="venueAddress" style="display: inline-block">
                                             <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
                                             <mat-cell *matCellDef="let element"><p style="display: inline-block; width: 100%;">{{element.venueAddress}} </p> </mat-cell>
                                         </ng-container>
+                                        
                                         <!-- venuePrice -->
                                         <ng-container matColumnDef="price">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
                                             <mat-cell *matCellDef="let element" ><p class="text-center" style="width: 100%;">{{element.price}}$</p></mat-cell>
                                         </ng-container>
-                                        <!-- venuePrice -->
+
+                                        <!-- website -->
                                         <ng-container matColumnDef="url">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header> website </mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Website </mat-header-cell>
                                             <mat-cell *matCellDef="let element">
                                                 <a href="{{element.url}}" target="_blank" *ngIf='element.url' matTooltip='{{element.url}}'>
                                                     <button mat-button>
@@ -91,6 +94,12 @@
                                                     </button>
                                                 </a>
                                             </mat-cell>
+                                        </ng-container>
+
+                                        <!-- Star Column -->
+                                        <ng-container matColumnDef="index" stickyEnd>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                                            <mat-cell *matCellDef="let index = index"><p class="text-right" style="width: 100%;"><button mat-button matTooltip='edit venue'><mat-icon>edit</mat-icon></button><button mat-button matTooltip='drag to reorder schedule'><mat-icon>drag_indicator</mat-icon></button></p></mat-cell>
                                         </ng-container>
 
                                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
