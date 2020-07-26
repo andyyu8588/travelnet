@@ -16,19 +16,23 @@ export class featureGEOJSONModel {
     coordinates: number[]
   }
   public properties?: {
-    title: string,
-    icon: string
+    [key: string]: any
+    title: string
+    icon?: string
   }
 
-  constructor(title: string, coordinates: number[]) {
+  constructor(title: string, coordinates: number[], iconStyle?: URL) {
     this.type = 'Feature'
     this.geometry = {
       'type': 'Point',
       'coordinates': coordinates
     }
-    this.properties = {
+    this.properties = iconStyle? {
       title: title,
-      icon: 'monument'
+      'iconUrl': iconStyle
+    } : {
+      title: title,
+      'marker-symbol': 'rocket'
     }
   }
 }
@@ -115,6 +119,7 @@ export class MapService implements OnDestroy{
     })
 
   }
+
   addGeoJsonSource(id: string, type: any, content: any[]) {
     this.map.addSource(id, {
       'type': 'geojson',
@@ -182,7 +187,7 @@ export class MapService implements OnDestroy{
   }
 
   /** highlight selected coutries when register */
-  showMarker(target: number, input?: geocodeResponseModel) {
+  showMarker(target: number, input?: geocodeResponseModel, style?: URL) {
     if (!input && this.map.getSource('points') && this.Places[target - 1]) {
       (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
         {
@@ -191,7 +196,7 @@ export class MapService implements OnDestroy{
         }
       )
     } else if (input) {
-      this.Places[target - 1].push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates))
+      this.Places[target - 1].push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates, style))
       let coord: mapboxgl.LngLatLike = {
         lng: input.content.geometry.coordinates[0],
         lat: input.content.geometry.coordinates[1]
@@ -222,9 +227,12 @@ export class MapService implements OnDestroy{
                     input.content.geometry.coordinates[1],
                   ]
                 },
-                'properties': {
+                'properties': style? {
                   'title': input.name,
-                  'icon': 'monument'
+                  'iconUrl': style
+                } : {
+                  'title': input.name,
+                  'marker-symbol': 'rocket'
                 }
               },
             ]

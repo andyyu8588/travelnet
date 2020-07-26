@@ -23,7 +23,7 @@
                         <button mat-button (click)='ok($event)' color='primary' matTooltip='share this trp'>    
                             <mat-icon>share</mat-icon>
                         </button>
-                        <button mat-button (click)='ok($event)' color='accent' matTooltip='show itinerary on map' >    
+                        <button mat-button (click)='showItinerary(i)' color='accent' matTooltip='show itinerary on map' >    
                             <mat-icon>map</mat-icon>
                         </button>
                     </span>
@@ -111,6 +111,9 @@
                                                     </button>
                                                     <button mat-button matTooltip='delete venue' color='warn' (click)='onDeleteVenue(i, j, index)'>
                                                         <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                    <button mat-button matTooltip='show location on map' (click)='showLocation(i, j, index)'>
+                                                        <mat-icon>map</mat-icon>
                                                     </button>
                                                     <button mat-button matTooltip='drag to reorder schedule' cdkDragHandle>
                                                         <mat-icon>drag_indicator</mat-icon>
