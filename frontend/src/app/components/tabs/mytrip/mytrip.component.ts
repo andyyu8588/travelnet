@@ -137,8 +137,10 @@ export class MytripComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isLoading = true
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.trips = trips
+      this.isLoading = false
       if (this.table) {
         this.table.renderRows()
       }
@@ -218,7 +220,9 @@ export class MytripComponent implements OnInit, OnDestroy {
       this.trips[tripIndex].schedule[dayIndex].venues.splice(venueIndex, 1)
       this.TripService.modifyBackend(this.trips)
       .finally(() => {
-        this.table.renderRows()
+        if (this.table) {
+          this.table.renderRows()
+        }
       })
     } else {
 
@@ -231,7 +235,9 @@ export class MytripComponent implements OnInit, OnDestroy {
       this.trips.splice(index, 1)
       this.TripService.modifyBackend(this.trips)
       .finally(() => {
-        this.table.renderRows()
+        if (this.table) {
+          this.table.renderRows()
+        }
       })
     } else {
 

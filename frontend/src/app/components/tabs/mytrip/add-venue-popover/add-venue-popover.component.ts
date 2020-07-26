@@ -1,3 +1,4 @@
+import { geocodeResponseModel } from './../../../../models/geocodeResp.model';
 import { SearchBarComponent } from './../../../search-bar/search-bar.component';
 import { CustomCoordinates } from './../../../../models/coordinates';
 import { MapService } from './../../../../services/map/map.service';
@@ -40,6 +41,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   // for custom add venue
   @ViewChild('citySearch') CitySearchComponent: CitySearchComponent
   private selectedOption_sub: Subscription
+  selectedOption: geocodeResponseModel
   citySearchAppearance: string = 'outline'
   citySearchPlaceholder: string = 'Search for a City'
   customVenueForm: FormGroup
@@ -107,6 +109,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     // selected option from autosuggest
     this.selectedOption_sub = this.CitySearchComponent.clickedOption.subscribe((location) => {
       if (location) {
+        this.selectedOption = location
         this.CitySearchComponent.myControl.patchValue(location.name)
       }
     })
@@ -143,6 +146,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
         this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex] = {
           name: this.customVenueForm.get('name').value,
           venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
+          venueCoord: {lng: this.selectedOption.content.geometry.coordinates[0], lat: this.selectedOption.content.geometry.coordinates[1]},
           venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
           price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
           category: url? {name: this.defaultCategory, url: url} : null
@@ -152,6 +156,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
         this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
           name: this.customVenueForm.get('name').value,
           venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
+          venueCoord: {lng: this.selectedOption.content.geometry.coordinates[0], lat: this.selectedOption.content.geometry.coordinates[1]},
           venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
           price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
           category: url? {name: this.defaultCategory, url: url} : null

@@ -8,8 +8,11 @@
     </div>
     <br>
     <div class="" style="max-height: 100%">
-        <div *ngIf='!trips' class="container-fluid row rounded align--items-center" style="background-color: rgba(255, 255, 255, 1); min-height: 100px;">
+        <div *ngIf='!trips && !isLoading' class="container-fluid row rounded align--items-center" style="background-color: rgba(255, 255, 255, 1); min-height: 100px;">
             &nbsp;<h2 class="align-self-center">No trips Yet...</h2>
+        </div>
+        <div class="" *ngIf='isLoading && !trips'>
+            <mat-spinner diameter='20'></mat-spinner>
         </div>
         <mat-accordion class="container-fluid" style="min-height: 750px;"  >
             <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index, let isFirst = first' [expanded]='isFirst'>
@@ -81,7 +84,9 @@
                                         <!-- venuePrice -->
                                         <ng-container matColumnDef="price">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
-                                            <mat-cell *matCellDef="let element" ><p class="text-center" style="width: 100%;">{{element.price}}$</p></mat-cell>
+                                            <mat-cell *matCellDef="let element" >
+                                                <span class="text-center" style="width: 100%;" *ngIf='element.price == 0'>{{element.price}}$</span> 
+                                            </mat-cell>
                                         </ng-container>
 
                                         <!-- website -->

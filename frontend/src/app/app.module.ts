@@ -81,6 +81,7 @@ import { CommentSectionComponent } from './components/comment-section/comment-se
 import { CommentComponent } from './components/comment/comment.component';
 import { AddToTripPopoverComponent } from './components/tabs/searchresults/add-to-trip-popover/add-to-trip-popover.component'
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ArrayToPipePipe } from './pipes/array-to-pipe.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -120,6 +121,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     CommentSectionComponent,
     CommentComponent,
     AddToTripPopoverComponent,
+    ArrayToPipePipe,
   ],
   imports: [
     BrowserModule,

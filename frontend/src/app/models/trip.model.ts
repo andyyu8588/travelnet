@@ -1,6 +1,7 @@
 import { selectedVenueModel } from './selectedVenue.model';
 import { venueModel } from 'src/app/models/venue.model';
 import * as moment from 'moment'
+import { LngLatLike } from 'mapbox-gl';
 
 export class tripModel {
     tripName: String
@@ -17,6 +18,7 @@ export class tripModel {
             name: String
             venueCity?: String
             venueAddress?: String
+            venueCoord?: LngLatLike
             price?: Number
             url? : URL
             category?: {
