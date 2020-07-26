@@ -41,7 +41,12 @@ export class CommentComponent implements OnInit {
     this.form.reset();
   }
   likeTreeComment(){
-    this.commentsService.liketreeComment(this.postId,this.comment._id,sessionStorage.getItem("username"))
+    let likeContent = {
+      postId: this.postId,
+      commentId: this.comment._id,
+      username: sessionStorage.getItem("username")
+    }
+    this.commentsService.liketreeComment(likeContent)
   }
   like(){
 

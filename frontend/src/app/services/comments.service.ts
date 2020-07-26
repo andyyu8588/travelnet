@@ -90,7 +90,7 @@ export class CommentsService {
     const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === commentId)
 
     this.http
-    .post<{ message: string; reply: Comment }>(
+    .put<{ message: string; reply: Comment }>(
       this.url + commentId,
       {commentData:reply, postId: postId})
     .subscribe(responseData => {
@@ -108,13 +108,14 @@ export class CommentsService {
     commentData.append("edited", newComment.edited);
   }
   /**like tree comment */
-  liketreeComment(postId: string, commentId: string, username: string){
-    const postIndex = this.PostService.posts.findIndex(p => p._id === postId);
-    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === commentId)
-    console.log(postId)
+  liketreeComment(likeContent:{postId: string, commentId: string, username: string }){
+    const postIndex = this.PostService.posts.findIndex(p => p._id === likeContent.postId);
+    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === likeContent.commentId)
     this.http
-    .put(this.url +'like/' + postId, {'commentId': commentId,'username': username})
-      .subscribe((response:{message:string, likes: string[]})=>{
+    .put<{ message: string; likes: string[] }>(
+      this.url +'like/' + likeContent.commentId,
+    {postId: likeContent.postId,username: likeContent.username})
+      .subscribe(response =>{
         (this.PostService.posts[postIndex]).comments[commentIndex].likes= response.likes
         this.PostService.updatePost(this.PostService.posts)
       })

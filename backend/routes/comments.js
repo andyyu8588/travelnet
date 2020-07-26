@@ -42,9 +42,9 @@ router.post(
     })
   })
   /**replies to tree comment */
-  router.post(
-  "/:id",
-  (req,res,next) => {
+  router.put(
+    "/:id",
+    (req,res) => {
     Post.findById(req.body.postId).then(post => {
       if (post){
         const reply ={
@@ -54,13 +54,14 @@ router.post(
           likes: [],
           edited: null
         };
-        (post.comments.id(req.params.id).replies).push(reply);
+        console.log(req.body.postId);
+        // (post.comments.id(req.params.id).replies).push(reply);
         post.save().then(post => {
           res.status(201).json({
             message: "reply added successfully",
             reply: {
               _id: post.comments.id(req.params.id).replies[post.comments.id(req.params.id).replies.length-1]._id,
-              date: req.body.commentDatadate,
+              date: req.body.commentData.date,
               author: req.body.commentData.author,
               content: req.body.commentData.content,
               likes: [],
@@ -107,34 +108,34 @@ router.post(
     }
   );
   /**likes tree comment */
-  router.put("/like/:id",(req, res) => {
-    // if(mongoose.Types.ObjectId.isValid(req.params.id)){
-    Post.findById(req.params.id,(err,post) => {
-      if (err) {
-        res.status(404).json({ message: "comment not found!" });
+
+  router.put(
+    "/like/:id",
+    (req, res) => {
+    Post.findById(req.body.postId).then(post => {
+      if (post) {
+        console.log(req.body.postId);
+        // let comment= post.comments.id(req.params.id)
+        // if(!comment.likes.includes(req.body.username)){
+        //     comment.likes.push(req.body.username)
+        //   }
+        // else{
+        //   comment.likes.pop(req.body.username)
+        // }
+        post.save().then(post =>{          
+          res.status(201).json({
+          message: "like added/removed" ,
+          post: post,
+          // likes : comment.likes
+          });
+        })
       }
       else {
-        if(post){
-          let comment= post.comments.id(req.body.commentId)
-          if(!comment.likes.includes(req.body.username)){
-            comment.likes.push(req.body.username)
-          }
-          else{
-            comment.likes.pop(req.body.username)
-          }
-          post.save(err).then(e =>{
-            if (err) return handleError(err)
-            else{           
-              res.status(200).json({
-              message: "like added/removed" ,
-              likes : comment.likes
-            });}
- 
-          })
-        }
+      res.status(404).json({ message: "comment not found!" });
       }
     })
   })
+
 
 
   /**get all comments associated to a post */
