@@ -1,3 +1,5 @@
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { mimeType } from "./mime-type.validator";
 import { HttpService } from 'src/app/services/http.service';
 import { environment } from 'src/environments/environment';
 import { SessionService } from 'src/app/services/session.service';
@@ -22,6 +24,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
   propreties: string[]
   values: string[]
+  form: FormGroup
+  imagePreview: string
 
   constructor(private socketService: SocketService,
               private sessionService: SessionService,
@@ -31,6 +35,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // http request to get user info
     this.getProfile()
+    this.form = new FormGroup({
+      image: new FormControl(null, {
+        validators: [Validators.required],
+        asyncValidators: [mimeType]
+      })
+    });
   }
 
   getProfile() {
@@ -65,6 +75,35 @@ export class ProfileComponent implements OnInit, OnDestroy {
         console.log('session cleared')
       }
     })
+  }
+
+  // when profile pic is selected
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({ image: file });
+    this.form.get("image").updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // on image picked
+  onSubmit() {
+    if (this.form.invalid) {
+      return;
+    }
+    let formData = new FormData()
+    formData.append('image', this.form.value.image)
+    formData.append('username', localStorage.getItem('username'))
+    this.httpService.post('/user/profilepicture', formData
+    ).then((res: any) => {
+    
+    }).catch((err) => {
+      console.log(err)
+    })
+    this.form.reset();
   }
 
   // back button that destroys component
