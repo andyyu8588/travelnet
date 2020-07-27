@@ -56,7 +56,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
         this.OpenstreetmapService.reverseSearch(params.lng, params.lat)
         .subscribe((res) => {
           if (res.features[0]) {
-            this.myControl.patchValue(this.removeMiddle(res.features[0].properties.display_name, 1))
+            this.myControl.patchValue(this.removeMiddle(res.features[0].properties.display_name, 0))
             this._clickedOptionLocal = new geocodeResponseModel(this.myControl.value, res.features[0].geometry.coordinates)
             this._clickedOption.next(this._clickedOptionLocal)
           }
@@ -75,7 +75,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isLoading = false
           let searchResults: Array<{[key: string]: any}> = []
           response.features.forEach(element => {
-            let name = this.removeMiddle(element.properties.display_name, 2)
+            let name = this.removeMiddle(element.properties.display_name, 1)
             searchResults.push({name: name, content: element})
           });
           this._autoSuggested.next(searchResults)
@@ -114,12 +114,14 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** filters city name string */
+  /** filters city name string, always keep first and last string */
   removeMiddle(string: string, keep: number): string {
     let arr: string[] = string.split(',')
-    let nothing = arr[0]
-    for (let x = 1; x < keep; x++) {
-      nothing = nothing.concat(', ', arr[x])
+    let nothing = arr.shift()
+    for (let x = 0; x < keep; x++) {
+      if (arr[x] != arr.slice(-1)[0]) {
+        nothing = nothing.concat(', ', arr[x])
+      }
     }
     return nothing.concat(', ', arr[arr.length - 1])
   }
@@ -127,7 +129,6 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   /** when option is clicked */
   onOptionClick(country: {[key: string]: any}) {
     this._clickedOptionLocal = new geocodeResponseModel(country.name, country.content.geometry.coordinates, country.content)
-    console.log(this._clickedOptionLocal + '???')
     this._clickedOption.next(this._clickedOptionLocal)
     this.clearOnSearch? this.myControl.patchValue('') : null
     // this.emitCountry(this._clickedOptionLocal.name)

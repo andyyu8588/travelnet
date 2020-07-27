@@ -20,6 +20,16 @@
                         </mat-list-option>
                     </mat-expansion-panel-header>
                     <mat-table [dataSource]="trip.schedule[j].venues" class="mat-elevation-z8">
+                        <!-- category -->
+                        <ng-container matColumnDef="category">
+                            <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button mat-mini-fab color='primary' style="box-shadow: none;" *ngIf='element.category' matTooltip='{{element.category.name}}'>
+                                    <img src="{{element.category.url}}" alt="" style="margin-top: -0.3em;">
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
                         <!-- Name Column -->
                         <ng-container matColumnDef="name">
                           <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
@@ -31,15 +41,10 @@
                           <mat-header-cell *matHeaderCellDef> price </mat-header-cell>
                           <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
                         </ng-container>
+
                       
-                        <!-- category Column -->
-                        <ng-container matColumnDef="category">
-                          <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-                          <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
-                        </ng-container>
-                      
-                        <mat-header-row *matHeaderRowDef="['name', 'price', 'category']"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: ['name', 'price', 'category']"></mat-row>
+                        <mat-header-row *matHeaderRowDef="['category', 'name', 'price']"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: ['category', 'name', 'price']"></mat-row>
                       </mat-table>
                 </mat-expansion-panel>
             </mat-accordion>

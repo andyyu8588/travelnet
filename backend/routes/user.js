@@ -10,31 +10,30 @@ const User = require("../models/User")
 const router = express.Router()
 
 // setup multer storage
-const MIME_TYPE_MAP = { 
-  'image/png': 'png',
-  'image/jpg': 'jpg',
-  'image/jpeg': 'jpeg',
-}
+const MIME_TYPE_MAP = {
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/jpg": "jpg"
+};
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const isValid = MIME_TYPE_MAP[file.mimetype]
-    let error = new Error('Invalid mime type')
+    const isValid = MIME_TYPE_MAP[file.mimetype];
+    let error = new Error("Invalid mime type");
     if (isValid) {
-      error = null
+      error = null;
     }
-    cb(error, '/')
+    cb(error, "backend/images");
   },
   filename: (req, file, cb) => {
-    const name = file.originalname.toLowerCase().split(' ').join('-')
-    const ext = MIME_TYPE_MAP[file.mimetype]
-    cb(null, name + '-' + Date.now() + '.' + ext)
+    const name = file.originalname
+      .toLowerCase()
+      .split(" ")
+      .join("-");
+    const ext = MIME_TYPE_MAP[file.mimetype];
+    cb(null, name + "-" + Date.now() + "." + ext);
   }
-})
-
-const upload = multer({
-  storage: storage
-}).single('image')
+});
 
 router.get('', jwtMiddleware, (req, res, next) => {
     let origin = jwt.decode(req.get('authorization'), jwtSecret)
@@ -136,8 +135,9 @@ router.post('/unfollow', (req, res, next) => {
   })
 })
 
-router.post('/profilepicture', upload, (req, res, next) => {
-  const url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename 
+router.post('/profilepicture', multer({ storage: storage }).single("image"), (req, res, next) => {
+    console.log(req)
+    const url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename; 
     User.findOneAndUpdate({username: req.body.username}, {profilepicture: url}, (err, result) => {
       if (err) {
         res.status(500).json({

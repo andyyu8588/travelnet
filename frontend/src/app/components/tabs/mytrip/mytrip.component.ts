@@ -1,3 +1,6 @@
+import { environment } from './../../../../environments/environment.dev';
+import { HttpService } from 'src/app/services/http.service';
+import { ActivatedRoute } from '@angular/router';
 import { CustomCoordinates } from 'src/app/models/coordinates';
 import { LngLatLike, LngLat } from 'mapbox-gl';
 import { MapService } from 'src/app/services/map/map.service';
@@ -15,7 +18,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import * as Mapboxgl from 'mapbox-gl'
-import { last } from 'rxjs/operators';
+import { last, sample } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mytrip',
@@ -28,6 +31,9 @@ export class MytripComponent implements OnInit, OnDestroy {
   isLoading: boolean = false
   isErr: boolean = false
   isSuccess: boolean = false
+  sharedTrip: tripModel = null
+  sharingUrl: URL | string = null
+
   // trip accordeon
   @ViewChild(MatAccordion) TripAccordion: MatAccordion
   // onTripAccClose() {
@@ -76,10 +82,6 @@ export class MytripComponent implements OnInit, OnDestroy {
     return weekday[i]
   }
 
-  ok(ok) {
-    console.log(ok)
-  }
-
   // get price for a day w/ schedule obj
   getDayPrice(obj: {[key: string]: any}): number {
     let total: number = 0
@@ -124,11 +126,12 @@ export class MytripComponent implements OnInit, OnDestroy {
     return total
   }
 
-  getTripDistance(tripIndex: number): number {
+  getTripDistance(tripIndex: number|null, shared?: boolean): string {
     let dist: number = 0
     let lastCoord: LngLat = null
-    for (let x = 0; x < this.trips[tripIndex].schedule.length; x++) {
-      this.trips[tripIndex].schedule[x].venues.forEach((venue) => {
+    let obj = shared? this.sharedTrip : this.trips[tripIndex]
+    for (let x = 0; x < obj.schedule.length; x++) {
+      obj.schedule[x].venues.forEach((venue) => {
         if (venue.venueCoord) {
           if (lastCoord === null) {
             lastCoord = new LngLat(venue.venueCoord.lng, venue.venueCoord.lat)
@@ -138,13 +141,14 @@ export class MytripComponent implements OnInit, OnDestroy {
         } 
       })
     }
-    return Math.floor(dist/1000) + Math.floor((dist%1000)*10)*0.1
+    return (dist/1000).toFixed(2)
   }
 
-  getDataSource(tripIndex: number, dayIndex: number): MatTableDataSource<any> {
+  getDataSource(tripIndex: number, dayIndex: number, shared?: boolean): MatTableDataSource<any> {
     let source = new MatTableDataSource<any>([])
-    if (this.trips[tripIndex].schedule) {
-      source.data = this.trips[tripIndex].schedule[dayIndex].venues
+    let obj = shared? this.sharedTrip : this.trips[tripIndex]
+    if (obj.schedule) {
+      source.data = obj.schedule[dayIndex].venues
       source.sort = this.sort
       return source
     } else {
@@ -155,10 +159,31 @@ export class MytripComponent implements OnInit, OnDestroy {
   constructor(private MatDialog: MatDialog,
               private TripService: TripService,
               private SessionService: SessionService,
-              private MapService: MapService) { 
+              private MapService: MapService,
+              private ActivatedRoute: ActivatedRoute,
+              private HttpService: HttpService) { 
   }
 
   ngOnInit(): void {
+    // if from link
+    this.ActivatedRoute.queryParams.subscribe((params) => {
+      if (params.tripId) {
+        console.log(params)
+        this.HttpService.get('/trips', {
+          tripId: params.tripId
+        })
+        .then((res: {trip: tripModel}) => {
+          this.sharedTrip = res.trip
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+
+        })
+      }
+    })
+
     this.isLoading = true
     this._tripSub = this.TripService.trips.subscribe((trips: tripModel[]) => {
       this.trips = trips
@@ -169,6 +194,23 @@ export class MytripComponent implements OnInit, OnDestroy {
     })
     this.sessionState_sub = this.SessionService.sessionState.subscribe((state: boolean) => {
       this.sessionState = state
+    })
+  }
+
+  changeSharingLink(id: string) {
+    this.sharingUrl = environment.travelnetURL + '/mytrip?' + 'tripId=' + id
+  }
+
+  /** copy shared trip to own trip */
+  copyTrip() {
+    this.trips.push(this.sharedTrip)
+    this.isLoading = true
+    this.TripService.modifyBackend(this.trips)
+    .then(() => {
+      this.isSuccess = true
+    })
+    .finally(() => {
+      this.isLoading = false
     })
   }
 
@@ -267,7 +309,7 @@ export class MytripComponent implements OnInit, OnDestroy {
   }
 
   /** show itinerary of trip on map */
-  showItinerary(tripIndex: number) {
+  showItinerary(tripIndex: number, shared? : boolean) {
     // already showing itinerary
     if (this.MapService.map.getSource('route')) {
       this.MapService.map.removeLayer('route')
@@ -275,10 +317,10 @@ export class MytripComponent implements OnInit, OnDestroy {
       this.MapService.map.removeLayer('points')
       this.MapService.map.removeSource('points')
     } 
-
+    let obj = shared? this.sharedTrip : this.trips[tripIndex]
     // push venues in array
     let coord: Array<number[]> = []
-    for (let day of this.trips[tripIndex].schedule) {
+    for (let day of obj.schedule) {
       day.venues.forEach((venue) => {
         if (venue.venueCoord) {
           coord.push([venue.venueCoord.lng, venue.venueCoord.lat])
@@ -318,7 +360,7 @@ export class MytripComponent implements OnInit, OnDestroy {
       },
       'paint': {
       'line-color': '#3bb2d0',
-      'line-width': 9
+      'line-width': 8
       }
     });
     this.MapService.map.moveLayer('points')
@@ -326,14 +368,14 @@ export class MytripComponent implements OnInit, OnDestroy {
 
 
   /** display location of venue on map */
-  showLocation(tripIndex: number, dayIndex: number, venueIndex: number) {
+  showLocation(tripIndex: number, dayIndex: number, venueIndex: number, shared?: boolean) {
+    let obj = shared? this.sharedTrip : this.trips[tripIndex]
     this.MapService.venueOnDestroy()
-    let coord: CustomCoordinates = this.trips[tripIndex].schedule[dayIndex].venues[venueIndex].venueCoord? new CustomCoordinates(this.trips[tripIndex].schedule[dayIndex].venues[venueIndex].venueCoord.lng, this.trips[tripIndex].schedule[dayIndex].venues[venueIndex].venueCoord.lat) : null
+    let coord: CustomCoordinates = obj.schedule[dayIndex].venues[venueIndex].venueCoord? new CustomCoordinates(obj.schedule[dayIndex].venues[venueIndex].venueCoord.lng, obj.schedule[dayIndex].venues[venueIndex].venueCoord.lat) : null
     if (coord) {
       this.MapService.addMarker(coord)
     }
   }
-
 
   ngOnDestroy() {
     this.MapService.venueOnDestroy()

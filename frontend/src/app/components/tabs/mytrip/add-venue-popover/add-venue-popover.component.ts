@@ -94,7 +94,8 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     this.customVenueForm = new FormGroup({
       'name': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)]),
       'address': new FormControl(null),
-      'price': new FormControl(null)
+      'price': new FormControl(null),
+      'url': new FormControl(null)
     })
 
     // fill form if user is editing venue
@@ -102,6 +103,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
       this.customVenueForm.get('name').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].name? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].name : '')
       this.customVenueForm.get('address').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueAddress? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueAddress : '')
       this.customVenueForm.get('price').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].price? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].price : 0)
+      this.customVenueForm.get('url').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].url? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].url : '')
     }
   }
 
@@ -145,21 +147,23 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
       if (this.venueIndex != null) {
         this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex] = {
           name: this.customVenueForm.get('name').value,
-          venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
+          venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.removeMiddle(this.CitySearchComponent.myControl.value, 0) : '',
           venueCoord: {lng: this.selectedOption.content.geometry.coordinates[0], lat: this.selectedOption.content.geometry.coordinates[1]},
           venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
           price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
-          category: url? {name: this.defaultCategory, url: url} : null
+          category: url? {name: this.defaultCategory, url: url} : null,
+          url: this.customVenueForm.get('url').value ? this.customVenueForm.get('url').value : '' 
         }
       } else {
         // if add venue
         this.allTrips[this.tripIndex].schedule[this.dayIndex].venues.push({
           name: this.customVenueForm.get('name').value,
-          venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.myControl.value : '',
+          venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.removeMiddle(this.CitySearchComponent.myControl.value, 0) : '',
           venueCoord: {lng: this.selectedOption.content.geometry.coordinates[0], lat: this.selectedOption.content.geometry.coordinates[1]},
           venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
           price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
-          category: url? {name: this.defaultCategory, url: url} : null
+          category: url? {name: this.defaultCategory, url: url} : null,
+          url: this.customVenueForm.get('url').value ? this.customVenueForm.get('url').value : '' 
         })
       }
       this.TripService.modifyBackend(this.allTrips)

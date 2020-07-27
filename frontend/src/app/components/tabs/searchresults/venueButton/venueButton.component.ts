@@ -8,7 +8,7 @@ import { TripService } from './../../../../services/trip.service';
 import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
-import { even } from '@rxweb/reactive-form-validators';
+
 @Component({
   selector: 'app-venueButton',
   templateUrl: './venueButton.component.html',

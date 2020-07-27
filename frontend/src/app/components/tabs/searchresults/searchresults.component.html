@@ -18,7 +18,7 @@
         </mat-card-header>
       </mat-card>
       <!-- display venues -->
-      <div *ngIf="checkFilter(1)">
+      <div *ngIf="checkFilter(1)" style="min-height: 600px;">
         <div *ngFor="let result of openTab.content.venues">
           <div *ngIf="categoriesSet && checkIfChecked(result.venue.categories[0].id)">
             <app-venueButton [result]="result"></app-venueButton>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <!-- display users -->
-      <div *ngIf="checkFilter(2)">
+      <div *ngIf="checkFilter(2)" style="min-height: 600px;">
         <div *ngFor="let result of openTab.content.users">
           <app-userbutton [result]="result"></app-userbutton>
         </div>

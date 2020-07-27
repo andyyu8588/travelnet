@@ -1,26 +1,159 @@
 <div style="position: relative;" *ngIf='sessionState'>
     <div class="container" style="background-color: rgba(255, 200, 200, 1); padding: 1em;">
         <div class="row justify-content-center">
-            <button mat-mini-fab class="col-auto align-self-center" (click)='openAddTripModal()'>
+            <button mat-mini-fab class="col-auto align-self-center" matTooltip='create a new trip' (click)='openAddTripModal()'>
                 <mat-icon>add</mat-icon>
             </button>
         </div>
     </div>
     <br>
     <div class="" style="max-height: 100%">
-        <div *ngIf='!trips && !isLoading' class="container-fluid row rounded align--items-center" style="background-color: rgba(255, 255, 255, 1); min-height: 100px;">
-            &nbsp;<h2 class="align-self-center">No trips Yet...</h2>
-        </div>
+
         <div class="" *ngIf='isLoading && !trips'>
             <mat-spinner diameter='20'></mat-spinner>
         </div>
         <mat-accordion class="container-fluid" style="min-height: 750px;"  >
-            <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index, let isFirst = first' [expanded]='isFirst'>
+            <!-- for shared links -->
+            <mat-expansion-panel #shared *ngIf='sharedTrip' [expanded]='sharedTrip'>
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="align-self-center">
+                        <span>
+                            {{sharedTrip.tripName}}
+                            <button mat-button matTooltip='shared trip' (click)='shared.toggle()'>
+                                <mat-icon class="text-success" >link</mat-icon>
+                            </button>
+                        </span>
+                    </mat-panel-title>
+                    <mat-panel-description class="align-self-center" >{{sharedTrip.dateRange.start|date}} &mdash; {{sharedTrip.dateRange.end|date}}&nbsp;<mat-divider [vertical]="true"></mat-divider>&nbsp;{{ sharedTrip.dateRange.length }} days</mat-panel-description>
+                    <span (click)="shared.toggle()" style="margin-right: 1em;">  
+                        <button mat-button (click)='changeSharingLink(sharedTrip._id)' color='primary' matTooltip='share this trp' [ngbPopover]='popContent' [autoClose]="'outside'" container="body">    
+                            <mat-icon>share</mat-icon>
+                        </button>
+                        <button mat-button (click)='showItinerary(null, true)' color='accent' matTooltip='show itinerary on map' >    
+                            <mat-icon>map</mat-icon>
+                        </button>
+                        <button mat-button (click)='copyTrip()' matTooltip='copy this trip'>
+                            <mat-icon class='text-success'>add</mat-icon>
+                        </button>
+                    </span>
+                </mat-expansion-panel-header>
+
+                <mat-card>
+                    <mat-card-content class="">
+                        <div class="example-action-buttons">
+                            <button mat-button (click)="TripAccordion.openAll()">Expand All</button>
+                            <button mat-button (click)="TripAccordion.closeAll()">Collapse All</button>
+                        </div>
+                        <mat-accordion #acc multi>
+                            <mat-expansion-panel *ngFor='let schedule of sharedTrip.schedule; let j = index'>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        day {{ j + 1 }}
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        {{ displayDay(schedule.day) }} | {{ schedule.day | date }} &nbsp; &mdash; &nbsp; Locations: {{getDayVenues(schedule)}} &nbsp; &mdash; &nbsp; Price: {{getDayPrice(schedule)}}$
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="container-fluid">
+                                    <mat-table [dataSource]='getDataSource(0, j, true)' style="width: 100%;" matSort>
+                                         <!-- category -->
+                                         <ng-container matColumnDef="category">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Category </mat-header-cell>
+                                            <mat-cell *matCellDef="let element">
+                                                <button mat-mini-fab color='primary' style="box-shadow: none;" *ngIf='element.category' matTooltip='{{element.category.name}}'>
+                                                    <img src="{{element.category.url}}" alt="" style="margin-top: -0.3em;">
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <!-- venueName -->
+                                        <ng-container matColumnDef="venueName">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Venue Name </mat-header-cell>
+                                            <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+                                        </ng-container>
+
+                                        <!-- venueCity -->
+                                        <ng-container matColumnDef="venueCity">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.venueCity}} </mat-cell>
+                                        </ng-container>
+                                        
+                                        <!-- venueAddress -->
+                                        <ng-container matColumnDef="venueAddress" style="display: inline-block">
+                                            <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"><p style="display: inline-block; width: 100%;">{{element.venueAddress}} </p> </mat-cell>
+                                        </ng-container>
+                                        
+                                        <!-- venuePrice -->
+                                        <ng-container matColumnDef="price">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+                                            <mat-cell *matCellDef="let element" >
+                                                <span class="text-center" style="width: 100%;" *ngIf='element.price == 0'>{{element.price}}$</span> 
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <!-- website -->
+                                        <ng-container matColumnDef="url">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Website </mat-header-cell>
+                                            <mat-cell *matCellDef="let element">
+                                                <a href="{{element.url}}" target="_blank" *ngIf='element.url' matTooltip='{{element.url}}'>
+                                                    <button mat-button>
+                                                        <mat-icon>open_in_new</mat-icon>
+                                                    </button>
+                                                </a>
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <!-- edit & drag -->
+                                        <ng-container matColumnDef="index" stickyEnd>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                                            <mat-cell *matCellDef="let index = index">
+                                                <p class="text-right" style="width: 100%;">
+                                                    <button mat-button matTooltip='show location on map' (click)='showLocation(null, j, index, true)'>
+                                                        <mat-icon>map</mat-icon>
+                                                    </button>
+                                                </p>
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag></mat-row>
+                                    </mat-table>
+                                </div>
+                            </mat-expansion-panel>
+                            <br>
+                            <!-- trip stats -->
+                            <mat-expansion-panel expanded='true'>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>Trip Overview</mat-panel-title>
+                                    <mat-panel-description>All your stats are here</mat-panel-description>   
+                                </mat-expansion-panel-header>
+                                <div class="row container-fluid">
+                                    <mat-chip-list>
+                                        <mat-chip color="primary" selected>Distance Traveled: {{getTripDistance(null, true)}} km</mat-chip>
+                                        <mat-chip color="warn" selected>Places Visited: {{getTotalVenues(sharedTrip)}}</mat-chip>
+                                        <mat-chip color="accent" selected>Price: {{getTotalPrice(sharedTrip)}}$</mat-chip>
+                                    </mat-chip-list>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </mat-card-content>
+                </mat-card>
+            </mat-expansion-panel>
+            
+            <br>
+            <!-- no trips -->
+            <div *ngIf='!trips && !isLoading' class="container-fluid row rounded align--items-center" style="background-color: rgba(255, 255, 255, 1); min-height: 100px;">
+                &nbsp;<h2 class="align-self-center">No trips Yet...</h2>
+            </div>
+
+            <!-- for own trips -->
+            <mat-expansion-panel #pan *ngFor='let trip of trips, let i = index, let isFirst = first' [expanded]='isFirst && !sharedTrip'>
                 <mat-expansion-panel-header class="my-headers-align">
                     <mat-panel-title class="align-self-center">{{trip.tripName}}</mat-panel-title>
-                    <mat-panel-description class="align-self-center" >{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}&nbsp;|&nbsp;{{ trip.dateRange.length }} days</mat-panel-description>
+                    <mat-panel-description class="align-self-center" >{{trip.dateRange.start|date}} &mdash; {{trip.dateRange.end|date}}&nbsp;<mat-divider [vertical]="true"></mat-divider>&nbsp;{{ trip.dateRange.length }} days</mat-panel-description>
                     <span (click)="pan.toggle()" style="margin-right: 1em;">  
-                        <button mat-button (click)='ok($event)' color='primary' matTooltip='share this trp'>    
+                        <button mat-button (click)='changeSharingLink(trip._id)' color='primary' matTooltip='share this trp' [ngbPopover]='popContent' [autoClose]="'outside'" container="body">    
                             <mat-icon>share</mat-icon>
                         </button>
                         <button mat-button (click)='showItinerary(i)' color='accent' matTooltip='show itinerary on map' >    
@@ -29,13 +162,6 @@
                     </span>
                 </mat-expansion-panel-header>
                 <mat-card>
-                    <!-- <mat-card-title>
-                        <div class="row">
-                            <div class="col-auto mr-auto align-self-center">{{ trip.name }}</div>
-                        </div>               
-                    </mat-card-title>
-                    <mat-card-header class="">{{ trip.dateRange.start | date }} - {{ trip.dateRange.end | date }} &nbsp; ({{trip.dateRange.length}} days)</mat-card-header>
-                    <br> -->
                     <mat-card-content class="">
                         <div class="example-action-buttons">
                             <button mat-button (click)="TripAccordion.openAll()">Expand All</button>
@@ -181,3 +307,8 @@
         </div>
     </mat-grid-tile>
 </mat-grid-list>
+
+<!-- share popover -->
+<ng-template #popContent> 
+    <app-share [UrlLink]='sharingUrl'></app-share>
+</ng-template>
