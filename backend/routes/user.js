@@ -136,7 +136,8 @@ router.post('/unfollow', (req, res, next) => {
 })
 
 router.post('/profilepicture', multer({ storage: storage }).single("image"), (req, res, next) => {
-    const url = req.protocol + '://' + req.get('host') + '/images/' + req.body.file.filename; 
+    console.log(req)
+    // const url = req.protocol + '://' + req.get('host') + '/images/' + req.body.file.filename; 
     User.findOneAndUpdate({username: req.body.username}, {profilepicture: url}, (err, result) => {
       if (err) {
         res.status(500).json({
