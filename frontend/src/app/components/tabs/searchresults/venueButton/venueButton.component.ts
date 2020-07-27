@@ -97,7 +97,7 @@ export class VenueButtonComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.MapService.venueOnDestroy()
+    this.MapService.venueOnDestroy()
     this.trips_sub.unsubscribe()
     this.MapService.venueOnDestroy()
   }

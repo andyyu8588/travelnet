@@ -336,6 +336,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
+    this.MapService.venueOnDestroy()
     this._tripSub.unsubscribe()
     this.sessionState_sub.unsubscribe()
     this.MapService.removeMarker('', null, true)
