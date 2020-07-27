@@ -40,6 +40,7 @@ router.post(
   multer({ storage: storage }).single("image"),
   jwtMiddleware,
   (req, res, next) => {
+    console.log(req)
     const url = req.protocol + "://" + req.get("host");
     let origin = jwt.decode(req.get('authorization'), jwtSecret)
     try{
