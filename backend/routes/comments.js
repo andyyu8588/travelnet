@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 /**creates new comment */
 router.post(
     "/",
-    (req,res,next) => {
+    (req,res) => {
     Post.findById(req.body.postId).then(post => {
       if (post){
         const comment ={
@@ -54,8 +54,7 @@ router.post(
           likes: [],
           edited: null
         };
-        console.log(req.body.postId);
-        // (post.comments.id(req.params.id).replies).push(reply);
+        (post.comments.id(req.params.id).replies).push(reply);
         post.save().then(post => {
           res.status(201).json({
             message: "reply added successfully",
@@ -68,25 +67,42 @@ router.post(
               edited: null
             }
           })
-        })
+        }).catch((err) => console.log(err));
       }
       else{
         res.status(404).json({ message: "Comment not found!" })
       }
-    })
+    }).catch( error => {
+      console.log( `error ${error.message}` );
+      console.log( error );
+     } );
   })
   /**edits existing comment */
   router.put(
     "/:id",
     (req, res, next) => {
-        const comment = new Comment({
+        const editedComment = new Comment({
+          _id: req.body._commentId,
           date: req.body.date,
           author: req.body.author,
           content: req.body.content,
           edited: req.body.edited
         })
       try{
-        Comment.updateOne({ _id: req.params.id }, comment).then(result => {
+        Post.findById(req.params.id).then(post => {
+          if (post) {
+            if(req.body.replyId){
+              var array = post.comments.id(req.params.id).replies
+              var comment = array.id(req.body.replyId)
+              var index = array.indexOf(comment)
+            }
+            else{
+              var array = post.comments
+              var comment= array.id(req.params.id)
+              var index = array.indexOf(comment)     
+            }
+            array[index] = editedComment
+
           res.status(200).json({ 
               message: "Update successful!",
               comment: {
@@ -97,43 +113,50 @@ router.post(
                 likes: req.body.likes,
                 replies: req.body.replies,
                 edited: req.body.edited
-                
               }
-            },
-          );
+            });
+          }
         });
       } catch (e){
         print(e)
       }
     }
   );
-  /**likes tree comment */
+  /**likes comment */
 
   router.put(
     "/like/:id",
     (req, res) => {
     Post.findById(req.body.postId).then(post => {
       if (post) {
-        console.log(req.body.postId);
-        // let comment= post.comments.id(req.params.id)
-        // if(!comment.likes.includes(req.body.username)){
-        //     comment.likes.push(req.body.username)
-        //   }
-        // else{
-        //   comment.likes.pop(req.body.username)
-        // }
+        if(req.body.replyId){
+          var comment= post.comments.id(req.params.id).replies.id(req.body.replyId)
+        }
+        else{
+          var comment= post.comments.id(req.params.id)        
+        }
+
+        if(!comment.likes.includes(req.body.username)){
+          comment.likes.push(req.body.username)
+        }
+        else{
+          comment.likes.pop(req.body.username)
+        }
         post.save().then(post =>{          
           res.status(201).json({
           message: "like added/removed" ,
           post: post,
-          // likes : comment.likes
+          likes : comment.likes
           });
-        })
+        }).catch((err) => next(err));
       }
       else {
       res.status(404).json({ message: "comment not found!" });
       }
-    })
+    }).catch( error => {
+      console.log( `error ${error.message}` );
+      next( error );
+     } );
   })
 
 
@@ -150,12 +173,26 @@ router.get("/:id", (req, res, next) => {
 });
 
   /**deletes existing comment */
-router.delete("/:id", (req, res, next) => {
-    Comment.deleteOne({ _id: req.params.id }).then(result => {
-      console.log(result);
-      res.status(200).json({ message: "Post deleted!" });
-    });
-  });
+router.put("/delete/:id", (req, res, next) => {
+  Post.findById(req.body.postId).then(post => {
+    if (post){
+      if(req.body.replyId){
+        var comment= post.comments.id(req.params.id).replies.id(req.body.replyId)
+
+      }
+      else{
+        var comment= post.comments.id(req.params.id)        
+      }
+      console.log(comment)
+      comment.remove();
+      post.save().then(result => {
+        res.status(200).json({ message: "Post deleted!" });
+      })
+    }else {
+      res.status(404).json({ message: "Post not found!" });
+    }
+  })
+});
   
   
   module.exports = router;

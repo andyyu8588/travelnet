@@ -164,9 +164,7 @@ export class AddPostService {
       .delete(this.url + postId)
       .subscribe(() => {
         const updatedPosts = this.posts.filter(post => post._id !== postId);
-        console.log(postId)
         this.posts = updatedPosts;
-        console.log(this.posts)
         this.postsUpdated.next(this.posts);
       });
   }

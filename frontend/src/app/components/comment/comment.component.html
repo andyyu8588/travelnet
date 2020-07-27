@@ -3,8 +3,9 @@
   {{comment.author}} : {{comment.content}}
   <div>
     <button mat-button (click)="likeTreeComment()">LIKE</button>
-    {{comment.likes}}
-    <button mat-button (click)="reply()">REPLY</button>
+    {{comment.likes.length}}
+    <button mat-button (click)="replyBoolean()">REPLY</button>
+    <button mat-button (click)="deleteTreeComment()">DELETE</button>
   </div>
   <p *ngIf="comment.edited">edited</p>
 
@@ -12,9 +13,10 @@
     <mat-card *ngFor="let reply of comment.replies">
       <mat-card-header> {{reply.author}} : {{reply.content }}
         <div>
-          <button mat-button (click)="like()">LIKE</button>
-          {{comment.likes}}
+          <button mat-button (click)="likeLeafComment(reply._id)">LIKE</button>
+          {{reply.likes.length}}
           <button mat-button >REPLY</button>
+          <button mat-button (click)="deleteLeafComment(reply._id)">DELETE</button>
         </div>
       </mat-card-header>
    </mat-card>

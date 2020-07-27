@@ -82,6 +82,7 @@ import { CommentComponent } from './components/comment/comment.component';
 import { AddToTripPopoverComponent } from './components/tabs/searchresults/add-to-trip-popover/add-to-trip-popover.component'
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ArrayToPipePipe } from './pipes/array-to-pipe.pipe';
+import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -122,6 +123,7 @@ import { ArrayToPipePipe } from './pipes/array-to-pipe.pipe';
     CommentComponent,
     AddToTripPopoverComponent,
     ArrayToPipePipe,
+    EditCommentComponent,
   ],
   imports: [
     BrowserModule,

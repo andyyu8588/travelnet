@@ -25,7 +25,7 @@ export class CommentComponent implements OnInit {
       })
   }
 
-  reply(){
+  replyBoolean(){
     this.replyField = !this.replyField
   }
   onAddReply(){
@@ -37,18 +37,46 @@ export class CommentComponent implements OnInit {
       author: sessionStorage.getItem('username'),
       content: this.form.value.content,
     }
-    this.commentsService.reply(this.postId,this.comment._id,newReply)
+    let replyContent = {
+      postId: this.postId,
+      commentId: this.comment._id,
+      reply: newReply
+    }
+    this.commentsService.reply(replyContent)
     this.form.reset();
   }
   likeTreeComment(){
     let likeContent = {
       postId: this.postId,
       commentId: this.comment._id,
-      username: sessionStorage.getItem("username")
+      username: sessionStorage.getItem("username"),
+      replyId: null
     }
-    this.commentsService.liketreeComment(likeContent)
+    this.commentsService.likeComment(likeContent)
   }
-  like(){
-
+  likeLeafComment(replyId){
+    let likeContent = {
+      postId: this.postId,
+      commentId: this.comment._id,
+      username: sessionStorage.getItem("username"),
+      replyId: replyId
+    }
+    this.commentsService.likeComment(likeContent)
+  }
+  deleteTreeComment(){
+    let deleteContent = {
+      postId: this.postId,
+      commentId: this.comment._id,
+      replyId: null
+    }
+    this.commentsService.deleteComment(deleteContent)
+  }
+  deleteLeafComment(replyId){
+    let deleteContent = {
+      postId: this.postId,
+      commentId: this.comment._id,
+      replyId: replyId
+    }
+    this.commentsService.deleteComment(deleteContent)
   }
 }
