@@ -21,18 +21,17 @@ export class featureGEOJSONModel {
     icon?: string
   }
 
-  constructor(title: string, coordinates: number[], iconStyle?: URL) {
+  constructor(title: string, coordinates: number[]) {
     this.type = 'Feature'
     this.geometry = {
       'type': 'Point',
       'coordinates': coordinates
     }
-    this.properties = iconStyle? {
+    this.properties = {
       title: title,
-      'iconUrl': iconStyle
-    } : {
-      title: title,
-      'marker-symbol': 'rocket'
+      'marker-color': '#3c4e5a',
+      'marker-symbol': 'marker-15',
+      'marker-size': 'large',
     }
   }
 }
@@ -196,7 +195,7 @@ export class MapService implements OnDestroy{
         }
       )
     } else if (input) {
-      this.Places[target - 1].push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates, style))
+      this.Places[target - 1].push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates))
       let coord: mapboxgl.LngLatLike = {
         lng: input.content.geometry.coordinates[0],
         lat: input.content.geometry.coordinates[1]
@@ -227,12 +226,11 @@ export class MapService implements OnDestroy{
                     input.content.geometry.coordinates[1],
                   ]
                 },
-                'properties': style? {
+                'properties': {
                   'title': input.name,
-                  'iconUrl': style
-                } : {
-                  'title': input.name,
-                  'marker-symbol': 'rocket'
+                  'marker-color': '#3c4e5a',
+                  'marker-symbol': 'marker-15',
+                  'marker-size': 'large',
                 }
               },
             ]
@@ -249,7 +247,7 @@ export class MapService implements OnDestroy{
         'layout': {
           // get the icon name from the source's "icon" property
           // concatenate the name to get an icon from the style's sprite sheet
-          'icon-image': ['concat', ['get', 'icon'], '-15'],
+          'icon-image': ['get', 'marker-symbol'],
           // get the title name from the source's "title" property
           'text-field': ['get', 'title'],
           'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],

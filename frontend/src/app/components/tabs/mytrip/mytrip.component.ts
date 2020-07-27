@@ -1,4 +1,4 @@
-import { LngLatLike } from 'mapbox-gl';
+import { LngLatLike, LngLat } from 'mapbox-gl';
 import { MapService } from 'src/app/services/map/map.service';
 import { MatSort } from '@angular/material/sort';
 import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component';
@@ -14,6 +14,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import * as Mapboxgl from 'mapbox-gl'
+import { last } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mytrip',
@@ -120,6 +121,23 @@ export class MytripComponent implements OnInit, OnDestroy {
       })
     }
     return total
+  }
+
+  getTripDistance(tripIndex: number): number {
+    let dist: number = 0
+    let lastCoord: LngLat = null
+    for (let x = 0; x < this.trips[tripIndex].schedule.length; x++) {
+      this.trips[tripIndex].schedule[x].venues.forEach((venue) => {
+        if (venue.venueCoord) {
+          if (lastCoord === null) {
+            lastCoord = new LngLat(venue.venueCoord.lng, venue.venueCoord.lat)
+          }
+          dist += lastCoord.distanceTo(venue.venueCoord)
+          lastCoord = new LngLat(venue.venueCoord.lng, venue.venueCoord.lat)
+        } 
+      })
+    }
+    return Math.floor(dist/1000) + Math.floor((dist%1000)*10)*0.1
   }
 
   getDataSource(tripIndex: number, dayIndex: number): MatTableDataSource<any> {
@@ -272,7 +290,7 @@ export class MytripComponent implements OnInit, OnDestroy {
                 coordinates: [venue.venueCoord.lng, venue.venueCoord.lat]
               }
             }
-          }, new URL('https://ss3.4sqi.net/img/categories_v2/food/pizza_32.png'))
+          })
         }
       })
     }
@@ -298,7 +316,7 @@ export class MytripComponent implements OnInit, OnDestroy {
       'line-cap': 'round'
       },
       'paint': {
-      'line-color': '#188FA7',
+      'line-color': '#3bb2d0',
       'line-width': 9
       }
     });
