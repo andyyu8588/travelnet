@@ -85,14 +85,14 @@ export class CommentsService {
     );
   }
   /**reply to head comment */
-  reply(postId: string, commentId: string, reply: any){
-    const postIndex = this.PostService.posts.findIndex(p => p._id === postId);
-    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === commentId)
+  reply(replyContent:{postId: string, commentId: string, reply: any}){
+    const postIndex = this.PostService.posts.findIndex(p => p._id === replyContent.postId);
+    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === replyContent.commentId)
 
     this.http
     .put<{ message: string; reply: Comment }>(
-      this.url + commentId,
-      {commentData:reply, postId: postId})
+      this.url + replyContent.commentId,
+      {commentData: replyContent.reply, postId: replyContent.postId})
     .subscribe(responseData => {
       this.PostService.posts[postIndex].comments[commentIndex].replies.push(responseData.reply)
       this.PostService.updatePosts(this.PostService.posts)
@@ -107,20 +107,47 @@ export class CommentsService {
     commentData.append("content", newComment.content);
     commentData.append("edited", newComment.edited);
   }
-  /**like tree comment */
-  liketreeComment(likeContent:{postId: string, commentId: string, username: string }){
+  /**like comment */
+  likeComment(likeContent:{postId: string, commentId: string, username: string, replyId: string}){
     const postIndex = this.PostService.posts.findIndex(p => p._id === likeContent.postId);
     const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === likeContent.commentId)
+    if (likeContent.replyId){
+      var replyIndex = this.PostService.posts[postIndex].comments[commentIndex].replies.findIndex(r => r._id === likeContent.replyId)
+    }
     this.http
     .put<{ message: string; likes: string[] }>(
       this.url +'like/' + likeContent.commentId,
-    {postId: likeContent.postId,username: likeContent.username})
+    {postId: likeContent.postId,username: likeContent.username, replyId: likeContent.replyId})
       .subscribe(response =>{
-        (this.PostService.posts[postIndex]).comments[commentIndex].likes= response.likes
+        if(likeContent.replyId){
+          (this.PostService.posts[postIndex]).comments[commentIndex].replies[replyIndex].likes = response.likes
+        }
+        else{
+          (this.PostService.posts[postIndex]).comments[commentIndex].likes= response.likes
+        }
         this.PostService.updatePost(this.PostService.posts)
       })
   }
   /**delete existing comment */
-
-
+  deleteComment(deleteContent:{postId: string, commentId: string, replyId: string}){
+    const postIndex = this.PostService.posts.findIndex(p => p._id === deleteContent.postId);
+    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === deleteContent.commentId)
+    if (deleteContent.replyId){
+      var replyIndex = this.PostService.posts[postIndex].comments[commentIndex].replies.findIndex(r => r._id === deleteContent.replyId)
+    }
+    this.http
+    .put<{}>(
+      this.url +'delete/' + deleteContent.commentId,
+      {postId: deleteContent.postId, replyId: deleteContent.replyId})
+      .subscribe(() => {
+        var newPosts = this.PostService.posts
+        if(deleteContent.replyId){
+          newPosts[postIndex].comments[commentIndex].replies.splice(replyIndex)
+        }
+        else{
+          newPosts[postIndex].comments.splice(commentIndex)
+        }
+        this.postsUpdated.next(newPosts);
+      })
+  }
 }
