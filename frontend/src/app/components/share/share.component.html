@@ -1,0 +1,10 @@
+<form [formGroup]='shareForm'>
+    <mat-form-field appearance='outline'>
+        <mat-label>Shareable Link</mat-label>
+        <input matInput formControlName='urlLinkControl' type="text" readonly aria-readonly="true">
+    </mat-form-field>  
+    <button mat-button type='button' [cdkCopyToClipboard]='shareForm.get("urlLinkControl").value' (click)='onCopyClick()'>Copy</button>
+    &nbsp;
+    <small class="text-success" *ngIf='copied'>Copied To Clipboard</small>
+</form>
+

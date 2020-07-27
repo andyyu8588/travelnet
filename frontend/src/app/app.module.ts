@@ -83,6 +83,9 @@ import { AddToTripPopoverComponent } from './components/tabs/searchresults/add-t
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ArrayToPipePipe } from './pipes/array-to-pipe.pipe';
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
+import { ShareComponent } from './components/share/share.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -124,6 +127,7 @@ import { EditCommentComponent } from './components/edit-comment/edit-comment.com
     AddToTripPopoverComponent,
     ArrayToPipePipe,
     EditCommentComponent,
+    ShareComponent,
   ],
   imports: [
     BrowserModule,
@@ -177,6 +181,7 @@ import { EditCommentComponent } from './components/edit-comment/edit-comment.com
     MatTreeModule,
     HttpClientModule,
     DragDropModule,
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

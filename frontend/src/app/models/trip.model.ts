@@ -4,6 +4,7 @@ import * as moment from 'moment'
 import { LngLatLike } from 'mapbox-gl';
 
 export class tripModel {
+    _id: string
     tripName: String
     dateRange: {
         [key: string]: any
@@ -20,7 +21,7 @@ export class tripModel {
             venueAddress?: String
             venueCoord?: LngLatLike
             price?: Number
-            url? : URL
+            url? : URL | string
             category?: {
                 name: string
                 url: URL | string

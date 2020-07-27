@@ -13,21 +13,22 @@
     <hr>
     <!-- quick actions -->
     <span class="row justify-content-end">
-      <button mat-button class="col-auto mr-auto">
-        <mat-icon mat-icon-button matTooltip="share" matTooltipPosition='above' color='accent' >share</mat-icon>
-      </button>
+      <!-- show on map -->
       <button mat-button class="col-auto mr-auto" (click)='showLocation()'>
         <mat-icon mat-icon-button matTooltip="show on map" matTooltipPosition='above' color='primary'>map</mat-icon>
       </button>
+      <!-- add to trip -->
       <button mat-button class="col-auto mr-auto">
-        <mat-icon mat-icon-button *ngIf='!isErr && !isLoading && !isSuccess' [ngbPopover]="popContent" matTooltip="add to trip..."  matTooltipPosition='above'  [autoClose]="'outside'">playlist_add</mat-icon>
+        <mat-icon mat-icon-button *ngIf='!isErr && !isLoading && !isSuccess' matTooltipPosition='above' [ngbPopover]="popContent" matTooltip="add to trip..." [autoClose]="'outside'">playlist_add</mat-icon>
         <mat-spinner diameter='20' *ngIf='isLoading'></mat-spinner>
         <mat-icon mat-icon-button class="text-success" *ngIf='isSuccess && !isLoading'>check</mat-icon>
         <mat-icon mat-icon-button class="text-danger" *ngIf='isErr && !isLoading' matTooltip='an error occured'>error</mat-icon>
       </button>
-      <ng-template #popContent> 
-        <app-add-to-trip-popover (onSubmitEvent)='addToTrip($event)'></app-add-to-trip-popover>
-      </ng-template>
     </span>
   </mat-card-content>
 </mat-card>
+
+<!-- add to trip -->
+<ng-template #popContent> 
+  <app-add-to-trip-popover (onSubmitEvent)='addToTrip($event)'></app-add-to-trip-popover>
+</ng-template>

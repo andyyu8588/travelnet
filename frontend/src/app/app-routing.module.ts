@@ -21,7 +21,9 @@ const routes: Routes = [
   { path: 'register', component: RegistrationProcessComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'mytrip', component: MytripComponent },
+  { path: 'mytrip', component: MytripComponent, children: [
+      {path: '**', component: MytripComponent}
+  ] },
   { path: 'myaccount', component: MyaccountComponent },
   { path: 'search', component: SearchBarComponent, children: [
     { path: 'venue/:query', component: VenueComponent },

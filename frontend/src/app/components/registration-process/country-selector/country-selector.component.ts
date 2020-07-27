@@ -67,7 +67,7 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
           .subscribe((response) => {
             if (response.features[0]) {
               let placeName = response.features[0].place_name
-              let chip = this.removeMiddle(placeName, 1)
+              let chip = this.citySearchComponent.removeMiddle(placeName, 1)
               this.getKey(response.features[response.features.length -1].properties.short_code.toUpperCase())
                 .then((value: any) => {
                   let continent = value.continent
@@ -102,7 +102,7 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
     this.optionClick_sub = this.citySearchComponent.clickedOption.subscribe(content => {
       if (content) {
         // displays chip and clear search input
-        let chip = this.removeMiddle(content.name, 1)
+        let chip = this.citySearchComponent.removeMiddle(content.name, 1)
         let countryName = ((content.name.split(', '))[content.name.split(', ').length - 1]).substring(1)
         let code = getCode(countryName)
         this.getKey(code)
@@ -119,21 +119,11 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
         })
         
         // show location on map
-        content.name = this.removeMiddle(content.name, 1)    
+        content.name = this.citySearchComponent.removeMiddle(content.name, 1)    
         this.MapService.showMarker(this.target, content)
       }
 
     })
-  }
-
-  // filters city name string
-  removeMiddle(string: string, keep: number): string {
-    let arr: string[] = string.split(',')
-    let nothing = arr[0]
-    for (let x = 1; x < keep; x++) {
-      nothing = nothing.concat(', ', arr[x])
-    }
-    return nothing.concat(', ', arr[arr.length - 1])
   }
 
   // search Countrieslist countries 
