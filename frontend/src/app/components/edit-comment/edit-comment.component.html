@@ -1,1 +1,14 @@
-<p>edit-comment works!</p>
+<form [formGroup]="form" (submit)="onEditComment()" *ngIf="!data.displayEdits">
+  <mat-form-field>
+    <input matInput type="text" formControlName="comment" placeholder="">
+    <mat-error *ngIf="form.get('comment').invalid">Please enter something</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="accent" type="submit">Save edit</button>
+  <button mat-raised-button type= "button" (click)="closeDialog()">close</button>
+</form>
+
+<div *ngIf="data.displayEdits">
+  <div *ngFor="let edit of commentData.comment.edits">
+    {{edit}}
+  </div>
+</div>

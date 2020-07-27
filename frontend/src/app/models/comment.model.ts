@@ -10,7 +10,9 @@ export interface Comment {
     author: string;
     content: string;
     likes: string[];
+    edited: [{edit: string, date: string}];
+    // replies: null
   }];
-  edited: string;
+  edited: [{edit: string, date: string}];
 }
 

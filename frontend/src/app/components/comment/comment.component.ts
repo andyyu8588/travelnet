@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Comment } from 'src/app/models/comment.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommentsService } from 'src/app/services/comments.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EditCommentComponent } from '../edit-comment/edit-comment.component';
 
 
 @Component({
@@ -12,11 +14,13 @@ import { CommentsService } from 'src/app/services/comments.service';
 export class CommentComponent implements OnInit {
   @Input() comment: Comment
   @Input() postId: string
+  displayEdits = false
   replyField = false
   showReplies = false
   form: FormGroup;
   constructor(
     private commentsService: CommentsService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -78,5 +82,24 @@ export class CommentComponent implements OnInit {
       replyId: replyId
     }
     this.commentsService.deleteComment(deleteContent)
+  }
+  editTreeComment(){
+    let commentInfo = {
+      postId: this.postId,
+      comment: this.comment,
+      replyId: null
+    }
+    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: false, comment: commentInfo}});
+    dialogRef.afterClosed().subscribe();
+
+  }
+  showEdits(){
+    let commentInfo = {
+      postId: this.postId,
+      comment: this.comment,
+      replyId: null
+    }
+    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: true, comment: commentInfo}});
+    dialogRef.afterClosed().subscribe();
   }
 }

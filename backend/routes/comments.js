@@ -18,7 +18,7 @@ router.post(
           content: req.body.commentData.content,
           likes: [],
           replies: [],
-          edited: null
+          edited: []
         }
         post.comments.push(comment)
         post.save().then(post => {
@@ -31,7 +31,7 @@ router.post(
               content: req.body.commentData.content,
               likes: [],
               replies: [],
-              edited: null
+              edited: []
             }
           })
         })
@@ -52,7 +52,7 @@ router.post(
           author: req.body.commentData.author,
           content: req.body.commentData.content,
           likes: [],
-          edited: null
+          edited: []
         };
         (post.comments.id(req.params.id).replies).push(reply);
         post.save().then(post => {
@@ -64,7 +64,7 @@ router.post(
               author: req.body.commentData.author,
               content: req.body.commentData.content,
               likes: [],
-              edited: null
+              edited: []
             }
           })
         }).catch((err) => console.log(err));
@@ -79,17 +79,31 @@ router.post(
   })
   /**edits existing comment */
   router.put(
-    "/:id",
+    "/edit/:id",
     (req, res, next) => {
-        const editedComment = new Comment({
-          _id: req.body._commentId,
-          date: req.body.date,
-          author: req.body.author,
-          content: req.body.content,
-          edited: req.body.edited
+      if(req.body.replyId){
+        var editedComment = new Comment({
+          _id: req.body.comment._id,
+          date: req.body.comment.date,
+          author: req.body.comment.author,
+          content: req.body.comment.content,
+          likes: req.body.comment.likes,
+          edited: req.body.comment.edited
         })
+      }
+      else{
+        var editedComment = new Comment({
+          _id: req.body.comment._id,
+          date: req.body.comment.date,
+          author: req.body.comment.author,
+          content: req.body.comment.content,
+          likes: req.body.comment.likes,
+          replies: req.body.comment.replies,
+          edited: req.body.comment.edited
+        })
+      }
       try{
-        Post.findById(req.params.id).then(post => {
+        Post.findById(req.body.postId).then(post => {
           if (post) {
             if(req.body.replyId){
               var array = post.comments.id(req.params.id).replies
@@ -99,26 +113,19 @@ router.post(
             else{
               var array = post.comments
               var comment= array.id(req.params.id)
-              var index = array.indexOf(comment)     
+              var index = array.indexOf(comment)
             }
             array[index] = editedComment
-
-          res.status(200).json({ 
-              message: "Update successful!",
-              comment: {
-                _id: result._id,
-                date: req.body.date,
-                author: req.body.author,
-                content: req.body.content,
-                likes: req.body.likes,
-                replies: req.body.replies,
-                edited: req.body.edited
-              }
-            });
+          post.save().then(post =>{
+            res.status(200).json({ 
+                message: "Update successful!",
+                comment: editedComment
+              });
+            }).catch((err) =>console.log(err));
           }
-        });
-      } catch (e){
-        print(e)
+        }).catch(err=>console.log(err));
+      }catch (e){
+        (e)
       }
     }
   );

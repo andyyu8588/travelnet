@@ -10,8 +10,9 @@ var commentSchema = mongoose.Schema({
     date: { type: String, required: true},
     author: { type: String, required: true},
     content: { type: String, required: true},
-    likes: { type: [String], default: []}
+    likes: { type: [String], default: []},
+    edited: { type: [String], default: []},
   }], default: []},
-  edited: { type: String, default: null}
+  edited: { type: [String], default: []}
 })
 module.exports = mongoose.model("Comment", commentSchema);
