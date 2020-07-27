@@ -1,3 +1,4 @@
+import { CustomCoordinates } from 'src/app/models/coordinates';
 import { LngLatLike, LngLat } from 'mapbox-gl';
 import { MapService } from 'src/app/services/map/map.service';
 import { MatSort } from '@angular/material/sort';
@@ -326,7 +327,11 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   /** display location of venue on map */
   showLocation(tripIndex: number, dayIndex: number, venueIndex: number) {
-  
+    this.MapService.venueOnDestroy()
+    let coord: CustomCoordinates = this.trips[tripIndex].schedule[dayIndex].venues[venueIndex].venueCoord? new CustomCoordinates(this.trips[tripIndex].schedule[dayIndex].venues[venueIndex].venueCoord.lng, this.trips[tripIndex].schedule[dayIndex].venues[venueIndex].venueCoord.lat) : null
+    if (coord) {
+      this.MapService.addMarker(coord)
+    }
   }
 
 
