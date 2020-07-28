@@ -82,17 +82,18 @@ router.post(
     "/edit/:id",
     (req, res, next) => {
       if(req.body.replyId){
-        var editedComment = new Comment({
+        var editedComment = {
           _id: req.body.comment._id,
           date: req.body.comment.date,
           author: req.body.comment.author,
           content: req.body.comment.content,
           likes: req.body.comment.likes,
           edited: req.body.comment.edited
-        })
+        }
+        console.log(editedComment)
       }
       else{
-        var editedComment = new Comment({
+        var editedComment = {
           _id: req.body.comment._id,
           date: req.body.comment.date,
           author: req.body.comment.author,
@@ -100,7 +101,7 @@ router.post(
           likes: req.body.comment.likes,
           replies: req.body.comment.replies,
           edited: req.body.comment.edited
-        })
+        }
       }
       try{
         Post.findById(req.body.postId).then(post => {
@@ -116,8 +117,9 @@ router.post(
               var index = array.indexOf(comment)
             }
             array[index] = editedComment
-          post.save().then(post =>{
-            res.status(200).json({ 
+            post.save().then(post =>{
+              console.log(editedComment)
+              res.status(200).json({ 
                 message: "Update successful!",
                 comment: editedComment
               });

@@ -10,7 +10,7 @@ var commentSchema = mongoose.Schema({
     author: { type: String, required: true},
     content: { type: String, required: true},
     likes: { type: [String], default: []},
-    edited: { type: [String], default: []},
+    edited: { type: [{edit: String, date: String}], default: []},
   }], default: []},
   edited: { type: [{edit: String, date: String}], default: []}
 })
@@ -23,7 +23,7 @@ const postSchema = mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   imagePath: { type: String, required: true },
-  tags: { type: [{edit: String, date: String}], required: true},
+  tags: { type: [String], required: true},
   comments: [commentSchema]
 });
 

@@ -24,6 +24,7 @@ export class CommentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.comment)
     this.form = new FormGroup({
       content: new FormControl(null, { validators: [Validators.required] }),
       })

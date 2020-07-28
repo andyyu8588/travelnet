@@ -8,7 +8,7 @@
 </form>
 
 <div *ngIf="data.displayEdits">
-  <div *ngFor="let edit of commentData.comment.edits">
-    {{edit}}
+  <div *ngFor="let edit of data.comment.comment.edited">
+    {{edit.edit}}: {{edit.date}}
   </div>
 </div>

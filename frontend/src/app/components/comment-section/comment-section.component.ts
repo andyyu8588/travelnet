@@ -4,7 +4,6 @@ import { CommentsService } from 'src/app/services/comments.service';
 import { ActivatedRoute } from '@angular/router';
 import { Comment } from "src/app/models/comment.model";
 import { Post } from 'src/app/models/post.model';
-import { CommentStmt } from '@angular/compiler';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({

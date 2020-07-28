@@ -36,7 +36,6 @@ export class EditCommentComponent implements OnInit {
   onEditComment(){
     this.commentData.comment.edited.push({edit: this.commentData.comment.content, date:Date().toLocaleString()})
     this.commentData.comment.content = this.form.value.comment
-    console.log(this.commentData)
     this.CommentsService.editComment(this.commentData)
     this.closeDialog()
   }
