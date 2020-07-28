@@ -99,19 +99,19 @@ export class CommentsService {
     })
   }
   /**edit  tree comment */
-  editComment(editContent:{postId: string, replyId: string, comment: any}){
+  editComment(editContent:{postId: string, reply:any, comment: any}){
     console.log(editContent)
     const postIndex = this.PostService.posts.findIndex(p => p._id === editContent.postId);
     const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === editContent.comment._id)
-    if (editContent.replyId){
-      var replyIndex = this.PostService.posts[postIndex].comments[commentIndex].replies.findIndex(r => r._id === editContent.replyId)
+    if (editContent.reply._id){
+      var replyIndex = this.PostService.posts[postIndex].comments[commentIndex].replies.findIndex(r => r._id === editContent.reply._id)
     }
     this.http
     .put<{ message: string; comment: Comment }>(
       this.url +'edit/' + editContent.comment._id,
-    {postId: editContent.postId, replyId: editContent.replyId, comment: editContent.comment})
+    {postId: editContent.postId, replyId: editContent.reply, comment: editContent.comment})
       .subscribe(response =>{
-        if(editContent.replyId){
+        if(editContent.reply._id){
           (this.PostService.posts[postIndex]).comments[commentIndex].replies[replyIndex] = response.comment
         }
         else{

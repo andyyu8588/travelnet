@@ -81,16 +81,15 @@ router.post(
   router.put(
     "/edit/:id",
     (req, res, next) => {
-      if(req.body.replyId){
+      if(req.body.reply){
         var editedComment = {
-          _id: req.body.comment._id,
-          date: req.body.comment.date,
-          author: req.body.comment.author,
-          content: req.body.comment.content,
-          likes: req.body.comment.likes,
-          edited: req.body.comment.edited
+          _id: req.body.reply._id,
+          date: req.body.reply.date,
+          author: req.body.reply.author,
+          content: req.body.reply.content,
+          likes: req.body.reply.likes,
+          edited: req.body.reply.edited
         }
-        console.log(editedComment)
       }
       else{
         var editedComment = {
@@ -106,7 +105,7 @@ router.post(
       try{
         Post.findById(req.body.postId).then(post => {
           if (post) {
-            if(req.body.replyId){
+            if(req.body.reply){
               var array = post.comments.id(req.params.id).replies
               var comment = array.id(req.body.replyId)
               var index = array.indexOf(comment)

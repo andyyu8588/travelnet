@@ -18,6 +18,8 @@
           {{reply.likes.length}}
           <button mat-button >REPLY</button>
           <button mat-button (click)="deleteLeafComment(reply._id)">DELETE</button>
+          <button mat-button (click)="editLeafComment(reply)">EDIT</button>
+
         </div>
       </mat-card-header>
    </mat-card>

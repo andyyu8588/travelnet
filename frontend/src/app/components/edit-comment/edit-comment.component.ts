@@ -20,23 +20,36 @@ export class EditCommentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data.comment)
     if(!this.data.displayEdits){
       this.form = new FormGroup({
           'comment': new FormControl(null, {validators: [Validators.required]}),
         })
-        this.form.setValue({
-          'comment': this.data.comment.comment.content
-        })
-        this.commentData = this.data.comment
+        if(this.data.commentData.reply){
+          this.form.setValue({
+            'comment': this.data.commentData.reply.content
+            })
+        }
+        else{
+          this.form.setValue({
+            'comment': this.data.commentData.comment.content
+            })
+        }
+        this.commentData = this.data.commentData
       }
     }
 
 
   onEditComment(){
-    this.commentData.comment.edited.push({edit: this.commentData.comment.content, date:Date().toLocaleString()})
-    this.commentData.comment.content = this.form.value.comment
-    this.CommentsService.editComment(this.commentData)
+    if(this.data.commentData.reply){
+      this.commentData.reply.edited.push({edit: this.commentData.comment.content, date:Date().toLocaleString()})
+      this.commentData.reply.content = this.form.value.comment
+      this.CommentsService.editComment(this.commentData)
+    }
+    else{
+      this.commentData.comment.edited.push({edit: this.commentData.comment.content, date:Date().toLocaleString()})
+      this.commentData.comment.content = this.form.value.comment
+      this.CommentsService.editComment(this.commentData)
+    }
     this.closeDialog()
   }
 

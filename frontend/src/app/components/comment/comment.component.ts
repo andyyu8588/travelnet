@@ -88,9 +88,19 @@ export class CommentComponent implements OnInit {
     let commentInfo = {
       postId: this.postId,
       comment: this.comment,
-      replyId: null
+      reply: null
     }
     const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: false, comment: commentInfo}});
+    dialogRef.afterClosed().subscribe();
+
+  }
+  editLeafComment(reply){
+    let commentInfo = {
+      postId: this.postId,
+      comment: this.comment,
+      reply: reply
+    }
+    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: false, commentData: commentInfo}});
     dialogRef.afterClosed().subscribe();
 
   }
@@ -98,7 +108,7 @@ export class CommentComponent implements OnInit {
     let commentInfo = {
       postId: this.postId,
       comment: this.comment,
-      replyId: null
+      reply: null
     }
     const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: true, comment: commentInfo}});
     dialogRef.afterClosed().subscribe();
