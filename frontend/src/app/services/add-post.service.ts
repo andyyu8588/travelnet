@@ -40,17 +40,14 @@ export class AddPostService {
         })
       )
       .subscribe(transformedPosts => {
-        console.log(transformedPosts)
         this.posts = transformedPosts;
         this.postsUpdated.next([...this.posts]);
       });
   }
-  getRelevantPosts(UserPref:{author: [string],tags: [string], location: [string] }){
+  getRelevantPosts(UserPref:{author: string, follows: [string],tags: [string], location: [string] }){
     this.http
       .post<{ message: string; posts: any }>(this.url+ 'getSpecific/',UserPref).pipe(
         map(postData => {
-          var formattedComment
-          var formattedReply
           return postData.posts.map(post => {
           return{
               _id: post._id,

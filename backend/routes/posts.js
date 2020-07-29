@@ -144,13 +144,14 @@ router.get("", (req, res, next) => {
 });
 /**get relevant posts */
 router.post("/getSpecific", (req,res,next) => {
+  let people = req.body.follows
+  people.push(req.body.author)
   Post.find({
     $or:[
-      {
-      author: {$exists: true, $in: req.body.follows},
-      tags: {$exists: true, $in: req.body.tags},
-      location: {$exists: true, $in: req.body.location}
-    }]
+      {author: {$exists: true, $in: people}},
+      {tags: {$exists: true, $in: req.body.tags}},
+      {location: {$exists: true, $in: req.body.location}}
+    ]
   }).then(documents => {
     res.status(200).json({
       message: "Posts fetched successfully!",

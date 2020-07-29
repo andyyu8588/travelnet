@@ -15,6 +15,7 @@ const UserSchema = mongoose.Schema({
     rooms: {type: Array, default: []},
     socketIds: {type: Array, default: []},
     isActive: {type: Boolean, default: true}, // active vs online
+    tags: {type: [String], default: []},
     log: { 
         type: {
             in: Array,

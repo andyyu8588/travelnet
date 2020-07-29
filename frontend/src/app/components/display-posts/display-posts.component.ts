@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Subscription } from 'rxjs';
 
 import { Post } from "src/app/models/post.model";
 import { AddPostService } from "src/app/services/add-post.service";
 import { FormGroup, FormControl } from '@angular/forms';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-display-posts',
@@ -11,6 +12,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./display-posts.component.scss']
 })
 export class DisplayPostsComponent implements OnInit, OnDestroy {
+  user
   // posts = [
   //   { title: "First Post", content: "This is the first post's content" },
   //   { title: "Second Post", content: "This is the second post's content" },
@@ -23,7 +25,8 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   likeShow = false
   form: FormGroup;
 
-  constructor(public postsService: AddPostService) {}
+
+  constructor(public postsService: AddPostService, private HttpService: HttpService) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -32,12 +35,16 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
       })
     })
     this.isLoading = true;
-    this.postsService.getPosts();
-    this.postsSub = this.postsService.getPostUpdateListener()
-    .subscribe((posts: Post[]) => {
-      this.isLoading = false;
-      this.posts = posts;
-    });
+    this.HttpService.get('/user', null).then((res: any) => {
+      this.user = res.user[0]
+      this.postsService.getRelevantPosts({author: this.user.username, follows: this.user.following, tags: this.user.tags, location: this.user.ocation});
+      this.postsSub = this.postsService.getPostUpdateListener()
+      .subscribe((posts: Post[]) => {
+        this.isLoading = false;
+        this.posts = posts;
+      });
+    })
+
   }
 
   onDelete(postId: string) {
@@ -65,7 +72,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
       console.log(this.likeShow)
     }, 300);
   }
-  
+
   showLikes(){
     this.likeShow = !this.likeShow
   }
