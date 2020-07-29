@@ -121,4 +121,9 @@ export class CommentComponent implements OnInit {
     const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: true, commentData: commentInfo}});
     dialogRef.afterClosed().subscribe();
   }
+  ownContent(content){
+    if(content.author === sessionStorage.getItem('username')){
+      return true
+    }
+  }
 }

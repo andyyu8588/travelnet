@@ -5,8 +5,8 @@
     <button mat-button (click)="likeTreeComment()">LIKE</button>
     {{comment.likes.length}}
     <button mat-button (click)="replyBoolean()">REPLY</button>
-    <button mat-button (click)="deleteTreeComment()">DELETE</button>
-    <button mat-button (click)="editTreeComment()">EDIT</button>
+    <button *ngIf="ownContent(comment.author)" mat-button (click)="deleteTreeComment()">DELETE</button>
+    <button *ngIf="ownContent(comment.author)" mat-button (click)="editTreeComment()">EDIT</button>
     <button mat-button *ngIf="comment.edited && comment.edited.length > 0" (click)="showParentEdits()">edited</button>
   </div>
 
@@ -18,8 +18,8 @@
           {{reply.likes.length}}
           <button mat-button >REPLY</button>
           <button mat-button (click)="deleteLeafComment(reply._id)">DELETE</button>
-          <button mat-button (click)="editLeafComment(reply)">EDIT</button>
-          <button mat-button *ngIf="reply.edited && reply.edited.length > 0" (click)="showLeafEdits(reply)">edited</button>
+          <button *ngIf="ownContent(reply.author)" mat-button (click)="editLeafComment(reply)">EDIT</button>
+          <button  mat-button *ngIf="reply.edited && reply.edited.length > 0 && ownContent(reply.author)" (click)="showLeafEdits(reply)">edited</button>
         </div>
       </mat-card-header>
    </mat-card>

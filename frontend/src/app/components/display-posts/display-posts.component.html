@@ -8,8 +8,8 @@
         <mat-card-title>{{ post.author }}</mat-card-title>
         <mat-card-subtitle>Premium User</mat-card-subtitle>
         <div class='authorButtons'>
-          <a mat-button color="primary" [routerLink]="['/edit', post._id]">EDIT</a>
-          <button mat-button color="warn" (click)="onDelete(post._id)">DELETE</button>
+          <a *ngIf="ownContent(post)" mat-button color="primary" [routerLink]="['/edit', post._id]">EDIT</a>
+          <button *ngIf="ownContent(post)" mat-button color="warn" (click)="onDelete(post._id)">DELETE</button>
         </div>
       </mat-card-header>
       <h1>

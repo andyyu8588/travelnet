@@ -80,6 +80,11 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   submitComment(comment){
 
   }
+  ownContent(post){
+    if(sessionStorage.getItem('username') === post.author){
+      return true
+    }
+  }
 
 
 
