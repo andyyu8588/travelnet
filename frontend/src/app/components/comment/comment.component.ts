@@ -15,7 +15,7 @@ export class CommentComponent implements OnInit {
   @Input() comment: Comment
   @Input() postId: string
   displayEdits = false
-  replyField = false
+  replyField = true
   showReplies = false
   form: FormGroup;
   constructor(
@@ -24,7 +24,6 @@ export class CommentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.comment)
     this.form = new FormGroup({
       content: new FormControl(null, { validators: [Validators.required] }),
       })
@@ -90,7 +89,7 @@ export class CommentComponent implements OnInit {
       comment: this.comment,
       reply: null
     }
-    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: false, comment: commentInfo}});
+    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: false, commentData: commentInfo}});
     dialogRef.afterClosed().subscribe();
 
   }
@@ -104,13 +103,22 @@ export class CommentComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
 
   }
-  showEdits(){
+  showParentEdits(){
     let commentInfo = {
       postId: this.postId,
       comment: this.comment,
       reply: null
     }
-    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: true, comment: commentInfo}});
+    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: true, commentData: commentInfo}});
+    dialogRef.afterClosed().subscribe();
+  }
+  showLeafEdits(reply){
+    let commentInfo = {
+      postId: this.postId,
+      comment: reply,
+      reply: true
+    }
+    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: true, commentData: commentInfo}});
     dialogRef.afterClosed().subscribe();
   }
 }

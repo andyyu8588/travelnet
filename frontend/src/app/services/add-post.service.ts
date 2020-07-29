@@ -45,6 +45,35 @@ export class AddPostService {
         this.postsUpdated.next([...this.posts]);
       });
   }
+  getRelevantPosts(UserPref:{author: [string],tags: [string], location: [string] }){
+    this.http
+      .post<{ message: string; posts: any }>(this.url+ 'getSpecific/',UserPref).pipe(
+        map(postData => {
+          var formattedComment
+          var formattedReply
+          return postData.posts.map(post => {
+          return{
+              _id: post._id,
+              date: post.date,
+              location: post.location,
+              likes: post.likes,
+              author: post.author,
+              title: post.title,
+              content: post.content,
+              imagePath: post.imagePath,
+              tags: post.tags,
+              comments: post.comments
+            };
+
+          });
+        })
+      ).subscribe(transformedPosts => {
+        console.log(transformedPosts)
+        this.posts = transformedPosts;
+        this.postsUpdated.next([...this.posts]);
+      });
+  }
+
 
   getPostUpdateListener() {
     return this.postsUpdated.asObservable();

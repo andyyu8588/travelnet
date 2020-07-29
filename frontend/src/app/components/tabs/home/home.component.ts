@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
     // get user info
     this.HttpService.get('/user', null).then((res: any) => {
       this.user = res.user[0]
+      console.log(this.user)
     })
   }
 

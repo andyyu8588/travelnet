@@ -41,7 +41,7 @@ export class EditCommentComponent implements OnInit {
 
   onEditComment(){
     if(this.data.commentData.reply){
-      this.commentData.reply.edited.push({edit: this.commentData.comment.content, date:Date().toLocaleString()})
+      this.commentData.reply.edited.push({edit: this.commentData.reply.content, date:Date().toLocaleString()})
       this.commentData.reply.content = this.form.value.comment
       this.CommentsService.editComment(this.commentData)
     }

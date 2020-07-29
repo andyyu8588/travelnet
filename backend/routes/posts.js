@@ -142,6 +142,28 @@ router.get("", (req, res, next) => {
     });
   });
 });
+/**get relevant posts */
+router.post("/getSpecific", (req,res,next) => {
+  Post.find({
+    $or:[
+      {
+      author: {$exists: true, $in: req.body.follows},
+      tags: {$exists: true, $in: req.body.tags},
+      location: {$exists: true, $in: req.body.location}
+    }]
+  }).then(documents => {
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      posts: documents
+    })
+  })
+})
+
+
+
+
+
+
 /**get specific post */
 router.get("/:id", (req, res, next) => {
   Post.findById(req.params.id).then(post => {
@@ -152,6 +174,7 @@ router.get("/:id", (req, res, next) => {
     }
   });
 });
+
 
 /**delete post */
 router.delete("/:id", (req, res, next) => {  
