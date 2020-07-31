@@ -155,7 +155,7 @@ router.put('/addTag', (req, res, next) => {
   })
 })
 
-router.post('/profilepicture', multer({ storage: storage }).single("image"), (req, res, next) => {
+router.put('/profilepicture', multer({ storage: storage }).single("image"), (req, res, next) => {
     console.log(req)
     const url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename; 
     User.findOneAndUpdate({username: req.body.username}, {profilepicture: url}, (err, result) => {
