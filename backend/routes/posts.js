@@ -159,9 +159,25 @@ router.post("/getSpecific", (req,res,next) => {
     })
   })
 })
-
-
-
+/**get searched posts */
+router.post("/getOne", (req,res,next) => {
+  regex = new RegExp('.*'+ req.body.input+'.*',"i")
+  Post.find({
+    $or:[
+    {location: regex},
+    {author: regex},
+    {likes: regex},
+    {title: regex},
+    {content: regex},
+    {tags: regex},
+    ]
+  }).then(documents => {
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      posts: documents
+    })
+  })
+})
 
 
 

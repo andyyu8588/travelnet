@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'register', component: RegistrationProcessComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'home/:query', component: HomeComponent },
   { path: 'mytrip', component: MytripComponent, children: [
       {path: '**', component: MytripComponent}
   ] },

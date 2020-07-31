@@ -85,6 +85,8 @@ import { ArrayToPipePipe } from './pipes/array-to-pipe.pipe';
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 import { ShareComponent } from './components/share/share.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { SearchPostsComponent } from './components/search-posts/search-posts.component';
+import { AddTagComponent } from './components/add-tag/add-tag.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +130,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     ArrayToPipePipe,
     EditCommentComponent,
     ShareComponent,
+    SearchPostsComponent,
+    AddTagComponent,
   ],
   imports: [
     BrowserModule,

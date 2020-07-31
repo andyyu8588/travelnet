@@ -1,3 +1,7 @@
+<div class="row container">
+  <app-search-posts class="col-6"></app-search-posts>
+  <app-add-tag class="col-6"></app-add-tag>
+</div>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 <div *ngIf="posts.length > 0 && !isLoading">

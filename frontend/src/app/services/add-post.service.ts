@@ -41,7 +41,7 @@ export class AddPostService {
       )
       .subscribe(transformedPosts => {
         this.posts = transformedPosts;
-        this.postsUpdated.next([...this.posts]);
+        this.postsUpdated.next(this.posts);
       });
   }
   getRelevantPosts(UserPref:{author: string, follows: [string],tags: [string], location: [string] }){
@@ -65,10 +65,36 @@ export class AddPostService {
           });
         })
       ).subscribe(transformedPosts => {
-        console.log(transformedPosts)
         this.posts = transformedPosts;
-        this.postsUpdated.next([...this.posts]);
+        this.postsUpdated.next(this.posts);
       });
+  }
+  searchPosts(input:{input: string}){
+    this.http
+    .post<{ message: string; posts: any }>(this.url+ 'getOne', input).pipe(
+      map(postData => {
+        return postData.posts.map(post => {
+        return{
+            _id: post._id,
+            date: post.date,
+            location: post.location,
+            likes: post.likes,
+            author: post.author,
+            title: post.title,
+            content: post.content,
+            imagePath: post.imagePath,
+            tags: post.tags,
+            comments: post.comments
+          };
+
+        });
+      })
+    ).subscribe(transformedPosts => {
+      this.posts = transformedPosts;
+      console.log(this.posts)
+      this.postsUpdated.next(this.posts);
+    });
+
   }
 
 

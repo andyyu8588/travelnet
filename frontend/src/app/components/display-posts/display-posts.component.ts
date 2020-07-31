@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Subscription } from 'rxjs';
 
 import { Post } from "src/app/models/post.model";
@@ -23,28 +24,36 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   private postsSub: Subscription;
   timeoutHandler
   likeShow = false
-  form: FormGroup;
+  input: string
 
 
-  constructor(public postsService: AddPostService, private HttpService: HttpService) {}
+  constructor(public postsService: AddPostService, private HttpService: HttpService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.form = new FormGroup({
-      comment: new FormControl(null, {
-        validators: []
-      })
-    })
     this.isLoading = true;
-    this.HttpService.get('/user', null).then((res: any) => {
-      this.user = res.user[0]
-      this.postsService.getRelevantPosts({author: this.user.username, follows: this.user.following, tags: this.user.tags, location: this.user.ocation});
-      this.postsSub = this.postsService.getPostUpdateListener()
-      .subscribe((posts: Post[]) => {
-        this.isLoading = false;
-        this.posts = posts;
-      });
-    })
+    this.route.params.subscribe(params => {
+      this.input = params['query'];
+      if(this.input){
+        this.postsService.searchPosts({input: this.input});
+        this.postsSub = this.postsService.getPostUpdateListener()
+        .subscribe((posts: Post[]) => {
+          this.isLoading = false;
+          this.posts = posts;
+        });
 
+      }
+      else{
+        this.HttpService.get('/user', null).then((res: any) => {
+          this.user = res.user[0]
+          this.postsService.getRelevantPosts({author: this.user.username, follows: this.user.following, tags: this.user.tags, location: this.user.location});
+          this.postsSub = this.postsService.getPostUpdateListener()
+          .subscribe((posts: Post[]) => {
+            this.isLoading = false;
+            this.posts = posts;
+          });
+        })
+      }
+    });
   }
 
   onDelete(postId: string) {
@@ -85,6 +94,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
       return true
     }
   }
+
 
 
 

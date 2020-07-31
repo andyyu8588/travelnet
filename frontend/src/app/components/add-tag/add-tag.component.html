@@ -1,0 +1,6 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+  <mat-form-field>
+    <input matInput type="text" formControlName="tag" placeholder="add a tag">
+  </mat-form-field>
+  <button mat-raised-button color="accent" type="submit">Add</button>
+</form>

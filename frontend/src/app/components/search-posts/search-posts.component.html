@@ -1,0 +1,9 @@
+<form [formGroup]="form" (submit)="onSearchPost()">
+  <mat-form-field>
+    <input matInput type="text" formControlName="input" placeholder="search a post...">
+  </mat-form-field>
+  <button mat-raised-button color="accent" type="submit">Search</button>
+</form>
+
+
+

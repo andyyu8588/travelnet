@@ -6,6 +6,8 @@ const multer = require('multer')
 
 // import model
 const User = require("../models/User")
+const post = require('../models/post')
+const { use } = require('./posts')
 
 const router = express.Router()
 
@@ -131,6 +133,24 @@ router.post('/unfollow', (req, res, next) => {
       res.status(500).json({
         message: 'monkas'
       })
+    }
+  })
+})
+
+router.put('/addTag', (req, res, next) => {
+  User.find({username:req.body.username}).then(user => {
+    if(user){
+      if(!user[0].tags.includes(req.body.tag)){
+        user[0].tags.push(req.body.tag)
+      }
+      else{
+        user[0].tags.pop(req.body.username)
+      }
+      user[0].save()
+      res.status(200).json({
+        message: "like added/removed" ,
+        likes : user.tags
+      });
     }
   })
 })
