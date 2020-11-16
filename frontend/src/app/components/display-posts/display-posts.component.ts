@@ -30,30 +30,33 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   constructor(public postsService: AddPostService, private HttpService: HttpService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.isLoading = true;
-    this.route.params.subscribe(params => {
-      this.input = params['query'];
-      if(this.input){
-        this.postsService.searchPosts({input: this.input});
-        this.postsSub = this.postsService.getPostUpdateListener()
-        .subscribe((posts: Post[]) => {
-          this.isLoading = false;
-          this.posts = posts;
-        });
 
-      }
-      else{
-        this.HttpService.get('/user', null).then((res: any) => {
-          this.user = res.user[0]
-          this.postsService.getRelevantPosts({author: this.user.username, follows: this.user.following, tags: this.user.tags, location: this.user.location});
+    if(sessionStorage.getItem("username")){
+      this.isLoading = true;
+      this.route.params.subscribe(params => {
+        this.input = params['query'];
+        if(this.input){
+          this.postsService.searchPosts({input: this.input});
           this.postsSub = this.postsService.getPostUpdateListener()
           .subscribe((posts: Post[]) => {
             this.isLoading = false;
             this.posts = posts;
           });
-        })
-      }
-    });
+
+        }
+        else{
+          this.HttpService.get('/user', null).then((res: any) => {
+            this.user = res.user[0]
+            this.postsService.getRelevantPosts({author: this.user.username, follows: this.user.following, tags: this.user.tags, location: this.user.location});
+            this.postsSub = this.postsService.getPostUpdateListener()
+            .subscribe((posts: Post[]) => {
+              this.isLoading = false;
+              this.posts = posts;
+            });
+          })
+        }
+      });
+    }
   }
 
   onDelete(postId: string) {
