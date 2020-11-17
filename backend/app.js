@@ -46,7 +46,9 @@ app.use((req, res) => {
 
 
 // set database URL:
-const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
+// const dbURL = 'mongodb://heroku_ln0g37cv:cvo479sjkhpub1i2d9blgin18t@ds147304.mlab.com:47304/heroku_ln0g37cv'
+const dbURL = 'mongodb+srv://admin:admin@communicare.s0a4z.azure.mongodb.net/<communicare>?retryWrites=true&w=majority'
+
 
 // connect mongoose to Mongodb
 mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, (err) => {
