@@ -5,7 +5,6 @@ export const environment = {
   production: true,
   language: 'en',
   travelnetURL: 'https://travelnet.herokuapp.com',
-  travelnetCommentURL: "http://localhost:3000/api/comments/",
 
   mapbox: {
     token: 'pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ',
@@ -38,6 +37,8 @@ export const environment = {
     getUserInfo: 'https://travelnet.herokuapp.com/user',
     getProfile: 'https://travelnet.herokuapp.com/profile',
     searchUsers:'https://travelnet.herokuapp.com/searchusers',
+    travelnetCommentURL: "https://travelnet.herokuapp.com/comments",
+    travelnetPostURL: "https://travelnet.herokuapp.com/posts",
   },
   montrealCoord: new CustomCoordinates(-73.5633265, 45.5009128)
 };

@@ -39,6 +39,8 @@ export const environment = {
     getUserInfo: 'http://localhost:3000/user',
     getProfile: 'http://localhost:3000/profile',
     searchUsers:'http://localhost:3000/searchusers',
+    travelnetCommentURL: "http://localhost:3000/comments",
+    travelnetPostURL: "http://localhost:3000/posts",
   },
 
   montrealCoord: new CustomCoordinates(-73.5633265, 45.5009128)

@@ -3,13 +3,14 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
+import { environment } from 'src/environments/environment';
 
 import { Post } from "src/app/models/post.model";
 import { Comment } from "src/app/models/comment.model";
 
 @Injectable({ providedIn: "root" })
 export class AddPostService {
-  url = "http://localhost:3000/api/posts/"
+  url = environment.travelnet.travelnetPostURL
   public posts: Post[] = [];
   private postsUpdated = new Subject<Post[]>();
 

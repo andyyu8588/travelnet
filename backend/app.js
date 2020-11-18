@@ -35,8 +35,8 @@ app.use('/user', userRoute)
 app.use('/profile', profileRoute)
 app.use('/searchusers',searchUsersRoute)
 app.use('/trips', tripsRoute)
-app.use("/api/posts", postsRoutes);
-app.use("/api/comments", commentsRoutes);
+app.use("/posts", postsRoutes);
+app.use("/comments", commentsRoutes);
 
 app.use('/', express.static(path.resolve(__dirname, '..', 'frontend', 'dist', 'frontend')))
 
