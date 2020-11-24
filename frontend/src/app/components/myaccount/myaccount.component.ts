@@ -1,6 +1,6 @@
-import { HttpService } from 'src/app/services/http.service';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { HttpService } from 'src/app/services/http.service'
+import { FormGroup, FormControl } from '@angular/forms'
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-myaccount',
@@ -33,7 +33,7 @@ export class MyaccountComponent implements OnInit {
   }
 
   onSubmit() {
-    let imageData = new FormData()
+    const imageData = new FormData()
     imageData.append('username', sessionStorage.getItem('username'))
     imageData.append('image', this.form.value.picture, 'profilepicture')
     this.httpService.post('/user/profilepicture', imageData).then((res) => {

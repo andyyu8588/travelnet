@@ -1,7 +1,7 @@
-import { environment } from 'src/environments/environment';
-import { Injectable } from '@angular/core';
-import * as io from "socket.io-client/dist/socket.io";
-import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment'
+import { Injectable } from '@angular/core'
+import * as io from 'socket.io-client/dist/socket.io'
+import { Observable, BehaviorSubject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
@@ -53,17 +53,17 @@ export class SocketService {
     this.socket.removeListener(eventName)
   }
 
-  //disconnects and reconnects to backend
+  // disconnects and reconnects to backend
   close() {
     this.socket.close()
   }
 
-  //permanent disconnection from backend
+  // permanent disconnection from backend
   disconnect() {
     this.socket.disconnect()
   }
 
-  //manually reconnect to backend
+  // manually reconnect to backend
   open() {
     this.socket.open()
   }

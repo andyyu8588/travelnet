@@ -1,4 +1,4 @@
-import { tripModel } from './trip.model';
+import { tripModel } from './trip.model'
 export class userModel {
     email: String
     username: String
@@ -9,9 +9,9 @@ export class userModel {
     followers: Array<string>
     following: Array<string>
     friendsReceived: Array<string>
-    rooms:  Array<any>
+    rooms: Array<any>
     socketIds: Array<any>
-    isActive:  Boolean
+    isActive: Boolean
     log: {
         in: Array<any>,
         out: Array<any>

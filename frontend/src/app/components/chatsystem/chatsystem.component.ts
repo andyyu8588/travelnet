@@ -1,7 +1,7 @@
-import { Subscription } from 'rxjs';
-import { SessionService } from './../../services/session.service';
-import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs'
+import { SessionService } from './../../services/session.service'
+import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 
 @Component({
   selector: 'app-chatsystem',
@@ -20,7 +20,7 @@ export class ChatsystemComponent implements OnInit, OnDestroy {
   constructor(
     private FriendlistService: FriendlistService,
     private SessionService: SessionService){
-    
+
     this.SessionService.session()
 
     this.openChatWidgets_sub = this.FriendlistService.openWidgets.subscribe(x => {

@@ -1,9 +1,9 @@
-import { Subscription } from 'rxjs';
-import { SocketService } from 'src/app/services/chatsystem/socket.service';
-import { SessionService } from './services/session.service';
-import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core';
-import { FriendlistService } from './services/chatsystem/friendlist.service';
-import { MapService } from './services/map/map.service';
+import { Subscription } from 'rxjs'
+import { SocketService } from 'src/app/services/chatsystem/socket.service'
+import { SessionService } from './services/session.service'
+import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core'
+import { FriendlistService } from './services/chatsystem/friendlist.service'
+import { MapService } from './services/map/map.service'
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ import { MapService } from './services/map/map.service';
 })
 export class AppComponent implements DoCheck, OnInit, OnDestroy {
 
-  title = 'frontend';
+  title = 'frontend'
   windowHeight: number
   user = sessionStorage.getItem('username')
   openChatWidgets: any
@@ -27,9 +27,9 @@ export class AppComponent implements DoCheck, OnInit, OnDestroy {
     private MapService: MapService){
 
     // check if logged in from other tab (if LocalStorage exist)
-    localStorage.getItem('username')?
+    localStorage.getItem('username') ?
     this.SocketService.emit('updateLogin', {username: localStorage.getItem('username')}, (data) => {
-      if(data.res){
+      if (data.res){
         sessionStorage.setItem('username', data.res)
         SessionService.session()
       } else if (data.err){

@@ -1,6 +1,6 @@
-import { interval as observableInterval } from 'rxjs';
-import { takeWhile, scan, tap } from "rxjs/operators";
-import { Component, OnInit, Input } from '@angular/core';
+import { interval as observableInterval } from 'rxjs'
+import { takeWhile, scan, tap } from 'rxjs/operators'
+import { Component, OnInit, Input } from '@angular/core'
 
 @Component({
   selector: 'app-scroll-to-top',
@@ -16,16 +16,16 @@ export class ScrollToTopComponent implements OnInit {
   }
 
   scrollToTop() {
-    let duration = 500;
-    let interval = 40;
-    let move = this.el.scrollTop * interval / duration;
+    const duration = 500
+    const interval = 40
+    const move = this.el.scrollTop * interval / duration
     observableInterval(interval)
     .pipe(
       scan((acc, curr) => acc - move, this.el.scrollTop),
       tap(position => this.el.scrollTop = position),
       takeWhile(val => val > 0)
     )
-    .subscribe();
+    .subscribe()
   }
 
 }

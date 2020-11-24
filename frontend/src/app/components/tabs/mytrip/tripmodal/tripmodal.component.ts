@@ -1,9 +1,9 @@
-import { HttpService } from 'src/app/services/http.service';
-import { tripModel } from '../../../../models/trip.model';
-import { userModel } from './../../../../models/user.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpService } from 'src/app/services/http.service'
+import { tripModel } from '../../../../models/trip.model'
+import { userModel } from './../../../../models/user.model'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { Component, OnInit, Inject } from '@angular/core'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 @Component({
   selector: 'app-tripmodal',
   templateUrl: './tripmodal.component.html',
@@ -12,10 +12,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class TripmodalComponent implements OnInit {
 
   minDate: Date = new Date()
-  
+
   modalForm: FormGroup
-  isLoading: boolean = false
-  nameErr: boolean = false
+  isLoading = false
+  nameErr = false
 
   trips: tripModel[]
 
@@ -29,10 +29,10 @@ export class TripmodalComponent implements OnInit {
     private HttpService: HttpService)
   {
     this.modalForm = new FormGroup({
-      'name': new FormControl(null, [Validators.required, Validators.minLength(1)], this.checkName.bind(this)),
-      'dateRange': new FormGroup({
-        'start': new FormControl(null),
-        'end': new FormControl(null)
+      name: new FormControl(null, [Validators.required, Validators.minLength(1)], this.checkName.bind(this)),
+      dateRange: new FormGroup({
+        start: new FormControl(null),
+        end: new FormControl(null)
       })
     })
   }
@@ -47,11 +47,11 @@ export class TripmodalComponent implements OnInit {
         [key: string]: any
         user: userModel[]
       }) => {
-        let trips: tripModel[] = response.user[0].trips? response.user[0].trips : null
+        const trips: tripModel[] = response.user[0].trips ? response.user[0].trips : null
         if (trips) {
           this.trips = trips
           for (let x = 0; x < trips.length; x++) {
-            if(trips[x].tripName == control.value) {
+            if (trips[x].tripName == control.value) {
               resolve({err: 'name already exists'})
               break
             }
@@ -63,17 +63,17 @@ export class TripmodalComponent implements OnInit {
       })
       .catch(err => {
         console.log('err', err)
-        reject(err.message)      
+        reject(err.message)
       })
     })
   }
 
   onSubmit(data: {
-    [key:string]: any
+    [key: string]: any
     start: Date
     end: Date}) {
     this.isLoading = true
-    let valid = this.checkName({value: data.name})
+    const valid = this.checkName({value: data.name})
     if (typeof(valid) == 'string') {
       this.isLoading = false
     } else {
@@ -81,9 +81,9 @@ export class TripmodalComponent implements OnInit {
         new tripModel(data.start, data.end, data.name)
       )
       this.HttpService.patch('/user/edit', {
-        'username': localStorage.getItem('username'),
-        'proprety': 'trips',
-        'newProprety': this.trips
+        username: localStorage.getItem('username'),
+        proprety: 'trips',
+        newProprety: this.trips
       })
       .then((response: any) => {
         if (response.message) {

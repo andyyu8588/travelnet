@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, AfterViewChecked } from "@angular/core";
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core'
+import {COMMA, ENTER} from '@angular/cdk/keycodes'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { ActivatedRoute, ParamMap } from '@angular/router'
 
-import { AddPostService } from "src/app/services/add-post.service";
-import { Post } from "src/app/models/post.model";
-import { mimeType } from "./mime-type.validator";
-import { title } from 'process';
-import { Subscription } from 'rxjs';
-import { geocodeResponseModel } from 'src/app/models/geocodeResp.model';
-import { CitySearchComponent } from '../city-search/city-search.component';
+import { AddPostService } from 'src/app/services/add-post.service'
+import { Post } from 'src/app/models/post.model'
+import { mimeType } from './mime-type.validator'
+import { title } from 'process'
+import { Subscription } from 'rxjs'
+import { geocodeResponseModel } from 'src/app/models/geocodeResp.model'
+import { CitySearchComponent } from '../city-search/city-search.component'
 
 @Component({
   selector: 'app-add-post',
@@ -17,25 +17,25 @@ import { CitySearchComponent } from '../city-search/city-search.component';
   styleUrls: ['./add-post.component.scss']
 })
 export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
-  enteredTitle = "";
-  enteredContent = "";
-  post: Post;
-  isLoading = false;
-  form: FormGroup;
-  imagePreview: string;
-  private mode = "create";
-  private postId: string;
+  enteredTitle = ''
+  enteredContent = ''
+  post: Post
+  isLoading = false
+  form: FormGroup
+  imagePreview: string
+  private mode = 'create'
+  private postId: string
   location: string
 
-  //tags
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  tags: string[] = [];
+  // tags
+  visible = true
+  selectable = true
+  removable = true
+  addOnBlur = true
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA]
+  tags: string[] = []
 
-  //filters
+  // filters
   private clickedOption_sub: Subscription
   clickedOption: geocodeResponseModel = null
   @ViewChild(CitySearchComponent) CitySearchComponent: CitySearchComponent
@@ -57,14 +57,14 @@ export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
         validators: [Validators.required],
         asyncValidators: [mimeType]
       })
-    });
+    })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("postId")) {
-        this.mode = "edit";
-        this.postId = paramMap.get("postId");
-        this.isLoading = true;
+      if (paramMap.has('postId')) {
+        this.mode = 'edit'
+        this.postId = paramMap.get('postId')
+        this.isLoading = true
         this.postsService.getPost(this.postId).subscribe(postData => {
-          this.isLoading = false;
+          this.isLoading = false
           this.post = {
             _id: postData._id,
             author: postData.author,
@@ -76,23 +76,23 @@ export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
             imagePath: postData.imagePath,
             tags: postData.tags,
             comments: postData.comments,
-          };
+          }
           this.form.setValue({
             location: this.post.location,
             title: this.post.title,
             content: this.post.content,
             image: this.post.imagePath,
             tags: this.post.tags,
-          });
+          })
           this.imagePreview = this.post.imagePath
           this.tags = this.post.tags
           this.location = this.post.location
-        });
+        })
       } else {
-        this.mode = "create";
-        this.postId = null;
+        this.mode = 'create'
+        this.postId = null
       }
-    });
+    })
   }
 
   ngAfterViewChecked(){
@@ -114,24 +114,24 @@ export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   onImagePicked(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({ image: file });
-    this.form.get("image").updateValueAndValidity();
-    const reader = new FileReader();
+    const file = (event.target as HTMLInputElement).files[0]
+    this.form.patchValue({ image: file })
+    this.form.get('image').updateValueAndValidity()
+    const reader = new FileReader()
     reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
+      this.imagePreview = reader.result as string
+    }
+    reader.readAsDataURL(file)
   }
 
   onSavePost() {
     this.onAddLocation(this.clickedOption.name)
     if (this.form.invalid) {
-      return;
+      return
     }
-    this.isLoading = true;
-    if (this.mode === "create") {
-      let newPost = {
+    this.isLoading = true
+    if (this.mode === 'create') {
+      const newPost = {
         date: new Date().toLocaleString(),
         location: this.form.value.location,
         author: sessionStorage.getItem('username'),
@@ -140,11 +140,11 @@ export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
         image: this.form.value.image,
         tags: this.form.value.tags,
       }
-      this.postsService.addPost(newPost);
+      this.postsService.addPost(newPost)
     } else {
       this.postsService.updatePost({
         _id: this.postId,
-        date: this.post.date, //will be changed to earlier date
+        date: this.post.date, // will be changed to earlier date
         location: this.form.value.location,
         author: sessionStorage.getItem('username'),
         likes: this.post.likes,
@@ -153,42 +153,42 @@ export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
         image: this.form.value.image,
         tags: this.form.value.tags,
         comments: this.post.comments
-      });
+      })
     }
-    this.form.reset();
+    this.form.reset()
   }
 
 
   addTag(event): void {
-    const input = event.input;
-    const value = event.value;
+    const input = event.input
+    const value = event.value
 
     // Add a tag
     if ((value || '').trim()) {
-      this.tags.push(value.trim());
+      this.tags.push(value.trim())
     }
 
     // Reset the input value
     if (input) {
-      input.value = '';
+      input.value = ''
     }
-    this.form.patchValue({ tags: this.tags });
-    this.form.get("tags").updateValueAndValidity();
+    this.form.patchValue({ tags: this.tags })
+    this.form.get('tags').updateValueAndValidity()
 
   }
 
   removeTag(tag): void {
-    const index = this.tags.indexOf(tag);
+    const index = this.tags.indexOf(tag)
     if (index >= 0) {
-      this.tags.splice(index, 1);
+      this.tags.splice(index, 1)
     }
-    this.form.patchValue({ tags: this.tags });
-    this.form.get("tags").updateValueAndValidity();
+    this.form.patchValue({ tags: this.tags })
+    this.form.get('tags').updateValueAndValidity()
   }
   onAddLocation(location: string){
     this.location = location
-    this.form.patchValue({ location: location });
-    this.form.get("location").updateValueAndValidity();
+    this.form.patchValue({ location })
+    this.form.get('location').updateValueAndValidity()
   }
   ngOnDestroy(){
     this.clickedOption_sub.unsubscribe()

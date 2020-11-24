@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AddPostService } from 'src/app/services/add-post.service';
-import { CommentsService } from 'src/app/services/comments.service';
-import { ActivatedRoute } from '@angular/router';
-import { Comment } from "src/app/models/comment.model";
-import { Post } from 'src/app/models/post.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core'
+import { AddPostService } from 'src/app/services/add-post.service'
+import { CommentsService } from 'src/app/services/comments.service'
+import { ActivatedRoute } from '@angular/router'
+import { Comment } from 'src/app/models/comment.model'
+import { Post } from 'src/app/models/post.model'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-comment-section',
@@ -14,7 +14,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class CommentSectionComponent implements OnInit {
   @Input() post: Post
   public comments: Comment[]
-  form: FormGroup;
+  form: FormGroup
 
 
   constructor(
@@ -31,15 +31,15 @@ export class CommentSectionComponent implements OnInit {
 
   onAddComment() {
     if (this.form.invalid) {
-      return;
+      return
     }
-    let newComment = {
+    const newComment = {
       date: new Date().toLocaleString(),
       author: sessionStorage.getItem('username'),
       content: this.form.value.content,
     }
-    this.commentsService.addComment(newComment,this.post._id)
-    this.form.reset();
+    this.commentsService.addComment(newComment, this.post._id)
+    this.form.reset()
   }
 
 }

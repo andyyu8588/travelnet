@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Comment } from 'src/app/models/comment.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CommentsService } from 'src/app/services/comments.service';
-import { MatDialog } from '@angular/material/dialog';
-import { EditCommentComponent } from '../edit-comment/edit-comment.component';
+import { Component, OnInit, Input } from '@angular/core'
+import { Comment } from 'src/app/models/comment.model'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { CommentsService } from 'src/app/services/comments.service'
+import { MatDialog } from '@angular/material/dialog'
+import { EditCommentComponent } from '../edit-comment/edit-comment.component'
 
 
 @Component({
@@ -17,7 +17,7 @@ export class CommentComponent implements OnInit {
   displayEdits = false
   replyField = true
   showReplies = false
-  form: FormGroup;
+  form: FormGroup
   constructor(
     private commentsService: CommentsService,
     public dialog: MatDialog
@@ -34,41 +34,41 @@ export class CommentComponent implements OnInit {
   }
   onAddReply(){
     if (this.form.invalid) {
-      return;
+      return
     }
-    let newReply = {
+    const newReply = {
       date: new Date().toLocaleString(),
       author: sessionStorage.getItem('username'),
       content: this.form.value.content,
     }
-    let replyContent = {
+    const replyContent = {
       postId: this.postId,
       commentId: this.comment._id,
       reply: newReply
     }
     this.commentsService.reply(replyContent)
-    this.form.reset();
+    this.form.reset()
   }
   likeTreeComment(){
-    let likeContent = {
+    const likeContent = {
       postId: this.postId,
       commentId: this.comment._id,
-      username: sessionStorage.getItem("username"),
+      username: sessionStorage.getItem('username'),
       replyId: null
     }
     this.commentsService.likeComment(likeContent)
   }
   likeLeafComment(replyId){
-    let likeContent = {
+    const likeContent = {
       postId: this.postId,
       commentId: this.comment._id,
-      username: sessionStorage.getItem("username"),
-      replyId: replyId
+      username: sessionStorage.getItem('username'),
+      replyId
     }
     this.commentsService.likeComment(likeContent)
   }
   deleteTreeComment(){
-    let deleteContent = {
+    const deleteContent = {
       postId: this.postId,
       commentId: this.comment._id,
       replyId: null
@@ -76,53 +76,53 @@ export class CommentComponent implements OnInit {
     this.commentsService.deleteComment(deleteContent)
   }
   deleteLeafComment(replyId){
-    let deleteContent = {
+    const deleteContent = {
       postId: this.postId,
       commentId: this.comment._id,
-      replyId: replyId
+      replyId
     }
     this.commentsService.deleteComment(deleteContent)
   }
   editTreeComment(){
-    let commentInfo = {
+    const commentInfo = {
       postId: this.postId,
       comment: this.comment,
       reply: null
     }
-    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: false, commentData: commentInfo}});
-    dialogRef.afterClosed().subscribe();
+    const dialogRef = this.dialog.open(EditCommentComponent, {data: {displayEdits: false, commentData: commentInfo}})
+    dialogRef.afterClosed().subscribe()
 
   }
   editLeafComment(reply){
-    let commentInfo = {
+    const commentInfo = {
       postId: this.postId,
       comment: this.comment,
-      reply: reply
+      reply
     }
-    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: false, commentData: commentInfo}});
-    dialogRef.afterClosed().subscribe();
+    const dialogRef = this.dialog.open(EditCommentComponent, {data: {displayEdits: false, commentData: commentInfo}})
+    dialogRef.afterClosed().subscribe()
 
   }
   showParentEdits(){
-    let commentInfo = {
+    const commentInfo = {
       postId: this.postId,
       comment: this.comment,
       reply: null
     }
-    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: true, commentData: commentInfo}});
-    dialogRef.afterClosed().subscribe();
+    const dialogRef = this.dialog.open(EditCommentComponent, {data: {displayEdits: true, commentData: commentInfo}})
+    dialogRef.afterClosed().subscribe()
   }
   showLeafEdits(reply){
-    let commentInfo = {
+    const commentInfo = {
       postId: this.postId,
       comment: reply,
       reply: true
     }
-    const dialogRef = this.dialog.open(EditCommentComponent,{data:{displayEdits: true, commentData: commentInfo}});
-    dialogRef.afterClosed().subscribe();
+    const dialogRef = this.dialog.open(EditCommentComponent, {data: {displayEdits: true, commentData: commentInfo}})
+    dialogRef.afterClosed().subscribe()
   }
   ownContent(content){
-    if(content.author === sessionStorage.getItem('username')){
+    if (content.author === sessionStorage.getItem('username')){
       return true
     }
   }

@@ -1,11 +1,11 @@
-import { SearchParams } from './../../../models/searchParams';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { SearchService } from 'src/app/services/search.service';
+import { SearchParams } from './../../../models/searchParams'
+import { Component, OnInit, OnDestroy, Input } from '@angular/core'
+import { Subscription } from 'rxjs'
+import { SearchService } from 'src/app/services/search.service'
 import { tab } from 'src/app/models/tab.model'
-import { ActivatedRoute } from '@angular/router';
-import { MapService } from 'src/app/services/map/map.service';
-import { CustomCoordinates } from 'src/app/models/coordinates';
+import { ActivatedRoute } from '@angular/router'
+import { MapService } from 'src/app/services/map/map.service'
+import { CustomCoordinates } from 'src/app/models/coordinates'
 
 @Component({
   selector: 'app-searchresults',
@@ -23,7 +23,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
   private _categoriesSet_sub: Subscription
   private returnTab_sub: Subscription
   private filter_sub: Subscription
-  
+
   constructor(
     private map: MapService,
     private SearchService: SearchService,
@@ -37,7 +37,7 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
       this.queryParams = params
     })
-    this.filter_sub = this.SearchService.filterNumber.subscribe((number)=> this.filterNumber = number)
+    this.filter_sub = this.SearchService.filterNumber.subscribe((number) => this.filterNumber = number)
 
     // response from http queries
     this.returnTab_sub = this.SearchService.searchTab.subscribe((tab: tab) => {
@@ -45,14 +45,14 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
       this.loading = false
     })
 
-    this._categoriesSet_sub= this.SearchService.categorySet.subscribe((set: Set<any>)=> {
+    this._categoriesSet_sub = this.SearchService.categorySet.subscribe((set: Set<any>) => {
       if (set) {
         this.categoriesSet = set
       }
     })
   }
 
-  /** check if state of venues|users filter */ 
+  /** check if state of venues|users filter */
   checkFilter(type: number) {
     if (this.filterNumber === 0 || type === this.filterNumber){
       return true
@@ -61,8 +61,8 @@ export class SearchresultsComponent implements OnInit, OnDestroy {
       return false
     }
   }
-  
-  checkIfChecked(id:string): boolean {
+
+  checkIfChecked(id: string): boolean {
     if (this.categoriesSet.has(id)) {
       return true
     }

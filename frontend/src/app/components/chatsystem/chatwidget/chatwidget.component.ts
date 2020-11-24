@@ -1,8 +1,8 @@
-import { Subscription } from 'rxjs';
-import { SessionService } from '../../../services/session.service';
-import { SocketService } from 'src/app/services/chatsystem/socket.service';
-import { Component, OnInit, Renderer2, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
-import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
+import { Subscription } from 'rxjs'
+import { SessionService } from '../../../services/session.service'
+import { SocketService } from 'src/app/services/chatsystem/socket.service'
+import { Component, OnInit, Renderer2, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core'
+import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service'
 import { RoomWidget } from '../../../models/Room_Widget.model'
 
 @Component({
@@ -16,13 +16,13 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   @Input() roomId: string
   @ViewChild('textarea') div: ElementRef
   sessionRoomName: string
-  typeArea: string = ''
+  typeArea = ''
   sessionState: boolean
   private sessionSub: Subscription
   roomModel: RoomWidget
   private roomSub: Subscription
   username: string = sessionStorage.getItem('username')
- 
+
 
   constructor(private friendlistService: FriendlistService,
               private renderer: Renderer2,
@@ -47,32 +47,32 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
         console.log(data.err)
       } else {
         data.messages.forEach((message) => {
-          const ul: HTMLParagraphElement = this.renderer.createElement('ul');
-          ul.innerHTML = `${message.sender === this.username ? "you" : message.sender}: ${message.content}`
+          const ul: HTMLParagraphElement = this.renderer.createElement('ul')
+          ul.innerHTML = `${message.sender === this.username ? 'you' : message.sender}: ${message.content}`
           this.renderer.appendChild(this.div.nativeElement, ul)
         })
       }
     })
 
     this.friendlistService.selectChatwidget(this.roomId)
-    
+
     // listen for messages & add display them
     this.socketService.listen('message_res').subscribe((data: any) => {
-      if(this.roomId == data.res.roomId){
-        const ul: HTMLParagraphElement = this.renderer.createElement('ul');
-        ul.innerHTML = `${data.res.sender === this.username ? "you" : data.res.sender}: ${data.res.content}`
+      if (this.roomId == data.res.roomId){
+        const ul: HTMLParagraphElement = this.renderer.createElement('ul')
+        ul.innerHTML = `${data.res.sender === this.username ? 'you' : data.res.sender}: ${data.res.content}`
         this.renderer.appendChild(this.div.nativeElement, ul)
         this.typeArea = ``
       } else {
-      } 
+      }
     })
 
     // listen for notifications
     this.socketService.listen('notification').subscribe((data: any) => {
-      
+
     })
   }
-  
+
   // look for enter button
   onKey(event: KeyboardEvent) {
     if (event.key == 'Enter') {
@@ -85,7 +85,7 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
   // send message with socket
   sendMessage(data: string): void {
     if (data != '') {
-      this.socketService.emit('message', {roomId: this.roomId, sender: this.username, content: data})    
+      this.socketService.emit('message', {roomId: this.roomId, sender: this.username, content: data})
     }
   }
 
@@ -94,7 +94,7 @@ export class ChatwidgetComponent implements OnInit, OnDestroy {
     this.friendlistService.toggleChatWidget(this.roomModel)
     this.ngOnDestroy()
   }
-  
+
   ngOnDestroy(): void {
     this.socketService.remove('message_res')
     this.socketService.remove('notification')

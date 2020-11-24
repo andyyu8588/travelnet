@@ -1,7 +1,7 @@
-import { selectedVenueModel } from './selectedVenue.model';
-import { venueModel } from 'src/app/models/venue.model';
+import { selectedVenueModel } from './selectedVenue.model'
+import { venueModel } from 'src/app/models/venue.model'
 import * as moment from 'moment'
-import { LngLatLike } from 'mapbox-gl';
+import { LngLatLike } from 'mapbox-gl'
 
 export class tripModel {
     _id: string
@@ -21,7 +21,7 @@ export class tripModel {
             venueAddress?: String
             venueCoord?: LngLatLike
             price?: Number
-            url? : URL | string
+            url?: URL | string
             category?: {
                 name: string
                 url: URL | string
@@ -31,12 +31,12 @@ export class tripModel {
     isPrivate: boolean
 
     constructor(start: Date, end: Date, name: string, isPrivate?: boolean) {
-        let final = moment(end)
-       
+        const final = moment(end)
+
         this.tripName = name
         this.dateRange = {
-            start: start,
-            end: end,
+            start,
+            end,
             length: final.diff(start, 'days') + 1
         }
         this.schedule = []
@@ -46,6 +46,6 @@ export class tripModel {
                 venues: []
             })
         }
-        this.isPrivate = isPrivate? isPrivate : false
+        this.isPrivate = isPrivate ? isPrivate : false
     }
 }

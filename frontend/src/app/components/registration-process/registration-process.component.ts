@@ -1,12 +1,12 @@
-import { CountrySelectorComponent } from './country-selector/country-selector.component';
-import { SessionService } from 'src/app/services/session.service';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
-import { MapService, clickLocationCoordinates } from './../../services/map/map.service';
-import { Router } from '@angular/router';
-import { RegistrationComponent } from './registrationpage/registrationpage.component';
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output, Input } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { MatHorizontalStepper } from '@angular/material/stepper';
+import { CountrySelectorComponent } from './country-selector/country-selector.component'
+import { SessionService } from 'src/app/services/session.service'
+import { Subscription, BehaviorSubject, Observable } from 'rxjs'
+import { MapService, clickLocationCoordinates } from './../../services/map/map.service'
+import { Router } from '@angular/router'
+import { RegistrationComponent } from './registrationpage/registrationpage.component'
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Output, Input } from '@angular/core'
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms'
+import { MatHorizontalStepper } from '@angular/material/stepper'
 
 export interface progressUpdateData {
   target: number
@@ -22,8 +22,8 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   private sessionState_sub: Subscription
   sessionState: Boolean
 
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  firstFormGroup: FormGroup
+  secondFormGroup: FormGroup
   @ViewChild('stepper') stepper: MatHorizontalStepper
   @ViewChild('step1') step1: any
   @ViewChild('selector1') selector1: CountrySelectorComponent
@@ -41,8 +41,8 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   private clickLocation: Subscription
   private stepper_sub: Subscription
 
-  isSaving: boolean = false
-  isDone: boolean = false
+  isSaving = false
+  isDone = false
 
   constructor(private _formBuilder: FormBuilder,
               private MapService: MapService,
@@ -52,14 +52,14 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['']
-    });
+    })
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ''
-    });
+    })
     this.sessionState_sub = this.SessionService.sessionState.subscribe((state: Boolean) => {
       this.sessionState = state
     })
-  } 
+  }
 
   ngAfterViewInit() {
     this.step1.stepControl = this.registration.registrationForm
@@ -70,7 +70,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
       })
     })
     this.stepper_sub = this.stepper.selectionChange.subscribe(x => {
-      console.log(this.stepper.steps) 
+      console.log(this.stepper.steps)
       if (x.selectedIndex != 0) {
         this.editable = false
         this.isDone = false
@@ -102,8 +102,8 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     })
     .finally(() => {
       this.isSaving = false
-    }) 
-    
+    })
+
   }
 
   ngOnDestroy() {

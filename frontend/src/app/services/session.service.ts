@@ -1,5 +1,5 @@
-import { SocketService } from './chatsystem/socket.service';
-import { Injectable } from '@angular/core';
+import { SocketService } from './chatsystem/socket.service'
+import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable} from 'rxjs'
 
 @Injectable({
@@ -12,16 +12,16 @@ export class SessionService {
   private _sessionState: BehaviorSubject<boolean> = new BehaviorSubject(false)
   public sessionState: Observable<boolean> = this._sessionState.asObservable()
 
-  private _sidebarWidth: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth*.4)
+  private _sidebarWidth: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth * .4)
   public sidebarWidth: Observable<number> = this._sidebarWidth.asObservable()
 
   constructor(private SocketService: SocketService) { }
 
   getRoomName(roomName: string) {
-    if (roomName.replace(`${sessionStorage.getItem('username')},`, "").includes(roomName)) {
-      return roomName.replace(`,${sessionStorage.getItem('username')}`, "")
+    if (roomName.replace(`${sessionStorage.getItem('username')},`, '').includes(roomName)) {
+      return roomName.replace(`,${sessionStorage.getItem('username')}`, '')
     } else {
-      return roomName.replace(`${sessionStorage.getItem('username')},`, "")
+      return roomName.replace(`${sessionStorage.getItem('username')},`, '')
     }
   }
 
@@ -34,7 +34,7 @@ export class SessionService {
       return false
     }
   }
-  
+
   updateSidebarWidth(width: number) {
     this._sidebarWidth.next(width)
   }

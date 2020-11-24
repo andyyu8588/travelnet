@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
-import { ActivatedRoute, ParamMap } from "@angular/router";
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core'
+import { ActivatedRoute, ParamMap } from '@angular/router'
+import { Subscription } from 'rxjs'
 
-import { Post } from "src/app/models/post.model";
-import { AddPostService } from "src/app/services/add-post.service";
-import { FormGroup, FormControl } from '@angular/forms';
-import { HttpService } from 'src/app/services/http.service';
+import { Post } from 'src/app/models/post.model'
+import { AddPostService } from 'src/app/services/add-post.service'
+import { FormGroup, FormControl } from '@angular/forms'
+import { HttpService } from 'src/app/services/http.service'
 
 @Component({
   selector: 'app-display-posts',
@@ -19,9 +19,9 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   //   { title: "Second Post", content: "This is the second post's content" },
   //   { title: "Third Post", content: "This is the third post's content" }
   // ];
-  posts: Post[] = [];
-  isLoading = false;
-  private postsSub: Subscription;
+  posts: Post[] = []
+  isLoading = false
+  private postsSub: Subscription
   timeoutHandler
   likeShow = false
   input: string
@@ -31,40 +31,40 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    if(sessionStorage.getItem("username")){
-      this.isLoading = true;
+    if (sessionStorage.getItem('username')){
+      this.isLoading = true
       this.route.params.subscribe(params => {
-        this.input = params['query'];
-        if(this.input){
-          this.postsService.searchPosts({input: this.input});
+        this.input = params.query
+        if (this.input){
+          this.postsService.searchPosts({input: this.input})
           this.postsSub = this.postsService.getPostUpdateListener()
           .subscribe((posts: Post[]) => {
-            this.isLoading = false;
-            this.posts = posts;
-          });
+            this.isLoading = false
+            this.posts = posts
+          })
 
         }
         else{
           this.HttpService.get('/user', null).then((res: any) => {
             this.user = res.user[0]
-            this.postsService.getRelevantPosts({author: this.user.username, follows: this.user.following, tags: this.user.tags, location: this.user.location});
+            this.postsService.getRelevantPosts({author: this.user.username, follows: this.user.following, tags: this.user.tags, location: this.user.location})
             this.postsSub = this.postsService.getPostUpdateListener()
             .subscribe((posts: Post[]) => {
-              this.isLoading = false;
-              this.posts = posts;
-            });
+              this.isLoading = false
+              this.posts = posts
+            })
           })
         }
-      });
+      })
     }
   }
 
   onDelete(postId: string) {
-    this.postsService.deletePost(postId);
+    this.postsService.deletePost(postId)
   }
 
   ngOnDestroy() {
-    this.postsSub.unsubscribe();
+    this.postsSub.unsubscribe()
   }
 
   like(postId: string){
@@ -73,8 +73,8 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
 
   public mouseup() {
     if (this.timeoutHandler) {
-      clearInterval(this.timeoutHandler);
-      this.timeoutHandler = null;
+      clearInterval(this.timeoutHandler)
+      this.timeoutHandler = null
     }
   }
 
@@ -82,7 +82,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
     this.timeoutHandler = setInterval(() => {
       this.showLikes()
       console.log(this.likeShow)
-    }, 300);
+    }, 300)
   }
 
   showLikes(){
@@ -93,7 +93,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
 
   }
   ownContent(post){
-    if(sessionStorage.getItem('username') === post.author){
+    if (sessionStorage.getItem('username') === post.author){
       return true
     }
   }

@@ -1,4 +1,4 @@
-import { CustomCoordinates } from './../app/models/coordinates';
+import { CustomCoordinates } from './../app/models/coordinates'
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
@@ -6,7 +6,7 @@ import { CustomCoordinates } from './../app/models/coordinates';
 export const environment = {
   production: false,
   travelnetURL: 'http://localhost:3000',
-  travelnetCommentURL: "http://localhost:3000/api/comments/",
+  travelnetCommentURL: 'http://localhost:3000/api/comments/',
 
   mapbox: {
     token: 'pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ',
@@ -30,21 +30,21 @@ export const environment = {
     reverse: 'https://nominatim.openstreetmap.org/reverse'
   },
 
-  openstreetmap:{
-    searchNodes:'https://master.apis.dev.openstreetmap.org/api/0.6/map',
-    searchRealNode:' https://api.openstreetmap.org/api/0.6/map'
+  openstreetmap: {
+    searchNodes: 'https://master.apis.dev.openstreetmap.org/api/0.6/map',
+    searchRealNode: ' https://api.openstreetmap.org/api/0.6/map'
   },
 
   travelnet: {
     getUserInfo: 'http://localhost:3000/user',
     getProfile: 'http://localhost:3000/profile',
-    searchUsers:'http://localhost:3000/searchusers',
-    travelnetCommentURL: "http://localhost:3000/comments",
-    travelnetPostURL: "http://localhost:3000/posts",
+    searchUsers: 'http://localhost:3000/searchusers',
+    travelnetCommentURL: 'http://localhost:3000/comments',
+    travelnetPostURL: 'http://localhost:3000/posts',
   },
 
   montrealCoord: new CustomCoordinates(-73.5633265, 45.5009128)
-};
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

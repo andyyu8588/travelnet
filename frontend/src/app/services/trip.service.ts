@@ -1,9 +1,9 @@
-import { SessionService } from 'src/app/services/session.service';
-import { userModel } from './../models/user.model';
-import { tripModel } from '../models/trip.model';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { HttpService } from './http.service';
-import { Injectable, OnDestroy } from '@angular/core';
+import { SessionService } from 'src/app/services/session.service'
+import { userModel } from './../models/user.model'
+import { tripModel } from '../models/trip.model'
+import { BehaviorSubject, Observable, Subscription } from 'rxjs'
+import { HttpService } from './http.service'
+import { Injectable, OnDestroy } from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
@@ -40,12 +40,12 @@ export class TripService implements OnDestroy {
     })
   }
 
-  /** when user searches/finished searching a venue from mytrip -> add venue */ 
+  /** when user searches/finished searching a venue from mytrip -> add venue */
   changeQuery(query: string | null) {
     this.searchedVenue = query
   }
 
-  /** modifies trips of user */ 
+  /** modifies trips of user */
   modifyBackend(triparr: tripModel[]): Promise<any> {
     return new Promise((resolve, reject) => {
       this.HttpService.patch('/user/edit', {

@@ -1,7 +1,7 @@
-import { Router } from '@angular/router';
-import { userModel } from 'src/app/models/user.model';
-import { HttpService } from 'src/app/services/http.service';
-import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
+import { userModel } from 'src/app/models/user.model'
+import { HttpService } from 'src/app/services/http.service'
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-home',

@@ -1,7 +1,7 @@
-import { SessionService } from '../../../../services/session.service';
-import { Component, OnInit, Input } from '@angular/core';
-import { RoomWidget } from '../../../../models/Room_Widget.model';
-import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
+import { SessionService } from '../../../../services/session.service'
+import { Component, OnInit, Input } from '@angular/core'
+import { RoomWidget } from '../../../../models/Room_Widget.model'
+import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service'
 
 @Component({
   selector: 'app-friend',
@@ -11,12 +11,12 @@ import { FriendlistService } from 'src/app/services/chatsystem/friendlist.servic
 
 export class FriendComponent implements OnInit {
 
-  sessionRoomName : string
+  sessionRoomName: string
   username: string = sessionStorage.getItem('username')
 
   @Input() friend: RoomWidget
-  constructor (private friendlistService: FriendlistService,
-    public sessionService: SessionService) {
+  constructor(private friendlistService: FriendlistService,
+              public sessionService: SessionService) {
 
   }
 

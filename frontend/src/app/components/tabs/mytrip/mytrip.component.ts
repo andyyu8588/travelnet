@@ -1,24 +1,24 @@
-import { environment } from './../../../../environments/environment.dev';
-import { HttpService } from 'src/app/services/http.service';
-import { ActivatedRoute } from '@angular/router';
-import { CustomCoordinates } from 'src/app/models/coordinates';
-import { LngLatLike, LngLat } from 'mapbox-gl';
-import { MapService } from 'src/app/services/map/map.service';
-import { MatSort } from '@angular/material/sort';
-import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { SessionService } from 'src/app/services/session.service';
-import { tripModel } from '../../../models/trip.model';
-import { Subscription } from 'rxjs';
-import { TripService } from './../../../services/trip.service';
-import { TripmodalComponent } from 'src/app/components/tabs/mytrip/tripmodal/tripmodal.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { environment } from './../../../../environments/environment.dev'
+import { HttpService } from 'src/app/services/http.service'
+import { ActivatedRoute } from '@angular/router'
+import { CustomCoordinates } from 'src/app/models/coordinates'
+import { LngLatLike, LngLat } from 'mapbox-gl'
+import { MapService } from 'src/app/services/map/map.service'
+import { MatSort } from '@angular/material/sort'
+import { AddVenuePopoverComponent } from './add-venue-popover/add-venue-popover.component'
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
+import { SessionService } from 'src/app/services/session.service'
+import { tripModel } from '../../../models/trip.model'
+import { Subscription } from 'rxjs'
+import { TripService } from './../../../services/trip.service'
+import { TripmodalComponent } from 'src/app/components/tabs/mytrip/tripmodal/tripmodal.component'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import * as moment from 'moment'
-import { MatAccordion } from '@angular/material/expansion';
-import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { MatAccordion } from '@angular/material/expansion'
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table'
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop'
 import * as Mapboxgl from 'mapbox-gl'
-import { last, sample } from 'rxjs/operators';
+import { last, sample } from 'rxjs/operators'
 
 @Component({
   selector: 'app-mytrip',
@@ -28,9 +28,9 @@ import { last, sample } from 'rxjs/operators';
 export class MytripComponent implements OnInit, OnDestroy {
   private sessionState_sub: Subscription
   sessionState: boolean
-  isLoading: boolean = false
-  isErr: boolean = false
-  isSuccess: boolean = false
+  isLoading = false
+  isErr = false
+  isSuccess = false
   sharedTrip: tripModel = null
   sharingUrl: URL | string = null
 
@@ -45,7 +45,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   // dataSource for mat table
   @ViewChild(MatTable) table: MatTable<any>
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort
   tableDataSource: MatTableDataSource<tripModel> = new MatTableDataSource([])
 
   // data for add trip
@@ -59,56 +59,56 @@ export class MytripComponent implements OnInit, OnDestroy {
   venueCity: string
   venueAddress: string
 
-  displayedColumns= ['category', 'venueName', 'venueCity', 'venueAddress', 'price', 'url', 'index']
+  displayedColumns = ['category', 'venueName', 'venueCity', 'venueAddress', 'price', 'url', 'index']
 
   dialogRef: MatDialogRef<any>
 
   // all trips of user
   private _tripSub: Subscription
-  trips: tripModel[] = [] 
+  trips: tripModel[] = []
 
   // display day of date
   displayDay(date: Date): string {
-    let d = new Date(date)
-    let weekday: string[] = new Array(7);
-    weekday[0] = "Sun";
-    weekday[1] = "Mon";
-    weekday[2] = "Tue";
-    weekday[3] = "Wed";
-    weekday[4] = "Thu";
-    weekday[5] = "Fri";
-    weekday[6] = "Sat";
-    let i = d.getDay()
+    const d = new Date(date)
+    const weekday: string[] = new Array(7)
+    weekday[0] = 'Sun'
+    weekday[1] = 'Mon'
+    weekday[2] = 'Tue'
+    weekday[3] = 'Wed'
+    weekday[4] = 'Thu'
+    weekday[5] = 'Fri'
+    weekday[6] = 'Sat'
+    const i = d.getDay()
     return weekday[i]
   }
 
   // get price for a day w/ schedule obj
   getDayPrice(obj: {[key: string]: any}): number {
-    let total: number = 0
+    let total = 0
     if (obj) {
-      let venues: any[] = obj.venues? obj.venues : []
+      const venues: any[] = obj.venues ? obj.venues : []
       for (let x = 0; x < venues.length; x++) {
-        venues[x].price? total += venues[x].price : total += 0  
+        venues[x].price ? total += venues[x].price : total += 0
       }
     }
     return total
   }
-  
+
   // use trip object to get price for all days
   getTotalPrice(obj: tripModel): number {
-    let total: number = 0
+    let total = 0
     if (obj.schedule) {
       obj.schedule.forEach((element) => {
         total += this.getDayPrice(element)
       })
     }
-    return total 
+    return total
   }
 
   // get venues for a day w/ schedule obj
   getDayVenues(obj: {[key: string]: any}): number {
     if (obj) {
-      let venues: any[] = obj.venues? obj.venues: []
+      const venues: any[] = obj.venues ? obj.venues : []
       return venues.length
     } else {
       return 0
@@ -117,7 +117,7 @@ export class MytripComponent implements OnInit, OnDestroy {
 
   // use trip object to get venues for all days
   getTotalVenues(obj: tripModel): number {
-    let total: number = 0
+    let total = 0
     if (obj.schedule) {
       obj.schedule.forEach((element) => {
         total += this.getDayVenues(element)
@@ -127,9 +127,9 @@ export class MytripComponent implements OnInit, OnDestroy {
   }
 
   getTripDistance(tripIndex: number|null, shared?: boolean): string {
-    let dist: number = 0
+    let dist = 0
     let lastCoord: LngLat = null
-    let obj = shared? this.sharedTrip : this.trips[tripIndex]
+    const obj = shared ? this.sharedTrip : this.trips[tripIndex]
     for (let x = 0; x < obj.schedule.length; x++) {
       obj.schedule[x].venues.forEach((venue) => {
         if (venue.venueCoord) {
@@ -138,15 +138,15 @@ export class MytripComponent implements OnInit, OnDestroy {
           }
           dist += lastCoord.distanceTo(venue.venueCoord)
           lastCoord = new LngLat(venue.venueCoord.lng, venue.venueCoord.lat)
-        } 
+        }
       })
     }
-    return (dist/1000).toFixed(2)
+    return (dist / 1000).toFixed(2)
   }
 
   getDataSource(tripIndex: number, dayIndex: number, shared?: boolean): MatTableDataSource<any> {
-    let source = new MatTableDataSource<any>([])
-    let obj = shared? this.sharedTrip : this.trips[tripIndex]
+    const source = new MatTableDataSource<any>([])
+    const obj = shared ? this.sharedTrip : this.trips[tripIndex]
     if (obj.schedule) {
       source.data = obj.schedule[dayIndex].venues
       source.sort = this.sort
@@ -161,7 +161,7 @@ export class MytripComponent implements OnInit, OnDestroy {
               private SessionService: SessionService,
               private MapService: MapService,
               private ActivatedRoute: ActivatedRoute,
-              private HttpService: HttpService) { 
+              private HttpService: HttpService) {
   }
 
   ngOnInit(): void {
@@ -223,9 +223,9 @@ export class MytripComponent implements OnInit, OnDestroy {
         start: this.start,
         end: this.end
       }
-    });
+    })
 
-    this.dialogRef.afterClosed().subscribe((result: tripModel)=> {
+    this.dialogRef.afterClosed().subscribe((result: tripModel) => {
       if (result) {
         this.trips.push(result)
         this.TripService.updateLocal(this.trips)
@@ -238,17 +238,17 @@ export class MytripComponent implements OnInit, OnDestroy {
     this.dialogRef = this.MatDialog.open(AddVenuePopoverComponent, {
       width: '800px',
       data: {
-        tripIndex: tripIndex,
-        scheduleIndex: scheduleIndex,
-        venueIndex: venueIndex,
+        tripIndex,
+        scheduleIndex,
+        venueIndex,
         name: this.venueName,
         venuePrice: this.venuePrice,
         venueCity: this.venueCity,
         venueAddress: this.venueAddress
       }
-    });
+    })
 
-    this.dialogRef.afterClosed().subscribe((result: any)=> {
+    this.dialogRef.afterClosed().subscribe((result: any) => {
       // if (result) {
       //   this.trips.push(result)
       //   this.TripService.update(this.trips)
@@ -309,27 +309,27 @@ export class MytripComponent implements OnInit, OnDestroy {
   }
 
   /** show itinerary of trip on map */
-  showItinerary(tripIndex: number, shared? : boolean) {
+  showItinerary(tripIndex: number, shared?: boolean) {
     // already showing itinerary
     if (this.MapService.map.getSource('route')) {
       this.MapService.map.removeLayer('route')
       this.MapService.map.removeSource('route')
       this.MapService.map.removeLayer('points')
       this.MapService.map.removeSource('points')
-    } 
-    let obj = shared? this.sharedTrip : this.trips[tripIndex]
+    }
+    const obj = shared ? this.sharedTrip : this.trips[tripIndex]
     // push venues in array
-    let coord: Array<number[]> = []
-    for (let day of obj.schedule) {
+    const coord: Array<number[]> = []
+    for (const day of obj.schedule) {
       day.venues.forEach((venue) => {
         if (venue.venueCoord) {
           coord.push([venue.venueCoord.lng, venue.venueCoord.lat])
-          
+
           // show point
           this.MapService.showMarker(1, {
             name: venue.name as string,
-            content:{
-              geometry:{
+            content: {
+              geometry: {
                 coordinates: [venue.venueCoord.lng, venue.venueCoord.lat]
               }
             }
@@ -340,38 +340,38 @@ export class MytripComponent implements OnInit, OnDestroy {
 
     // display as route
     this.MapService.map.addSource('route', {
-      'type': 'geojson',
-      'data': {
-        'type': 'Feature',
-        'properties': {},
-        'geometry': {
-          'type': 'LineString',
-          'coordinates': coord
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates: coord
         }
       }
     })
     this.MapService.map.addLayer({
-      'id': 'route',
-      'type': 'line',
-      'source': 'route',
-      'layout': {
+      id: 'route',
+      type: 'line',
+      source: 'route',
+      layout: {
       'line-join': 'round',
       'line-cap': 'round'
       },
-      'paint': {
+      paint: {
       'line-color': '#3bb2d0',
       'line-width': 8
       }
-    });
+    })
     this.MapService.map.moveLayer('points')
   }
 
 
   /** display location of venue on map */
   showLocation(tripIndex: number, dayIndex: number, venueIndex: number, shared?: boolean) {
-    let obj = shared? this.sharedTrip : this.trips[tripIndex]
+    const obj = shared ? this.sharedTrip : this.trips[tripIndex]
     this.MapService.venueOnDestroy()
-    let coord: CustomCoordinates = obj.schedule[dayIndex].venues[venueIndex].venueCoord? new CustomCoordinates(obj.schedule[dayIndex].venues[venueIndex].venueCoord.lng, obj.schedule[dayIndex].venues[venueIndex].venueCoord.lat) : null
+    const coord: CustomCoordinates = obj.schedule[dayIndex].venues[venueIndex].venueCoord ? new CustomCoordinates(obj.schedule[dayIndex].venues[venueIndex].venueCoord.lng, obj.schedule[dayIndex].venues[venueIndex].venueCoord.lat) : null
     if (coord) {
       this.MapService.addMarker(coord)
     }
@@ -387,6 +387,6 @@ export class MytripComponent implements OnInit, OnDestroy {
       this.MapService.map.removeSource('route')
       this.MapService.map.removeLayer('points')
       this.MapService.map.removeSource('points')
-    } 
+    }
   }
 }

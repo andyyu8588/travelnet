@@ -1,11 +1,11 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { mimeType } from "./mime-type.validator";
-import { HttpService } from 'src/app/services/http.service';
-import { environment } from 'src/environments/environment';
-import { SessionService } from 'src/app/services/session.service';
-import { Router } from '@angular/router';
-import { SocketService } from 'src/app/services/chatsystem/socket.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { mimeType } from './mime-type.validator'
+import { HttpService } from 'src/app/services/http.service'
+import { environment } from 'src/environments/environment'
+import { SessionService } from 'src/app/services/session.service'
+import { Router } from '@angular/router'
+import { SocketService } from 'src/app/services/chatsystem/socket.service'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 
 @Component({
   selector: 'app-profile',
@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         validators: [Validators.required],
         asyncValidators: [mimeType]
       })
-    });
+    })
   }
 
   getProfile() {
@@ -79,31 +79,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   // when profile pic is selected
   onImagePicked(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({ image: file });
-    this.form.get("image").updateValueAndValidity();
-    const reader = new FileReader();
+    const file = (event.target as HTMLInputElement).files[0]
+    this.form.patchValue({ image: file })
+    this.form.get('image').updateValueAndValidity()
+    const reader = new FileReader()
     reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
+      this.imagePreview = reader.result as string
+    }
+    reader.readAsDataURL(file)
   }
 
   // on image picked
   onSubmit() {
     if (this.form.invalid) {
-      return;
+      return
     }
-    let formData = new FormData()
+    const formData = new FormData()
     formData.append('image', this.form.value.image)
     formData.append('username', localStorage.getItem('username'))
     this.httpService.post('/user/profilepicture', formData
     ).then((res: any) => {
-    
+
     }).catch((err) => {
       console.log(err)
     })
-    this.form.reset();
+    this.form.reset()
   }
 
   // back button that destroys component

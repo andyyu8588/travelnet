@@ -1,18 +1,18 @@
-import { HttpService } from './../../../services/http.service';
-import { CitySearchComponent } from './../../city-search/city-search.component';
-import { clickLocationCoordinates } from './../../../services/map/map.service';
-import { environment } from './../../../../environments/environment.prod';
-import { HttpClient } from '@angular/common/http';
-import { MapService } from 'src/app/services/map/map.service';
-import { getCode } from 'country-list';
-import { Subscription } from 'rxjs';
-import { Component, OnInit, Input, OnDestroy, AfterContentInit, ViewChild, AfterViewInit } from '@angular/core';
+import { HttpService } from './../../../services/http.service'
+import { CitySearchComponent } from './../../city-search/city-search.component'
+import { clickLocationCoordinates } from './../../../services/map/map.service'
+import { environment } from './../../../../environments/environment.prod'
+import { HttpClient } from '@angular/common/http'
+import { MapService } from 'src/app/services/map/map.service'
+import { getCode } from 'country-list'
+import { Subscription } from 'rxjs'
+import { Component, OnInit, Input, OnDestroy, AfterContentInit, ViewChild, AfterViewInit } from '@angular/core'
 import * as CountriesList from 'countries-list'
 
 export interface VisitedPlaces {
-  code: string;
-  continent: string;
-  places: string[];
+  code: string
+  continent: string
+  places: string[]
 }
 
 @Component({
@@ -20,31 +20,31 @@ export interface VisitedPlaces {
   templateUrl: './country-selector.component.html',
   styleUrls: ['./country-selector.component.scss']
 })
-export class CountrySelectorComponent implements OnInit, AfterContentInit, AfterViewInit ,OnDestroy {
+export class CountrySelectorComponent implements OnInit, AfterContentInit, AfterViewInit , OnDestroy {
   @ViewChild('citySearch') citySearchComponent: CitySearchComponent
-  citySearchAppearance: string = 'standard'
-  citySearchPlaceholder: string = 'Search for Locations'
+  citySearchAppearance = 'standard'
+  citySearchPlaceholder = 'Search for Locations'
   optionClick_sub: Subscription
   @Input() progressUpdate: any
   @Input() target: number
   allPlaces: VisitedPlaces[] = [
-    {code:'NA', continent: 'North-America', places: []},
-    {code:'SA', continent: 'South-America', places: []},
-    {code:'EU', continent: 'Europe', places: []},
-    {code:'AS', continent: 'Asia', places: []},
-    {code:'AF', continent: 'Africa', places: []},
-    {code:'OC', continent: 'Oceania', places: []},
-    {code:'AN', continent: 'Antarctica', places: []}
-  ];
-  removable: boolean = true
+    {code: 'NA', continent: 'North-America', places: []},
+    {code: 'SA', continent: 'South-America', places: []},
+    {code: 'EU', continent: 'Europe', places: []},
+    {code: 'AS', continent: 'Asia', places: []},
+    {code: 'AF', continent: 'Africa', places: []},
+    {code: 'OC', continent: 'Oceania', places: []},
+    {code: 'AN', continent: 'Antarctica', places: []}
+  ]
+  removable = true
 
   private clickLocation_sub: Subscription
 
   constructor(private MapService: MapService,
               private Http: HttpClient,
-              private HttpService: HttpService) { 
+              private HttpService: HttpService) {
   }
-  
+
   ngOnInit() {
   }
 
@@ -66,25 +66,25 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
           )
           .subscribe((response) => {
             if (response.features[0]) {
-              let placeName = response.features[0].place_name
-              let chip = this.citySearchComponent.removeMiddle(placeName, 1)
-              this.getKey(response.features[response.features.length -1].properties.short_code.toUpperCase())
+              const placeName = response.features[0].place_name
+              const chip = this.citySearchComponent.removeMiddle(placeName, 1)
+              this.getKey(response.features[response.features.length - 1].properties.short_code.toUpperCase())
                 .then((value: any) => {
-                  let continent = value.continent
+                  const continent = value.continent
                   this.allPlaces.forEach((element) => {
                     if (element.code === continent && !element.places.includes(chip)) {
                       element.places.push(chip)
                       this.MapService.showMarker(this.target, {
                         name: chip,
-                        content:{
-                          geometry:{
+                        content: {
+                          geometry: {
                             coordinates: response.query
                           }
                         }
                       })
                     }
                   })
-                  
+
                 })
                 .catch((err) => {
                   console.log(err)
@@ -102,12 +102,12 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
     this.optionClick_sub = this.citySearchComponent.clickedOption.subscribe(content => {
       if (content) {
         // displays chip and clear search input
-        let chip = this.citySearchComponent.removeMiddle(content.name, 1)
-        let countryName = ((content.name.split(', '))[content.name.split(', ').length - 1]).substring(1)
-        let code = getCode(countryName)
+        const chip = this.citySearchComponent.removeMiddle(content.name, 1)
+        const countryName = ((content.name.split(', '))[content.name.split(', ').length - 1]).substring(1)
+        const code = getCode(countryName)
         this.getKey(code)
         .then((value: any) => {
-          let continent = value.continent
+          const continent = value.continent
           this.allPlaces.forEach((element) => {
             if (element.code === continent && !element.places.includes(chip)) {
               element.places.push(chip)
@@ -117,24 +117,24 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
         .catch((err) => {
           console.log(err)
         })
-        
+
         // show location on map
-        content.name = this.citySearchComponent.removeMiddle(content.name, 1)    
+        content.name = this.citySearchComponent.removeMiddle(content.name, 1)
         this.MapService.showMarker(this.target, content)
       }
 
     })
   }
 
-  // search Countrieslist countries 
+  // search Countrieslist countries
   getKey(code: string) {
     return new Promise((resolve, reject) => {
-      let value = Object.keys(CountriesList.countries).find(key => {
-        if(key === code) {
+      const value = Object.keys(CountriesList.countries).find(key => {
+        if (key === code) {
           resolve(CountriesList.countries[key])
         }
       })
-      if(!value) {
+      if (!value) {
         reject('not found')
       }
     })
@@ -142,7 +142,7 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
 
   // remove chips
   onRemove(place: string, index: number) {
-    let placesArr = this.allPlaces[index].places
+    const placesArr = this.allPlaces[index].places
     placesArr.splice(placesArr.indexOf(place), 1)
     this.MapService.removeMarker(place, this.target)
   }
@@ -159,7 +159,7 @@ export class CountrySelectorComponent implements OnInit, AfterContentInit, After
     return new Promise((resolve, reject) => {
       this.HttpService.patch('/user/edit', {
         username: localStorage.getItem('username').toString(),
-        proprety: (this.target == 1)? 'history':'wishlist',
+        proprety: (this.target == 1) ? 'history' : 'wishlist',
         newProprety: this.allPlaces
       })
       .then((response) => {

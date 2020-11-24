@@ -1,17 +1,17 @@
-import { environment } from './../../../environments/environment.dev';
-import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
-import { SearchParams } from './../../models/searchParams';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CustomCoordinates } from './../../models/coordinates';
-import { CitySearchComponent } from './../city-search/city-search.component';
-import { CategoryNode, foursquareCategory } from './../../models/CategoryNode.model';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
-import { MapService } from 'src/app/services/map/map.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { SearchService } from 'src/app/services/search.service';
-import { tab } from 'src/app/models/tab.model';
-import { Subscription } from 'rxjs';
-import { geocodeResponseModel } from 'src/app/models/geocodeResp.model';
+import { environment } from './../../../environments/environment.dev'
+import { OpenstreetmapService } from './../../services/map/openstreetmap.service'
+import { SearchParams } from './../../models/searchParams'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { CustomCoordinates } from './../../models/coordinates'
+import { CitySearchComponent } from './../city-search/city-search.component'
+import { CategoryNode, foursquareCategory } from './../../models/CategoryNode.model'
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Input, Output, EventEmitter } from '@angular/core'
+import { MapService } from 'src/app/services/map/map.service'
+import { Router, ActivatedRoute } from '@angular/router'
+import { SearchService } from 'src/app/services/search.service'
+import { tab } from 'src/app/models/tab.model'
+import { Subscription } from 'rxjs'
+import { geocodeResponseModel } from 'src/app/models/geocodeResp.model'
 
 @Component({
   selector: 'app-search-bar',
@@ -20,8 +20,8 @@ import { geocodeResponseModel } from 'src/app/models/geocodeResp.model';
 })
 export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() submission = new EventEmitter<void>()
-  @Input() isChild: boolean = false
-  loading: boolean = false
+  @Input() isChild = false
+  loading = false
 
   foursquareCategory_sub: Subscription
   categories: foursquareCategory[]
@@ -47,12 +47,12 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
     1: 'Venues',
     2: 'Users'
   }
-  defaultFilter: string = '0'
-  defaultCategory: string = 'All'
+  defaultFilter = '0'
+  defaultCategory = 'All'
 
   constructor(
     private MapService: MapService,
-    private router : Router,
+    private router: Router,
     private SearchService: SearchService,
     private ActivatedRoute: ActivatedRoute,
     private OpenstreetmapService: OpenstreetmapService
@@ -60,7 +60,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchBarForm = new FormGroup({
-      'venueName': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)])
+      venueName: new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)])
     })
 
 
@@ -69,7 +69,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
     this.fakeCenter_sub = this.MapService.fakeCenter.subscribe((coord: CustomCoordinates) => {
-      this.fakeCenter = coord? coord : environment.montrealCoord
+      this.fakeCenter = coord ? coord : environment.montrealCoord
     })
 
     this.foursquareCategory_sub = this.SearchService.categoryTree.subscribe((cats: foursquareCategory[]) => {
@@ -86,12 +86,12 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.clickedOption = null
       }
     })
-    
+
     this.ActivatedRoute.queryParams.subscribe((params: SearchParams) => {
-      // set param to montreal if no location param 
+      // set param to montreal if no location param
       if (!params.lng) {
         // this.CitySearchComponent.myControl.patchValue('Montreal, Canada')
-        this.CitySearchComponent._clickedOptionLocal = new geocodeResponseModel(this.CitySearchComponent.myControl.value, [this.fakeCenter.lng, this.fakeCenter.lat]) 
+        this.CitySearchComponent._clickedOptionLocal = new geocodeResponseModel(this.CitySearchComponent.myControl.value, [this.fakeCenter.lng, this.fakeCenter.lat])
       } else {
         this.OpenstreetmapService.reverseSearch(params.lng, params.lat).subscribe((response: {[key: string]: any}) => {
           if (response.features[0]) {
@@ -101,15 +101,15 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if (params.query) {
         this.searchBarForm.get('venueName').setValue(params.query)
-        
-        // if url contains query 
+
+        // if url contains query
         if (!this.SearchService.currentSearch) {
           this.loading = true
-          let coord: CustomCoordinates = params.lng? new CustomCoordinates(params.lng, params.lat) : this.MapService.getCenter() 
+          const coord: CustomCoordinates = params.lng ? new CustomCoordinates(params.lng, params.lat) : this.MapService.getCenter()
           this.SearchService.enterSearch(params.query, this.SearchService.mainSearch(params.query, coord), coord)
-          .finally(()=>{
+          .finally(() => {
             this.loading = false
-          })      
+          })
         }
       }
     })
@@ -125,7 +125,7 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
   onSubmit() {
     if (this.searchBarForm.valid && this.CitySearchComponent.myControl.valid) {
       this.submission.emit()
-      let coord: CustomCoordinates = this.clickedOption? new CustomCoordinates(this.clickedOption.content.geometry.coordinates[0], this.clickedOption.content.geometry.coordinates[1]) : this.fakeCenter
+      const coord: CustomCoordinates = this.clickedOption ? new CustomCoordinates(this.clickedOption.content.geometry.coordinates[0], this.clickedOption.content.geometry.coordinates[1]) : this.fakeCenter
       this.SearchService.enterSearch(this.searchBarForm.get('venueName').value, this.SearchService.mainSearch(this.searchBarForm.get('venueName').value, coord), coord)
       .then(() => {
         this.SearchService.currentSearch = {query: this.searchBarForm.get('venueName').value, lng: coord.lng, lat: coord.lat, category: this.defaultCategory}
@@ -133,12 +133,12 @@ export class SearchBarComponent implements OnInit, AfterViewInit, OnDestroy {
       })
       .catch(err => {
         console.log(err)
-      })      
+      })
     }
   }
 
   /** all|venues|users */
-  changeFilter(filter:{response:string, value:string}) {
+  changeFilter(filter: {response: string, value: string}) {
     this.defaultFilter = filter.value
     this.defaultCategory = this.filterOptions[filter.value]
     this.SearchService.changeFilter(parseInt(filter.value))

@@ -1,4 +1,4 @@
-import { SearchParams } from './searchParams';
+import { SearchParams } from './searchParams'
 export class tab {
   // [key: string]: any
   query: SearchParams

@@ -1,20 +1,20 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
   name: 'null'
 })
 export class NullPipe implements PipeTransform {
 
-  transform(value: any, parent:any=false, returnNull:boolean = false ): any {
+  transform(value: any, parent: any= false, returnNull: boolean = false ): any {
     if (!parent.length){
       return value
     }
-    else if(!parent){
+    else if (!parent){
       if (returnNull){
         return
       }
       else{
-        return "no results found"
+        return 'no results found'
       }
 
     }
@@ -27,7 +27,7 @@ export class NullPipe implements PipeTransform {
           return
         }
         else{
-          return "no results found"
+          return 'no results found'
         }
       }
     }
