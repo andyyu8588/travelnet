@@ -6,7 +6,6 @@ import { CustomCoordinates } from './../app/models/coordinates'
 export const environment = {
   production: false,
   travelnetURL: 'http://localhost:3000',
-  travelnetCommentURL: 'http://localhost:3000/api/comments/',
 
   mapbox: {
     token: 'pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ',
