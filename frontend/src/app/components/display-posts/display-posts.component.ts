@@ -21,7 +21,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   // ];
   posts: Post[] = []
   isLoading = false
-  private postsSub: Subscription
+  private postsSub: Subscription;
   timeoutHandler
   likeShow = false
   input: string
@@ -30,7 +30,6 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   constructor(public postsService: AddPostService, private HttpService: HttpService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-
     if (sessionStorage.getItem('username')){
       this.isLoading = true
       this.route.params.subscribe(params => {
@@ -64,7 +63,9 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.postsSub.unsubscribe()
+    if (sessionStorage.getItem('username')){
+      this.postsSub.unsubscribe()
+    }
   }
 
   like(postId: string){
