@@ -23,7 +23,7 @@ export class AddTagComponent implements OnInit {
   }
   onAddTag(username: string, tag: string){
     this.http
-      .put("http://localhost:3000/user/addTag/", {'username': username, 'tag': tag})
+      .put("https://travelnet.herokuapp.com/api/user/addTag/", {'username': username, 'tag': tag})
       .subscribe((response:{message:string, likes: string[]})=>{
         console.log(response)
     })
