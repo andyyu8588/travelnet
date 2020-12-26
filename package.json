@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/andyyu8588/soundcloudrapper#readme",
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
