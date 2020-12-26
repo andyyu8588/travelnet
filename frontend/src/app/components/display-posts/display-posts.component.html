@@ -2,7 +2,7 @@
   <app-search-posts class="col-6"></app-search-posts>
   <app-add-tag class="col-6"></app-add-tag>
 </div>
-<mat-spinner *ngIf="isLoading"></mat-spinner>
+<!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
 
 <div *ngIf="posts.length > 0 && !isLoading">
   <div *ngFor="let post of posts">
@@ -35,7 +35,6 @@
 
       <app-comment-section [post] ='post'></app-comment-section>
     </mat-card>
-
   </div>
 </div>
 <p class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">No posts added yet!</p>
