@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl=true -c=dev",
-    "start:local": "ng serve --ssl=true --prod=false",
+    "startlocal": "ng serve --ssl=true --prod=false",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -39,7 +39,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1000.4",
+    "@angular-devkit/build-angular": "^0.1100.5",
     "@angular/cli": "^10.0.4",
     "@angular/compiler-cli": "^10.0.5",
     "@angular/language-service": "^10.0.5",

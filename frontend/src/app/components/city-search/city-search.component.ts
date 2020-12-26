@@ -1,12 +1,12 @@
-import { SearchParams } from './../../models/searchParams';
-import { ActivatedRoute } from '@angular/router';
-import { geocodeResponseModel } from './../../models/geocodeResp.model';
-import { MapService } from './../../services/map/map.service';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
-import { OpenstreetmapService } from './../../services/map/openstreetmap.service';
-import { FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Input, OnDestroy, Output, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
-import { MatSelect } from '@angular/material/select';
+import { SearchParams } from './../../models/searchParams'
+import { ActivatedRoute } from '@angular/router'
+import { geocodeResponseModel } from './../../models/geocodeResp.model'
+import { MapService } from './../../services/map/map.service'
+import { Subscription, BehaviorSubject, Observable } from 'rxjs'
+import { OpenstreetmapService } from './../../services/map/openstreetmap.service'
+import { FormControl, Validators } from '@angular/forms'
+import { Component, OnInit, Input, OnDestroy, Output, ViewChild, AfterViewInit, EventEmitter } from '@angular/core'
+import { MatSelect } from '@angular/material/select'
 
 @Component({
   selector: 'app-city-search',
@@ -17,19 +17,19 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSelect) MatSelect: MatSelect
   @Input() appearance: string
   @Input() placeholder: string
-  //initial location
+  // initial location
   @Input() location: string
   @Input() getFakeCenterCity: boolean
   @Input() clearOnSearch: boolean
-  //for custom event emiting
-  @Output() locationAdded = new EventEmitter<string>();
+  // for custom event emiting
+  @Output() locationAdded = new EventEmitter<string>()
 
   // search input variables
   myControl: FormControl = new FormControl(null)
   timeout
   searched: Subscription
 
-  isLoading: boolean = false
+  isLoading = false
 
   openstreetmap_sub: Subscription
 
@@ -39,7 +39,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   private _autoSuggested: BehaviorSubject<Array<{[key: string]: any}>> = new BehaviorSubject([])
   autoSuggested: Observable<Array<{[key: string]: any}>> = this._autoSuggested.asObservable()
 
-  //return clicked option
+  // return clicked option
   _clickedOptionLocal: geocodeResponseModel = null
   private _clickedOption: BehaviorSubject<geocodeResponseModel> = new BehaviorSubject(this._clickedOptionLocal)
   clickedOption: Observable<geocodeResponseModel> = this._clickedOption.asObservable()
@@ -73,11 +73,11 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
         this._autoSuggested.next([{}])
         this.openstreetmap_sub = this.OpenstreetmapService.citySearch(x.toString()).subscribe(response => {
           this.isLoading = false
-          let searchResults: Array<{[key: string]: any}> = []
+          const searchResults: Array<{[key: string]: any}> = []
           response.features.forEach(element => {
-            let name = this.removeMiddle(element.properties.display_name, 1)
-            searchResults.push({name: name, content: element})
-          });
+            const name = this.removeMiddle(element.properties.display_name, 1)
+            searchResults.push({name, content: element})
+          })
           this._autoSuggested.next(searchResults)
         }, (err) => {
           this.isLoading = false
@@ -116,7 +116,7 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** filters city name string, always keep first and last string */
   removeMiddle(string: string, keep: number): string {
-    let arr: string[] = string.split(',')
+    const arr: string[] = string.split(',')
     let nothing = arr.shift()
     for (let x = 0; x < keep; x++) {
       if (arr[x] != arr.slice(-1)[0]) {
@@ -130,21 +130,21 @@ export class CitySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   onOptionClick(country: {[key: string]: any}) {
     this._clickedOptionLocal = new geocodeResponseModel(country.name, country.content.geometry.coordinates, country.content)
     this._clickedOption.next(this._clickedOptionLocal)
-    this.clearOnSearch? this.myControl.patchValue('') : null
+    this.clearOnSearch ? this.myControl.patchValue('') : null
     // this.emitCountry(this._clickedOptionLocal.name)
   }
 
   emitCountry(city) {
     console.log(city)
     this.locationAdded.emit(city)
-    this.clearOnSearch? this.myControl.patchValue('') : null
+    this.clearOnSearch ? this.myControl.patchValue('') : null
   }
 
   ngOnDestroy() {
     this.MapService.citySearchPresent = false
     this.searched.unsubscribe()
-    this.fakeCenterCity_sub? this.fakeCenterCity_sub.unsubscribe() : null
-    this.openstreetmap_sub? this.openstreetmap_sub.unsubscribe() : null
+    this.fakeCenterCity_sub ? this.fakeCenterCity_sub.unsubscribe() : null
+    this.openstreetmap_sub ? this.openstreetmap_sub.unsubscribe() : null
   }
 
 }

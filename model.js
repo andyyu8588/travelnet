@@ -11,20 +11,20 @@ venuesIn = tf.tensor([1, 4, 4, 5])
 venuesOut = tf.tensor([3, 3, 2, 1])
 
 model.then((layersModel) => {
-    layersModel.compile({optimizer:tf.train.adam(0.1),
-                        loss:tf.losses.meanSquaredError})
-    layersModel.fit(venuesIn, venuesOut, {epochs:300})
-    .then((response) => {
+  layersModel.compile({optimizer: tf.train.adam(0.1),
+    loss: tf.losses.meanSquaredError})
+  layersModel.fit(venuesIn, venuesOut, {epochs: 300})
+      .then((response) => {
         layersModel.summary()
         console.log(response)
-        let x = layersModel.predict(tf.tensor([1]))
+        const x = layersModel.predict(tf.tensor([1]))
         x.print()
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.log(err)
-    })
+      })
 }, (err) => {
-    console.log('rejected')
-    console.log(err)
+  console.log('rejected')
+  console.log(err)
 })
 

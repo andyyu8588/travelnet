@@ -1,8 +1,8 @@
-import { HttpService } from 'src/app/services/http.service';
-import { userModel } from 'src/app/models/user.model';
-import { Component, OnInit, Input } from '@angular/core';
-import { SearchService } from 'src/app/services/search.service';
-import { Router } from '@angular/router';
+import { HttpService } from 'src/app/services/http.service'
+import { userModel } from 'src/app/models/user.model'
+import { Component, OnInit, Input } from '@angular/core'
+import { SearchService } from 'src/app/services/search.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-userbutton',
@@ -11,13 +11,13 @@ import { Router } from '@angular/router';
 })
 export class UserbuttonComponent implements OnInit {
   pathID: string
-  searchResult : any
+  searchResult: any
   @Input() result: userModel
   selfUsername: string = localStorage.getItem('username')
 
   constructor(
     private searchservice: SearchService,
-    private router : Router,
+    private router: Router,
     private HttpService: HttpService,
   ) { }
 
@@ -26,7 +26,7 @@ export class UserbuttonComponent implements OnInit {
     this.searchResult = this.result
     this.pathID = '/search/user/' + this.result.username
   }
-  
+
   navigate() {
     console.log(this.result)
     this.router.navigate([this.pathID])

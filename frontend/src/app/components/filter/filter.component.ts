@@ -1,12 +1,12 @@
-import { SearchParams } from './../../models/searchParams';
-import { ActivatedRoute } from '@angular/router';
-import { TripService } from './../../services/trip.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { SearchService } from 'src/app/services/search.service';
-import { NestedTreeControl } from '@angular/cdk/tree';
-import { CategoryNode} from 'src/app/models/CategoryNode.model';
-import { Subscription } from 'rxjs';
+import { SearchParams } from './../../models/searchParams'
+import { ActivatedRoute } from '@angular/router'
+import { TripService } from './../../services/trip.service'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
+import { SearchService } from 'src/app/services/search.service'
+import { NestedTreeControl } from '@angular/cdk/tree'
+import { CategoryNode} from 'src/app/models/CategoryNode.model'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-filter',
@@ -24,9 +24,9 @@ export class FilterComponent implements OnInit, OnDestroy {
   private categoriesSet_sub: Subscription
 
   allComplete: Array<boolean> = null
-  count = 0;
+  count = 0
 
-  treeControl = new NestedTreeControl<CategoryNode>(node => node.categories);
+  treeControl = new NestedTreeControl<CategoryNode>(node => node.categories)
 
   private _selectedNodes: BehaviorSubject<string> = new BehaviorSubject(null)
   selectedNodes: Observable<string> = this._selectedNodes.asObservable()
@@ -56,33 +56,33 @@ export class FilterComponent implements OnInit, OnDestroy {
                 } else {
                   this.checkAll(child.categories)
                 }
-              })              
+              })
             }
-          }        
-        }) 
+          }
+        })
       }
     })
   }
 
   /** Checks if datasource for material tree has any child groups */
-  hasChild = (_: number, node: CategoryNode) => !!node.categories && node.categories.length > 0;
+  hasChild = (_: number, node: CategoryNode) => !!node.categories && node.categories.length > 0
 
   /**toggle checkmark for leafs */
   clickedActive(element: CategoryNode) {
-    element.checked = !element.checked;
+    element.checked = !element.checked
     this.modifyIdSet(element)
     this.SearchService.updateCategoryTree(this.categoriesTree)
   }
 
   /**toggle checkmark for nodes && node itself */
   setAll(category: CategoryNode) {
-    let allChecked = this.initiateChildrenChecker(category.categories)
-    if(!allChecked) {
-      this.SearchService.treeValues.categorySet.has(category.id)? null : this.SearchService.treeValues.categorySet.add(category.id)
+    const allChecked = this.initiateChildrenChecker(category.categories)
+    if (!allChecked) {
+      this.SearchService.treeValues.categorySet.has(category.id) ? null : this.SearchService.treeValues.categorySet.add(category.id)
       this.checkAll(category.categories)
     }
     else if (allChecked) {
-      this.SearchService.treeValues.categorySet.has(category.id)? this.SearchService.treeValues.categorySet.delete(category.id) : null
+      this.SearchService.treeValues.categorySet.has(category.id) ? this.SearchService.treeValues.categorySet.delete(category.id) : null
       this.uncheckAll(category.categories)
     }
     this.SearchService.updateCategoryTree(this.categoriesTree)
@@ -91,8 +91,8 @@ export class FilterComponent implements OnInit, OnDestroy {
   /** checks all children of a node && node itself */
   checkAll(categories: CategoryNode[]) {
     categories.forEach((sub: CategoryNode) => {
-      sub.checked = true;
-      this.SearchService.treeValues.categorySet.has(sub.id)? null : this.SearchService.treeValues.categorySet.add(sub.id)
+      sub.checked = true
+      this.SearchService.treeValues.categorySet.has(sub.id) ? null : this.SearchService.treeValues.categorySet.add(sub.id)
 
       this.SearchService.updateCategorySet(this.categoriesSet)
       // this.modifyIdSet(sub)
@@ -106,19 +106,19 @@ export class FilterComponent implements OnInit, OnDestroy {
   /** unchecks all children of a node */
   uncheckAll(categories: CategoryNode[]) {
     categories.forEach((sub: CategoryNode) => {
-      sub.checked = false;
-      this.SearchService.treeValues.categorySet.has(sub.id)? this.SearchService.treeValues.categorySet.delete(sub.id) : null
+      sub.checked = false
+      this.SearchService.treeValues.categorySet.has(sub.id) ? this.SearchService.treeValues.categorySet.delete(sub.id) : null
 
       // this.modifyIdSet(sub)
-      if(sub.categories && sub.categories.length > 0){
+      if (sub.categories && sub.categories.length > 0){
         this.uncheckAll(sub.categories)
       }
-    });
+    })
   }
 
   /**initiates allChildrenChecked() */
   initiateChildrenChecker(categories: CategoryNode[]): boolean{
-    var state = true
+    let state = true
     state = this.allChildrenChecked(categories, state)
     return state
   }
@@ -142,8 +142,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   /**initiates atLeastOneChecked() */
   initiateAtLeastOneChecked(categories: CategoryNode[]): boolean {
-    var state = false;
-    state = this.atLeastOneChecked(categories, state);
+    let state = false
+    state = this.atLeastOneChecked(categories, state)
     return state
   }
 

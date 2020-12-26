@@ -1,4 +1,4 @@
-export class venueModel {//will probably be changed with premium
+export class venueModel {// will probably be changed with premium
     public id: string
     public name: string
     public contact: {[key: string]: any}

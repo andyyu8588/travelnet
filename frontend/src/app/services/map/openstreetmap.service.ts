@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { env } from 'process';
+import { Observable } from 'rxjs'
+import { Injectable } from '@angular/core'
+import { environment } from 'src/environments/environment'
+import { HttpClient } from '@angular/common/http'
+import { env } from 'process'
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class OpenstreetmapService {
           },
           params: {
 
-            'bbox': bbox,
+            bbox,
           }
       })
   }
@@ -33,8 +33,8 @@ export class OpenstreetmapService {
         {
           headers: {},
           params: {
-            'city': city,
-            'format': 'geojson'
+            city,
+            format: 'geojson'
           }
         }
       )
@@ -47,10 +47,10 @@ export class OpenstreetmapService {
         environment.nominatim.reverse,
         {
           params: {
-            'format': 'geojson',
-            'zoom': '10',
-            'lat': lat.toString(),
-            'lon': lng.toString()
+            format: 'geojson',
+            zoom: '10',
+            lat: lat.toString(),
+            lon: lng.toString()
           }
         }
       )

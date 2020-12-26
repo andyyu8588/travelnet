@@ -1,6 +1,6 @@
-import { environment } from './../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { environment } from './../../environments/environment'
+import { HttpClient } from '@angular/common/http'
+import { Injectable, OnDestroy } from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   delete(route: String, params: any) {
-    let serverRoute = this.serverURL + route
+    const serverRoute = this.serverURL + route
     return new Promise((resolve, reject) => {
       this.http.delete<any>(serverRoute, {
         headers: {
@@ -30,11 +30,11 @@ export class HttpService {
   }
 
   get(route: String, params: any) {
-    let serverRoute = this.serverURL + route
+    const serverRoute = this.serverURL + route
     return new Promise((resolve, reject) => {
       this.http.get<any>(serverRoute, {
         headers: {
-          authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas'
+          authorization: localStorage.getItem('token') ? localStorage.getItem('token').toString() : 'monkas'
         },
         params
       }).subscribe((res) => {
@@ -46,9 +46,9 @@ export class HttpService {
   }
 
   post(route: String, params: any) {
-    let serverRoute = this.serverURL + route
+    const serverRoute = this.serverURL + route
     return new Promise((resolve, reject) => {
-      this.http.post<any>(serverRoute,        
+      this.http.post<any>(serverRoute,
         params
       ).subscribe((res) => {
         resolve(res)
@@ -59,7 +59,7 @@ export class HttpService {
   }
 
   put(route: String, params: any) {
-    let serverRoute = this.serverURL + route
+    const serverRoute = this.serverURL + route
     return new Promise((resolve, reject) => {
       this.http.put<any>(serverRoute, {
         headers: {
@@ -75,7 +75,7 @@ export class HttpService {
   }
 
   patch(route: string, params: any) {
-    let serverRoute = this.serverURL + route
+    const serverRoute = this.serverURL + route
     return new Promise((resolve, reject) => {
       this.http.patch<any>(serverRoute, {
         headers: {

@@ -1,9 +1,9 @@
-import { HttpService } from 'src/app/services/http.service';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { SocketService } from 'src/app/services/chatsystem/socket.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
-import * as moment from 'moment';
+import { HttpService } from 'src/app/services/http.service'
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap'
+import { SocketService } from 'src/app/services/chatsystem/socket.service'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { Component, OnInit, Input } from '@angular/core'
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-proprety',
@@ -18,7 +18,7 @@ export class PropretyComponent implements OnInit {
   changing: boolean
   invalid: boolean
   invalidOld: boolean
-  model: NgbDateStruct;
+  model: NgbDateStruct
 
   constructor(
     private httpService: HttpService) { }
@@ -28,20 +28,20 @@ export class PropretyComponent implements OnInit {
     // special forms that need validations
     if (this.proprety == 'email') {
       this.changeForm = new FormGroup({
-        'newPropretyValue': new FormControl(this.propretyValue, [Validators.required, Validators.email])
+        newPropretyValue: new FormControl(this.propretyValue, [Validators.required, Validators.email])
       })
     } else if (this.proprety == 'password') {
-      this.propretyValue = "••••••••"
+      this.propretyValue = '••••••••'
       this.changeForm = new FormGroup({
-        'oldPassword': new FormControl(null, [Validators.required, Validators.minLength(5)]),
-        'newPropretyValue': new FormControl(null, [Validators.required, Validators.minLength(5)])
+        oldPassword: new FormControl(null, [Validators.required, Validators.minLength(5)]),
+        newPropretyValue: new FormControl(null, [Validators.required, Validators.minLength(5)])
       })
     } else { // everything else
       if (this.proprety == 'birthdate') {
         this.propretyValue = this.propretyValue.slice(0, 10)
       }
       this.changeForm = new FormGroup({
-        'newPropretyValue': new FormControl(this.propretyValue, [Validators.required])
+        newPropretyValue: new FormControl(this.propretyValue, [Validators.required])
       })
     }
   }

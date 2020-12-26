@@ -1,16 +1,16 @@
-import { geocodeResponseModel } from './../../../../models/geocodeResp.model';
-import { SearchBarComponent } from './../../../search-bar/search-bar.component';
-import { CustomCoordinates } from './../../../../models/coordinates';
-import { MapService } from './../../../../services/map/map.service';
-import { CategoryNode, foursquareCategory } from './../../../../models/CategoryNode.model';
-import { SearchService } from './../../../../services/search.service';
-import { tripModel } from './../../../../models/trip.model';
-import { TripService } from './../../../../services/trip.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { CitySearchComponent } from './../../../city-search/city-search.component';
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Inject } from '@angular/core';
+import { geocodeResponseModel } from './../../../../models/geocodeResp.model'
+import { SearchBarComponent } from './../../../search-bar/search-bar.component'
+import { CustomCoordinates } from './../../../../models/coordinates'
+import { MapService } from './../../../../services/map/map.service'
+import { CategoryNode, foursquareCategory } from './../../../../models/CategoryNode.model'
+import { SearchService } from './../../../../services/search.service'
+import { tripModel } from './../../../../models/trip.model'
+import { TripService } from './../../../../services/trip.service'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { Subscription } from 'rxjs'
+import { CitySearchComponent } from './../../../city-search/city-search.component'
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Inject } from '@angular/core'
 
 @Component({
   selector: 'app-add-venue-popover',
@@ -29,7 +29,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
 
   // foursquare venues categories
   foursquareCategory_sub: Subscription
-  defaultCategory: string = 'All'
+  defaultCategory = 'All'
   venueCategories: foursquareCategory[] = []
 
   // for database venue search
@@ -42,14 +42,14 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('citySearch') CitySearchComponent: CitySearchComponent
   private selectedOption_sub: Subscription
   selectedOption: geocodeResponseModel
-  citySearchAppearance: string = 'outline'
-  citySearchPlaceholder: string = 'Search for a City'
+  citySearchAppearance = 'outline'
+  citySearchPlaceholder = 'Search for a City'
   customVenueForm: FormGroup
-  
+
   // for component visual
-  isLoading: boolean = false
+  isLoading = false
   isLoaded: boolean
-  isErr: boolean = false
+  isErr = false
 
   constructor(private SearchService: SearchService,
               private TripService: TripService,
@@ -72,7 +72,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   ngOnInit(): void {
     this.isLoaded = false
 
-    // sets mat select venue category options 
+    // sets mat select venue category options
     this.foursquareCategory_sub =  this.SearchService.categoryTree.subscribe((cats: foursquareCategory[]) => {
       this.venueCategories = cats
     })
@@ -88,22 +88,22 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
     })
 
     this.searchVenueForm = new FormGroup({
-      'name': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)])
+      name: new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)])
     })
 
     this.customVenueForm = new FormGroup({
-      'name': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)]),
-      'address': new FormControl(null),
-      'price': new FormControl(null),
-      'url': new FormControl(null)
+      name: new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(25)]),
+      address: new FormControl(null),
+      price: new FormControl(null),
+      url: new FormControl(null)
     })
 
     // fill form if user is editing venue
     if (this.venueIndex != null) {
-      this.customVenueForm.get('name').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].name? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].name : '')
-      this.customVenueForm.get('address').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueAddress? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueAddress : '')
-      this.customVenueForm.get('price').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].price? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].price : 0)
-      this.customVenueForm.get('url').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].url? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].url : '')
+      this.customVenueForm.get('name').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].name ? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].name : '')
+      this.customVenueForm.get('address').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueAddress ? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueAddress : '')
+      this.customVenueForm.get('price').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].price ? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].price : 0)
+      this.customVenueForm.get('url').patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].url ? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].url : '')
     }
   }
 
@@ -118,7 +118,7 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
 
     // fill form if user is editing venue
     if (this.venueIndex != null) {
-      this.CitySearchComponent.myControl.patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueCity? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueCity : '')
+      this.CitySearchComponent.myControl.patchValue(this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueCity ? this.allTrips[this.tripIndex].schedule[this.dayIndex].venues[this.venueIndex].venueCity : '')
     }
   }
 
@@ -136,12 +136,12 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
   onSubmitCustom() {
     if (this.customVenueForm.valid) {
       let url: any = null
-      for(let category of this.venueCategories) {
+      for (const category of this.venueCategories) {
         if (category.name === this.defaultCategory) {
           url = category.icon.prefix + '32' + category.icon.suffix
           break
         }
-      }        
+      }
 
       // if edit venue
       if (this.venueIndex != null) {
@@ -149,10 +149,10 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
           name: this.customVenueForm.get('name').value,
           venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.removeMiddle(this.CitySearchComponent.myControl.value, 0) : '',
           venueCoord: {lng: this.selectedOption.content.geometry.coordinates[0], lat: this.selectedOption.content.geometry.coordinates[1]},
-          venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
-          price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
-          category: url? {name: this.defaultCategory, url: url} : null,
-          url: this.customVenueForm.get('url').value ? this.customVenueForm.get('url').value : '' 
+          venueAddress: this.customVenueForm.get('address').value ? this.customVenueForm.get('address').value : '',
+          price: this.customVenueForm.get('price').value ? this.customVenueForm.get('price').value : 0,
+          category: url ? {name: this.defaultCategory, url} : null,
+          url: this.customVenueForm.get('url').value ? this.customVenueForm.get('url').value : ''
         }
       } else {
         // if add venue
@@ -160,10 +160,10 @@ export class AddVenuePopoverComponent implements OnInit, AfterViewInit, OnDestro
           name: this.customVenueForm.get('name').value,
           venueCity: this.CitySearchComponent.myControl.value ? this.CitySearchComponent.removeMiddle(this.CitySearchComponent.myControl.value, 0) : '',
           venueCoord: {lng: this.selectedOption.content.geometry.coordinates[0], lat: this.selectedOption.content.geometry.coordinates[1]},
-          venueAddress: this.customVenueForm.get('address').value? this.customVenueForm.get('address').value : '',
-          price: this.customVenueForm.get('price').value? this.customVenueForm.get('price').value : 0,
-          category: url? {name: this.defaultCategory, url: url} : null,
-          url: this.customVenueForm.get('url').value ? this.customVenueForm.get('url').value : '' 
+          venueAddress: this.customVenueForm.get('address').value ? this.customVenueForm.get('address').value : '',
+          price: this.customVenueForm.get('price').value ? this.customVenueForm.get('price').value : 0,
+          category: url ? {name: this.defaultCategory, url} : null,
+          url: this.customVenueForm.get('url').value ? this.customVenueForm.get('url').value : ''
         })
       }
       this.TripService.modifyBackend(this.allTrips)

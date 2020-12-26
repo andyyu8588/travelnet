@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CommentsService } from 'src/app/services/comments.service';
+import { Component, OnInit } from '@angular/core'
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'
+import { Inject } from '@angular/core'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { CommentsService } from 'src/app/services/comments.service'
 
 @Component({
   selector: 'app-edit-comment',
@@ -10,7 +10,7 @@ import { CommentsService } from 'src/app/services/comments.service';
   styleUrls: ['./edit-comment.component.scss']
 })
 export class EditCommentComponent implements OnInit {
-  form: FormGroup;
+  form: FormGroup
   commentData: any
 
   constructor(
@@ -20,33 +20,33 @@ export class EditCommentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(!this.data.displayEdits){
+    if (!this.data.displayEdits){
       this.form = new FormGroup({
-          'comment': new FormControl(null, {validators: [Validators.required]}),
+          comment: new FormControl(null, {validators: [Validators.required]}),
         })
-        if(this.data.commentData.reply){
+      if (this.data.commentData.reply){
           this.form.setValue({
-            'comment': this.data.commentData.reply.content
+            comment: this.data.commentData.reply.content
             })
         }
         else{
           this.form.setValue({
-            'comment': this.data.commentData.comment.content
+            comment: this.data.commentData.comment.content
             })
         }
-        this.commentData = this.data.commentData
+      this.commentData = this.data.commentData
       }
     }
 
 
   onEditComment(){
-    if(this.data.commentData.reply){
-      this.commentData.reply.edited.push({edit: this.commentData.reply.content, date:Date().toLocaleString()})
+    if (this.data.commentData.reply){
+      this.commentData.reply.edited.push({edit: this.commentData.reply.content, date: Date().toLocaleString()})
       this.commentData.reply.content = this.form.value.comment
       this.CommentsService.editComment(this.commentData)
     }
     else{
-      this.commentData.comment.edited.push({edit: this.commentData.comment.content, date:Date().toLocaleString()})
+      this.commentData.comment.edited.push({edit: this.commentData.comment.content, date: Date().toLocaleString()})
       this.commentData.comment.content = this.form.value.comment
       this.CommentsService.editComment(this.commentData)
     }
@@ -54,7 +54,7 @@ export class EditCommentComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close();
+    this.dialogRef.close()
   }
 
 }

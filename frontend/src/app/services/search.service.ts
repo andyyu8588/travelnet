@@ -1,14 +1,14 @@
-import { foursquareCategory } from './../models/CategoryNode.model';
-import { SearchParams } from './../models/searchParams';
-import { logging } from 'protractor';
-import { CustomCoordinates } from './../models/coordinates';
-import { tab } from 'src/app/models/tab.model';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { FoursquareService } from './map/foursquare.service';
-import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
-import { CategoryNode } from '../models/CategoryNode.model';
+import { foursquareCategory } from './../models/CategoryNode.model'
+import { SearchParams } from './../models/searchParams'
+import { logging } from 'protractor'
+import { CustomCoordinates } from './../models/coordinates'
+import { tab } from 'src/app/models/tab.model'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { environment } from 'src/environments/environment'
+import { FoursquareService } from './map/foursquare.service'
+import { HttpClient } from '@angular/common/http'
+import { Injectable, OnDestroy } from '@angular/core'
+import { CategoryNode } from '../models/CategoryNode.model'
 
 
 @Injectable({
@@ -18,21 +18,21 @@ export class SearchService implements OnDestroy {
   /**if user is already searchign something */
   currentSearch: SearchParams = null
 
-  private search: tab = {query: null, content : {'users':[], 'venues':[]}}
+  private search: tab = {query: null, content : {users: [], venues: []}}
   private _searchTab: BehaviorSubject<tab> = new BehaviorSubject(this.search)
-  public searchTab : Observable<tab> = this._searchTab.asObservable()
+  public searchTab: Observable<tab> = this._searchTab.asObservable()
 
-  private filter: number = 0
+  private filter = 0
   private _filterNumber: BehaviorSubject<number> = new BehaviorSubject(this.filter)
-  public filterNumber : Observable<number> = this._filterNumber.asObservable()
+  public filterNumber: Observable<number> = this._filterNumber.asObservable()
 
   private categories: foursquareCategory[] = null
   private _categoryTree: BehaviorSubject<foursquareCategory[] | CategoryNode[]> = new BehaviorSubject(this.categories)
-  public categoryTree : Observable<foursquareCategory[] | CategoryNode[]> = this._categoryTree.asObservable()
+  public categoryTree: Observable<foursquareCategory[] | CategoryNode[]> = this._categoryTree.asObservable()
 
   private categoriesCollection: any
   private _categorySet: BehaviorSubject<Set<any>> = new BehaviorSubject(this.categoriesCollection)
-  public categorySet : Observable<Set<any>> = this._categorySet.asObservable()
+  public categorySet: Observable<Set<any>> = this._categorySet.asObservable()
 
   treeValues: {
     [key: string]: any
@@ -54,7 +54,7 @@ export class SearchService implements OnDestroy {
     this.currentSearch = null
   }
 
-  //looks for venues in the area
+  // looks for venues in the area
   foursquareSearchVenues(query: string, latLng: CustomCoordinates): Promise<any> {
     return new Promise((resolve, reject) => {
       this.foursquareService.searchVenues(query, latLng.toStringReorder(2))
@@ -64,7 +64,7 @@ export class SearchService implements OnDestroy {
         reject(err)
       })
     }
-  )}
+  ) }
 
   /**gets user info with username input, connection to database*/
   userSearch(query: string): Promise<any> {
@@ -72,7 +72,7 @@ export class SearchService implements OnDestroy {
       this.HttpClient.get<any>(environment.travelnet.searchUsers,
         {
           headers: {
-            authorization: localStorage.getItem('token')? localStorage.getItem('token').toString() : 'monkas',
+            authorization: localStorage.getItem('token') ? localStorage.getItem('token').toString() : 'monkas',
           },
           params: {
             user: query
@@ -81,17 +81,17 @@ export class SearchService implements OnDestroy {
       )
       .subscribe((result) => {
         resolve(result)
-      }, (err) =>{
+      }, (err) => {
         reject(err)
       })
     }
-  )}
+  ) }
 
   /** gets venue data with id in the query */
   formatDetails(query: string){
-    return new Promise<any>((resolve,reject)=>{
+    return new Promise<any>((resolve, reject) => {
       this.foursquareService.getDetails(query)
-      .subscribe(result=>{
+      .subscribe(result => {
         resolve(result)
       }, (err) => {
         reject(err)
@@ -106,13 +106,13 @@ export class SearchService implements OnDestroy {
 
   /**user makes new search in a tab*/
   enterSearch(query: string, searchType: Promise<any>, coord: CustomCoordinates) {
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       this.resetSearchContent()
       searchType
       .then(result => {
 
         if (result[0].response.totalResults != 0) {
-          result[0].response.groups[0].items.forEach(venue =>{
+          result[0].response.groups[0].items.forEach(venue => {
             this.search.content.venues.push(venue)
           })
         } else {
@@ -121,17 +121,17 @@ export class SearchService implements OnDestroy {
 
         if (sessionStorage.getItem('username')) {
           if (result[1].users) {
-            result[1].users.forEach(user=>{
+            result[1].users.forEach(user => {
               this.search.content.users.push(user)
             })
           }
         } else {
-          this.search.content.users.push({'username' : 'warning', 'name' : 'You must be logged in to see users'})
+          this.search.content.users.push({username : 'warning', name : 'You must be logged in to see users'})
         }
 
         this.search = ({
           query: {
-            query: query,
+            query,
             lng: coord.lng,
             lat: coord.lat
           },
@@ -148,9 +148,9 @@ export class SearchService implements OnDestroy {
 
   /**update foursquare categories*/
   updateCategories(): Promise<foursquareCategory[] | CategoryNode[]> {
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       this.foursquareService.updateCategories()
-      .subscribe(x=>{
+      .subscribe(x => {
         this.initiateTree(x.response.categories)
         resolve(x.response.categories)
       }, err => {
@@ -192,7 +192,7 @@ export class SearchService implements OnDestroy {
   }
 
   resetSearchContent(){
-    this.search.content= {venues:[],users:[]}
+    this.search.content = {venues: [], users: []}
     this._searchTab.next(this.search)
   }
 

@@ -1,4 +1,4 @@
-import { CustomCoordinates } from './../app/models/coordinates';
+import { CustomCoordinates } from './../app/models/coordinates'
 export const environment = {
 
 
@@ -29,15 +29,17 @@ export const environment = {
     reverse: 'https://nominatim.openstreetmap.org/reverse'
   },
 
-  openstreetmap:{
-    searchNodes:'https://master.apis.dev.openstreetmap.org/api/0.6/map',
-    searchRealNode:' https://api.openstreetmap.org/api/0.6/map'
+  openstreetmap: {
+    searchNodes: 'https://master.apis.dev.openstreetmap.org/api/0.6/map',
+    searchRealNode: ' https://api.openstreetmap.org/api/0.6/map'
   },
 
   travelnet: {
     getUserInfo: 'https://travelnet.herokuapp.com/user',
     getProfile: 'https://travelnet.herokuapp.com/profile',
-    searchUsers:'https://travelnet.herokuapp.com/searchusers',
+    searchUsers: 'https://travelnet.herokuapp.com/searchusers',
+    travelnetCommentURL: 'https://travelnet.herokuapp.com/comments',
+    travelnetPostURL: 'https://travelnet.herokuapp.com/posts',
   },
   montrealCoord: new CustomCoordinates(-73.5633265, 45.5009128)
-};
+}

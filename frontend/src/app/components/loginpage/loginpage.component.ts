@@ -1,56 +1,56 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { SocketService } from 'src/app/services/chatsystem/socket.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { SocketService } from 'src/app/services/chatsystem/socket.service'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { SessionService } from 'src/app/services/session.service'
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { Router } from '@angular/router'
 
 @Component({
     selector: 'app-login',
-    templateUrl:'./login.component.html',
+    templateUrl: './login.component.html',
     styleUrls: ['./loginpage.component.scss'],
 })
 
 export class loginComponent {
     modal = null
-    constructor(private modalService:NgbModal ) {
+    constructor(private modalService: NgbModal ) {
       this.openModal()
     }
 
     openModal() {
-        this.modal = this.modalService.open(LoginComponent,{})
+        this.modal = this.modalService.open(LoginComponent, {})
     }
 }
 
 
 @Component({
     selector: 'app-loginpage',
-    templateUrl:'./loginpage.component.html',
+    templateUrl: './loginpage.component.html',
     styleUrls: ['./loginpage.component.scss'],
-    providers:[NgbModalConfig, NgbModal]
+    providers: [NgbModalConfig, NgbModal]
 })
 
 export class LoginComponent implements OnInit, OnDestroy{
     loginForm: FormGroup
-    login_err: boolean = false
-    hide: boolean = true
+    login_err = false
+    hide = true
 
     constructor(private SocketService: SocketService,
                 private sessionService: SessionService,
-                private modalService:NgbModal,
-                private router:Router) { }
+                private modalService: NgbModal,
+                private router: Router) { }
 
     ngOnInit() {
         this.loginForm = new FormGroup({
-            'username': new FormControl(null, Validators.required),
-            'password': new FormControl(null, Validators.required)
+            username: new FormControl(null, Validators.required),
+            password: new FormControl(null, Validators.required)
         })
     }
 
-    //handle user login with socket
+    // handle user login with socket
     loginClicked() {
         if (!(sessionStorage.getItem('username'))) {
-            let credentials = {
+            const credentials = {
                 email: this.loginForm.get('username').value,
                 password: this.loginForm.get('password').value
             }

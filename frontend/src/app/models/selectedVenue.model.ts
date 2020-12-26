@@ -17,16 +17,16 @@ export class selectedVenueModel {
       lat: number;
       lng: string;
     }]
-    lat:number;
-    lng:number;
-    state:string
+    lat: number;
+    lng: number;
+    state: string
   }
   public categories: [{
     icon: {
       prefix: string
       suffix: string
     }
-    id:string;
+    id: string;
     name: string;
     pluralName: string;
     shortName: string
@@ -52,7 +52,7 @@ export class selectedVenueModel {
   public mayor: string
   public tips: {
     count: number;
-    groups:{
+    groups: {
       items: [{
         agreeCount: number;
         canonicalUrl: string;
@@ -60,20 +60,20 @@ export class selectedVenueModel {
         disagreeCount: number;
         id: string;
         lang: string;
-        likes:{
+        likes: {
           count: number;
-          groups:[]
+          groups: []
           summary: string;
         }
         logView: boolean;
         text: string;
-        todo:{count: number}
+        todo: {count: number}
         type: string;
-        user:{
+        user: {
           firstName: string;
           id: string;
           lastName: string;
-          photo:{
+          photo: {
             prefix: string;
             suffix: string
           }
@@ -96,10 +96,10 @@ export class selectedVenueModel {
         id: string;
         createdAt: number;
         height: number;
-        width:number;
+        width: number;
         prefix: string;
         suffix: string;
-        user:{
+        user: {
           id: number;
           firstName: string;
           lastName: string;
@@ -132,20 +132,20 @@ export class selectedVenueModel {
       type: string;
     }]
   }
-  //roles
-  public page:{
+  // roles
+  public page: {
     pageInfo: {
       banner: string;
       description: string
       links: {}
     }
-    user:{
+    user: {
       bio: string
       id: string;
       firstName: string;
-      lists:{}
-      photo:{}
-      tip:{}
+      lists: {}
+      photo: {}
+      tip: {}
 
     }
   }

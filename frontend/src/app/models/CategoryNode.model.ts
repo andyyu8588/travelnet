@@ -1,8 +1,8 @@
 export class foursquareCategory {
-  id: string;
-  name: string;
-  pluralName: string;
-  shortName: string;
+  id: string
+  name: string
+  pluralName: string
+  shortName: string
   icon: {
     prefix: string;
     suffix: string
@@ -19,7 +19,7 @@ export class CategoryNode {
 
 /** Flat to-do item node with expandable and level information */
 export class CategoryFlatNode {
-  name: string;
-  level: number;
-  expandable: boolean;
+  name: string
+  level: number
+  expandable: boolean
 }

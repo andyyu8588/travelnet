@@ -1,12 +1,12 @@
-import * as Mapboxgl  from 'mapbox-gl';
-import { geocodeResponseModel } from './../../models/geocodeResp.model';
-import { OpenstreetmapService } from './openstreetmap.service';
-import { SessionService } from 'src/app/services/session.service';
-import { CustomCoordinates } from './../../models/coordinates';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Injectable, OnInit, Input, OnDestroy } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { GeoJsonTypes } from 'geojson';
+import * as Mapboxgl  from 'mapbox-gl'
+import { geocodeResponseModel } from './../../models/geocodeResp.model'
+import { OpenstreetmapService } from './openstreetmap.service'
+import { SessionService } from 'src/app/services/session.service'
+import { CustomCoordinates } from './../../models/coordinates'
+import { BehaviorSubject, Observable, Subscription } from 'rxjs'
+import { Injectable, OnInit, Input, OnDestroy } from '@angular/core'
+import { environment } from 'src/environments/environment'
+import { GeoJsonTypes } from 'geojson'
 
 
 export class featureGEOJSONModel {
@@ -24,11 +24,11 @@ export class featureGEOJSONModel {
   constructor(title: string, coordinates: number[]) {
     this.type = 'Feature'
     this.geometry = {
-      'type': 'Point',
-      'coordinates': coordinates
+      type: 'Point',
+      coordinates
     }
     this.properties = {
-      title: title,
+      title,
       'marker-color': '#3c4e5a',
       'marker-symbol': 'marker-15',
       'marker-size': 'large',
@@ -49,10 +49,10 @@ export class MapService implements OnDestroy{
   citySearchPresent: boolean = null
 
   private _fakeCenter: BehaviorSubject<mapboxgl.LngLatLike | CustomCoordinates> = new BehaviorSubject(null)
-  public fakeCenter : Observable<mapboxgl.LngLatLike | CustomCoordinates> = this._fakeCenter.asObservable()
+  public fakeCenter: Observable<mapboxgl.LngLatLike | CustomCoordinates> = this._fakeCenter.asObservable()
 
   private _fakeCenterCity: BehaviorSubject<{[key: string]: any}> = new BehaviorSubject({})
-  public fakeCenterCity : Observable<{[key: string]: any}> = this._fakeCenterCity.asObservable()
+  public fakeCenterCity: Observable<{[key: string]: any}> = this._fakeCenterCity.asObservable()
 
 
   lngOffset: number
@@ -65,7 +65,7 @@ export class MapService implements OnDestroy{
   })
   clickLocation: Observable<clickLocationCoordinates> = this._clickLocation.asObservable()
 
-  private Places: Array<featureGEOJSONModel[]> = [[],[]]
+  private Places: Array<featureGEOJSONModel[]> = [[], []]
 
   private sidebarWidth_sub: Subscription
   sidebarWidth: number
@@ -85,35 +85,35 @@ export class MapService implements OnDestroy{
       style: 'mapbox://styles/travelnet/ck99afyp80hhu1iqrodjf1brl',
       center: [-71.22, 46.85], // starting position
       zoom: 2, // starting zoom
-      failIfMajorPerformanceCaveat:true, //map creation will fail
-      //if the performance of Mapbox GL JS
+      failIfMajorPerformanceCaveat: true, // map creation will fail
+      // if the performance of Mapbox GL JS
       pitchWithRotate: false,
-      dragRotate:false,
-    });
+      dragRotate: false,
+    })
     // this._clickLocation = new BehaviorSubject(`${this.map.getCenter().lng},${this.map.getCenter().lat}`)
     // this.clickLocation = this._clickLocation.asObservable()
 
     this.map.on('load', () => {
-      // init center observable 
+      // init center observable
       this.getCenter()
       this.getFakeCenter()
 
-      this.map.on('click',(e)=>{
-        let lng = e.lngLat.lng
-        let lat = e.lngLat.lat
+      this.map.on('click', (e) => {
+        const lng = e.lngLat.lng
+        const lat = e.lngLat.lat
         this._clickLocation.next({
-          lng: lng,
-          lat: lat
+          lng,
+          lat
         })
       })
     })
 
     // update fake center of map
     this.map
-    .on('zoomend',()=>{
+    .on('zoomend', () => {
       this.getFakeCenter()
     })
-    .on('moveend',()=>{
+    .on('moveend', () => {
       this.getFakeCenter()
     })
 
@@ -121,46 +121,46 @@ export class MapService implements OnDestroy{
 
   addGeoJsonSource(id: string, type: any, content: any[]) {
     this.map.addSource(id, {
-      'type': 'geojson',
-      'data': {
-        'type': type,
-        'features': content
+      type: 'geojson',
+      data: {
+        type,
+        features: content
       }
     })
   }
 
   addLayer(id: string, type: any, source: string, layout?: {[key: string]: any}, paint?: {[key: string]: any}) {
     this.map.addLayer({
-      'id': id,
-      'type': type,
-      'source': source,
-      'layout': layout,
-      'paint': paint
+      id,
+      type,
+      source,
+      layout,
+      paint
     })
   }
 
   addMarker(location: {[key: string]: any}) {
-    let coord: mapboxgl.LngLatLike = {
+    const coord: mapboxgl.LngLatLike = {
       lng: location.lng,
       lat: location.lat
     }
     this.venueLocation = new Mapboxgl.Marker()
     .setLngLat(coord)
-    .addTo(this.map);
+    .addTo(this.map)
     coord.lng -= this.lngOffset
-    this.map.flyTo({ 'center': coord, 'speed': 0.8, 'curve': 1, 'essential': true });
+    this.map.flyTo({ center: coord, speed: 0.8, curve: 1, essential: true })
   }
 
   /** gets middle point between sidebar and right side of screen */
   getFakeCenter(sidebar: number = this.sidebarWidth) {
     let centerPoints: any
     if (sidebar < 500) {
-      centerPoints = this.map.unproject([window.innerWidth/2, window.innerHeight/2])
+      centerPoints = this.map.unproject([window.innerWidth / 2, window.innerHeight / 2])
     }
     else {
-      centerPoints = this.map.unproject([(window.innerWidth - sidebar)/2 + sidebar, window.innerHeight/2])
+      centerPoints = this.map.unproject([(window.innerWidth - sidebar) / 2 + sidebar, window.innerHeight / 2])
     }
-    let realCenter: mapboxgl.LngLatLike = this.map.getCenter()
+    const realCenter: mapboxgl.LngLatLike = this.map.getCenter()
     centerPoints = new CustomCoordinates(centerPoints.lng, centerPoints.lat)
     this.lngOffset = centerPoints.lng - realCenter.lng
     // update coord at fake center
@@ -174,14 +174,14 @@ export class MapService implements OnDestroy{
       }, err => {
         console.log(err)
         this._fakeCenterCity.next(err)
-      })      
+      })
     }
   }
 
   /** return coordinates [lng, lat] at center of screen if not found -> montreal*/
   getCenter(): CustomCoordinates {
-    let lng: number = this.map.getCenter().lng? this.map.getCenter().lng : environment.montrealCoord.lng
-    let lat: number = this.map.getCenter().lat? this.map.getCenter().lat : environment.montrealCoord.lat
+    const lng: number = this.map.getCenter().lng ? this.map.getCenter().lng : environment.montrealCoord.lng
+    const lat: number = this.map.getCenter().lat ? this.map.getCenter().lat : environment.montrealCoord.lat
     return new CustomCoordinates(lng, lat)
   }
 
@@ -190,44 +190,44 @@ export class MapService implements OnDestroy{
     if (!input && this.map.getSource('points') && this.Places[target - 1]) {
       (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
         {
-          'type': 'FeatureCollection',
-          'features': this.Places[target - 1] as any
+          type: 'FeatureCollection',
+          features: this.Places[target - 1] as any
         }
       )
     } else if (input) {
       this.Places[target - 1].push(new featureGEOJSONModel(input.name, input.content.geometry.coordinates))
-      let coord: mapboxgl.LngLatLike = {
+      const coord: mapboxgl.LngLatLike = {
         lng: input.content.geometry.coordinates[0],
         lat: input.content.geometry.coordinates[1]
       }
       coord.lng -= this.lngOffset
-      this.map.flyTo({ 'center': coord, 'speed': 0.8, 'curve': 1, 'essential': true });
+      this.map.flyTo({ center: coord, speed: 0.8, curve: 1, essential: true })
       if (this.map.getSource('points')) {
         // update points
         (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
           {
-            'type': 'FeatureCollection',
-            'features': this.Places[target - 1] as any
+            type: 'FeatureCollection',
+            features: this.Places[target - 1] as any
           }
         )
       } else {
         // add first point
         this.map.addSource('points', {
-          'type': 'geojson',
-          'data': {
-            'type': 'FeatureCollection',
-            'features': [
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [
               {
-                'type': 'Feature',
-                'geometry': {
-                  'type': 'Point',
-                  'coordinates': [
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [
                     input.content.geometry.coordinates[0],
                     input.content.geometry.coordinates[1],
                   ]
                 },
-                'properties': {
-                  'title': input.name,
+                properties: {
+                  title: input.name,
                   'marker-color': '#3c4e5a',
                   'marker-symbol': 'marker-15',
                   'marker-size': 'large',
@@ -235,16 +235,16 @@ export class MapService implements OnDestroy{
               },
             ]
           }
-        });
+        })
 
       }
     }
     if (!this.map.getLayer('points') && this.map.getSource('points')) {
       this.map.addLayer({
-        'id': 'points',
-        'type': 'symbol',
-        'source': 'points',
-        'layout': {
+        id: 'points',
+        type: 'symbol',
+        source: 'points',
+        layout: {
           // get the icon name from the source's "icon" property
           // concatenate the name to get an icon from the style's sprite sheet
           'icon-image': ['get', 'marker-symbol'],
@@ -254,7 +254,7 @@ export class MapService implements OnDestroy{
           'text-offset': [0, 0.6],
           'text-anchor': 'top'
         }
-      });
+      })
     }
   }
 
@@ -262,22 +262,22 @@ export class MapService implements OnDestroy{
   removeMarker(name: string, target: number, all?: boolean) {
     if (all) {
       this.Places[target - 1] = []
-      if(this.map.getSource('points')) {
+      if (this.map.getSource('points')) {
         (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
           {
-            'type': 'FeatureCollection',
-            'features': []
+            type: 'FeatureCollection',
+            features: []
           }
         )
       }
     } else {
       for (let x = 0; x < this.Places[target - 1].length; x++) {
         if (this.Places[target - 1][x].properties.title == name) {
-          this.Places[target - 1].splice(x, 1) as any
+          this.Places[target - 1].splice(x, 1) as any;
           (this.map.getSource('points') as Mapboxgl.GeoJSONSource).setData(
             {
-              'type': 'FeatureCollection',
-              'features': this.Places[target - 1] as any
+              type: 'FeatureCollection',
+              features: this.Places[target - 1] as any
             }
           )
           break

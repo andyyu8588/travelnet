@@ -1,6 +1,6 @@
-import { FormControl, FormGroup } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
-import { threadId } from 'worker_threads';
+import { FormControl, FormGroup } from '@angular/forms'
+import { Component, OnInit, Input } from '@angular/core'
+import { threadId } from 'worker_threads'
 
 @Component({
   selector: 'app-share',
@@ -10,15 +10,15 @@ import { threadId } from 'worker_threads';
 export class ShareComponent implements OnInit {
   @Input() UrlLink: URL | string
   shareForm: FormGroup = null
-  copied: boolean = false
+  copied = false
   constructor() { }
 
   ngOnInit(): void {
     this.shareForm = new FormGroup({
-     'urlLinkControl': new FormControl(null)
+     urlLinkControl: new FormControl(null)
 
     })
-    this.shareForm.get('urlLinkControl').patchValue(this.UrlLink? this.UrlLink : 'czi')
+    this.shareForm.get('urlLinkControl').patchValue(this.UrlLink ? this.UrlLink : 'czi')
   }
 
   onCopyClick() {

@@ -1,10 +1,10 @@
-import { HttpService } from './../../services/http.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { SearchService } from 'src/app/services/search.service';
-import { tab } from '../../models/tab.model';
-import { Subscription } from 'rxjs';
-import { userModel } from 'src/app/models/user.model';
+import { HttpService } from './../../services/http.service'
+import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Router } from '@angular/router'
+import { SearchService } from 'src/app/services/search.service'
+import { tab } from '../../models/tab.model'
+import { Subscription } from 'rxjs'
+import { userModel } from 'src/app/models/user.model'
 
 
 @Component({
@@ -13,7 +13,7 @@ import { userModel } from 'src/app/models/user.model';
   styleUrls: ['./userprofile.component.scss']
 })
 export class UserprofileComponent implements OnInit, OnDestroy {
-  url :string = null
+  url: string = null
   private openTabSub: Subscription
   content: userModel = null
   openTab: tab
@@ -32,7 +32,7 @@ export class UserprofileComponent implements OnInit, OnDestroy {
     this.openTabSub = this.SearchService.searchTab.subscribe(x => {
       this.openTab = x
     })
-    this.url = this.router.url.replace('/search/user/','')
+    this.url = this.router.url.replace('/search/user/', '')
     this.searchUser(this.url).then(result => this.content = result.users[0])
     this.username = this.router.url.substr(13)
     this.selfUsername = localStorage.getItem('username')
@@ -44,12 +44,12 @@ export class UserprofileComponent implements OnInit, OnDestroy {
 
   searchUser(username: string){
     return new Promise<any>((resolve) => {
-      this.SearchService.userSearch(username).then(result=>{
+      this.SearchService.userSearch(username).then(result => {
       console.log(result)
       resolve(result)
       })
     }
-  )}
+  ) }
 
   ngOnDestroy(){
     this.openTabSub.unsubscribe()

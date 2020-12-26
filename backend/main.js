@@ -1,17 +1,17 @@
-var fs = require('fs');
-var https = require('https');
+const fs = require('fs');
+const https = require('https');
 
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 
-var options = {
-    key: fs.readFileSync('./ssl/privateKey.key'),
-    cert: fs.readFileSync('./ssl/certificate.crt')
+const options = {
+  key: fs.readFileSync('./ssl/privateKey.key'),
+  cert: fs.readFileSync('./ssl/certificate.crt'),
 };
-var serverPort = 443;
+const serverPort = 443;
 
-var server = https.createServer(options, app);
-var io = require('socket.io')(server);
+const server = https.createServer(options, app);
+const io = require('socket.io')(server);
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');

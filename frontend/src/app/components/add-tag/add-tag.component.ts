@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from '@angular/core'
+import { FormGroup, FormControl } from '@angular/forms'
+import { HttpClient } from '@angular/common/http'
 
 
 @Component({
@@ -9,7 +9,7 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ['./add-tag.component.scss']
 })
 export class AddTagComponent implements OnInit {
-  form: FormGroup;
+  form: FormGroup
   constructor(private http: HttpClient) { }
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -19,7 +19,7 @@ export class AddTagComponent implements OnInit {
     })
   }
   onSubmit(){
-    this.onAddTag(sessionStorage.getItem('username'),this.form.get('tag').value)
+    this.onAddTag(sessionStorage.getItem('username'), this.form.get('tag').value)
   }
   onAddTag(username: string, tag: string){
     this.http

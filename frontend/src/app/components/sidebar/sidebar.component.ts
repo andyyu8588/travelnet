@@ -1,12 +1,12 @@
-import { SessionService } from 'src/app/services/session.service';
-import { Router } from '@angular/router';
-import { tab } from '../../models/tab.model';
-import { ResizeEvent } from 'angular-resizable-element';
-import { Subscription } from 'rxjs';
-import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service';
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { SessionService } from 'src/app/services/session.service'
+import { Router } from '@angular/router'
+import { tab } from '../../models/tab.model'
+import { ResizeEvent } from 'angular-resizable-element'
+import { Subscription } from 'rxjs'
+import { FriendlistService } from 'src/app/services/chatsystem/friendlist.service'
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core'
 import { trigger, state, style, animate, transition, } from '@angular/animations'
-import { MapService } from 'src/app/services/map/map.service';
+import { MapService } from 'src/app/services/map/map.service'
 
 @Component({
   selector: 'app-sidebar',
@@ -16,19 +16,19 @@ import { MapService } from 'src/app/services/map/map.service';
 export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   // about sidebar
   private windowSub: Subscription
-  window: boolean = true
-  width: number = 0.4
+  window = true
+  width = 0.4
   Styles = {
-    'position': 'fixed',
+    position: 'fixed',
     'background-color': 'rgba(255,255,255,0.75)',
     'min-width': '710px',
-    'top': '1%',
-    'left': '1%',
-    'height': '95%',
+    top: '1%',
+    left: '1%',
+    height: '95%',
     'max-height': '95%',
-    'overflow':'hidden',
-    'padding': '0',
-    'width': `${window.innerWidth >= 500? window.innerWidth*this.width : window.innerWidth}px`,
+    overflow: 'hidden',
+    padding: '0',
+    width: `${window.innerWidth >= 500 ? window.innerWidth * this.width : window.innerWidth}px`,
   }
   showFiller = true
   @ViewChild('drawer') drawer
@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   private openTabSub: Subscription
   openTab: tab
 
-  tabs : any[] = ['home', 'mytrip', 'search']
+  tabs: any[] = ['home', 'mytrip', 'search']
 
   selectedTab(): string {
     if (this.Router.url.substr(0, 7) == '/search') {
@@ -64,7 +64,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
         if (windowWidth < 500 || window.innerWidth) {
           this.window = false
         } else {
-          this.Styles.width= `${windowWidth * 0.96}px`
+          this.Styles.width = `${windowWidth * 0.96}px`
         }
       } else {
         this.window = true
@@ -73,7 +73,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   validate(event: ResizeEvent) {
-    const MIN_DIMENSIONS_PX: number = 500;
+    const MIN_DIMENSIONS_PX = 500
     const maxWidth: number = window.innerWidth * 0.96
     if (
       event.rectangle.width && // if defined
@@ -81,13 +81,13 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
       (event.rectangle.width < MIN_DIMENSIONS_PX ||
       event.rectangle.width > maxWidth)
     ) {
-      return false;
+      return false
     } else {
-      return true;      
+      return true
     }
   }
 
-  onResizeEnd(event: {edges:any,rectangle:{bottom: number, height: number, left: number, right:number, scrollLeft: number, scrollTop: number, top: number, width: number}}): void {
+  onResizeEnd(event: {edges: any, rectangle: {bottom: number, height: number, left: number, right: number, scrollLeft: number, scrollTop: number, top: number, width: number}}): void {
     this.Styles.width = `${event.rectangle.width}px`
     this.SessionService.updateSidebarWidth(event.rectangle.width)
     this.MapService.getFakeCenter()

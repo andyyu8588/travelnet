@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
   name: 'listObject'
@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ListObjectPipe implements PipeTransform {
 
   transform(value: {[key: string]: any}, ...args: unknown[]): unknown {
-    return null;
+    return null
   }
 
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core'
+import { FormGroup, FormControl } from '@angular/forms'
+import { Router, ActivatedRoute } from '@angular/router'
 
 
 @Component({
@@ -9,10 +9,10 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./search-posts.component.scss']
 })
 export class SearchPostsComponent implements OnInit {
-  form: FormGroup;
+  form: FormGroup
 
   constructor(
-    private router : Router,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -24,11 +24,11 @@ export class SearchPostsComponent implements OnInit {
   }
   onSearchPost(){
     if (this.form.invalid) {
-      return;
+      return
     }
-    let input = this.form.get('input').value
-    if(input){
-    this.router.navigate(['/home',input])
+    const input = this.form.get('input').value
+    if (input){
+    this.router.navigate(['/home', input])
     }
   }
 }
