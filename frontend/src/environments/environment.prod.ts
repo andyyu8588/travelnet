@@ -4,8 +4,9 @@ export const environment = {
 
   production: true,
   language: 'en',
-  travelnetURL: 'https://travelnet.herokuapp.com',
-  travelnetCommentURL: "https://travelnet.herokuapp.com/api/comments/",
+  // travelnetURL: 'https://travelnet.herokuapp.com',
+  travelnetURL: 'localhost:3000',
+  travelnetCommentURL: "localhost:3000/api/comments/",
 
   mapbox: {
     token: 'pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ',

@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Component, OnInit } from '@angular/core'
 import { FormGroup, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
@@ -23,7 +24,7 @@ export class AddTagComponent implements OnInit {
   }
   onAddTag(username: string, tag: string){
     this.http
-      .put("https://travelnet.herokuapp.com/api/user/addTag/", {'username': username, 'tag': tag})
+      .put(environment.travelnetURL + "api/user/addTag/", {'username': username, 'tag': tag})
       .subscribe((response:{message:string, likes: string[]})=>{
         console.log(response)
     })
