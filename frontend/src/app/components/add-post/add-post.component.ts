@@ -156,6 +156,7 @@ export class AddPostComponent implements OnInit, OnDestroy, AfterViewChecked {
       })
     }
     this.form.reset()
+    this.isLoading = false;
   }
 
 
