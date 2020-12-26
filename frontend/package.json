@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --ssl=true -c=dev",
+    "start": "ng serve -c=dev",
     "startlocal": "ng serve --ssl=true --prod=false",
-    "build": "ng build",
+    "build": "ng build --watch=true -c=dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
