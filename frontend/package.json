@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve --ssl=true -c=dev",
     "startlocal": "ng serve --ssl=true --prod=false",
-    "build": "ng build --watch=true",
+    "build": "ng build --watch=true -c=dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

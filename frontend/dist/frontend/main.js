@@ -3006,53 +3006,9 @@ FriendlistComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
-/* harmony import */ var _app_models_coordinates__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../app/models/coordinates */ "FvPJ");
+/* harmony import */ var _environment_prod__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./environment.prod */ "cxbk");
 
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-const environment = {
-    production: false,
-    travelnetURL: 'http://localhost:3000',
-    mapbox: {
-        token: 'pk.eyJ1IjoidHJhdmVsbmV0IiwiYSI6ImNrOTk3cHkwaDAzaHkzZHEwMm03ZGN0MG8ifQ.j24u0Q5RbYw7PW4tVpGjmQ',
-        geocoding: 'https://api.mapbox.com/geocoding/v5/mapbox.places'
-    },
-    foursquare: {
-        clientId: 'NYZJ324E5GAY2MSQUNYIYLKIDCMX2ETMQREKQXZLW3S5ZYVG',
-        clientSecret: 'K51P2Y1T3TMTCU24LOFHDFOAONPGU44ZBNZCGTWCOJESUW4A',
-        v: '',
-        venuesSearch: 'https://api.foursquare.com/v2/venues/search',
-        venuesExplore: 'https://api.foursquare.com/v2/venues/explore',
-        venueDetails: 'https://api.foursquare.com/v2/venues',
-        userAuth: 'https://foursquare.com/oauth2/authenticate',
-        getCategories: 'https://api.foursquare.com/v2/venues/categories',
-    },
-    nominatim: {
-        search: 'https://nominatim.openstreetmap.org/search',
-        reverse: 'https://nominatim.openstreetmap.org/reverse'
-    },
-    openstreetmap: {
-        searchNodes: 'https://master.apis.dev.openstreetmap.org/api/0.6/map',
-        searchRealNode: ' https://api.openstreetmap.org/api/0.6/map'
-    },
-    travelnet: {
-        getUserInfo: 'http://localhost:3000/user',
-        getProfile: 'http://localhost:3000/profile',
-        searchUsers: 'http://localhost:3000/searchusers',
-        travelnetCommentURL: 'http://localhost:3000/comments',
-        travelnetPostURL: 'http://localhost:3000/posts',
-    },
-    montrealCoord: new _app_models_coordinates__WEBPACK_IMPORTED_MODULE_0__["CustomCoordinates"](-73.5633265, 45.5009128)
-};
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+const environment = Object.assign(Object.assign({}, _environment_prod__WEBPACK_IMPORTED_MODULE_0__["environment"]), { production: false });
 
 
 /***/ }),
