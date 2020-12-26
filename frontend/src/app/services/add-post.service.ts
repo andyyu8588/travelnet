@@ -10,9 +10,9 @@ import { Comment } from 'src/app/models/comment.model'
 
 @Injectable({ providedIn: 'root' })
 export class AddPostService {
-  url = environment.travelnet.travelnetPostURL
-  public posts: Post[] = []
-  private postsUpdated = new Subject<Post[]>()
+  url = "https://travelnet.herokuapp.com/api/posts/"
+  public posts: Post[] = [];
+  private postsUpdated = new Subject<Post[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
