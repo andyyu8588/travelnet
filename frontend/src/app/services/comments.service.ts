@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment'
   providedIn: 'root'
 })
 export class CommentsService {
-  url = environment.travelnetCommentURL
+  url = environment.travelnet.travelnetCommentURL
   private posts: Post[] = []
   private postsUpdated = new Subject<Post[]>()
 
@@ -121,6 +121,7 @@ export class CommentsService {
   likeComment(likeContent: {postId: string, commentId: string, username: string, replyId: string}){
     const postIndex = this.PostService.posts.findIndex(p => p._id === likeContent.postId)
     const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === likeContent.commentId)
+    let replyIndex;
     if (likeContent.replyId){
       const replyIndex = this.PostService.posts[postIndex].comments[commentIndex].replies.findIndex(r => r._id === likeContent.replyId)
     }
@@ -141,7 +142,8 @@ export class CommentsService {
   /**delete existing comment */
   deleteComment(deleteContent: {postId: string, commentId: string, replyId: string}){
     const postIndex = this.PostService.posts.findIndex(p => p._id === deleteContent.postId)
-    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === deleteContent.commentId)
+    const commentIndex = this.PostService.posts[postIndex].comments.findIndex(c => c._id === deleteContent.commentId);
+    let replyIndex;
     if (deleteContent.replyId){
       const replyIndex = this.PostService.posts[postIndex].comments[commentIndex].replies.findIndex(r => r._id === deleteContent.replyId)
     }
