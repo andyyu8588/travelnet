@@ -20,8 +20,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationProcessComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'home/:query', component: HomeComponent },
+  // { path: 'home', component: HomeComponent },
+  // { path: 'home/:query', component: HomeComponent },
   { path: 'mytrip', component: MytripComponent, children: [
       {path: '**', component: MytripComponent}
   ] },
@@ -31,7 +31,7 @@ const routes: Routes = [
     { path: 'user/:query', component: UserprofileComponent },
     { path: '**', component: SearchresultsComponent },
   ]},
-  {path: '', redirectTo: 'home', pathMatch: 'full'}
+  {path: '', redirectTo: 'mytrip', pathMatch: 'full'}
 ]
 
 @NgModule({

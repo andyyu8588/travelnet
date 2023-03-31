@@ -38,23 +38,26 @@ app.use('/trips', tripsRoute)
 app.use('/posts', postsRoutes);
 app.use('/comments', commentsRoutes);
 
-app.use('/', express.static(path.resolve(__dirname, '..', 'frontend', 'dist', 'frontend')))
+app.use('/', express.static(
+    path.resolve(__dirname, '..', 'frontend', 'dist', 'frontend')))
 
 app.use((req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'frontend', 'dist', 'frontend', 'index.html'))
+    res.sendFile(
+        path.resolve(__dirname, '..', 'frontend', 'dist', 'frontend', 'index.html'
+    ))
 })
 
 
 // set database URL:
-const dbURL = 'mongodb+srv://admin:admin@communicare.s0a4z.azure.mongodb.net/<communicare>?retryWrites=true&w=majority'
+const dbURL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.0'
 
 // connect mongoose to Mongodb
 mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, (err) => {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log('lit')
-  }
+    if (err) {
+        console.log(err)
+    } else {
+        console.log('lit')
+    }
 })
 
 module.exports = app

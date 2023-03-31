@@ -32,7 +32,8 @@ export class CommentComponent implements OnInit {
   replyBoolean(){
     this.replyField = !this.replyField
   }
-  onAddReply(){
+
+  onAddReply(){ // add comment reply
     if (this.form.invalid) {
       return
     }
@@ -49,7 +50,8 @@ export class CommentComponent implements OnInit {
     this.commentsService.reply(replyContent)
     this.form.reset()
   }
-  likeTreeComment(){
+
+  likeTreeComment(){ //like a root tree
     const likeContent = {
       postId: this.postId,
       commentId: this.comment._id,
@@ -58,7 +60,8 @@ export class CommentComponent implements OnInit {
     }
     this.commentsService.likeComment(likeContent)
   }
-  likeLeafComment(replyId){
+
+  likeLeafComment(replyId){ //like a child comment
     const likeContent = {
       postId: this.postId,
       commentId: this.comment._id,
@@ -67,7 +70,8 @@ export class CommentComponent implements OnInit {
     }
     this.commentsService.likeComment(likeContent)
   }
-  deleteTreeComment(){
+
+  deleteTreeComment(){ //delete a root comment
     const deleteContent = {
       postId: this.postId,
       commentId: this.comment._id,
@@ -75,7 +79,8 @@ export class CommentComponent implements OnInit {
     }
     this.commentsService.deleteComment(deleteContent)
   }
-  deleteLeafComment(replyId){
+
+  deleteLeafComment(replyId){// delete a child comment
     const deleteContent = {
       postId: this.postId,
       commentId: this.comment._id,
@@ -83,7 +88,8 @@ export class CommentComponent implements OnInit {
     }
     this.commentsService.deleteComment(deleteContent)
   }
-  editTreeComment(){
+
+  editTreeComment(){ //edit a root comment
     const commentInfo = {
       postId: this.postId,
       comment: this.comment,
@@ -91,9 +97,9 @@ export class CommentComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(EditCommentComponent, {data: {displayEdits: false, commentData: commentInfo}})
     dialogRef.afterClosed().subscribe()
-
   }
-  editLeafComment(reply){
+
+  editLeafComment(reply){ //edit a root comment
     const commentInfo = {
       postId: this.postId,
       comment: this.comment,
@@ -103,7 +109,8 @@ export class CommentComponent implements OnInit {
     dialogRef.afterClosed().subscribe()
 
   }
-  showParentEdits(){
+
+  showParentEdits(){ // show previous edit for root comment
     const commentInfo = {
       postId: this.postId,
       comment: this.comment,
@@ -112,7 +119,8 @@ export class CommentComponent implements OnInit {
     const dialogRef = this.dialog.open(EditCommentComponent, {data: {displayEdits: true, commentData: commentInfo}})
     dialogRef.afterClosed().subscribe()
   }
-  showLeafEdits(reply){
+
+  showLeafEdits(reply){  // show previous edit for child comment
     const commentInfo = {
       postId: this.postId,
       comment: reply,
@@ -121,7 +129,8 @@ export class CommentComponent implements OnInit {
     const dialogRef = this.dialog.open(EditCommentComponent, {data: {displayEdits: true, commentData: commentInfo}})
     dialogRef.afterClosed().subscribe()
   }
-  ownContent(content){
+
+  ownContent(content){ //check if content belongs to user
     if (content.author === sessionStorage.getItem('username')){
       return true
     }

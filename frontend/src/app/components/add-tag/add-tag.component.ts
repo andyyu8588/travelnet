@@ -22,7 +22,7 @@ export class AddTagComponent implements OnInit {
   onSubmit(){
     this.onAddTag(sessionStorage.getItem('username'), this.form.get('tag').value)
   }
-  onAddTag(username: string, tag: string){
+  onAddTag(username: string, tag: string){ //send request to add tag to post
     this.http
       .put(environment.travelnetURL + "api/user/addTag/", {'username': username, 'tag': tag})
       .subscribe((response:{message:string, likes: string[]})=>{
