@@ -58,7 +58,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() { // setup friendlist
     this.windowSub = this.FriendlistService.windowSize.subscribe((windowWidth) => {
       if (windowWidth <= this.drawer._width) {
         if (windowWidth < 500 || window.innerWidth) {

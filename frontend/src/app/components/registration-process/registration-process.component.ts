@@ -61,7 +61,7 @@ export class RegistrationProcessComponent implements OnInit, AfterViewInit, OnDe
     })
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() { // setup registration form
     this.step1.stepControl = this.registration.registrationForm
     this.clickLocation = this.MapService.clickLocation.subscribe((x: clickLocationCoordinates) => {
       this._progressUpdate.next({

@@ -39,7 +39,7 @@ export class TripmodalComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  /** check if name of trip is unique**/
   checkName(control: {[key: string]: any}): Promise<{err: string} | null> {
     return new Promise((resolve, reject) => {
       this.HttpService.get('/user', {})
@@ -67,7 +67,7 @@ export class TripmodalComponent implements OnInit {
       })
     })
   }
-
+  /** submit creation of trip */
   onSubmit(data: {
     [key: string]: any
     start: Date

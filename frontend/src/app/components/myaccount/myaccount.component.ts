@@ -38,7 +38,6 @@ export class MyaccountComponent implements OnInit {
     imageData.append('image', this.form.value.picture, 'profilepicture')
     this.httpService.post('/user/profilepicture', imageData).then((res) => {
       console.log('profile picture updated succesfully!')
-      // window.location.reload()
     }).catch((err) => {
       console.log(err)
     })

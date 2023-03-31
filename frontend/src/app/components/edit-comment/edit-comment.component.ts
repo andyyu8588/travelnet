@@ -19,7 +19,7 @@ export class EditCommentComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { // re-initialize the comment
     if (!this.data.displayEdits){
       this.form = new FormGroup({
           comment: new FormControl(null, {validators: [Validators.required]}),
@@ -39,7 +39,7 @@ export class EditCommentComponent implements OnInit {
     }
 
 
-  onEditComment(){
+  onEditComment(){ // save local data to the comment
     if (this.data.commentData.reply){
       this.commentData.reply.edited.push({edit: this.commentData.reply.content, date: Date().toLocaleString()})
       this.commentData.reply.content = this.form.value.comment

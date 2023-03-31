@@ -29,7 +29,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
 
   constructor(public postsService: AddPostService, private HttpService: HttpService, private route: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit() { // get all posts related to a user
     if (sessionStorage.getItem('username')){
       this.isLoading = true
       this.route.params.subscribe(params => {
@@ -58,7 +58,7 @@ export class DisplayPostsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDelete(postId: string) {
+  onDelete(postId: string) { //delete a post
     this.postsService.deletePost(postId)
   }
 
