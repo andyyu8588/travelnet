@@ -52,6 +52,7 @@ router.get('', jwtMiddleware, (req, res, next) => {
   })
 })
 
+/** edit user propertiess */
 router.patch('/edit', (req, res, next) => {
   const key = req.body.params.proprety
   const val = req.body.params.newProprety
@@ -77,6 +78,7 @@ router.patch('/edit', (req, res, next) => {
   })
 })
 
+/**follow user */
 router.post('/follow', (req, res, next) => {
   User.findOneAndUpdate({username: req.body.username}, {$push: {following: req.body.followed}}, (err, result) => {
     if (err) {
@@ -107,6 +109,7 @@ router.post('/follow', (req, res, next) => {
   })
 })
 
+/**unfollow user */
 router.post('/unfollow', (req, res, next) => {
   User.findOneAndUpdate({username: req.body.username}, {$pull: {following: req.body.unfollowed}}, (err, result) => {
     if (err) {
@@ -137,6 +140,7 @@ router.post('/unfollow', (req, res, next) => {
   })
 })
 
+/**add tag */
 router.put('/addTag', (req, res, next) => {
   User.find({username: req.body.username}).then((user) => {
     if (user) {
@@ -154,6 +158,7 @@ router.put('/addTag', (req, res, next) => {
   })
 })
 
+/**add profile picture */
 router.put('/profilepicture', multer({storage: storage}).single('image'), (req, res, next) => {
   console.log(req)
   const url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename;
